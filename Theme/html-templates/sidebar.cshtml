@@ -1,0 +1,47 @@
+@model Booker.PageModel
+
+<div class="container-fluid sidebar">
+	<h4><a class="simplelink" href="index.html">@Model.Site.Title</a></h4>
+	<h5>@Model.Site.Author</h5>
+	<br>
+	<p>
+	@{
+		var pages = Model.Children??Model.Up.Children;
+
+		if (pages.Length > 0) {
+			<h5>In this section:</h5>
+			@foreach (var page in pages) {
+				<a class="simplelink" href="@page.PageLink"> @page.PageTitle </a> <br>
+			}
+		}
+	}
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+	@{
+		if (Model.EffectiveNext != null)
+		{
+			<a class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Model.EffectiveNext.PageTitle</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+		}
+		if (Model.EffectivePrevious != null)
+		{
+			<a class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Model.EffectivePrevious.PageTitle</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+		}
+		if (Model.Up != null)
+		{
+			<a class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Model.Up.PageTitle</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+		}
+	}
+	</p>
+</div>
+

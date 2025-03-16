@@ -1,0 +1,17 @@
+# directories
+pagesdir:       Source
+outputsdir:     Html
+
+# theme location
+themefile:      Theme/theme.yaml
+
+# metadata that shows up in the header and in metadata
+title:          Declarative Programming for Game Design
+author:         Ian Horswill
+description:    The Blog of HAL 9000
+
+
+# if you want to use google analytics, uncomment the line below and
+# replace UA-1234-1 with your real UA tracking ID.
+# don't forget to disable any ad blocker before testing! :)
+# gtag:           UA-1234-1

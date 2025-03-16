@@ -1,0 +1,155 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Grammars</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="generator" content="Mies">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Grammars">
+	<meta name="twitter:title" content="Grammars">
+	<meta property="og:title" content="Grammars" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+			<h1><a class="simplelink" href="index.html">Grammars</a></h1>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>A formal grammar is a set of rules that define the syntax of a language.  In programming, we generally use some variation on context-free grammars, which specify a set of possible tokens (words), a set of possible phrase types, and rules for how phrased types can be replaced by different sequences of tokens and/or other phrase types.  A given phrase may have many different rules for alternative constructions of the phrase.
+Formal grammars are used in games for generating random text.  For example, the game <a href="https://en.wikipedia.org/wiki/Caves_of_Qud"><em>Caves of Qud</em></a> generates procedural histories using rules like (adapted from <a href="https://www.gdcvault.com/play/1024990/Procedurally-Generating-History-in-Caves">Grinblat GDC 2018</a>):</p>
+<div class="math">
+\[
+\begin{align}
+Event &amp;\rightarrow \text{Acting against Injustice,}\; SultanName \; \text{led an army to the gates of } Location. \\
+Injustice &amp;\rightarrow \text{the persecution of}\; FactionName
+\end{align}
+\]</div>
+<p>Different rules can be added for different kinds of events, injustices, and so on, allowing the system to be extended in a data-driven manner.
+A less obvious, but more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult, since the program can only read one token at a time but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as (here the vertical bar means “or”):</p>
+<div class="math">
+\[
+\begin{align}
+Expression &amp; \rightarrow Expression+Expression\; | \;Expression-Expression\; |\;  Term \\
+Term &amp; \rightarrow Term*Term\; |\; Term / Term\; |\;  Factor \\
+Factor &amp; \rightarrow Number\; |\; Variable \; |\;  ( Expression )
+\end{align}
+\]</div>
+<p>A parser generator then reads this declarative specification and automatically produces the imperative code for a parser from it.
+What makes this declarative programming is that the grammar specifies what the language is without specifying directly how to parse or generate strings within it.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
+	<h5>Ian Horswill</h5>
+	<br>
+	<p>
+			<h5>In this section:</h5>
+				<a class="simplelink" href="examples_grammar.html"> Grammars </a> <br>
+				<a class="simplelink" href="query_languages.html"> Query languages </a> <br>
+				<a class="simplelink" href="example_constraint_satisfaction.html"> Constraint satisfaction </a> <br>
+				<a class="simplelink" href="examples_action_planning.html"> Action planning </a> <br>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="query_languages.html"><b>Next:</b> Query languages</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="Declarative_programming_examples.html"><b>Previous:</b> Examples</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="Declarative_programming_examples.html"><b>Up:</b> Examples</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
