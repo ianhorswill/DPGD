@@ -1,0 +1,190 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Pairs and tuples</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="generator" content="Mies">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Pairs and tuples">
+	<meta name="twitter:title" content="Pairs and tuples">
+	<meta property="og:title" content="Pairs and tuples" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+			<h1><a class="simplelink" href="index.html">Pairs and tuples</a></h1>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>Tuples are the math equivalent of lists/arrays: they're sequences of elements rather than sets of them.  A tuple with <span class="math">\(n\)</span> elements is called an <span class="math">\(n\)</span>-tuple.  For tuples with only 2 elements, we usually say &ldquo;pair&rdquo; rather than <span class="math">\(2\)</span>-tuple.  Similarly, <span class="math">\(3\)</span>-tuples are often called &ldquo;triples&rdquo;.</p>
+<p>Tuples are notated using parentheses rather than curly brackets, a notation that's also used in programming languages such as Python and C#:</p>
+<ul>
+<li><span class="math">\((a,b)\)</span> is the pair whose first element is <span class="math">\(a\)</span> and whose second is <span class="math">\(b\)</span>.</li>
+<li><span class="math">\((a,b,c)\)</span> is the same, but is a 3-tuple and it has the third element <span class="math">\(c\)</span>.</li>
+</ul>
+<h2 id="sets-vs.tuples">Sets vs. tuples</h2>
+<p>First, and most importantly, sets and tuples are different things.  <span class="math">\((a,b)\)</span> and <span class="math">\(\{ a, bc \}\)</span> are different objects and are not interchangeable.</p>
+<p>Technically, most set theories define tuples as an esoteric kind of set.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  But we will treat them as unrelated types of objects.</p>
+<p>Unlike sets, the position of an element within a tuple matters; sets don't have a notion of position..  The same element can also appear in multiple positions in a tuple, but cannot in a set.  The differences are summarized here:</p>
+<table>
+<thead>
+<tr>
+<th>Elements</th>
+<th>As sets</th>
+<th>As tuples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math">\(a,b\)</span></td>
+<td><span class="math">\(\{a,b\} = \{b,a\}\)</span></td>
+<td><span class="math">\((a,b)\neq(b,a)\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(a,a\)</span></td>
+<td><span class="math">\(\{a,a\}\)</span> is not a set</td>
+<td><span class="math">\((a,a)\)</span> is a valid tuple</td>
+</tr>
+</tbody>
+</table>
+<h2 id="uses-of-tuples-in-mathematics">Uses of tuples in mathematics</h2>
+<p>In programming, we have two kinds of objects that are sequences of other objects.  Arrays are sequences in which the elements are numbered (first, second, etc.), and records (such as classes in C#) are sequences in which the elements are named.</p>
+<p>For better or worse, mathematics just has tuples.  So they get used both for things that are like arrays, such as vectors, but also for everything else.  We'll talk about <a href="Graphs.html">graphs</a> later, but if you don't know what they are, they're networks of nodes, called vertices, connected by lines or arrows, called edges.  For example, in the graph:</p>
+<pre class="mermaid">graph LR
+    a((a)) --> b((b))
+    b --> c((c))
+    b --> d((d))
+    c --> e((e))
+</pre>
+<p>the vertices are <span class="math">\(\{ a,b,c,d,e\}\)</span> and the edges are the various arrows.  When programming, we would likely define these as a class:</p>
+<pre><code class="language-c#">public class Graph {
+    public Vertex[] Vertices;
+    public Edge[] Edges;
+}
+</code></pre>
+<p>where we can refer to the vertices as and edges of a given graph <code>g</code> with <code>g.Vertices</code> and <code>g.Edges</code>, respectively.</p>
+<p>Math textbooks generally define graphs as pairs: <span class="math">\((\text{Vertices}, \text{Edges})\)</span>. However, the mathematical tradition is to use single letters rather than complex names, so the standard definition of a graph is that it is a pair <span class="math">\((V,E)\)</span> where <span class="math">\(V\)</span> is a set of veritices and <span class="math">\(E\)</span> is a set of edges.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p><em>Esoterica</em>: A pair <span class="math">\((a,b)\)</span> is usually defined to be the set <span class="math">\(\{a,\{a,b\}\}\)</span>.  This lets us know that it has both <span class="math">\(a\)</span> and <span class="math">\(b\)</span> but that the <span class="math">\(a\)</span> comes first because the pair <span class="math">\((b,a)\)</span> is the set <span class="math">\(\{b, \{a,b\}\}\)</span>.  Longer tuples are then pairs of pairs: <span class="math">\((a,b,c)=(a,(b,c))=\{a, \{a, \{b, \{b, c\}\}\}\}\)</span>, as they might be defined in languages like Lisp and Scheme that build everything linked lists of pairs.  Note that this technically means that you can't decide without context whether <span class="math">\(\{a, \{a, b\}\}\)</span> is meant to be a &ldquo;real&rdquo; set or a pair.  There's no type checking.  It also means that 1-tuples aren't really a thing; when you want to say <span class="math">\((a)\)</span> you just say <span class="math">\(a\)</span>.  And 0-tuples (&ldquo;empty tuples&rdquo;) aren't a think either.  In practice, everyone ignores these issues because it's generally clear from context what someone means.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
+	<h5>Ian Horswill</h5>
+	<br>
+	<p>
+			<h5>In this section:</h5>
+				<a class="simplelink" href="Sets.html"> Sets </a> <br>
+				<a class="simplelink" href="Tuples.html"> Pairs and tuples </a> <br>
+				<a class="simplelink" href="Relations.html"> Relations </a> <br>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Relations.html"><b>Next:</b> Relations</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="Sets.html"><b>Previous:</b> Sets</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="Basic_objects_of_mathematics.html"><b>Up:</b> Basic objects of mathematics</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

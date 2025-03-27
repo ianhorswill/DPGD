@@ -1,3 +1,9 @@
 {
-    "explorer.sortOrder": "mixed"
+    "explorer.sortOrder": "mixed",
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "file"
+        }
+    ]
 }

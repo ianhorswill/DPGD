@@ -66,3 +66,28 @@ li.sidebar:before {
 	margin-left: -20px;
 	margin-right: 10px;
 }
+
+code {
+	color:  #c90;
+}
+
+blockquote {
+	padding: 1rem;
+	padding-bottom: 0.2rem;
+	border-left-width: 2px;
+	border-left-color: #444;
+	border-left-style: solid;
+	background-color: #242424;
+}
+
+table, th, td {
+	border: 1px solid;
+}
+
+th {
+	background-color: #444;
+}
+
+table {
+	margin-bottom: 1rem;
+}

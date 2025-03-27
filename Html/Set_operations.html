@@ -61,6 +61,79 @@
 
 			<div class="container shadow blog-contents">
 
+<p>Just as with numbers, there are a number of ways we can combine or otherwise modify sets.</p>
+<h2 id="union">Union <span class="math">\(\cup\)</span></h2>
+<p>The union of two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> is just the set containing all the elements of both:</p>
+<div class="math">
+\[
+A \cup B = \{ x \; | \; x\in A \text{ or } x\in B\}
+\]</div>
+<p>Since sets can only have an element or not (they can't have an element twice), if an element is in both sets, it's only contained in the union once.</p>
+<h2 id="intersection">Intersection <span class="math">\(\cap\)</span></h2>
+<p>The intersection of two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> is just the set of elements common to both:</p>
+<div class="math">
+\[
+A \cap B = \{ x \; | \; x\in A \text{ and } x\in B\}
+\]</div>
+<p>If the sets are disjoint, then <span class="math">\(A \cap B = \emptyset\)</span>.</p>
+<h2 id="difference-of-two-sets">Difference of two sets</h2>
+<p>The set of elements in <span class="math">\(A\)</span> but not <span class="math">\(B\)</span> is written <span class="math">\(A-B\)</span>:</p>
+<div class="math">
+\[
+A-B = \{ x \; | \; x\in A \text{ but } x\notin B \}
+\]</div>
+<h2 id="powerset">Powerset</h2>
+<p>We often want to think about subsets of another set (sets contained in the original set).  The set of all possible subsets of a set <span class="math">\(A\)</span> is called the powerset of <span class="math">\(A\)</span> and is written <span class="math">\(2^A\)</span>:</p>
+<div class="math">
+\[
+2^A = \{ S \; | \; S \subseteq A\}
+\]</div>
+<p>To understand why we notate it <span class="math">\(2^A\)</span>, consider the following.  The empty set <span class="math">\(\{\}\)</span> has zero elements and one subset, itself (remember that subset includes equality).  A set with one element, e.g. <span class="math">\(\{ 1 \}\)</span>, has two subsets: itself and the empty set.  A set with two elements, e.g. <span class="math">\(\{ 1, 2 \}\)</span> has four possible subsets: <span class="math">\(\{\}\)</span>, <span class="math">\(\{ 1\}\)</span>, <span class="math">\(\{ 2\}\)</span>, and <span class="math">\(\{1,2\}\)</span>.  In general, when choosing subsets, we choose whether or not to include each element.  For a set with <span class="math">\(n\)</span> elements, there are <span class="math">\(n\)</span> such choices, with 2 options per choice (include it or not) and so the total number of combinations is <span class="math">\(2^n\)</span>. So we use the notation <span class="math">\(2^A\)</span> to express the set of subsets of <span class="math">\(A\)</span> because the number of such sets is 2 to the number of elements in the set.</p>
+<p><strong>Important</strong>: <span class="math">\(2^A\)</span> is different from <span class="math">\(A^2\)</span>, defined below.</p>
+<h2 id="cartesian-product">Cartesian product: <span class="math">\(\times\)</span></h2>
+<p>We haven't talked about <a href="Tuples.html">pairs and tuples</a> yet, so don't worry if you don't understand this yet. But tuples are simple: they're just lists.  We're including it here so it's together with the other operations. The Cartesian<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> product makes sets of from other sets.  <span class="math">\(A\times B\)</span> is the set of all pairs of elements drawn from <span class="math">\(A\)</span> and $$B$, respectively:</p>
+<div class="math">
+\[
+A \times B = \{ (a,b) \; | \; a\in A, b\in B \}
+\]</div>
+<p>More products make longer tuples: <span class="math">\(A\times B \times C\)</span> is the set of all triples formed from elements of <span class="math">\(A\)</span>, <span class="math">\(B\)</span>, and <span class="math">\(C\)</span>, respectively:</p>
+<div class="math">
+\[
+A \times B \times C = \{ (a,b,c) \; | \; a\in A, b\in B, c\in C \}
+\]</div>
+<p>More generally, the product of <span class="math">\(n\)</span> sets is an <span class="math">\(n\)</span>-tuple (list of <span class="math">\(n\)</span> elements):</p>
+<div class="math">
+\[
+S_1 \times S_2 \times ... \times S_n = \{ (s_1,s_2, ..., s_n) \; | \; s_i\in S_i, \text{ for each } i \}
+\]</div>
+<h2 id="exponentiation">Exponentiation</h2>
+<p>The the power of a set is defined analogously to  powers of numbers: <span class="math">\(S^2 = S\times S\)</span>, <span class="math">\(S^3 = S \times S \times S\)</span>, and so on.  More generally, <span class="math">\(S^n\)</span> is the set of all <span class="math">\(n\)</span>-tuples (lists of <span class="math">\(n\)</span> elements) whose elements are all drawn from <span class="math">\(S\)</span>.</p>
+<p><strong>Important</strong> <span class="math">\(S^2\)</span>, the set of pairs of elements drawn from <span class="math">\(S\)</span>, is unrelated to <span class="math">\(2^S\)</span>, the set of all subsets of <span class="math">\(S\)</span>, other than both involving <span class="math">\(S\)</span>.</p>
+<h2 id="cardinality-size-of-a-set">Cardinality (size of a set)</h2>
+<p>The number of elements in a set <span class="math">\(S\)</span> is just written <span class="math">\(|S|\)</span>.  For the moment, we will assume <span class="math">\(S\)</span> has a finite number of elements.  The esoterica includes a discussion of how to think about the sizes of infinite sets, which turns out to be shockinglyy hard and counter-intuitive.</p>
+<h2 id="remembering-the-symbols">Remembering the symbols</h2>
+<p>It's more important to understand the ideas than the notation.  That said, here are some mnemonics for remembering the notation:</p>
+<ul>
+<li><span class="math">\(A\cup B\)</span> is a union because it has a little &ldquo;u&rdquo;</li>
+<li><span class="math">\(A \cap B\)</span> is an intersection because it has an upside-down &ldquo;u&rdquo; and intersection is a kind of opposite of union</li>
+<li><span class="math">\(A-B\)</span> is subtracting the elements of $$B$ from <span class="math">\(A\)</span></li>
+<li>For the multiplication-like operations
+<ul>
+<li>The powerset of a <span class="math">\(A\)</span> with <span class="math">\(a\)</span> elements is <span class="math">\(2^A\)</span> because has <span class="math">\(2^a\)</span> elements (there are <span class="math">\(2^a\)</span> possible subsets of $$A$)</li>
+<li>The set of tuples formed from a set <span class="math">\(A\)</span> with <span class="math">\(a\)</span> elements and a set <span class="math">\(B\)</span> with <span class="math">\(b\)</span> elements is notated <span class="math">\(A\times B\)</span> because it has <span class="math">\(a\times b\)</span> elements.</li>
+<li>The set of <span class="math">\(n\)</span>-tuples formed from the elements of a set <span class="math">\(A\)</span> with <span class="math">\(a\)</span> elements is <span class="math">\(A^n\)</span> both because it is <span class="math">\(A\)</span> multiplied by itself repeatedly, and becuase it has <span class="math">\(a^n\)</span> elements.</li>
+</ul>
+</li>
+</ul>
+<h2 id="footnotes">Footnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>It's called the Cartesian product because it's named after Descartes, who invented it.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -85,7 +158,7 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Logic.html"><b>Next:</b> Appendix: Formal logic</a><br>
+			<a class="simplelink" id="NextPage" href="Tuples.html"><b>Next:</b> Pairs and tuples</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>

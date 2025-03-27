@@ -1,0 +1,187 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Matching variables with variables</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="generator" content="Mies">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Matching variables with variables">
+	<meta name="twitter:title" content="Matching variables with variables">
+	<meta property="og:title" content="Matching variables with variables" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+			<h1><a class="simplelink" href="index.html">Matching variables with variables</a></h1>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>In the table above, we only included variables in the method heads, not in the calls.  But you can include a variable in a call too.  This behaves differently, depending on whether the system has already matched that variable to a value.  If we say <code>[Task ?a 2]</code> but the system has already matched <code>?a</code> to <code>1</code>, then we’re really just doing <code>[Task 1 2]</code>, and we can use the previous table.  But if the system has never matched <code>?a</code> to anything, then <code>?a</code> can be matched freely.  That means three things:</p>
+<ul>
+<li>Specifying the variable in the call doesn’t restrict the methods that can be used, since it will match anything</li>
+<li>The variable in the call can be given a value by the method being called, as a result of the matching.</li>
+<li>The matching process can result in the system deciding that two variables must have the same value, without yet having a value for either (see below).</li>
+</ul>
+<p>Let’s look at what does and doesn’t match when we put variables in the call:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>Task 1 2:</code></th>
+<th><code>Task 1 ?x:</code></th>
+<th><code>Task ?x 1:</code></th>
+<th><code>Task ?x ?y:</code></th>
+<th><code>Task ?x ?x:</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Task 1 ?a]</code></td>
+<td>Yes; <code>?a</code>=2</td>
+<td>Yes: <code>?a</code>=<code>?x</code></td>
+<td>Yes: <code>?x</code>=1, <code>?a</code>=2</td>
+<td>Yes: <code>?x</code>=1, <code>?y</code>=<code>?a</code></td>
+<td>Yes: <code>?x</code>=1, <code>?a</code>=1</td>
+</tr>
+<tr>
+<td><code>[Task ?a 1]</code></td>
+<td>No</td>
+<td>Yes: <code>?x</code>=2, <code>?a</code>=1</td>
+<td>Yes: <code>?a</code>=<code>?x</code></td>
+<td>Yes: <code>?x</code>=<code>?a</code>, <code>?y</code>=1</td>
+<td>Yes: <code>?x</code>=1, <code>?a</code>=1</td>
+</tr>
+<tr>
+<td><code>[Task ?a ?b]</code></td>
+<td>Yes: <code>?a</code>=1,<code>?b</code>=2</td>
+<td>Yes: <code>?a</code>=1,<code>?b</code>=<code>?x</code></td>
+<td>Yes: <code>?a</code>=<code>?x</code>,<code>?b</code>=1</td>
+<td>Yes: <code>?x</code>=<code>?a</code>,<code>?y</code>=<code>?b</code></td>
+<td>Yes: <code>?a</code>=<code>?b</code>=<code>?x</code></td>
+</tr>
+<tr>
+<td><code>[Task ?a ?a]</code></td>
+<td>No</td>
+<td>Yes: <code>?a</code>=<code>?x</code>=1</td>
+<td>Yes: <code>?a</code>=<code>?x</code>=1</td>
+<td>Yes: <code>?x</code>=<code>?y</code>=<code>?a</code></td>
+<td>Yes: <code>?x</code>=<code>?a</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>FIXTHIS:</strong> Notice that for many of these, specifically the ones in green, the system is able to match the variables, but doesn’t come away from it knowing what the values of some of the variables are.  It only knows that certain variables have have the same values as one another.  It remembers that, so that if it matches either variable to a value in the future, then it will know that both variables must have that value.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
+	<h5>Ian Horswill</h5>
+	<br>
+	<p>
+			<h5>In this section:</h5>
+				<a class="simplelink" href="Pattern_matching_details.html"> Pattern matching in detail </a> <br>
+				<a class="simplelink" href="Matching_variables_with_variables.html"> Matching variables with variables </a> <br>
+				<a class="simplelink" href="Variable_naming.html"> Variables and names </a> <br>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Variable_naming.html"><b>Next:</b> Variables and names</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="Pattern_matching_details.html"><b>Previous:</b> Pattern matching in detail</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="The_matching_process_in_detail.html"><b>Up:</b> The matching process in detail</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

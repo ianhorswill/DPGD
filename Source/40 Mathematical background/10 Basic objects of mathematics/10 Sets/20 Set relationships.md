@@ -37,3 +37,7 @@ $$
 If $$A\subseteq B$$ and also $$B \subseteq A$$, then $$A=B$$.
 
 If $$A$$ and $$B$$ don't have identical, they're not equal: $$A\neq B$$.
+
+## Disjoint sets
+
+If two sets are no elements in common, then we way they are **disjoint**.  There's no special symbol for this relationship, although, as we will see in [set operations](Set_operations), we can express this by saying $$A\cap B = \emptyset$$.

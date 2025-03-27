@@ -1,0 +1,220 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Pattern matching in detail</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="generator" content="Mies">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Pattern matching in detail">
+	<meta name="twitter:title" content="Pattern matching in detail">
+	<meta property="og:title" content="Pattern matching in detail" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+			<h1><a class="simplelink" href="index.html">Pattern matching in detail</a></h1>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>When you run a task, also known as calling the task, the system searches for a method that matches the parameters of the call.  In particular, it matches the parameters of the call to the part of the method before the colon, known as its head.  The head of the method:</p>
+<pre><code class="language-step">SomeTask 1 ?x: Bla bla bla
+</code></pre>
+<p>is the part that says <code>SomeTask 1 ?x:</code>.  It’s the part that specifies what parameters this method is appropriate for.  Parameters can either be variables, such as <code>?x</code>, that match anything or specific values that such as <code>1</code>, <code>john</code>, or <code>“Some quoted text”</code>.  Things that aren’t variables are called <strong>constants</strong>.  Constants can only match to themselves: 1 matches 1, but not 2; john matches john, but not 1 or 2.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="all-constants">All constants</h3>
+<pre><code class="language-step">SomeTask 1 2: bla bla bla
+</code></pre>
+<p>Will only match a call with <code>1</code> and <code>2</code> for the parameters.</p>
+<h3 id="mixing-constants-and-variables">Mixing constants and variables</h3>
+<pre><code class="language-step">SomeTask 1 ?x: bla bla bla
+</code></pre>
+<p>Will match any call that has <code>1</code> for the first parameter.  The second parameter doesn't matter since <code>?x</code> can match anything.  However, <code>?x</code> will get set to whatever the second parameter is.</p>
+<pre><code class="language-step">SomeTask ?x 1: bla bla bla
+</code></pre>
+<p>Will match any call that has <code>1</code> for the second parameter, and <code>?x</code> will be set to the first parameter.</p>
+<h3 id="all-variables">All variables</h3>
+<pre><code class="language-step">SomeTask ?x ?y: bla bla bla
+</code></pre>
+<p>Will match any call at all.  <code>?x</code> will be set to the first parameter, and <code>?y</code> the second.</p>
+<pre><code class="language-step">SomeTask ?x ?x: bla bla bla
+</code></pre>
+<p>Will match any call at all in which <em>the two parameters are the same</em>.  <code>?x</code> will be set to that shared value.</p>
+<p>The last example here brings up an important point: if a variable appears more than once in a method, it must have the same value each time.</p>
+<p>Let’s look at which methods each of the following calls would match.  To save space, I’ve changed the name of the task from <code>SomeTask</code> to just <code>Task</code>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>Task 1 2:</code></th>
+<th><code>Task 1 ?x:</code></th>
+<th><code>Task ?x 1:</code></th>
+<th><code>Task ?x ?y:</code></th>
+<th><code>Task ?x ?x:</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Task 1 1]</code></td>
+<td>No</td>
+<td>Yes: <code>?x</code>=1</td>
+<td>Yes: <code>?x</code>=1</td>
+<td>Yes: <code>?x</code>=1, <code>?y</code>=1</td>
+<td>Yes: <code>?x</code>=1</td>
+</tr>
+<tr>
+<td><code>[Task 1 2]</code></td>
+<td>Yes</td>
+<td>Yes: <code>?x</code>=2</td>
+<td>No</td>
+<td>Yes: <code>?x</code>=1, <code>?y</code>=2</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>[Task 1 3]</code></td>
+<td>No</td>
+<td>Yes: <code>?x</code>=3</td>
+<td>No</td>
+<td>Yes: <code>?x</code>=1, <code>?y</code>=3</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>[Task 2 1]</code></td>
+<td>No</td>
+<td>No</td>
+<td>Yes: <code>?x</code>=2</td>
+<td>Yes: <code>?x</code>=2, <code>?y</code>=1</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>[Task 2 2]</code></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes: <code>?x</code>=2, <code>?y</code>=2</td>
+<td>Yes: <code>?x</code>=2</td>
+</tr>
+<tr>
+<td><code>[Task 2 3]</code></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes: <code>?x</code>=2, <code>?y</code>=3</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
+	<h5>Ian Horswill</h5>
+	<br>
+	<p>
+			<h5>In this section:</h5>
+				<a class="simplelink" href="Pattern_matching_details.html"> Pattern matching in detail </a> <br>
+				<a class="simplelink" href="Matching_variables_with_variables.html"> Matching variables with variables </a> <br>
+				<a class="simplelink" href="Variable_naming.html"> Variables and names </a> <br>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Matching_variables_with_variables.html"><b>Next:</b> Matching variables with variables</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="The_matching_process_in_detail.html"><b>Previous:</b> The matching process in detail</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="The_matching_process_in_detail.html"><b>Up:</b> The matching process in detail</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,161 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Context-free grammars</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="generator" content="Mies">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Context-free grammars">
+	<meta name="twitter:title" content="Context-free grammars">
+	<meta property="og:title" content="Context-free grammars" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+			<h1><a class="simplelink" href="index.html">Context-free grammars</a></h1>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>Our ending example from the last section was:</p>
+<pre><code class="language-step">[randomly]
+Sentence: the cat [Verb] the dog
+Sentence: the dog [Verb] the cat
+</code></pre>
+<p>Another way to write this is to say:</p>
+<pre><code class="language-step">Sentence: [Noun] [Verb] [Noun]
+
+[randomly]
+Noun: the cat
+Noun: the dog
+
+[randomly]
+Verb: ate 
+Verb: chased 
+Verb: plotted world domination with
+</code></pre>
+<p>In linguistics and computer science, this structure of templates inside templates inside other templates is called a <strong>grammar</strong>.  The grammars we’ve written so far where there are no restrictions on how choices are made between different templates are called <strong>context-free grammars</strong>.  Context-free grammars are popular ways of generating text.</p>
+<p>One issue with context-free grammars is that they often generate odd-sounding sentences.  For example, this one generates “the cat ate the cat”, which leaves the reader wondering if the cat ate itself or another cat.  In either scenario, a fluent English speaker wouldn’t use the phrase “the cat ate the cat” to describe it.  Issues like this are one of the reasons it’s difficult to generate good text.  We’ll talk about ways of dealing with some of these issues later.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
+	<h5>Ian Horswill</h5>
+	<br>
+	<p>
+			<h5>In this section:</h5>
+				<a class="simplelink" href="Generating_text.html"> Generating text </a> <br>
+				<a class="simplelink" href="Tasks_and_methods.html"> Tasks and methods </a> <br>
+				<a class="simplelink" href="Tasks_as_text_templates.html"> Tasks as text templates </a> <br>
+				<a class="simplelink" href="Parameters.html"> Variables and parameters </a> <br>
+				<a class="simplelink" href="Context-free_grammars.html"> Context-free grammars </a> <br>
+				<a class="simplelink" href="Adapting_text.html"> Adapting text </a> <br>
+				<a class="simplelink" href="Grammars_with_arguments.html"> Grammars with arguments </a> <br>
+				<a class="simplelink" href="Variables.html"> Variables </a> <br>
+				<a class="simplelink" href="Pattern_matching.html"> Matching patterns in parameters </a> <br>
+				<a class="simplelink" href="Specializing_methods_to_inputs.html"> Specializing methods to inputs: handling preferred pronouns </a> <br>
+				<a class="simplelink" href="Variable_substitutions.html"> A nice shorthand </a> <br>
+				<a class="simplelink" href="Mention.html"> Mentioning </a> <br>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Adapting_text.html"><b>Next:</b> Adapting text</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="Parameters.html"><b>Previous:</b> Variables and parameters</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> A brief introduction to the Step language</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
