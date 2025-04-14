@@ -8,7 +8,7 @@
 	<!-- generic metadata -->
 	<title>Part I: Using declarative programming</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
@@ -16,7 +16,7 @@
 	<meta name="twitter:title" content="Part I: Using declarative programming">
 	<meta property="og:title" content="Part I: Using declarative programming" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -53,6 +53,22 @@
 	</div>
 </div>
 
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
 
 
 <div class="container-fluid">
@@ -61,7 +77,13 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Placeholder</p>
+<p>Part I describes how to use different declarative programming technologies, without much attention to how they're implemented under the hood (that will come in <a href="Part_II.html">Part II</a>).  We don't assume any significant programming experience, however we include deeper discussions for those with more technical background.</p>
+<p>Most of the examples will use the <a href="https://github.com/ianhorswill/Step">Step</a>, an open-source programming language written in C#.  It's easy to include in Unity or Godot projects.  And you can try it interactively in your browser by clicking on any of the Step code fragments in the following pages.  We'll teach you Step as we go along.</p>
+<p>Part I is organized based on different kinds of declarative formalisms.  We start with <a href="Grammars.html">grammars</a>, which aren't usually thought of as a declarative language, but technically are.  They're also very useful for anyone who wants to generate or parse text, and so they're extensively used in games.</p>
+<p>Having introduced grammars, we'll talk about how the same basic framework can be used for an approximation logical inference.  This is known as <a href="Logic_programming.html">logic programming</a>.  Classical LP is the most commonly used form of declarative programming.</p>
+<p>We will then discuss how grammars can be made much more powerful by integrating logic programming into them.  These are known as definite-clause grammars.</p>
+<p>Then at some point we'll talk about planning.</p>
+<p>Then we'll talk about constraint programming, which is both more and less powerful than classical logic programming, and both harder and easier to debug.  We'll explain what we mean by this when we get to them.</p>
 
 
 
@@ -73,18 +95,21 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
-			<h5>In this section:</h5>
-				<a class="simplelink" href="Grammars.html"> A brief introduction to the Step language </a> <br>
-				<a class="simplelink" href="Logic_programming.html"> Logic programming </a> <br>
+			<h5>Part I</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Grammars.html" id="section_page_1"> Simple grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Logic_programming.html" id="section_page_2"> Logic programming </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Grammars.html"><b>Next:</b> A brief introduction to the Step language</a><br>
+			<a class="simplelink" id="NextPage" href="Grammars.html"><b>Next:</b> Simple grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
@@ -92,7 +117,7 @@
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="index.html"><b>Up:</b> Declarative Programming for Game Design</a><br>
+			<a class="simplelink" id="UpPage" href="index.html"><b>Up:</b> Declarative Programming for Game Designers</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
@@ -110,6 +135,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -119,6 +146,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

@@ -1,20 +1,31 @@
 @model Booker.PageModel
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">@Model.Site.Title</a></h4>
-	<h5>@Model.Site.Author</h5>
-	<br>
-	<p>
 	@{
 		var pages = Model.Children??Model.Up.Children;
+		var sec = Model.Children != null?Model:Model.Up??Model;
+		var counter = 1;
 
-		if (pages.Length > 0) {
-			<h5>In this section:</h5>
+			<h5>@sec.EffectiveShortTitle</h5>
+			<ol>
 			@foreach (var page in pages) {
-				<a class="simplelink" href="@page.PageLink"> @page.PageTitle </a> <br>
+				if (page == Model)
+				{
+					<li><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @page.PageTitle </b> </a> <br></li>
+				}
+				else
+				{
+					<li><a class="backgroundlink" href="@page.PageLink" id="section_page_@counter"> @page.PageTitle </a> <br></li>
+				}
+				counter++;
 			}
-		}
+			</ol>
 	}
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
@@ -22,21 +33,21 @@
 	@{
 		if (Model.EffectiveNext != null)
 		{
-			<a class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Model.EffectiveNext.PageTitle</a><br>
+			<a class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Model.EffectiveNext.EffectiveShortTitle</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
 		}
 		if (Model.EffectivePrevious != null)
 		{
-			<a class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Model.EffectivePrevious.PageTitle</a><br>
+			<a class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Model.EffectivePrevious.EffectiveShortTitle</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
 		}
 		if (Model.Up != null)
 		{
-			<a class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Model.Up.PageTitle</a><br>
+			<a class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Model.Up.EffectiveShortTitle</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

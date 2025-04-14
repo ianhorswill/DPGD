@@ -8,7 +8,7 @@
 	<!-- generic metadata -->
 	<title>Relationships as sets</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
@@ -16,7 +16,7 @@
 	<meta name="twitter:title" content="Relationships as sets">
 	<meta property="og:title" content="Relationships as sets" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,10 +48,30 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Background.html"> Background appendices </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Mathematics.html"> Mathematics </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Basic_objects_of_mathematics.html"> Basic objects </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Relations.html"> Relations </a>
 			<h1><a class="simplelink" href="index.html">Relationships as sets</a></h1>
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 
 
@@ -101,18 +121,21 @@ R\subseteq A\times B
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
-			<h5>In this section:</h5>
-				<a class="simplelink" href="Relationships_as_sets.html"> Relationships as sets </a> <br>
-				<a class="simplelink" href="Functions_on_relations.html"> Functions on relations </a> <br>
-				<a class="simplelink" href="N-ary_relations.html"> Relations with more arguments </a> <br>
-				<a class="simplelink" href="Images_of_relations.html"> Images of relations </a> <br>
-				<a class="simplelink" href="Properties_of_relations.html"> Properties of relations </a> <br>
-				<a class="simplelink" href="Functions.html"> Functions </a> <br>
-				<a class="simplelink" href="Homogeneous_relations.html"> Homogeneous relations </a> <br>
+			<h5>Relations</h5>
+			<ol>
+					<li><a class="simplelink" href="Relationships_as_sets.html" id="section_page_1"> <b> Relationships as sets </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Functions_on_relations.html" id="section_page_2"> Functions on relations </a> <br></li>
+					<li><a class="backgroundlink" href="N-ary_relations.html" id="section_page_3"> Relations with more arguments </a> <br></li>
+					<li><a class="backgroundlink" href="Images_of_relations.html" id="section_page_4"> Images of relations </a> <br></li>
+					<li><a class="backgroundlink" href="Properties_of_relations.html" id="section_page_5"> Properties of relations </a> <br></li>
+					<li><a class="backgroundlink" href="Functions.html" id="section_page_6"> Functions </a> <br></li>
+					<li><a class="backgroundlink" href="Homogeneous_relations.html" id="section_page_7"> Homogeneous relations </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
@@ -143,6 +166,8 @@ R\subseteq A\times B
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -152,6 +177,10 @@ R\subseteq A\times B
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

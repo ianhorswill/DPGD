@@ -6,17 +6,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Declarative Programming for Game Design</title>
+	<title>Declarative Programming for Game Designers</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Declarative Programming for Game Design">
-	<meta name="twitter:title" content="Declarative Programming for Game Design">
-	<meta property="og:title" content="Declarative Programming for Game Design" />
+	<meta itemprop="name" content="Declarative Programming for Game Designers">
+	<meta name="twitter:title" content="Declarative Programming for Game Designers">
+	<meta property="og:title" content="Declarative Programming for Game Designers" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,10 +48,26 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-			<h1><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h1>
+			<h1><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h1>
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 
 
@@ -61,11 +77,42 @@
 
 			<div class="container shadow blog-contents">
 
-<p>This book seeks to demystify the various forms of declarative programming: how to use different kinds of solvers, as well as how they work internally and how to write your own or use ideas from declarative programming for other kinds of projects.</p>
-<p>Although the book is addressed in large part to game designers, it does not require any specific game knowledge, and can be used by anyone seeking to understand the basic technologies involved. Although much of the book assumes significant familiarity with programming, and <a href="Part_II.html">Part II</a> assumes background comparable to a computer science degree, my goal is for the book to be useful to a range of readers from designers with relatively little programming background to graduate students focused on research.  As a result, when we encounter formal systems, I'll try to give a substantive informal description of things and leave the full mathy formal description as a separate discussion.</p>
-<p><a href="Part_I.html">Part I</a> teaches you to be a user of solvers.  We’ll discuss grammars, logic programming, constraint satisfaction systems, and planners.  This necessarily means teaching you specific languages and formalisms, and I will generally use languages that I designed myself (sorry) and that are open source (not sorry).  Where relevant, I’ll discuss their differences from other languages.</p>
-<p><a href="Part_II.html">Part II</a> discusses the techniques used to implement solvers.  These use a number of shared tools: non-determinism, backtracking, constraint variables and constraint propagation, so-called logic variables and unification, search and heuristics.  And these tools get combined into into standard algorithms with cryptic names that are frequently used for specific kinds of problems: SLDNF resolution, AC-4, DPLL, and so on.</p>
-<p>The appendices provide background on the mathematical systems used in the text for those who are unfamiliar with them or who need a refresher.</p>
+<p>This book is about <strong>better formalisms for game designers</strong>.  If you’re writing a computer game, you’re using formalisms.  Different formalisms have different strengths and weaknesses.  This book introduces ones that are better for some tasks.</p>
+<p>Declarative programming is a collection of techniques<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> and languages that allow designers to describe <strong>what</strong> a solution would look like without having to specify <strong>how</strong> to find the solution.  The how part is taken care of by a generic program called a <strong>solver</strong>.  Declarative programming involves moving from <strong>describing how to describing what</strong>.</p>
+<p>This book introduces those techniques with an emphasis on their application to game design, mostly videogames.</p>
+<ul>
+<li><a href="Part_I.html">Part I</a> describes how to use declarative languages.  Most of it can be read by people with little or no programming experience.  Examples use a specific programming language called <a href="https://github.com/ianhorswill/Step"><em>Step</em></a>, but they are easily translated to other declarative languages.</li>
+<li><a href="Part_II.html">Part II</a> describes how to build your own solvers.  This section is much more technical and assumes you have a background equivalent to at least a year of university-level computer science courses.</li>
+<li>Appendices provide background information or detailed discussion on topics that would divert from the flow of the main text.</li>
+</ul>
+<h2 id="esoterica">Esoterica</h2>
+<p>This material is not difficult to understand.  However, it is traditionally taught in research monographs, conference papers or graduate computer-science textbooks.  These are <strong>esoteric</strong> in the literal sense of being written for a small group of experts.  This book is <strong>exoteric</strong>: it is written for a broad audience.  That said, I love the esoteric stuff and have included it as additional material in optional marked sections clearly marked “<em>esoteric</em>.”  These may be safely ignored.</p>
+<h2 id="audiences">Audiences</h2>
+<p>I’ve tried to write for several different audiences, in increasing order of familiarity with technical computer science:</p>
+<ul>
+<li>Artists, designers, and students with no programming background whatsoever who want to play with story generation, interactive fiction, etc.  <a href="Part_I.html">Part I</a> is self-contained enough for readers like these.  Just skip over the esoterica (or not!).</li>
+<li>Artists and designers who do have programming background, but whose primary role is not programming, but who would like to understand and experiment with the technology.</li>
+<li>Undergraduates taking a course on declarative programming, logic programming, and/or constraint satisfaction.  Both <a href="Part_I.html">Part I</a> and <a href="Part_II.html">Part II</a> should be readable by CS students who’ve completed their first year, although those earlier in their careers may need to rely more on the appendices.</li>
+<li>Game AI or gameplay programmers in the game industry looking to incorporate declarative techniques into their games or scripting languages.</li>
+<li>Ph.D. students looking to build on these methods.  These students may also want to be familiar with the parts marked “esoteric.”</li>
+</ul>
+<h2 id="how-to-read-this-book">How to read this book</h2>
+<p>If you are reading this as part of a course, then your instructor will be telling you what parts to read.  It’s safe to assume you can ignore the other parts.</p>
+<p>If you are in the game industry, I recommend starting by at least skimming <a href="Part_I.html">Part I</a> to get a sense of whether any of this is going to solve the problems you came here for.  If so, you can either use the solvers used in Part I (they’re on <a href="https://github.com/ianhorswill">github</a>), or read <a href="Part_II.html">Part II</a> to learn how to build your own solvers or otherwise incorporate these algorithms into your toolchain.</p>
+<p>If you’re a Ph.D. student, you should read both sections as well as the mathematical appendices.  You may never need to use that knowledge, but you should be able to at least nod knowingly when asked about it in job interviews.</p>
+<h3 id="what-to-ignore">What to ignore</h3>
+<p>It’s always safe to ignore anything tagged as <a href="https://en.wikipedia.org/wiki/Omake"><em>omake</em></a> or <em>esoteric</em>/<em>esoterica</em>.  That said, if you do decide to read some of the esoteric stuff, it may or may not work to jump into the middle of it; you might have to back up and read earlier stuff.</p>
+<p>The two parts of the book can be read independently of one another.  Each part is written to be read starting from the beginning, but I’ve done my best to make it possible to skip earlier chapters if you choose.</p>
+<p>I wish I could make it so you could read Part I without having to learn <em>Step</em>, but we have to use some programming language and <em>Step</em> has a much gentler learning curve than <em>Prolog</em>.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Common examples from the videogame industry include: action planners for characters, such as <a href="https://www.gamedeveloper.com/design/building-the-ai-of-f-e-a-r-with-goal-oriented-action-planning">GOAP</a> in NPC AI), the <a href="https://en.wikipedia.org/wiki/Model_synthesis">“wave function collapse” algorithm</a> for level generation, and database query languages such as <a href="https://en.wikipedia.org/wiki/SQL">SQL</a>.  Common examples from the AI literature include logic programming and constraint programming.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -77,17 +124,18 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
-			<h5>In this section:</h5>
-				<a class="simplelink" href="Introduction.html"> Introduction </a> <br>
-				<a class="simplelink" href="Part_I.html"> Part I: Using declarative programming </a> <br>
-				<a class="simplelink" href="Part_II.html"> Part II: Implementing your own solvers </a> <br>
-				<a class="simplelink" href="Mathematical_background.html"> Appendix: Mathematical background </a> <br>
-				<a class="simplelink" href="Logic.html"> Appendix: Formal logic </a> <br>
-				<a class="simplelink" href="Randomization.html"> Appendix: Random selection </a> <br>
+			<h5>Declarative Programming for Game Designers</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Introduction.html" id="section_page_1"> Introduction </a> <br></li>
+					<li><a class="backgroundlink" href="Part_I.html" id="section_page_2"> Part I: Using declarative programming </a> <br></li>
+					<li><a class="backgroundlink" href="Part_II.html" id="section_page_3"> Part II: Implementing your own solvers </a> <br></li>
+					<li><a class="backgroundlink" href="Background.html" id="section_page_4"> Background appendices </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
@@ -110,6 +158,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -119,6 +169,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

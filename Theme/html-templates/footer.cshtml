@@ -5,6 +5,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">@Model.Site.Title</a></h4>
+
 					Copyright &copy; @DateTime.Now.Year @Model.Site.Author
 				</div>
 				<div class="text-muted">
@@ -14,6 +16,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

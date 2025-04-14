@@ -8,7 +8,7 @@
 	<!-- generic metadata -->
 	<title>Part II: Implementing your own solvers</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
@@ -16,7 +16,7 @@
 	<meta name="twitter:title" content="Part II: Implementing your own solvers">
 	<meta property="og:title" content="Part II: Implementing your own solvers" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -52,6 +52,22 @@
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 
 
@@ -73,23 +89,27 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
+			<h5>Part II</h5>
+			<ol>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Mathematical_background.html"><b>Next:</b> Appendix: Mathematical background</a><br>
+			<a class="simplelink" id="NextPage" href="Background.html"><b>Next:</b> Background appendices</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Part_I.html"><b>Previous:</b> Part I: Using declarative programming</a><br>
+			<a class="simplelink" id="PreviousPage" href="Part_I.html"><b>Previous:</b> Part I</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="index.html"><b>Up:</b> Declarative Programming for Game Design</a><br>
+			<a class="simplelink" id="UpPage" href="index.html"><b>Up:</b> Declarative Programming for Game Designers</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
@@ -107,6 +127,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -116,6 +138,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

@@ -1,0 +1,42 @@
+---
+pagetitle: Parameterized grammars
+---
+To review, context-free-grammars are collections of templates that describe how to generate phrase types in terms of other phrase types.  To write that in Step, we have one task for each phrase type and one method for each rule/template.  Templates can fill in a subphrase by enclosing the subphrase's task in brackets:
+```step
+Phrase: bla bla [Subphrase] bla
+```
+But what if you want the template to fill in text you specify yourself?  You can do that by adding a **parameter** (aka an **argument**[^1]) to your phrase/task.  Parameters are extra information you specify after the name of the task when you run it or write a method for it.  For example, 
+```Step
+# Try: [Greet "Mr. Daniels"]
+[randomly]
+Greet ?who: Hello, ?who.
+Greet ?who: Hey, ?who.
+Greet ?who: Good morning, ?who.
+```
+This says that `Greet` needs an extra piece information: who is being greeted.  When you call `Greet`, you specify who should be greeted.  So instead of just typing `[Greet]` you’d type something like:
+```step
+[Greet “Mr. Daniels”]
+```
+And this would generate the text:
+* “Hello, Mr. Daniels.”
+* "Hey, Mr. Daniels."
+* “Good Morning, Mr. Daniels.”
+
+depending on which rule was chosen.
+
+The quotation marks around `“Mr. Daniels”` are there so that if `Greet` takes more than one parameter, it can tell where the text of one ends and where the text of another begins.  They’re not necessary if the text you specify is in lower case and doesn’t have any spaces in it.  So you can just say:
+```step
+[Greet dawg]
+```
+Which is a little less typing than:
+```step
+[Greet “dawg”]
+````
+But they both mean the same thing.[^2]  Both can generate text such as “Hey, dawg.”
+
+## Endnotes
+
+[^1]: Argument and parameter are exact synonyms for our purposes.  Argument is somewhat more common in computer science and mathematics.  I'll lean toward using parameter here because most people think of an argument as something that involves shouting.
+
+[^2]: *Extremely esteric*: This is a lie, but it's almost true.  Internally, `dawg` is represented using the C# `string` datatype, whereas `"dawg"` is represented internally using the C# `string[]` datatype, an array of one `string` for each word in the quoted text.  The only time this matters is when you are writing code that is passing data back and forth between C# and Step.  Why does Step represent text as arrays of words rather than one string?  So that when it can generate the final string at the end, it can reason about things like whether it needs to capitalize a word because it's at the start of a sentence.
+

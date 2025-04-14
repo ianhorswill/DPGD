@@ -1,14 +1,26 @@
 ---
 pagetitle: Tasks and methods
 ---
-We’ve implicitly introduced a few different ideas here.  One is the idea you can write “little programs” like `Hello`.  The official term for these is **tasks**.  A task is something you can ask the system to do.  Tasks are named.  The task we’ve been talking about is called `Hello`.  Task names have to start with a capital letter.
+```step
+[randomly]
+Hello: Hello world!
+Hello: Hola!
+Hello: Hi there!
+Hello: Bon jour!
+```
+This is a grammar with one kind of phrase, `Hello`, and several rules for it.  We're representing our grammar as a program in the Step language, and Step is more versatile than just a grammar system.  So let's mention how Step thinks of this program:
 
-We’ve also seen that you can specify how to do a task by giving the name of the task, a colon, and then some text to print.  But you can specify many different ways to carry out a task.  Each of these lines that explain how to perform a task is called a **method**.  So a method is a line that looks like:
+* `Hello` is called a **task** in Step terminology. Task just means little program.  Tasks are named.  Their names must start with a capital letter.
+* Each rule is called a **method** for its task.  Each gives a different way of performing the task.
+* The `[randomly]` annotation at the beginning is a **declaration** telling Step something about the nature of the `Hello` task, in this case, to choose methods randomly.
+
+A method (rule for how to perform a task) is a line that looks like:
 ```step
 TaskName: stuff to print
 ```
 However, it’s too limiting to require a method to fit on one line, so you can split it across many lines by ending the line at the colon and then putting in as many lines of text as you like, ending with the magic keyword, `[end]`.  So we can have a long method for saying Hello by saying:
-```step
+```Step
+# Try: [Hello]
 Hello:
    Uh, yes.  Hello.  My name is, uh, Roylance.  Uh, Richard.  Richard Roylance.
 
@@ -19,4 +31,9 @@ Hello:
    Yes, that’s right.  The public speaking course.
 [end]
 ```
-The last thing we’ve seen so far are little annotations that can be attached to methods to change how they behave.  In particular, we’ve seen `[randomly]`, which states that the methods for the task being defined should be tried in random order.  We’ll see a bunch of other annotations shortly.
+
+## Esoterica
+
+"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called "hierarchical task network planners", aka HTN planners, that, for their own reasons used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.
+
+"Method" means close to the same thing as "method" or "overload" in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently.

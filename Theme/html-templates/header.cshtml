@@ -43,7 +43,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -59,9 +59,32 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
+			@foreach (var page in @Model.AncestorsNoTop) {
+				@if (page.Up.Up != null)
+				{
+					<text>&nbsp;&#x25BB;&nbsp;</text>
+				}
+				<a class="backgroundlink" href="@page.PageLink"> @page.EffectiveShortTitle </a>
+			}
 			<h1><a class="simplelink" href="index.html">@Model.PageTitle</a></h1>
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 

@@ -6,9 +6,9 @@ outputsdir:     Html
 themefile:      Theme/theme.yaml
 
 # metadata that shows up in the header and in metadata
-title:          Declarative Programming for Game Design
+title:          Declarative Programming for Game Designers
 author:         Ian Horswill
-description:    The Blog of HAL 9000
+description:    An introduction to declarative programming with applications to vidoegames
 
 
 # if you want to use google analytics, uncomment the line below and

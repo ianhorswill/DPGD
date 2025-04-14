@@ -2,10 +2,12 @@ body {
 	font-family: 'Public Sans', sans-serif;
 	color: #bbb;
 	background-color: #202020;
+	text-align: justify;
 }
 
 h1, h2, h3 {
 	font-family: 'Montserrat', sans-serif;
+	text-align: left;
 }
 
 .header {
@@ -19,6 +21,10 @@ h1, h2, h3 {
 
 .simplelink {
 	color: #ddd;
+}
+
+.backgroundlink {
+	color: #bbb;
 }
 
 .index-contents {
@@ -68,7 +74,7 @@ li.sidebar:before {
 }
 
 code {
-	color:  #c90;
+	color:  #ccc;
 }
 
 blockquote {
@@ -90,4 +96,8 @@ th {
 
 table {
 	margin-bottom: 1rem;
+}
+
+.language-Step {
+	border: 1px solid #888;
 }

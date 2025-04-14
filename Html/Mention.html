@@ -8,7 +8,7 @@
 	<!-- generic metadata -->
 	<title>Mentioning</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
@@ -16,7 +16,7 @@
 	<meta name="twitter:title" content="Mentioning">
 	<meta property="og:title" content="Mentioning" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,10 +48,28 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
 			<h1><a class="simplelink" href="index.html">Mentioning</a></h1>
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 
 
@@ -61,12 +79,15 @@
 
 			<div class="container shadow blog-contents">
 
-<p>In fact, even just saying <code>?item</code> on the right hand side, is actually shorthand for <code>[Mention ?item]</code>.  So the method above is really shorthand for:</p>
+<p>In fact, even just saying <code>?item</code> on the right hand side, is actually shorthand for <code>[Mention ?item]</code>.  So the method:</p>
+<pre><code class="language-step">Give ?giver ?giver ?item: ?giver gave ?giver/Reflexive ?item
+</code></pre>
+<p>is really shorthand for:</p>
 <pre><code class="language-step">Give ?giver ?giver ?item:
    [Mention ?giver] gave [Reflexive ?giver] [Mention ?item]
 [end]
 </code></pre>
-<p>The only reason this matters is that it means you can control how things are printed by giving different methods for <code>Mention</code>.  This is super useful, as we’ll talk about shortly.</p>
+<p>This gives us a way to control how things are printed by changing the definition of <code>Mention</code>.  This is super useful, and we'll return to it later.</p>
 
 
 
@@ -78,23 +99,25 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
-			<h5>In this section:</h5>
-				<a class="simplelink" href="Generating_text.html"> Generating text </a> <br>
-				<a class="simplelink" href="Tasks_and_methods.html"> Tasks and methods </a> <br>
-				<a class="simplelink" href="Tasks_as_text_templates.html"> Tasks as text templates </a> <br>
-				<a class="simplelink" href="Parameters.html"> Variables and parameters </a> <br>
-				<a class="simplelink" href="Context-free_grammars.html"> Context-free grammars </a> <br>
-				<a class="simplelink" href="Adapting_text.html"> Adapting text </a> <br>
-				<a class="simplelink" href="Grammars_with_arguments.html"> Grammars with arguments </a> <br>
-				<a class="simplelink" href="Variables.html"> Variables </a> <br>
-				<a class="simplelink" href="Pattern_matching.html"> Matching patterns in parameters </a> <br>
-				<a class="simplelink" href="Specializing_methods_to_inputs.html"> Specializing methods to inputs: handling preferred pronouns </a> <br>
-				<a class="simplelink" href="Variable_substitutions.html"> A nice shorthand </a> <br>
-				<a class="simplelink" href="Mention.html"> Mentioning </a> <br>
+			<h5>Simple grammars</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Generating_text.html" id="section_page_1"> Grammar rules </a> <br></li>
+					<li><a class="backgroundlink" href="Tasks_and_methods.html" id="section_page_2"> Tasks and methods </a> <br></li>
+					<li><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
+					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_4"> Context-free grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_5"> A silly context-free-grammar </a> <br></li>
+					<li><a class="backgroundlink" href="Parameters.html" id="section_page_6"> Parameterized grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Variables.html" id="section_page_7"> Variables </a> <br></li>
+					<li><a class="backgroundlink" href="Pattern_matching.html" id="section_page_8"> Patterns of parameters </a> <br></li>
+					<li><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_9"> Methods for specific parameters </a> <br></li>
+					<li><a class="backgroundlink" href="Variable_substitutions.html" id="section_page_10"> A nice shorthand </a> <br></li>
+					<li><a class="simplelink" href="Mention.html" id="section_page_11"> <b> Mentioning </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
@@ -107,7 +130,7 @@
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> A brief introduction to the Step language</a><br>
+			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> Simple grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
@@ -125,6 +148,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -134,6 +159,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

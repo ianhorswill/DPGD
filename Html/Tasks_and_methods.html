@@ -8,7 +8,7 @@
 	<!-- generic metadata -->
 	<title>Tasks and methods</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
@@ -16,7 +16,7 @@
 	<meta name="twitter:title" content="Tasks and methods">
 	<meta property="og:title" content="Tasks and methods" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,10 +48,28 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
 			<h1><a class="simplelink" href="index.html">Tasks and methods</a></h1>
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 
 
@@ -61,12 +79,24 @@
 
 			<div class="container shadow blog-contents">
 
-<p>We’ve implicitly introduced a few different ideas here.  One is the idea you can write “little programs” like <code>Hello</code>.  The official term for these is <strong>tasks</strong>.  A task is something you can ask the system to do.  Tasks are named.  The task we’ve been talking about is called <code>Hello</code>.  Task names have to start with a capital letter.</p>
-<p>We’ve also seen that you can specify how to do a task by giving the name of the task, a colon, and then some text to print.  But you can specify many different ways to carry out a task.  Each of these lines that explain how to perform a task is called a <strong>method</strong>.  So a method is a line that looks like:</p>
+<pre><code class="language-step">[randomly]
+Hello: Hello world!
+Hello: Hola!
+Hello: Hi there!
+Hello: Bon jour!
+</code></pre>
+<p>This is a grammar with one kind of phrase, <code>Hello</code>, and several rules for it.  We're representing our grammar as a program in the Step language, and Step is more versatile than just a grammar system.  So let's mention how Step thinks of this program:</p>
+<ul>
+<li><code>Hello</code> is called a <strong>task</strong> in Step terminology. Task just means little program.  Tasks are named.  Their names must start with a capital letter.</li>
+<li>Each rule is called a <strong>method</strong> for its task.  Each gives a different way of performing the task.</li>
+<li>The <code>[randomly]</code> annotation at the beginning is a <strong>declaration</strong> telling Step something about the nature of the <code>Hello</code> task, in this case, to choose methods randomly.</li>
+</ul>
+<p>A method (rule for how to perform a task) is a line that looks like:</p>
 <pre><code class="language-step">TaskName: stuff to print
 </code></pre>
 <p>However, it’s too limiting to require a method to fit on one line, so you can split it across many lines by ending the line at the colon and then putting in as many lines of text as you like, ending with the magic keyword, <code>[end]</code>.  So we can have a long method for saying Hello by saying:</p>
-<pre><code class="language-step">Hello:
+<pre><code class="language-Step"># Try: [Hello]
+Hello:
    Uh, yes.  Hello.  My name is, uh, Roylance.  Uh, Richard.  Richard Roylance.
 
    Yes.
@@ -76,7 +106,9 @@
    Yes, that’s right.  The public speaking course.
 [end]
 </code></pre>
-<p>The last thing we’ve seen so far are little annotations that can be attached to methods to change how they behave.  In particular, we’ve seen <code>[randomly]</code>, which states that the methods for the task being defined should be tried in random order.  We’ll see a bunch of other annotations shortly.</p>
+<h2 id="esoterica">Esoterica</h2>
+<p>&ldquo;Task&rdquo; means basically the same thing as &ldquo;procedure&rdquo; or &ldquo;subroutine&rdquo; in other languages.  The term &ldquo;task&rdquo; is used because Step descends from a line of languages called &ldquo;hierarchical task network planners&rdquo;, aka HTN planners, that, for their own reasons used the term &ldquo;task&rdquo; rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.</p>
+<p>&ldquo;Method&rdquo; means close to the same thing as &ldquo;method&rdquo; or &ldquo;overload&rdquo; in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently.</p>
 
 
 
@@ -88,36 +120,38 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
-			<h5>In this section:</h5>
-				<a class="simplelink" href="Generating_text.html"> Generating text </a> <br>
-				<a class="simplelink" href="Tasks_and_methods.html"> Tasks and methods </a> <br>
-				<a class="simplelink" href="Tasks_as_text_templates.html"> Tasks as text templates </a> <br>
-				<a class="simplelink" href="Parameters.html"> Variables and parameters </a> <br>
-				<a class="simplelink" href="Context-free_grammars.html"> Context-free grammars </a> <br>
-				<a class="simplelink" href="Adapting_text.html"> Adapting text </a> <br>
-				<a class="simplelink" href="Grammars_with_arguments.html"> Grammars with arguments </a> <br>
-				<a class="simplelink" href="Variables.html"> Variables </a> <br>
-				<a class="simplelink" href="Pattern_matching.html"> Matching patterns in parameters </a> <br>
-				<a class="simplelink" href="Specializing_methods_to_inputs.html"> Specializing methods to inputs: handling preferred pronouns </a> <br>
-				<a class="simplelink" href="Variable_substitutions.html"> A nice shorthand </a> <br>
-				<a class="simplelink" href="Mention.html"> Mentioning </a> <br>
+			<h5>Simple grammars</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Generating_text.html" id="section_page_1"> Grammar rules </a> <br></li>
+					<li><a class="simplelink" href="Tasks_and_methods.html" id="section_page_2"> <b> Tasks and methods </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
+					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_4"> Context-free grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_5"> A silly context-free-grammar </a> <br></li>
+					<li><a class="backgroundlink" href="Parameters.html" id="section_page_6"> Parameterized grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Variables.html" id="section_page_7"> Variables </a> <br></li>
+					<li><a class="backgroundlink" href="Pattern_matching.html" id="section_page_8"> Patterns of parameters </a> <br></li>
+					<li><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_9"> Methods for specific parameters </a> <br></li>
+					<li><a class="backgroundlink" href="Variable_substitutions.html" id="section_page_10"> A nice shorthand </a> <br></li>
+					<li><a class="backgroundlink" href="Mention.html" id="section_page_11"> Mentioning </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Tasks_as_text_templates.html"><b>Next:</b> Tasks as text templates</a><br>
+			<a class="simplelink" id="NextPage" href="Text_substitution.html"><b>Next:</b> Text substitution</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Generating_text.html"><b>Previous:</b> Generating text</a><br>
+			<a class="simplelink" id="PreviousPage" href="Generating_text.html"><b>Previous:</b> Grammar rules</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> A brief introduction to the Step language</a><br>
+			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> Simple grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
@@ -135,6 +169,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -144,6 +180,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

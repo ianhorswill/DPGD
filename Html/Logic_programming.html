@@ -8,7 +8,7 @@
 	<!-- generic metadata -->
 	<title>Logic programming</title>
 	<meta name="author" content="Ian Horswill">
-	<meta name="description" content="The Blog of HAL 9000">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Mies">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
@@ -16,7 +16,7 @@
 	<meta name="twitter:title" content="Logic programming">
 	<meta property="og:title" content="Logic programming" />
 	<meta property="og:type" content="article" />
-	<meta property="og:site_name" content="Declarative Programming for Game Design" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
 	<!-- stylesheets -->
 	<!-- bootstrap needs to come first -->
@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,10 +48,27 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 			<h1><a class="simplelink" href="index.html">Logic programming</a></h1>
 		</div>
 	</div>
 </div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
 
 
 
@@ -61,7 +78,182 @@
 
 			<div class="container shadow blog-contents">
 
-<p>TBA&hellip;</p>
+<p>In the previous chapter, we discussed how a method such as:</p>
+<pre><code class="language-step">Weapon: [PreBuff] [WeaponType] [PostBuff]
+</code></pre>
+<p>can be though of as a <strong>grammar rule</strong> describing kinds of phrases:</p>
+<blockquote>
+<p>A weapon description is a pre-buff followed by a type followed by a post-buff</p>
+</blockquote>
+<p>This chapter explores how other kinds of methods can be thought of as <strong>logical rules</strong> describing possible inferences.  This introduces four big ideas:</p>
+<ul>
+<li><strong>Predicates</strong>: tasks that answer questions rather than printing things</li>
+<li><strong>Soft failure</strong>: when methods fail, it need not be an error; it simply tells Step to try a method.</li>
+<li><strong>Relaxed variables</strong>: variables begin life without specific values, and acquire values as your use them.</li>
+<li><strong>Clairvoyant programming</strong><a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>: when the system makes a choices, it always magically makes the right choices.</li>
+</ul>
+<p>We'll see that this allows a programming style in which methods can be thought of as statements of fact. And the execution of certain tasks can naturally be thought of as answering questions about those facts.</p>
+<h2 id="preview">Preview</h2>
+<p>Here's a quick example to give you a sense of where we're headed.  By the end of the chapter, you'll understand how this stuff works, but for the moment, we'll wave our hands.  We're going to start by writing some methods for some Step tasks that don't print anything.  Don't worry about the <code>[predicate]</code> annotation<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> or the fact that the methods end with periods rather than colons:</p>
+<pre><code class="language-Step"># Try: [Dog lassie]
+[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.
+</code></pre>
+<p>If you aren't familiar with US pop culture from the 1970s, Benji and Lassie were famous dogs from movies, Morris was a cat from cat-food commercials, and Garfield is a famous cartoon cat.  So these methods form a little <strong>database</strong> of cats and dogs.</p>
+<h3 id="calls-as-queries">Calls as queries</h3>
+<p>When we run <code>[Dog lassie]</code>, it works even though it doesn't print anything.  We say the call <strong>succeeds</strong>.  In detail, it:</p>
+<ul>
+<li>Tries to match <code>Dog lassie</code> to the first method <code>Dog benji</code>, but it can't because <code>benji</code> and <code>lassie</code> are different.  So that <strong>method fails</strong>.</li>
+<li>Then moves on to the second method, <code>Dog lassie</code>, which is a perfect match for the call.</li>
+<li>Then runs the method, but the method doesn't do anything. It just finishes.  We're done.</li>
+</ul>
+<p>Now what happens if we run <code>[Dog garfield]</code>?</p>
+<pre><code class="language-Step"># Try: [Dog garfield]
+[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.
+</code></pre>
+<p>Neither method matches, so both methods fail.  That means the entire <strong>call fails</strong>.<a id="fnref:3" href="#fn:2" class="footnote-ref"><sup>2</sup></a></p>
+<p>So <code>Dog</code> executes successfully, i.e. it <strong>succeeds</strong>, if you call it with something it knows to be a dog as its parameter.  It <strong>fails</strong> if you call it with a something else.  So we can test the doghood of something by called <code>Dog</code> with the something as a parameter.</p>
+<p>Now what happens if we run <code>[Dog ?x]</code>?</p>
+<pre><code class="language-Step"># Try: [Dog ?]
+[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.
+</code></pre>
+<p>You've only seen variables appear inside of methods.  But Step's command line lets you specify variables as parameters.  So what doesrunning <code>[Dog ?x]</code> do?</p>
+<ul>
+<li>It tries to match <code>Dog ?x</code> against the first method, <code>Dog benji</code>.  That succeeds, setting <code>?x</code>=<code>benji</code></li>
+<li>It runs the method, but the method doesn't print anything. It just finishes.</li>
+<li>The command line prints out <code>?x=benji</code></li>
+</ul>
+<p>So this query is like asking &quot;who is a dog?&quot;, or equivalently, &ldquo;give me the name of a dog.&rdquo;</p>
+<h3 id="methods-as-inference-rules">Methods as inference rules</h3>
+<p>Now suppse we add another task that doesn't print anything:</p>
+<pre><code class="language-step">[predicate]
+Animal ?x: [Dog ?x]
+Animal ?x: [Cat ?x]
+</code></pre>
+<p>When we run <code>[Animal lassie]</code>, it succeeds:</p>
+<pre><code class="language-Step"># Try: [Animal lassie]
+[predicate]
+Animal ?x: [Dog ?x]
+Animal ?x: [Cat ?x]
+
+[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.  
+</code></pre>
+<p>In detail, it:</p>
+<ul>
+<li>Tries to match the first method, i.e. matches <code>Animal lassie</code> to <code>Animal ?x</code>.  That works when <code>?x</code>=<code>lassie</code>.</li>
+<li>Then it runs <code>[Dog ?x]</code> which in this case means <code>[Dog lassie]</code>, since we know <code>?x</code> is <code>lassie</code>.</li>
+<li>That just recapitulates the example above, so it succeeds.</li>
+<li>So the method for <code>Animal</code> succeeds, and the call succeeds, even though nobody printed anything.</li>
+</ul>
+<p>If we run <code>[Animal garfield]</code>, that succeeds too:</p>
+<pre><code class="language-Step"># Try: [Animal garfield]
+[predicate]
+Animal ?x: [Dog ?x]
+Animal ?x: [Cat ?x]
+
+[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.  
+</code></pre>
+<p>But it's a little more complicated:</p>
+<ul>
+<li>It tries to match the first method, i.e. matches <code>Animal garfield</code> to <code>Animal ?x</code>.  That works when <code>?x</code>=<code>garfield</code>.</li>
+<li>Then it runs <code>[Dog ?x]</code> which in this case means <code>[Dog garfield]</code>, since we know <code>?x</code> is <code>garfield</code>.</li>
+<li>We already saw that that call fails, so the <code>Animal</code>'s first method fails.</li>
+<li>So it tries the second method for <code>Animal</code>.  It matches too, but this time, we run <code>[Cat garfield]</code> rather than <code>[Dog garfield]</code></li>
+<li>That succeeds, so the <code>Animal</code> method succeeds, and so the original call succeeds, again even though nobody printed anything.</li>
+</ul>
+<p>On the other hand, if we run <code>[Animal coffee]</code>, that call <em>fails</em>:</p>
+<pre><code class="language-Step"># Try: [Animal coffee]
+[predicate]
+Animal ?x: [Dog ?x]
+Animal ?x: [Cat ?x]
+
+[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.  
+</code></pre>
+<p>When it runs this,</p>
+<ul>
+<li>The first method matches, but tries to run <code>[Dog coffee]</code>, which fails</li>
+<li>The second method matches, but tries to run <code>[Cat coffee]</code>, which also fails</li>
+<li>Both methods having failed, the call fails.</li>
+</ul>
+<p>So, again <code>Animal</code> behaves like a test for animalhood: it succeeds when its argument is an animal.  It fails when the argument isn't an animal given the information available to the computer.  Once again, if we call <code>[Animal ?x]</code>, it will report back to us a value for <code>?x</code> that is an animal.  If we added <code>[randomly]</code> to all our tasks, then it would randomly chose the animal:</p>
+<pre><code class="language-Step"># Try: [Animal ?]
+[predicate] [randomly]
+Animal ?x: [Dog ?x]
+Animal ?x: [Cat ?x]
+
+[predicate] [randomly]
+Dog benji.
+Dog lassie.
+
+[predicate] [randomly]
+Cat morris.
+Cat garfield.  
+</code></pre>
+<p>Although the computer is really just matching calls to methods, we as humans can interpret the method:</p>
+<pre><code class="language-step">Animal ?x: [Dog ?x]
+</code></pre>
+<p>as a rule saying:</p>
+<blockquote>
+<p>If <span class="math">\(x\)</span> is a dog, then it's an animal</p>
+</blockquote>
+<p>Or equivalently:</p>
+<blockquote>
+<p>All dogs are animals</p>
+</blockquote>
+<p>And similarly, the method:</p>
+<pre><code class="language-step">Animal ?x: [Cat ?x]
+</code></pre>
+<p>can be interpreted as:</p>
+<blockquote>
+<p>All cats are animals.</p>
+</blockquote>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>The proper technical term for this is &ldquo;angelic nondeterminism&rdquo; or just &ldquo;nondeterminism&rdquo;, but clairvoyance is less intimidating and is a better metaphor anyway.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>As well talk about <a href="Predicates.html">shortly</a>, the <code>[predicate]</code> annotation simply tells Step not to consider failed calls to that task to be an error.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a><a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -73,27 +265,31 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-	<h4><a class="simplelink" href="index.html">Declarative Programming for Game Design</a></h4>
-	<h5>Ian Horswill</h5>
-	<br>
-	<p>
-			<h5>In this section:</h5>
-				<a class="simplelink" href="The_matching_process_in_detail.html"> The matching process in detail </a> <br>
-				<a class="simplelink" href="Failure.html"> Failed matches </a> <br>
-				<a class="simplelink" href="Predicates.html"> Predicates </a> <br>
+			<h5>Logic programming</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
+					<li><a class="backgroundlink" href="Magic.html" id="section_page_2"> Magic </a> <br></li>
+					<li><a class="backgroundlink" href="Behind_the_magic.html" id="section_page_3"> Okay, it&#x27;s not magic </a> <br></li>
+					<li><a class="backgroundlink" href="The_matching_process_in_detail.html" id="section_page_4"> The matching process in detail </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="The_matching_process_in_detail.html"><b>Next:</b> The matching process in detail</a><br>
+			<a class="simplelink" id="NextPage" href="Predicates.html"><b>Next:</b> Predicates</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Grammars.html"><b>Previous:</b> A brief introduction to the Step language</a><br>
+			<a class="simplelink" id="PreviousPage" href="Grammars.html"><b>Previous:</b> Simple grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Part_I.html"><b>Up:</b> Part I: Using declarative programming</a><br>
+			<a class="simplelink" id="UpPage" href="Part_I.html"><b>Up:</b> Part I</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
@@ -111,6 +307,8 @@
 		<div class="row">
 			<div class="col-10 col-lg-8 footer-contents">
 				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
 					Copyright &copy; 2025 Ian Horswill
 				</div>
 				<div class="text-muted">
@@ -120,6 +318,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
 
 <!-- this is required for bootstrap -->
 

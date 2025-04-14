@@ -1,0 +1,177 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Meaning is complicated</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Mies">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Meaning is complicated">
+	<meta name="twitter:title" content="Meaning is complicated">
+	<meta property="og:title" content="Meaning is complicated" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Background.html"> Background appendices </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Philosophy.html"> Philosophy </a>
+			<h1><a class="simplelink" href="index.html">Meaning is complicated</a></h1>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>The meaning of a sentence, it's <a href="Form_and_content.html">content</a> is extremely complicated.  Enough so that we basically don't understand meaning: all <a href="Formal_theories.html">formal theories</a> of meaning are basically wild oversimplifications.  To get a sense of how complicated meaning is, consider the following <a href="https://www.nytimes.com/2004/04/03/news/globalist-the-republicans-barbjohn-kerry-looks-french.html">news report from 2004</a> about presidential candidate John Kerry:</p>
+<blockquote>
+<p>A recent comment from [United States] Commerce Secretary Don Evans that the Massachusetts Democrat is &ldquo;of a different political stripe and looks French&rdquo; was only the latest of several jibes, mainly from conservative talk-show hosts and columnists, that have included allusions to &ldquo;Monsieur Kerry&rdquo; and &ldquo;Jean Chéri.&rdquo;</p>
+</blockquote>
+<p>Why did anyone care whether Kerry looked French?  Because in 2004, the US was in the middle of the <a href="https://simple.wikipedia.org/wiki/Iraq_War">Iraq War</a>.  Most US politicians and most US allies supported it, or at least didn't openly oppose it.  However France was highly critical of it, as was Kerry.  Anger at the French on the part of supporters of the war was sufficient that they attempted to rebrand &ldquo;french fries&rdquo; to <a href="https://en.wikipedia.org/wiki/Freedom_fries">Freedom Fries</a>.  So the comment that Kerry looked French was an attempt to both remind the audience of his opposition to the war and to frame him as un-American.</p>
+<p>Again, this is wildly beyond the our ability to model formally.  More or less everyone's theory of linguistic semantics, as well as nearly every language understanding program.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+<p>In practice, most theories of meaning, and all the theories used in math and logic focus on the <strong>literal meaning</strong> of statements.  There's no attempt to model metaphor, connotation, innuendo, or other subtleties of meaning.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>It's a little complicated to think about this in the context of large-language models, which are ultimately trying to guess the most likely next word in a sentence given what they've read on the internet.  When I ask &ldquo;what did Donald Evans mean when he said that John Kerry looked French?&rdquo; of Microsoft Copilot in April 2025, it replied: &ldquo;Donald Evans, who served as commerce secretary under George W. Bush, made the comment during John Kerry's 2004 presidential campaign. It was part of a broader Republican strategy to mock Kerry's ties to France, which included his fluency in French and his time spent in the country during his upbringing. The remark played into stereotypes and was meant to suggest that Kerry was &ldquo;worldly&rdquo; in a way that might alienate some American voters. It was a jab at Kerry's perceived sophistication and connection to a nation that had recently refused to support the U.S. in the Iraq war.&rdquo;  On the one hand, this is great.  On the other hand, it's culled from the web pages it cited.  If we ask it a similar question, &quot;Did Donald Evans think John Kerry opposed any wars in the middle east?&quot;, it's not clear whether it knows or not: &quot;Donald Evans didn't publicly express views on whether John Kerry opposed any wars in the Middle East. During the 2004 presidential campaign, Republicans, including Evans, focused on Kerry's stance on the Iraq War—highlighting his initial vote to authorize the use of force and his later criticism of the war's execution. This critique was aimed at questioning Kerry's consistency rather than addressing his broader opposition to Middle Eastern conflicts. If you'd like, I can share more about Kerry's foreign policy positions.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Philosophy</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Form_and_content.html" id="section_page_1"> Form and content </a> <br></li>
+					<li><a class="simplelink" href="Meaning.html" id="section_page_2"> <b> Meaning is complicated </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Extensionality.html" id="section_page_3"> Sense, reference, and extensionality </a> <br></li>
+					<li><a class="backgroundlink" href="Formal_theories.html" id="section_page_4"> Formal systems </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Extensionality.html"><b>Next:</b> Sense, reference, and extensionality</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="Form_and_content.html"><b>Previous:</b> Form and content</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="Philosophy.html"><b>Up:</b> Philosophy</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
