@@ -9,7 +9,7 @@
 	<title>Pattern matching in detail</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Pattern matching in detail">
@@ -46,10 +46,14 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Logic programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Under_the_hood.html"> Under the hood (technical) </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_matching_process_in_detail.html"> The matching process in detail </a>
 			<h1><a class="simplelink" href="index.html">Pattern matching in detail</a></h1>
 		</div>
@@ -80,93 +84,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>When you run a task, also known as calling the task, the system searches for a method that matches the parameters of the call.  In particular, it matches the parameters of the call to the part of the method before the colon, known as its head.  The head of the method:</p>
-<pre><code class="language-step">SomeTask 1 ?x: Bla bla bla
-</code></pre>
-<p>is the part that says <code>SomeTask 1 ?x:</code>.  It’s the part that specifies what parameters this method is appropriate for.  Parameters can either be variables, such as <code>?x</code>, that match anything or specific values that such as <code>1</code>, <code>john</code>, or <code>“Some quoted text”</code>.  Things that aren’t variables are called <strong>constants</strong>.  Constants can only match to themselves: 1 matches 1, but not 2; john matches john, but not 1 or 2.</p>
-<h2 id="examples">Examples</h2>
-<h3 id="all-constants">All constants</h3>
-<pre><code class="language-step">SomeTask 1 2: bla bla bla
-</code></pre>
-<p>Will only match a call with <code>1</code> and <code>2</code> for the parameters.</p>
-<h3 id="mixing-constants-and-variables">Mixing constants and variables</h3>
-<pre><code class="language-step">SomeTask 1 ?x: bla bla bla
-</code></pre>
-<p>Will match any call that has <code>1</code> for the first parameter.  The second parameter doesn't matter since <code>?x</code> can match anything.  However, <code>?x</code> will get set to whatever the second parameter is.</p>
-<pre><code class="language-step">SomeTask ?x 1: bla bla bla
-</code></pre>
-<p>Will match any call that has <code>1</code> for the second parameter, and <code>?x</code> will be set to the first parameter.</p>
-<h3 id="all-variables">All variables</h3>
-<pre><code class="language-step">SomeTask ?x ?y: bla bla bla
-</code></pre>
-<p>Will match any call at all.  <code>?x</code> will be set to the first parameter, and <code>?y</code> the second.</p>
-<pre><code class="language-step">SomeTask ?x ?x: bla bla bla
-</code></pre>
-<p>Will match any call at all in which <em>the two parameters are the same</em>.  <code>?x</code> will be set to that shared value.</p>
-<p>The last example here brings up an important point: if a variable appears more than once in a method, it must have the same value each time.</p>
-<p>Let’s look at which methods each of the following calls would match.  To save space, I’ve changed the name of the task from <code>SomeTask</code> to just <code>Task</code>:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th><code>Task 1 2:</code></th>
-<th><code>Task 1 ?x:</code></th>
-<th><code>Task ?x 1:</code></th>
-<th><code>Task ?x ?y:</code></th>
-<th><code>Task ?x ?x:</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>[Task 1 1]</code></td>
-<td>No</td>
-<td>Yes: <code>?x</code>=1</td>
-<td>Yes: <code>?x</code>=1</td>
-<td>Yes: <code>?x</code>=1, <code>?y</code>=1</td>
-<td>Yes: <code>?x</code>=1</td>
-</tr>
-<tr>
-<td><code>[Task 1 2]</code></td>
-<td>Yes</td>
-<td>Yes: <code>?x</code>=2</td>
-<td>No</td>
-<td>Yes: <code>?x</code>=1, <code>?y</code>=2</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>[Task 1 3]</code></td>
-<td>No</td>
-<td>Yes: <code>?x</code>=3</td>
-<td>No</td>
-<td>Yes: <code>?x</code>=1, <code>?y</code>=3</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>[Task 2 1]</code></td>
-<td>No</td>
-<td>No</td>
-<td>Yes: <code>?x</code>=2</td>
-<td>Yes: <code>?x</code>=2, <code>?y</code>=1</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>[Task 2 2]</code></td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>Yes: <code>?x</code>=2, <code>?y</code>=2</td>
-<td>Yes: <code>?x</code>=2</td>
-</tr>
-<tr>
-<td><code>[Task 2 3]</code></td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>Yes: <code>?x</code>=2, <code>?y</code>=3</td>
-<td>No</td>
-</tr>
-</tbody>
-</table>
+<h1 id="under-construction">Under construction</h1>
 
 
 

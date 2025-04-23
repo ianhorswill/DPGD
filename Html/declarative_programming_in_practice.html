@@ -9,7 +9,7 @@
 	<title>Declarative programming in practice</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Declarative programming in practice">
@@ -46,9 +46,11 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Introduction.html"> Introduction </a>
+				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Limitations.html"> Limitations </a>
 			<h1><a class="simplelink" href="index.html">Declarative programming in practice</a></h1>
 		</div>
@@ -81,9 +83,10 @@
 
 <p>Finally, declarative programming often does require thinking beyond the spec to how the spec will be used by the specific solver you’re using.  Returning to our connectedness definition from above, that nodes are connected to themselves and also connect to the things their neighbors are connected to:</p>
 <pre><code class="language-step">Connected ?x ?x. 
-Connected ?x ?z: [Edge ?x ?y] [Connected ?x ?z]
+Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 </code></pre>
-<p>This works fine in virtually any logic programming language.  But in many of them, it won’t work if we either reverse the order of the two rules, or if we reverse the order of the <code>[]</code>’ed expressions in the second rule.  This is simply because of the way their solvers work: they are order-sensitive.  This isn’t necessarily a problem.  Programmers internalize this knowledge and over time forget that the other orderings are even possible.  But it’s a reminder that declarativity is an aspiration that can never be fully achieved.</p>
+<p>This works fine in virtually any logic programming language.  But in many of them, it won’t work if we either reverse the order of the two rules, or if we reverse the order of the <code>[]</code>’ed expressions in the second rule.  This is simply because of the way their solvers work: they are order-sensitive.</p>
+<p>This isn’t necessarily a problem.  Programmers internalize this knowledge and over time, to the point they forget that the other orderings are even possible.  But it’s a reminder that declarativity is an aspiration that can never be fully achieved.</p>
 
 
 

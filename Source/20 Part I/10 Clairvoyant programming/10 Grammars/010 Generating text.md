@@ -19,7 +19,7 @@ Hello: Hola!
 Hello: Hi there!
 Hello: Bon jour!
 ```
-Each of these lines specifies a different way of saying hello.  For reasons that become clear [soon](pattern_matching), Step, will always choose the first rule it finds, rendering the others irrelevant.  To make it choose rules randomly, just add annotation `[randomly]` at the beginning:
+Each of these lines specifies a different way of saying hello.  For reasons that become clear [soon](pattern_matching), if two rules will both work, Step will prefer the one that appears first in the list.  But we can override this by adding the annotation `[randomly]` at the beginning, which tells it to choose the rules randomly:
 ```Step
 # Try: [Hello]
 [randomly]

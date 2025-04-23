@@ -9,7 +9,7 @@
 	<title>Part I: Using declarative programming</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Part I: Using declarative programming">
@@ -46,6 +46,8 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 			<h1><a class="simplelink" href="index.html">Part I: Using declarative programming</a></h1>
@@ -77,13 +79,46 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Part I describes how to use different declarative programming technologies, without much attention to how they're implemented under the hood (that will come in <a href="Part_II.html">Part II</a>).  We don't assume any significant programming experience, however we include deeper discussions for those with more technical background.</p>
-<p>Most of the examples will use the <a href="https://github.com/ianhorswill/Step">Step</a>, an open-source programming language written in C#.  It's easy to include in Unity or Godot projects.  And you can try it interactively in your browser by clicking on any of the Step code fragments in the following pages.  We'll teach you Step as we go along.</p>
-<p>Part I is organized based on different kinds of declarative formalisms.  We start with <a href="Grammars.html">grammars</a>, which aren't usually thought of as a declarative language, but technically are.  They're also very useful for anyone who wants to generate or parse text, and so they're extensively used in games.</p>
-<p>Having introduced grammars, we'll talk about how the same basic framework can be used for an approximation logical inference.  This is known as <a href="Logic_programming.html">logic programming</a>.  Classical LP is the most commonly used form of declarative programming.</p>
-<p>We will then discuss how grammars can be made much more powerful by integrating logic programming into them.  These are known as definite-clause grammars.</p>
-<p>Then at some point we'll talk about planning.</p>
-<p>Then we'll talk about constraint programming, which is both more and less powerful than classical logic programming, and both harder and easier to debug.  We'll explain what we mean by this when we get to them.</p>
+<p>Now we'll discuss how to use different declarative programming technologies, without much attention to how they're implemented under the hood (that will come in <a href="Part_II.html">Part II</a>).  We don't assume any significant programming experience, however we include deeper discussions for those with more technical background.</p>
+<p>All declarative programming systems involve a technique that I'll call &ldquo;clairvoyance.&rdquo;  Let's talk about what that means.</p>
+<h2 id="decision-making-in-computers">Decision-making in computers</h2>
+<p>It's common for people to talk about programs making &quot;decisions.&quot;<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  That generally takes the form of something like an <code>if</code> statement (don't worry if this is new to you):</p>
+<pre><code class="language-C#">if (condition) {
+    // Option 1
+} else {
+    // Option 2
+}
+</code></pre>
+<p>The computer tests whether <code>condition</code> is true.  If so, it chooses option 1, otherwise option 2.  Nearly all programs have these.  The general pattern here is:</p>
+<blockquote>
+<p>information → decision</p>
+</blockquote>
+<h2 id="delayed-feedback">Delayed feedback</h2>
+<p><img src="Traquair_House_Maze.jpg" alt="Traquair House Maze, from Wikipedia" /></p>
+<p>The problem is we often must make decisions <em>before</em> we know the right option.  When moving through a maze, we make many left/right/straight decisions before we find out if they were correct.  So the order is reversed:</p>
+<blockquote>
+<p>decision → information</p>
+</blockquote>
+<p>In the absence of timely information, we're left with exploration. We try things, back up, and try other things, until we find something that works.  However, keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  A large chunk of a typical undergraduate AI course is devoted just to the management of that bookkeeping.</p>
+<h2 id="clairvoyance">Clairvoyance</h2>
+<p>Programming would be easier if your computer was a Jedi.  You'd tell it the options available and the force would whisper in its ear which option to choose.  In computer science, this is known as <em>non-deterministic choice</em> and is a useful/good thing.  However, many other things are referred to as non-determinism, all of which are bad.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Also, it sounds like technobabble and fails to communicate why anyone would think it was a good idea.  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of non-determinism.</p>
+<p>Clairvoyant systems behave <em>as if</em> they see the future and always make the right choice.  Behind the scenes, the computer is of course trying things, backing up, and trying other things until it finds something that works.  But these systems allow you to delegate that process to the computer.</p>
+<h2 id="clairvoyant-languages">Clairvoyant languages</h2>
+<p>We'll start by talking about what I'll call <strong>clairvoyant programming</strong><a id="fnref:3" href="#fn:2" class="footnote-ref"><sup>2</sup></a>.  Grammars, planners, and logic programming all fall under this rubric.  These languages let you <em>underspecify</em> your programs, leaving many choices up to the computer.  The machine behaves as if it always makes the right choice, even though behind the scenes it's trying alternatives until it finds something that works.  Again, the important thing is that you can mostly ignore that process.</p>
+<h2 id="constraint-programming">Constraint programming</h2>
+<p>Then we'll talk about <strong>constraint programming</strong>.  This also involves having the system make a series of decisions and assuming it always guesses right.  However, whereas the systems we talk about under clairvoyant programming feel like programming languages, constriant programs feels more like questions on IQ tests.  Unlike real IQ tests, you just write them; the computer solves them.  Constriant programming is both more and less powerful than clairvoyant programming, and both harder and easier to debug.  We'll explain what we mean by this when we get to it.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Decision making is necessary to <a href="https://en.wikipedia.org/wiki/Turing_completeness">Turing completeness</a>: the ability for a language or computer to be truly general-purpose.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>The &ldquo;good&rdquo; sense of non-determininism is sometimes referred to as <em>angelic</em> non-determinism to distinguish it from the bad kinds.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a><a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -97,8 +132,8 @@
 <div class="container-fluid sidebar">
 			<h5>Part I</h5>
 			<ol>
-					<li><a class="backgroundlink" href="Grammars.html" id="section_page_1"> Simple grammars </a> <br></li>
-					<li><a class="backgroundlink" href="Logic_programming.html" id="section_page_2"> Logic programming </a> <br></li>
+					<li><a class="backgroundlink" href="Clairvoyant_programming.html" id="section_page_1"> Clairvoyant programming </a> <br></li>
+					<li><a class="backgroundlink" href="Constraint_programming.html" id="section_page_2"> Constraint programming </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -109,11 +144,11 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Grammars.html"><b>Next:</b> Simple grammars</a><br>
+			<a class="simplelink" id="NextPage" href="Clairvoyant_programming.html"><b>Next:</b> Clairvoyant programming</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Introduction.html"><b>Previous:</b> Introduction</a><br>
+			<a class="simplelink" id="PreviousPage" href="Introduction.html"><b>Previous:</b> Technical introduction</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>

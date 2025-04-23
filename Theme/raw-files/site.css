@@ -10,8 +10,12 @@ h1, h2, h3 {
 	text-align: left;
 }
 
+h2 {
+	margin-top: 2rem;
+}
+
 .header {
-	margin-bottom: 2rem;
+	margin-bottom: 0rem;
 }
 
 .header-contents {
@@ -46,11 +50,11 @@ h1, h2, h3 {
 }
 
 .footer {
-	margin-top: 2rem;
+	margin-top: 0rem;
 }
 
 .footer-contents {
-	padding: 2rem;
+	padding: rem;
 }
 
 div.sidebar {

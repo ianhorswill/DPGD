@@ -9,7 +9,7 @@
 	<title>Matching variables with variables</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Matching variables with variables">
@@ -46,10 +46,14 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Logic programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Under_the_hood.html"> Under the hood (technical) </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_matching_process_in_detail.html"> The matching process in detail </a>
 			<h1><a class="simplelink" href="index.html">Matching variables with variables</a></h1>
 		</div>
@@ -80,60 +84,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>In the table above, we only included variables in the method heads, not in the calls.  But you can include a variable in a call too.  This behaves differently, depending on whether the system has already matched that variable to a value.  If we say <code>[Task ?a 2]</code> but the system has already matched <code>?a</code> to <code>1</code>, then we’re really just doing <code>[Task 1 2]</code>, and we can use the previous table.  But if the system has never matched <code>?a</code> to anything, then <code>?a</code> can be matched freely.  That means three things:</p>
-<ul>
-<li>Specifying the variable in the call doesn’t restrict the methods that can be used, since it will match anything</li>
-<li>The variable in the call can be given a value by the method being called, as a result of the matching.</li>
-<li>The matching process can result in the system deciding that two variables must have the same value, without yet having a value for either (see below).</li>
-</ul>
-<p>Let’s look at what does and doesn’t match when we put variables in the call:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th><code>Task 1 2:</code></th>
-<th><code>Task 1 ?x:</code></th>
-<th><code>Task ?x 1:</code></th>
-<th><code>Task ?x ?y:</code></th>
-<th><code>Task ?x ?x:</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>[Task 1 ?a]</code></td>
-<td>Yes; <code>?a</code>=2</td>
-<td>Yes: <code>?a</code>=<code>?x</code></td>
-<td>Yes: <code>?x</code>=1, <code>?a</code>=2</td>
-<td>Yes: <code>?x</code>=1, <code>?y</code>=<code>?a</code></td>
-<td>Yes: <code>?x</code>=1, <code>?a</code>=1</td>
-</tr>
-<tr>
-<td><code>[Task ?a 1]</code></td>
-<td>No</td>
-<td>Yes: <code>?x</code>=2, <code>?a</code>=1</td>
-<td>Yes: <code>?a</code>=<code>?x</code></td>
-<td>Yes: <code>?x</code>=<code>?a</code>, <code>?y</code>=1</td>
-<td>Yes: <code>?x</code>=1, <code>?a</code>=1</td>
-</tr>
-<tr>
-<td><code>[Task ?a ?b]</code></td>
-<td>Yes: <code>?a</code>=1,<code>?b</code>=2</td>
-<td>Yes: <code>?a</code>=1,<code>?b</code>=<code>?x</code></td>
-<td>Yes: <code>?a</code>=<code>?x</code>,<code>?b</code>=1</td>
-<td>Yes: <code>?x</code>=<code>?a</code>,<code>?y</code>=<code>?b</code></td>
-<td>Yes: <code>?a</code>=<code>?b</code>=<code>?x</code></td>
-</tr>
-<tr>
-<td><code>[Task ?a ?a]</code></td>
-<td>No</td>
-<td>Yes: <code>?a</code>=<code>?x</code>=1</td>
-<td>Yes: <code>?a</code>=<code>?x</code>=1</td>
-<td>Yes: <code>?x</code>=<code>?y</code>=<code>?a</code></td>
-<td>Yes: <code>?x</code>=<code>?a</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>FIXTHIS:</strong> Notice that for many of these, specifically the ones in green, the system is able to match the variables, but doesn’t come away from it knowing what the values of some of the variables are.  It only knows that certain variables have have the same values as one another.  It remembers that, so that if it matches either variable to a value in the future, then it will know that both variables must have that value.</p>
+<h1 id="under-construction">Under construction</h1>
 
 
 

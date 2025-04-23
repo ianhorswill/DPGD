@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>The role of math</title>
+	<title>Asking questions of predicates</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="The role of math">
-	<meta name="twitter:title" content="The role of math">
-	<meta property="og:title" content="The role of math" />
+	<meta itemprop="name" content="Asking questions of predicates">
+	<meta name="twitter:title" content="Asking questions of predicates">
+	<meta property="og:title" content="Asking questions of predicates" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -46,10 +46,14 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Introduction.html"> Introduction </a>
-			<h1><a class="simplelink" href="index.html">The role of math</a></h1>
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
+			<h1><a class="simplelink" href="index.html">Asking questions of predicates</a></h1>
 		</div>
 	</div>
 </div>
@@ -78,7 +82,75 @@
 
 			<div class="container shadow blog-contents">
 
-<p>This book will involve a certain amount of math, or to be more precise, formalism.  There will be very little arithmetic and no calculus whatsoever.  But we will use concepts from math to define specifications and algorithms and in some cases to prove why things work (or don’t).  The goal here is clarity, not obscurity.  I promise not to use Greek letters when code or English sentences will work just as well.  We’ll use math for three things.</p>
+<p>Here's a little database of characters and what kinds of cuisine they like.  <code>[Likes tanya sushi]</code> means that Tanya likes sushi.  More generally, <code>[Likes ?who  ?what]</code> means <code>?who</code> likes <code>?what</code>:</p>
+<pre><code class="language-Step"># Try: [Likes tanya sushi]
+[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+</code></pre>
+<p>You ask a predicate a question by calling it.  It succeeds if the answer is yes.  It fails if the answer is no.  If the answer is yes and one or more of the parameters in the call are variables, it will fill them in with values that make it true.  So we can ask different questions with different patterns of variables in the calls:</p>
+<table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Meaning</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Likes tanya sushi]</code></td>
+<td>Does Tanya like sushi?</td>
+<td>Yes (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes jayden sushi]</code></td>
+<td>Does Jayden like sushi?</td>
+<td>No (call fails)</td>
+</tr>
+<tr>
+<td><code>[Likes tanya ?]</code></td>
+<td>What does Tanya like?</td>
+<td>?=sushi (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes ? sushi]</code></td>
+<td>Who likes sushi?</td>
+<td>?=tanya (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes ?a ?b]</code></td>
+<td>What's something that somebody likes?</td>
+<td>?a=tanya,?b=sushi (call succeeds)</td>
+</tr>
+</tbody>
+</table>
+<p>In this case, we've just listed the first solution to the queries that had <code>?</code>s.  But if <code>Likes</code> were marked <code>[randomly]</code>, then it would generate different valid results on different calls:</p>
+<ul>
+<li><code>[Likes tanya ?]</code> could generate: sushi, burgers, Medican, or pizza.</li>
+<li><code>[Likes ? sushi]</code> could generate Tanya or Kimiko</li>
+</ul>
+<h2 id="complex-queries">Complex queries</h2>
+<p>Now lets say we have it do multiple calls in a row: <code>[Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]</code>.  That's asking: is there a single <code>?what</code> that all three of them like?  That has two answers: burgers and pizza.  Try it out now.  You'll find it always answers <code>burgers</code>, because that's the first answer in the list.  But if you add <code>[randomly]</code> after the <code>[predicate]</code> declaration, then it will randomly switch between the two.</p>
+<pre><code class="language-Step"># Try: [Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]
+[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+</code></pre>
 
 
 
@@ -90,11 +162,14 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>The role of math</h5>
+			<h5>Simple logic programs</h5>
 			<ol>
-					<li><a class="backgroundlink" href="Clarity_of_notation.html" id="section_page_1"> Clarity of notation </a> <br></li>
-					<li><a class="backgroundlink" href="Math_as_abstract_data_type.html" id="section_page_2"> Abstract data types for algorithms </a> <br></li>
-					<li><a class="backgroundlink" href="Discussing_the_limits_of_things.html" id="section_page_3"> Discussing the limits of things </a> <br></li>
+					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
+					<li><a class="simplelink" href="Asking_questions.html" id="section_page_2"> <b> Asking questions of predicates </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Inference.html" id="section_page_3"> Inference </a> <br></li>
+					<li><a class="backgroundlink" href="Magic.html" id="section_page_4"> Magic </a> <br></li>
+					<li><a class="backgroundlink" href="Clairvoyance.html" id="section_page_5"> A deeper magic: clairvoyance </a> <br></li>
+					<li><a class="backgroundlink" href="Under_the_hood.html" id="section_page_6"> Under the hood (technical) </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -105,15 +180,15 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Clarity_of_notation.html"><b>Next:</b> Clarity of notation</a><br>
+			<a class="simplelink" id="NextPage" href="Inference.html"><b>Next:</b> Inference</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Advantages.html"><b>Previous:</b> Advantages</a><br>
+			<a class="simplelink" id="PreviousPage" href="Predicates.html"><b>Previous:</b> Predicates</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Introduction.html"><b>Up:</b> Introduction</a><br>
+			<a class="simplelink" id="UpPage" href="Logic_programming.html"><b>Up:</b> Simple logic programs</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

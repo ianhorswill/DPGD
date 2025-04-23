@@ -1,6 +1,10 @@
 ---
 pagetitle: Formal systems
 ---
+
+# Under construction
+
+# nopublish
 This book is about better formalisms for game designers.  If you’re writing a computer game, you’re using formalisms.  Different formalisms have different strengths and weaknesses, and this book seeks to introduce you some that may be better suited than the ones you know.
 
 Formalism is an intimidating word, in part because college courses tend to use it without explaining what it means.  Students are exposed to formalisms without discussing why formalizing something might be useful.

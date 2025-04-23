@@ -35,4 +35,4 @@ If you don’t tag a task with `[randomly]`, then Step will always try its metho
 
 > Mr. Boss gave themself a nice raise.
     
-But in the Mary/Jill example, the parameters can’t match to that first method.  So Step abandons that method and moves on to the next method, which works properly.
+But in the Mary/Jill example, the parameters can’t match to that first method.  The first method **fails**.  So Step abandons that method and moves on to the next method, which works properly.

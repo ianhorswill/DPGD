@@ -3,6 +3,12 @@ pagetitle: Basic relationships between sets and objects
 ---
 Many of the questions we might want to answer about a given set involve its relationship to potential elements or to other sets.
 
+## Summary if you have math anxiety
+
+The most basic thing you can ask about a set $S$ is whether some object $o$ is a member of it.  If it is, our shorthand for that is $o \in S$.  Based on that we can ask whether the elements of one set $S_1$ are also elements of another set $S_2$.  If they are, we say $S_1$ is *contained in* $S_2$, and write it as $S_1 \subseteq S_2$.  If the two sets are each contained in the other, they're the same set and we say $S_1 = S_2$.
+
+Feel free to skip to the next page.
+
 ## Membership: $$\in$$ and $$\notin$$
 
 Membership is a relationship between an object and a set. If an object $$x$$ is a member of a set $$S$$, we write that as:
@@ -30,7 +36,7 @@ $$A\not\subseteq B$$
 
 ## Equality: $$=$$ and $$\neq$$
 
-As we mentioned before, two sets $$A$$ and $$B$$ are equal if and only if they have the exact same elements.  We notate that with an equals sign, just like with anything else:
+As we mentioned before, two sets $$A$$ and $$B$$ [are equal when they have the exact same elements](extensionality).  We notate that with an equals sign, just like with anything else:
 $$
 A=B
 $$

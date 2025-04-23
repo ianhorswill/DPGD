@@ -10,7 +10,7 @@ Hello: Bon jour!
 ```
 This is a grammar with one kind of phrase, `Hello`, and several rules for it.  We're representing our grammar as a program in the Step language, and Step is more versatile than just a grammar system.  So let's mention how Step thinks of this program:
 
-* `Hello` is called a **task** in Step terminology. Task just means little program.  Tasks are named.  Their names must start with a capital letter.
+* `Hello` is called a **task** in Step terminology. Task just means little program.  Tasks are named and their names must start with a capital letter.
 * Each rule is called a **method** for its task.  Each gives a different way of performing the task.
 * The `[randomly]` annotation at the beginning is a **declaration** telling Step something about the nature of the `Hello` task, in this case, to choose methods randomly.
 
@@ -34,6 +34,6 @@ Hello:
 
 ## Esoterica
 
-"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called "hierarchical task network planners", aka HTN planners, that, for their own reasons used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.
+"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called "hierarchical task network planners", aka HTN planners.  HTNs, for their own reasons, used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.
 
 "Method" means close to the same thing as "method" or "overload" in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently.

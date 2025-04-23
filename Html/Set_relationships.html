@@ -9,7 +9,7 @@
 	<title>Basic relationships between sets and objects</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Basic relationships between sets and objects">
@@ -46,6 +46,8 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Background.html"> Background appendices </a>
@@ -82,6 +84,9 @@
 			<div class="container shadow blog-contents">
 
 <p>Many of the questions we might want to answer about a given set involve its relationship to potential elements or to other sets.</p>
+<h2 id="summary-if-you-have-math-anxiety">Summary if you have math anxiety</h2>
+<p>The most basic thing you can ask about a set <span class="math">\(S\)</span> is whether some object <span class="math">\(o\)</span> is a member of it.  If it is, our shorthand for that is <span class="math">\(o \in S\)</span>.  Based on that we can ask whether the elements of one set <span class="math">\(S_1\)</span> are also elements of another set <span class="math">\(S_2\)</span>.  If they are, we say <span class="math">\(S_1\)</span> is <em>contained in</em> <span class="math">\(S_2\)</span>, and write it as <span class="math">\(S_1 \subseteq S_2\)</span>.  If the two sets are each contained in the other, they're the same set and we say <span class="math">\(S_1 = S_2\)</span>.</p>
+<p>Feel free to skip to the next page.</p>
 <h2 id="membership-and">Membership: <span class="math">\(\in\)</span> and <span class="math">\(\notin\)</span></h2>
 <p>Membership is a relationship between an object and a set. If an object <span class="math">\(x\)</span> is a member of a set <span class="math">\(S\)</span>, we write that as:</p>
 <div class="math">
@@ -107,7 +112,7 @@ A \subset B
 <p>If <span class="math">\(A\)</span> has elements that <span class="math">\(B\)</span> doesn't, then it's not contained in <span class="math">\(B\)</span>, notated:
 <span class="math">\(A\not\subseteq B\)</span></p>
 <h2 id="equality-and">Equality: <span class="math">\(=\)</span> and <span class="math">\(\neq\)</span></h2>
-<p>As we mentioned before, two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> are equal if and only if they have the exact same elements.  We notate that with an equals sign, just like with anything else:</p>
+<p>As we mentioned before, two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> <a href="Extensionality.html">are equal when they have the exact same elements</a>.  We notate that with an equals sign, just like with anything else:</p>
 <div class="math">
 \[
 A=B

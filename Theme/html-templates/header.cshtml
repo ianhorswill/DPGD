@@ -57,9 +57,11 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-			@foreach (var page in @Model.AncestorsNoTop) {
+						@foreach (var page in @Model.AncestorsNoTop) {
 				@if (page.Up.Up != null)
 				{
 					<text>&nbsp;&#x25BB;&nbsp;</text>

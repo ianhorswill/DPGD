@@ -9,7 +9,7 @@
 	<title>Grammars</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Grammars">
@@ -46,9 +46,11 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Introduction.html"> Introduction </a>
+				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Declarative_programming_examples.html"> Examples </a>
 			<h1><a class="simplelink" href="index.html">Grammars</a></h1>
 		</div>
@@ -79,26 +81,69 @@
 
 			<div class="container shadow blog-contents">
 
-<p>A formal grammar is a set of rules that define the syntax of a language.  In programming, we generally use some variation on context-free grammars, which specify a set of possible tokens (words), a set of possible phrase types, and rules for how phrased types can be replaced by different sequences of tokens and/or other phrase types.  A given phrase may have many different rules for alternative constructions of the phrase.
-Formal grammars are used in games for generating random text.  For example, the game <a href="https://en.wikipedia.org/wiki/Caves_of_Qud"><em>Caves of Qud</em></a> generates procedural histories using rules like (adapted from <a href="https://www.gdcvault.com/play/1024990/Procedurally-Generating-History-in-Caves">Grinblat GDC 2018</a>):</p>
-<div class="math">
-\[
-\begin{align}
-Event &amp;\rightarrow \text{Acting against Injustice,}\; SultanName \; \text{led an army to the gates of } Location. \\
-Injustice &amp;\rightarrow \text{the persecution of}\; FactionName
-\end{align}
-\]</div>
-<p>Different rules can be added for different kinds of events, injustices, and so on, allowing the system to be extended in a data-driven manner.
-A less obvious, but more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult, since the program can only read one token at a time but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as (here the vertical bar means “or”):</p>
-<div class="math">
-\[
-\begin{align}
-Expression &amp; \rightarrow Expression+Expression\; | \;Expression-Expression\; |\;  Term \\
-Term &amp; \rightarrow Term*Term\; |\; Term / Term\; |\;  Factor \\
-Factor &amp; \rightarrow Number\; |\; Variable \; |\;  ( Expression )
-\end{align}
-\]</div>
-<p>A parser generator then reads this declarative specification and automatically produces the imperative code for a parser from it.
+<p>A formal grammar is a set of rules that define the syntax of a language.  Most commonly, these are variations on <strong>context-free grammars</strong>.  They specify a set of possible possible phrase types and templates for how a given type of phrase can be constructed from other phrases.</p>
+<h2 id="text-generation">Text generation</h2>
+<p>Formal grammars are used in games for generating random text.  For example, the game <a href="https://en.wikipedia.org/wiki/Caves_of_Qud"><em>Caves of Qud</em></a> generates procedural histories using rules like (adapted from <a href="https://www.gdcvault.com/play/1024990/Procedurally-Generating-History-in-Caves">Grinblat GDC 2018</a>):</p>
+<pre><code class="language-step">Event: Acting against [Injustice], [SultanName] led an army to the gates of [Location].
+Injustice: the persecution of [FactionName]
+</code></pre>
+<p>Rules can be added for different kinds of events, injustices, and so on, extending the system in a data-driven manner.  Here, I've added a few more rules of my own to make a version in the Step language that you can run.  Click below to try it and pres the Run button a few times:</p>
+<pre><code class="language-Step"># Try: [Event]
+[randomly]
+Event: Acting against [Injustice], [SultanName] led an army to the gates of [Location].
+Event: [SultanName] set out on a quest to find the lost city of [Location]
+[randomly]
+Injustice: the persecution of [FactionName]
+Injustice: the enslavement of innocents
+
+[randomly]
+SultanName: [Name] [SerialNumber]
+SultanNAme: [Name] the [Attribute]
+
+[randomly]
+Name: Dragobar
+Name: Biralley
+Name: Equibina
+Name: Samuel
+
+[randomly]
+SerialNumber: I
+SerialNumber: II
+SerialNumber: III
+SerialNumber: IV
+SerialNumber: V
+
+[randomly]
+Attribute: Horrible
+Attribute: Just
+Attribute: Great
+Attribute: Extremely Polite
+
+[randomly]
+FactionName: antelopes
+FactionName: cats
+FactionName: Daughters of Exile
+FactionName: Consortium of Phyta
+
+[randomly]
+Location: Margaritaville
+Location: Gyllaba
+Location: Rhepa
+Location: Ebullia
+</code></pre>
+<h2 id="parsing">Parsing</h2>
+<p>A more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult, since the program can only read one token at a time but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as:</p>
+<pre><code class="language-step">Expression: [Expression] + [Expression]
+Expression: [Expression] - [Expression]
+Expression: [Term]
+Term: [Term] * [Term]
+Term: [Term] / [Term]
+Term: [Factor]
+Factor: [Number]
+Factor: [Variable]
+Factor: ( [Expression] )
+</code></pre>
+<p>A <a href="https://en.wikipedia.org/wiki/Comparison_of_parser_generators">parser generator</a> then reads this declarative specification and automatically produces the imperative code for a parser from it.
 What makes this declarative programming is that the grammar specifies what the language is without specifying directly how to parse or generate strings within it.</p>
 
 

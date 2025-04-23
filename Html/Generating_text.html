@@ -9,7 +9,7 @@
 	<title>Grammar rules</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Grammar rules">
@@ -46,9 +46,12 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
 			<h1><a class="simplelink" href="index.html">Grammar rules</a></h1>
 		</div>
@@ -94,7 +97,7 @@ Hello: Hola!
 Hello: Hi there!
 Hello: Bon jour!
 </code></pre>
-<p>Each of these lines specifies a different way of saying hello.  For reasons that become clear <a href="Pattern_matching.html">soon</a>, Step, will always choose the first rule it finds, rendering the others irrelevant.  To make it choose rules randomly, just add annotation <code>[randomly]</code> at the beginning:</p>
+<p>Each of these lines specifies a different way of saying hello.  For reasons that become clear <a href="Pattern_matching.html">soon</a>, if two rules will both work, Step will prefer the one that appears first in the list.  But we can override this by adding the annotation <code>[randomly]</code> at the beginning, which tells it to choose the rules randomly:</p>
 <pre><code class="language-Step"># Try: [Hello]
 [randomly]
 Hello: Hello world!

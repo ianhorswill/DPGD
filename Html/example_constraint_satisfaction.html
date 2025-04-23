@@ -9,7 +9,7 @@
 	<title>Constraint satisfaction</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Constraint satisfaction">
@@ -46,9 +46,11 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Introduction.html"> Introduction </a>
+				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Declarative_programming_examples.html"> Examples </a>
 			<h1><a class="simplelink" href="index.html">Constraint satisfaction</a></h1>
 		</div>
@@ -82,6 +84,32 @@
 <p>Constraint satisfaction also involves describing a problem in terms of relationships and rules.  In constraint satisfaction, we present the system with a set of choices to make, each with a set of options, together with a set of relationships that are required or forbidden to hold between the choices.</p>
 <p>For example, if we are making a character for a game, we may want to choose a personality for them.  A common personality representation in games is the “bag of traits” model: each character has some small number of traits (e.g. 2 or 3) chosen from a much larger collection of possible traits.  Traits might be very general, such as “introvert” or “liar”, or very specific, such as “cat person” or “natural born salesman.”  Often times these traits are correlated in some way, either because they’re mutually exclusive or because one necessarily implies the other.  So if a game is to randomly generate character personalities, it must take care not to generate contradictory personalities such as introverted extroverts.</p>
 <p>We can do this using a constraint satisfaction system by giving it the set of possible traits (choices), the set of restrictions on combinations (constraints), and the requirement that it choose a particular number of traits.  This is used the the SomaSim game <a href="https://www.kasedogames.com/cityofgangsters"><em>City of Gangsters</em></a>.</p>
+<h2 id="generating-random-cats">Generating random cats</h2>
+<p>Here is a constraint program for generating random cats in the <a href="https://github.com/ianhorswill/Imaginarium">Imaginarium</a>:</p>
+<pre><code class="language-text">A cat is a kind of person.
+Persian, tabby, Siamese, manx, Chartreux, and Maine coon are kinds of cat.
+Cats have an age between 1 and 20.
+Cats are male or female.
+A male cat has a name from male cat names
+A female cat has a name from female cat names
+Cats are long-haired or short-haired.
+Cats can be big or small.
+Cats can be cuddly or haughty.
+A cat can be staid or crazy.
+The plural of Chartreux is Chartreux.
+The plural of Siamese is Siamese.
+Chartreux are grey.
+Siamese are grey.
+Persians are long-haired.
+Siamese are short-haired.
+Maine coons are large.
+Cats are black, white, grey, or ginger.
+
+Cats can love one other cat.
+Cats can hate one other cat.
+Love and hate are mutually exclusive.
+</code></pre>
+<h2 id="todo-compile-imaginarium-for-webassembly">TODO: Compile Imaginarium for webassembly</h2>
 
 
 

@@ -9,7 +9,7 @@
 	<title>Tasks and methods</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Tasks and methods">
@@ -46,9 +46,12 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
 			<h1><a class="simplelink" href="index.html">Tasks and methods</a></h1>
 		</div>
@@ -87,7 +90,7 @@ Hello: Bon jour!
 </code></pre>
 <p>This is a grammar with one kind of phrase, <code>Hello</code>, and several rules for it.  We're representing our grammar as a program in the Step language, and Step is more versatile than just a grammar system.  So let's mention how Step thinks of this program:</p>
 <ul>
-<li><code>Hello</code> is called a <strong>task</strong> in Step terminology. Task just means little program.  Tasks are named.  Their names must start with a capital letter.</li>
+<li><code>Hello</code> is called a <strong>task</strong> in Step terminology. Task just means little program.  Tasks are named and their names must start with a capital letter.</li>
 <li>Each rule is called a <strong>method</strong> for its task.  Each gives a different way of performing the task.</li>
 <li>The <code>[randomly]</code> annotation at the beginning is a <strong>declaration</strong> telling Step something about the nature of the <code>Hello</code> task, in this case, to choose methods randomly.</li>
 </ul>
@@ -107,7 +110,7 @@ Hello:
 [end]
 </code></pre>
 <h2 id="esoterica">Esoterica</h2>
-<p>&ldquo;Task&rdquo; means basically the same thing as &ldquo;procedure&rdquo; or &ldquo;subroutine&rdquo; in other languages.  The term &ldquo;task&rdquo; is used because Step descends from a line of languages called &ldquo;hierarchical task network planners&rdquo;, aka HTN planners, that, for their own reasons used the term &ldquo;task&rdquo; rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.</p>
+<p>&ldquo;Task&rdquo; means basically the same thing as &ldquo;procedure&rdquo; or &ldquo;subroutine&rdquo; in other languages.  The term &ldquo;task&rdquo; is used because Step descends from a line of languages called &ldquo;hierarchical task network planners&rdquo;, aka HTN planners.  HTNs, for their own reasons, used the term &ldquo;task&rdquo; rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.</p>
 <p>&ldquo;Method&rdquo; means close to the same thing as &ldquo;method&rdquo; or &ldquo;overload&rdquo; in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently.</p>
 
 

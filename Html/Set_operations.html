@@ -9,7 +9,7 @@
 	<title>Basic operations on sets</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Basic operations on sets">
@@ -46,6 +46,8 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Background.html"> Background appendices </a>
@@ -82,6 +84,15 @@
 			<div class="container shadow blog-contents">
 
 <p>Just as with numbers, there are a number of ways we can combine or otherwise modify sets.</p>
+<h2 id="summary">Summary</h2>
+<p>Given two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span>,</p>
+<ul>
+<li><span class="math">\(A\cup B\)</span>, the <em>union</em> of the sets, is the set you get by merging the elements of the two</li>
+<li><span class="math">\(A \cap B\)</span>, the <em>intersection</em> of the two, is set of elements common to both</li>
+<li><span class="math">\(A-B\)</span>, the <em>difference</em> of the sets, is the set of elements of <span class="math">\(A\)</span> that aren't also in <span class="math">\(B\)</span>.</li>
+<li><span class="math">\(2^A\)</span>, the powerset of <span class="math">\(A\)</span>, is the set of subsets of <span class="math">\(A\)</span>.  So the powerset of <span class="math">\(\{a,b\}\)</span> is the set of its four possible subsets: <span class="math">\(\{\{\}, \{a\}, \{b\}, \{a,b\}\}\)</span>.</li>
+<li><span class="math">\(A\times B\)</span>, the <em>Cartesian product</em> of the sets is the set of all possible <a href="Tuples.html">pairs</a> formed from an element of <span class="math">\(A\)</span> followed by an element of <span class="math">\(B\)</span>.  Will talk about tuples next.</li>
+</ul>
 <h2 id="union">Union <span class="math">\(\cup\)</span></h2>
 <p>The union of two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> is just the set containing all the elements of both:</p>
 <div class="math">

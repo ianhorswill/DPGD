@@ -1,6 +1,9 @@
 ---
 pagetitle: Matching variables with variables
 ---
+# Under construction
+
+#nopublish
 In the table above, we only included variables in the method heads, not in the calls.  But you can include a variable in a call too.  This behaves differently, depending on whether the system has already matched that variable to a value.  If we say `[Task ?a 2]` but the system has already matched `?a` to `1`, then we’re really just doing `[Task 1 2]`, and we can use the previous table.  But if the system has never matched `?a` to anything, then `?a` can be matched freely.  That means three things:
 
 * Specifying the variable in the call doesn’t restrict the methods that can be used, since it will match anything

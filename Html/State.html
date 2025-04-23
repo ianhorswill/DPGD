@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Clarity of notation</title>
+	<title>State in clairvoyant programming</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Clarity of notation">
-	<meta name="twitter:title" content="Clarity of notation">
-	<meta property="og:title" content="Clarity of notation" />
+	<meta itemprop="name" content="State in clairvoyant programming">
+	<meta name="twitter:title" content="State in clairvoyant programming">
+	<meta property="og:title" content="State in clairvoyant programming" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -46,11 +46,13 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Introduction.html"> Introduction </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_role_of_math.html"> The role of math </a>
-			<h1><a class="simplelink" href="index.html">Clarity of notation</a></h1>
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+			<h1><a class="simplelink" href="index.html">State in clairvoyant programming</a></h1>
 		</div>
 	</div>
 </div>
@@ -79,9 +81,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Relations are an example of the use of math.  Most computer programs are built out of functions: things that take inputs and produce an output.  So for example, a program might have an “manager of” function: you call it with an employee, it gives you back their manager.</p>
-<p>As we alluded to above, this is a problem when we want to go not from employees to managers but the other way around.  So database systems often describe data in terms of relationships rather than functions, which math class called “relations” rather than “relationships.”  Rather than a one-argument manager function <span class="math">\(M(underling)\)</span>, we might have a two-argument manager relation M(underling,manager) that is true whenever the first argument’s manager is the second argument.  So rather than saying <span class="math">\(M(Jill)=Jenny\)</span>, we say <span class="math">\(M(Jill,Jenny)\)</span> is true, whereas <span class="math">\(M(Jill,Shane)\)</span> is false.  This has lots of advantages, such as the ability to express that someone reports to multiple managers.</p>
-<p>That said, you still want some compact notation for saying things like “Jill’s manager(s)” or or “Jenny’s underlings.”  We will write as <span class="math">\(\overrightarrow{M}(Jill)\)</span> and <span class="math">\(\overleftarrow{M}(Jenny)\)</span>, respectively, using the arrow to indicate whether we’re moving from the left argument to the right, or from the right argument to the left.  That’s an example of introducing notation to improve clarity.</p>
+<p>PLACEHOLDER</p>
 
 
 
@@ -93,11 +93,8 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>The role of math</h5>
+			<h5>State in clairvoyant programming</h5>
 			<ol>
-					<li><a class="simplelink" href="Clarity_of_notation.html" id="section_page_1"> <b> Clarity of notation </b> </a> <br></li>
-					<li><a class="backgroundlink" href="Math_as_abstract_data_type.html" id="section_page_2"> Abstract data types for algorithms </a> <br></li>
-					<li><a class="backgroundlink" href="Discussing_the_limits_of_things.html" id="section_page_3"> Discussing the limits of things </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -108,15 +105,15 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Math_as_abstract_data_type.html"><b>Next:</b> Abstract data types for algorithms</a><br>
+			<a class="simplelink" id="NextPage" href="Grammars_with_logic_programming.html"><b>Next:</b> Augmenting grammars with logic programs</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Exploration_and_experimentation.html"><b>Previous:</b> Exploration and experimentation</a><br>
+			<a class="simplelink" id="PreviousPage" href="Logic_programming.html"><b>Previous:</b> Simple logic programs</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="The_role_of_math.html"><b>Up:</b> The role of math</a><br>
+			<a class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

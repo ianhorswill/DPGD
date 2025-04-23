@@ -3,6 +3,15 @@ pagetitle: Basic operations on sets
 ---
 Just as with numbers, there are a number of ways we can combine or otherwise modify sets.
 
+## Summary
+Given two sets $A$ and $B$,
+
+* $A\cup B$, the *union* of the sets, is the set you get by merging the elements of the two
+* $A \cap B$, the *intersection* of the two, is set of elements common to both
+* $A-B$, the *difference* of the sets, is the set of elements of $A$ that aren't also in $B$.
+* $2^A$, the powerset of $A$, is the set of subsets of $A$.  So the powerset of $\{a,b\}$ is the set of its four possible subsets: $\{\{\}, \{a\}, \{b\}, \{a,b\}\}$.
+* $A\times B$, the *Cartesian product* of the sets is the set of all possible [pairs](tuples) formed from an element of $A$ followed by an element of $B$.  Will talk about tuples next.
+
 ## Union $$\cup$$
 
 The union of two sets $$A$$ and $$B$$ is just the set containing all the elements of both:

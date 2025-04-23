@@ -1,9 +1,9 @@
 ---
 pagetitle: "Methods for specific parameters"
 ---
-The example above brings up the issue that English “marks” certain words based on gender: “himself” implies the person spoken us identifies as male or otherwise prefers male prounouns.  However, the code above uses the fixed text “themself” regardless of who the `?giver` is.
+The example above brings up the issue that English “marks” certain words based on gender: “himself” implies the person spoken of identifies as male or otherwise prefers male prounouns.  However, the code above uses the fixed text “themself” regardless of who the `?giver` is.
 
-We can generate different pronouns for different characters by making prnoun generation it’s own task.  The “himself”, "herself", and "themself" are called *reflexive* pronouns, so we’ll call the task `Reflexive`:
+We can generate different pronouns for different characters by making pronoun generation it’s own task.  The pronouns “himself”, "herself", and "themself" are called *reflexive* pronouns, so we’ll call the task `Reflexive`:
 ```Step
 # Try: [Reflexive "Mr. Boss"]
 Reflexive “Mr. Boss”: himself

@@ -9,7 +9,7 @@
 	<title>Methods for specific parameters</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Methods for specific parameters">
@@ -46,9 +46,12 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
 			<h1><a class="simplelink" href="index.html">Methods for specific parameters</a></h1>
 		</div>
@@ -79,8 +82,8 @@
 
 			<div class="container shadow blog-contents">
 
-<p>The example above brings up the issue that English “marks” certain words based on gender: “himself” implies the person spoken us identifies as male or otherwise prefers male prounouns.  However, the code above uses the fixed text “themself” regardless of who the <code>?giver</code> is.</p>
-<p>We can generate different pronouns for different characters by making prnoun generation it’s own task.  The “himself”, &ldquo;herself&rdquo;, and &ldquo;themself&rdquo; are called <em>reflexive</em> pronouns, so we’ll call the task <code>Reflexive</code>:</p>
+<p>The example above brings up the issue that English “marks” certain words based on gender: “himself” implies the person spoken of identifies as male or otherwise prefers male prounouns.  However, the code above uses the fixed text “themself” regardless of who the <code>?giver</code> is.</p>
+<p>We can generate different pronouns for different characters by making pronoun generation it’s own task.  The pronouns “himself”, &ldquo;herself&rdquo;, and &ldquo;themself&rdquo; are called <em>reflexive</em> pronouns, so we’ll call the task <code>Reflexive</code>:</p>
 <pre><code class="language-Step"># Try: [Reflexive &quot;Mr. Boss&quot;]
 Reflexive “Mr. Boss”: himself
 Reflexive “Mary”: herself

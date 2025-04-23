@@ -1,17 +1,19 @@
 ---
 pagetitle: Meaning is complicated
 ---
-The meaning of a sentence, it's [content](form_and_content) is extremely complicated.  Enough so that we basically don't understand meaning: all [formal theories](formal_theories) of meaning are basically wild oversimplifications.  To get a sense of how complicated meaning is, consider the following [news report from 2004](https://www.nytimes.com/2004/04/03/news/globalist-the-republicans-barbjohn-kerry-looks-french.html) about presidential candidate John Kerry:
+[Content](form_and_content), i.e. **meaning**, is extremely complex.  Enough so that we basically don't understand how it works.  All [formal theories](formal_theories) of meaning are wild oversimplifications of how people use meaning in the wild.  To get a sense of how complicated meaning is, consider the following [news report from 2004](https://www.nytimes.com/2004/04/03/news/globalist-the-republicans-barbjohn-kerry-looks-french.html) about presidential candidate John Kerry:
 
 > A recent comment from [United States] Commerce Secretary Don Evans that the Massachusetts Democrat is "of a different political stripe and looks French" was only the latest of several jibes, mainly from conservative talk-show hosts and columnists, that have included allusions to "Monsieur Kerry" and "Jean Chéri."
 
 Why did anyone care whether Kerry looked French?  Because in 2004, the US was in the middle of the [Iraq War](https://simple.wikipedia.org/wiki/Iraq_War).  Most US politicians and most US allies supported it, or at least didn't openly oppose it.  However France was highly critical of it, as was Kerry.  Anger at the French on the part of supporters of the war was sufficient that they attempted to rebrand "french fries" to [Freedom Fries](https://en.wikipedia.org/wiki/Freedom_fries).  So the comment that Kerry looked French was an attempt to both remind the audience of his opposition to the war and to frame him as un-American.
 
-Again, this is wildly beyond the our ability to model formally.  More or less everyone's theory of linguistic semantics, as well as nearly every language understanding program.[^1]
+This is wildly beyond the capabilities of any current theory of linguistic semantics, or any current language understanding program, to fully model.[^1]
 
-In practice, most theories of meaning, and all the theories used in math and logic focus on the **literal meaning** of statements.  There's no attempt to model metaphor, connotation, innuendo, or other subtleties of meaning.
+## Everybody punts
 
-
+In practice, most theories of meaning, and all the theories used in math and logic focus on the **literal meaning** of **declarative** statements.  They focus on true/false statements and try to understand what makes them true or false when taken literally.  There's no attempt to model metaphor, connotation, innuendo, or other subtleties of meaning.  That's really hard as it is.  But we can still do a lot of useful things with it.
+  
+  
 ## Endnotes
 
 

@@ -9,7 +9,7 @@
 	<title>Computability</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Computability">
@@ -46,9 +46,11 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Introduction.html"> Introduction </a>
+				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Limitations.html"> Limitations </a>
 			<h1><a class="simplelink" href="index.html">Computability</a></h1>
 		</div>
@@ -79,7 +81,31 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Then there are a number of technical issues with declarative programming.  The first is often referred to as uncomputability or undecidability: there are valid specifications for problems for which answers exist, but for which there (provably) can be no algorithm to find those answers.  The first and most famous example of this is Turing’s Halting Problem.  The spec is “given a procedure (program) and an inputs for it, say whether it will ever return if called on those inputs.”  There cannot be a procedure P that implements that spec perfectly, because if there were, you could write another procedure A that called P to ask it whether A was going to terminate, and then did the opposite.  That’s not to say we can’t write heuristic programs that do a pretty good job.  But Quicksort <em>always</em> sorts the array.  It doesn’t sort it 90% or 99.999% of the time. It’s perfect.  We provably can never have a perfect program for solving the halting program.</p>
+<p>Then there are a number of technical issues with declarative programming.  The first is often referred to as <a href="https://en.wikipedia.org/wiki/Undecidable_problem">uncomputability or undecidability</a>: there are valid specifications for problems for which answers exist, but for which there (provably) can be no algorithm to find those answers.</p>
+<p>The first and most famous example of this is Turing’s Halting Problem.  The spec is “given a procedure (program) and an inputs for it, say whether it will ever return if called on those inputs.”  That problem is uncomputable: there cannot be a procedure that implements that spec perfectly.  Here's why.  Suppose there were such a procedure:</p>
+<pre><code class="language-C#">bool Halts(Func&lt;int&gt; procedure, int argument) {
+    // Do magic to decide if procedure(argument) would ever return
+}
+</code></pre>
+<p>Then we could write another procedure, call it <code>Smartass</code> that worked like this:</p>
+<pre><code class="language-C#">void Smarass(int input) {
+    if (Halts(Smartass, input))
+        while (false) { }     // Run forever
+    else
+        return;
+}
+</code></pre>
+<p>This procedure calls <code>Halts</code> to ask it to predict the future: &quot;will I halt?&quot;.  Then it does the opposite.  So <code>Halts</code> could never give a right answer: whatever answer it gave would be wrong.  So a perfect <code>Halts</code> can never exist. That’s not to say we can’t write heuristic programs that do a pretty good job.  But Quicksort <em>always</em> sorts the array.  It doesn’t sort it 90% or 99.999% of the time. It’s perfect.  We provably can never have a perfect program for solving the halting program.</p>
+<p>So this tells us that there's at least one declarative program we can't write: <code>Halts</code>.  But in fact, there are a lot of things we'd like to write, such as &ldquo;decide if this statement in logic is true&rdquo; that are also undecidable.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  It's easy for declarative languages to shade into undecidable territory.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>In particular, deciding the truth of statements in <a href="https://en.wikipedia.org/wiki/First-order_logic">first order logic</a>, the most commonly used logic, is undecidable.  Simpler logics, such as <a href="https://en.wikipedia.org/wiki/Propositional_calculus">propositional logic</a>, are decidable.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 

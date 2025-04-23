@@ -9,7 +9,7 @@
 	<title>Sense, reference, and extensionality</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
-	<meta name="generator" content="Mies">
+	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
 	<meta itemprop="name" content="Sense, reference, and extensionality">
@@ -46,6 +46,8 @@
 
 <body>
 <div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Background.html"> Background appendices </a>
@@ -83,15 +85,15 @@
 <p>For example, <a href="https://en.wikipedia.org/wiki/Pope_Francis">&ldquo;Pope Francis&rdquo;</a> and <a href="https://en.wikipedia.org/wiki/Pope_Francis">&ldquo;Jorge Mario Bergoglio&rdquo;</a> have the same reference &ndash; they mean the same person.  However, most people wouldn't consider them to be synonymous because have different senses. You may not have even known that the latter was the birth name of the former.</p>
 <p>There are a number of similar distinctions, such as connotation vs. denotation or intension vs. extension.  They get at somewhat different distinctions, but the second halves of the distinctions (reference, denotation, extension) are basically synonyms and the first halves (sense, connotation, intension) are all components of meaning outside of reference.</p>
 <h2 id="extension">Extension</h2>
-<p>Nearly all branches of <a href="Mathematics.html">mathematics</a> and <a href="Logic.html">formal logic</a> work entirely with reference; the meaning of a term is its extension reference, nothign more.  However, while it makes sense to think of some terms, such as &ldquo;Earth&rdquo;, as referring to specific objects, others are more naturally thought of as referring to <a href="Sets.html">sets</a> of objects:</p>
+<p>Most branches of <a href="Mathematics.html">mathematics</a> and <a href="Logic.html">formal logic</a> work entirely with reference; the meaning of a term is its reference, nothing more.  However, while it makes sense to think of some terms, such as &ldquo;Earth&rdquo;, as referring to specific objects, others are more naturally thought of as referring to <a href="Sets.html">sets</a> of objects:</p>
 <ul>
 <li>&ldquo;Cat&rdquo; refers to the set of all cats</li>
 <li>&ldquo;Blue&rdquo; refers to the set of all blue things</li>
 </ul>
-<p>This can also be applied to terms for <a href="Relations.html">relationships</a>): &ldquo;brother&rdquo; can be thought of as referring to the set of all pairs of brothers, or geometric objects: a circle can be thought of as the set of points it encloses.  In these kinds of cases, the reference delineates the space of things the term refers to: it's &ldquo;extent&rdquo;, if you like.  Perhaps for this reason, math and logic generally use the term <strong>extension</strong> rather than reference.  But again, extension simply means the thing of things the term refers to.</p>
+<p>This can also be applied to terms for <a href="Relations.html">relationships</a>): &ldquo;brother&rdquo; can be thought of as referring to the set of all pairs of brothers. Geometric shapes can be thought of as the set of points they enclose.  In these kinds of cases, the reference delineates the space of things the term refers to: it's <em>extent</em>, if you like.  Perhaps for this reason, math and logic generally use the term <strong>extension</strong> rather than reference.  But again, extension simply means the thing or things the term refers to.</p>
 <h2 id="extensionality">Extensionality</h2>
-<p>A system that bases meaning only on reference rather than sense is called <strong>extensional</strong>.  Extension is much easier to reason about than the rest of meaning.  However, there it does introduce a number of limitations.  They're generally not a problem in math, but they become more of a problem when we try to apply the methods of mathematical logic to broader phenomena of meaning.</p>
-<p>The easiest way to see that reasoning with extensions can be limiting is that all terms that don't refer to anything are all synonyms.  So &ldquo;winged horse&rdquo; and &ldquo;vampire&rdquo; are synonyms because they have the same extension (nothing).  You can fix that specific problem by including not just &ldquo;real&rdquo; objects as allowable referrents, but also fictional characters like Pegasus and Dracula.  Now &ldquo;Pegasus&rdquo; and &ldquo;Dracula&rdquo; have different extensions.  But you can see how extensional reasoning can be limited.</p>
+<p>A system that bases meaning only on reference rather than sense is called <strong>extensional</strong>.  Extension is much easier to reason about than the rest of meaning.  However, it introduces a number of limitations.  They're generally not a problem in math, but they become more of a problem when we try to apply the methods of mathematical logic to broader phenomena of meaning.</p>
+<p>The easiest way to see that reasoning with extensions can be limiting is that it treats terms with the same extension as synonyms.  Synonyms are terms with the same meaning.  If meaning is <em>only</em> reference/extension and two terms have the same extension, they mean the same thing.  So &ldquo;winged horse&rdquo; and &ldquo;vampire&rdquo; are synonyms because neither exist.  You can fix that specific problem by including not just &ldquo;real&rdquo; objects but also fictional ones as referrents.  Now &ldquo;Pegasus&rdquo; and &ldquo;Dracula&rdquo; have different extensions.  But you can see how extensional reasoning can be limited.</p>
 <p>Again, the advantage of extensionality is that it makes reasoning <em>much</em> easier.  For example, in extensional systems statements such as &ldquo;every <span class="math">\(A\)</span> is <span class="math">\(B\)</span>&rdquo; are usually taken to mean there is no <span class="math">\(A\)</span> that isn't also <span class="math">\(B\)</span>.  That is, the extension of <span class="math">\(A\)</span> is a subset of the extension of <span class="math">\(B\)</span>.  Well if <span class="math">\(A\)</span> is &ldquo;winged horse&rdquo;, then which statements are you comfortable with?</p>
 <ul>
 <li>Every winged horse has wings</li>
