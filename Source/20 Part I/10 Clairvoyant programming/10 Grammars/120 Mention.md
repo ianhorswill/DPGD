@@ -1,7 +1,7 @@
 ---
 pagetitle: Mentioning
 ---
-In fact, even just saying `?item` on the right hand side, is actually shorthand for `[Mention ?item]`.  So the method:
+In fact, even just saying `?item` on the right-hand side, is actually shorthand for `[Mention ?item]`.  So the method:
 ```step
 Give ?giver ?giver ?item: ?giver gave ?giver/Reflexive ?item
 ```

@@ -2,7 +2,7 @@
 pagetitle: Grammars
 ---
 
-A formal grammar is a set of rules that define the syntax of a language.  Most commonly, these are variations on **context-free grammars**.  They specify a set of possible possible phrase types and templates for how a given type of phrase can be constructed from other phrases. 
+A formal grammar is a set of rules that define the syntax of a language.  Most commonly, these are variations on **context-free grammars**.  They specify a set of possible phrase types and templates for how a given type of phrase can be constructed from other phrases. 
 
 ## Text generation
 
@@ -59,7 +59,7 @@ Location: Ebullia
 
 ## Parsing
 
-A more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult, since the program can only read one token at a time but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as:
+A more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult.  The program can only read one token at a time, but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as:
 ```step
 Expression: [Expression] + [Expression]
 Expression: [Expression] - [Expression]

@@ -5,15 +5,15 @@ Tuples are the math equivalent of lists/arrays: they're sequences of elements ra
 
 Tuples are notated using parentheses rather than curly brackets, a notation that's also used in programming languages such as Python and C#:
 * $$(a,b)$$ is the pair whose first element is $$a$$ and whose second is $$b$$. 
-* $$(a,b,c)$$ is the same, but is a 3-tuple and it has the third element $$c$$.
+* $$(a,b,c)$$ is the same, but is a 3-tuple, and it has the third element $$c$$.
 
 ## Sets vs. tuples
 
 First, and most importantly, sets and tuples are different things.  $$(a,b)$$ and $$\{ a, bc \}$$ are different objects and are not interchangeable.  
 
-Technically, most set theories define tuples as an esoteric kind of set.[^1]  But we will treat them as unrelated types of objects.
+Technically, most set theories define tuples as an esoteric kind of set.[^1] But we will treat them as unrelated types of objects.
 
-Unlike sets, the position of an element within a tuple matters; sets don't have a notion of position..  The same element can also appear in multiple positions in a tuple, but cannot in a set.  The differences are summarized here:
+Unlike sets, the position of an element within a tuple matters; sets don't have a notion of position.  The same element can also appear in multiple positions in a tuple, but cannot in a set.  The differences are summarized here:
 
 | Elements | As sets                  | As tuples                  |
 | -------- | -------                  | ---------                  |
@@ -41,7 +41,7 @@ public class Graph {
 ```
 where we can refer to the vertices as and edges of a given graph `g` with `g.Vertices` and `g.Edges`, respectively.
 
-Math textbooks generally define graphs as pairs: $$(\text{Vertices}, \text{Edges})$$. However, the mathematical tradition is to use single letters rather than complex names, so the standard definition of a graph is that it is a pair $$(V,E)$$ where $$V$$ is a set of veritices and $$E$$ is a set of edges.
+Math textbooks generally define graphs as pairs: $$(\text{Vertices}, \text{Edges})$$. However, the mathematical tradition is to use single letters rather than complex names, so the standard definition of a graph is that it is a pair $$(V,E)$$ where $$V$$ is a set of vertices and $$E$$ is a set of edges.
 
 ## Endnotes
 

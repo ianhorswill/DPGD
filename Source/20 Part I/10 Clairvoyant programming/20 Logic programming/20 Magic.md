@@ -34,19 +34,19 @@ Just as `[Animal ?who]` effectively means "find me an animal" and `[Spy ?who]` e
 
 ## The laws of magic
 
-Classical logic programming languages make two guarantees to you: if you ask it to find values of variables and it succeeds, then the values it gives you are correct.  And subject to some fine print, if it fails, then there are no correct values to be found.
+Classical logic programming languages make two guarantees to you: if you ask it to find values of variables, and it succeeds, then the values it gives you are correct.  And subject to some fine print, if it fails, then there are no correct values to be found.
 
-For the moment, *how* it finds these is irrelvant.  As a programmer, you get to assume it will find them if they exist.
+For the moment, *how* it finds these is irrelevant.  As a programmer, you get to assume it will find them if they exist.
 
 ### The fine print (technical)
 Here's the full version with the fine print:
 
 * **Soundness**: if a program succeeds and reports values for its variables, then every call in the program works with those values.  For example, 
 if you run `[A ?x] [B ?x] [C ?x]`, etc. and it reports `?x=7`, then `[A 7]`, `[B 7]`, and `[C 7]` are all true.
-* **Completeness**: for simple programs,[^2] if there's a set of values you that will make the query work, it will find one.
+* **Completeness**: for simple programs[^2], if there's a set of values you that will make the query work, it will find one.
 
 ## Endnotes
 
 
 [^1]: [Acoustic Kitty](https://en.wikipedia.org/wiki/Acoustic_Kitty) was a 1960s CIA program to use cats to spy on the soviets.  It worked as well as you would imagine.
-[^2]: *Esoteric*: as you might have guessed, the phrase "for simple programs" is doing a lot of work here.  A program is simple in this sense if it doesn't use recursion, and only calls predicates defined by methods.  Such a program is called a **definite** program.  Improperly written recursions can cause it to miss answers that would make it work if the recursions were written properly.  And there are a number of  "primitive" predicates that are written in C# rather than through methods.  Many of these do not give completeness guarantees, and so anything that calls them isn't guaranteed complete.  The really problematic one here is that the `Not` primitive, used for asking when something is false, is not complete.  There were literally 30 years of Ph.D. disserations on trying to deal with the recalcitrance of `Not`.
+[^2]: *Esoteric*: as you might have guessed, the phrase "for simple programs" is doing a lot of work here.  A program is simple in this sense if it doesn't use recursion, and only calls predicates defined by methods.  Such a program is called a **definite** program.  Improperly written recursions can cause it to miss answers that would make it work if the recursions were written properly.  And there are a number of "primitive" predicates that are written in C# rather than through methods.  Many of these do not give completeness guarantees, and so anything that calls them isn't guaranteed complete.  The really problematic one here is that the `Not` primitive, used for asking when something is false, is not complete.  There were literally 30 years of Ph.D. dissertations on trying to deal with the recalcitrance of `Not`.

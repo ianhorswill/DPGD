@@ -10,7 +10,7 @@ Reflexive “Mr. Boss”: himself
 Reflexive “Mary”: herself
 Reflexive ?: themself
 ```
-Syntax highlighting makes it somewhat easier, but the code is still messy and confusing.  For a method like this, there isn’t a whole lot that can be done to improve it.  But there is a useful shorthand that slightly improves this method and is quite useful for long passages of text with a few tasks embedded in them.
+Syntax highlighting makes it somewhat easier, but the code is still messy and confusing.  For a method like this, there isn’t much that can be done to improve it.  But there is a useful shorthand that slightly improves this method and is quite useful for long passages of text with a few tasks embedded in them.
 
 Here’s the shorthand: rather than saying `[Task ?variable]`, you can just say `?variable/Task`.  It's a small change, but it lets us write the method as:
 ```Step

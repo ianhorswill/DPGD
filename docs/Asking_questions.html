@@ -118,27 +118,27 @@ Likes ? pizza.
 <tr>
 <td><code>[Likes tanya ?]</code></td>
 <td>What does Tanya like?</td>
-<td>?=sushi (call succeeds)</td>
+<td><code>?=sushi</code> (call succeeds)</td>
 </tr>
 <tr>
 <td><code>[Likes ? sushi]</code></td>
 <td>Who likes sushi?</td>
-<td>?=tanya (call succeeds)</td>
+<td><code>?=tanya</code> (call succeeds)</td>
 </tr>
 <tr>
 <td><code>[Likes ?a ?b]</code></td>
 <td>What's something that somebody likes?</td>
-<td>?a=tanya,?b=sushi (call succeeds)</td>
+<td><code>?a=tanya</code>,<code>?b=sushi</code> (call succeeds)</td>
 </tr>
 </tbody>
 </table>
 <p>In this case, we've just listed the first solution to the queries that had <code>?</code>s.  But if <code>Likes</code> were marked <code>[randomly]</code>, then it would generate different valid results on different calls:</p>
 <ul>
-<li><code>[Likes tanya ?]</code> could generate: sushi, burgers, Medican, or pizza.</li>
+<li><code>[Likes tanya ?]</code> could generate: sushi, burgers, Mexican, or pizza.</li>
 <li><code>[Likes ? sushi]</code> could generate Tanya or Kimiko</li>
 </ul>
 <h2 id="complex-queries">Complex queries</h2>
-<p>Now lets say we have it do multiple calls in a row: <code>[Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]</code>.  That's asking: is there a single <code>?what</code> that all three of them like?  That has two answers: burgers and pizza.  Try it out now.  You'll find it always answers <code>burgers</code>, because that's the first answer in the list.  But if you add <code>[randomly]</code> after the <code>[predicate]</code> declaration, then it will randomly switch between the two.</p>
+<p>Now let's say we have it do multiple calls in a row: <code>[Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]</code>.  That's asking: is there a single <code>?what</code> that all three of them like?  That has two answers: burgers and pizza.  Try it out now.  You'll find it always answers <code>burgers</code>, because that's the first answer in the list.  But if you add <code>[randomly]</code> after the <code>[predicate]</code> declaration, then it will randomly switch between the two.</p>
 <pre><code class="language-Step"># Try: [Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]
 [predicate]
 Likes tanya sushi.

@@ -1,7 +1,7 @@
 ---
 pagetitle: Homogeneous relations
 ---
-A relation $$R\subseteq A\times A$$ between a set $$A$$ and itself is called a homogeneous because both its arguments come from the same set.  Homogeneous relations come up frequently in math and computer science.  Math examples include: $$=, <, >, and \subseteq$$.  Examples from everyday life are any kind of relation between people (e.g. familiar relationships).  Examples from programming include the subclass relation graphs and tree, which are essentilly homogeneous relations (see [graphs](Graphs)).
+A relation $$R\subseteq A\times A$$ between a set $$A$$ and itself is called a homogeneous because both its arguments come from the same set.  Homogeneous relations come up frequently in math and computer science.  Math examples include: $$=, <, >, and \subseteq$$.  Examples from everyday life are any kind of relation between people (e.g. familiar relationships).  Examples from programming include the subclass relation graphs and tree, which are essentially homogeneous relations (see [graphs](Graphs)).
 
 ## Special properties of homogeneous relations
 
@@ -11,7 +11,7 @@ Homogeneous relations can have nice properties that other relations can't.  Not 
 
 A relation $$R\subseteq A\times A$$ is **reflexive** if all elements relate to themselves.  That is, if $$aRa$$ for all $$a\in A$$.
 
-$$R$$ is **antireflexive** if elements never relate to themselves.  That is, if $$aRa$$ is false for all $$a\in A$$.
+$$R$$ is **anti-reflexive** if elements never relate to themselves.  That is, if $$aRa$$ is false for all $$a\in A$$.
 
 ### Symmetry
 
@@ -21,7 +21,7 @@ A relation $$R\subseteq A\times A$$ is **symmetric** if (equivalently):
 * $$aRb$$ if and only if $$bRa$$
 * $$R=R^{-1}$$
 
-You would expect antisymmetry to be the opposite, that if $$aRb$$ is true then $$bRa$$ must be false and vice-versa.  The problem with that is that then $$aRa$$ can never be true, i.e. that definition of antisymmetry would force the relation to *also* be antireflexive.
+You would expect anti-symmetry to be the opposite, that if $$aRb$$ is true then $$bRa$$ must be false and vice versa.  The problem with that is that then $$aRa$$ can never be true, i.e. that definition of anti-symmetry would force the relation to *also* be anti-reflexive.
 
 So instead we define $$R$$ to be **antisymmetric** if for all $$a,b\in A$$ $$aRb$$ and $$bRa$$ can only be true when $$a=b$$.
 
@@ -41,7 +41,7 @@ In particular, $$=$$ has the formal properties of:[^1]
 * Transitive: if $$a=b$$ and $$b=c$$ then $$a=c$$
 
 Any relation that shares these properties ends up seeming very "equalsish".  
-The thing is, lots of relationships have these properties.  For example, any relationship of the form "same $$X$$ as": same company as, same state as, same genre as, etc.  A game has the same genre as itself.  If $$A$$ has the same genre as $$B$$ then $$B$$ has the same genre as $$A$$.  If $$A$$ has the same genre as $$B$$ and $$B$$ as $$C$$, then $$A$$ has the same genre as $$C$$.
+The thing is, lots of relationships have these properties.  For example, any relationship of the form "same $$X$$ as": same company as, same state as, same genre as, etc. A game has the same genre as itself.  If $$A$$ has the same genre as $$B$$ then $$B$$ has the same genre as $$A$$.  If $$A$$ has the same genre as $$B$$ and $$B$$ as $$C$$, then $$A$$ has the same genre as $$C$$.
 
 **FINISHME**
 
@@ -50,13 +50,13 @@ The thing is, lots of relationships have these properties.  For example, any rel
 Similarly, orders are things that are similar to the $$\leq$$ relation on numbers.  The $$\leq$$ relation has the properties:
 
 * Reflexive: $$x\leq x$$ for all $$x$$
-* Antisymetric: $$x\leq y$$ and $$y\leq x$$ simultaneously only when $$x=y$$
+* Anti-symmetric: $$x\leq y$$ and $$y\leq x$$ simultaneously only when $$x=y$$
 * Transitive: if $$x\leq y$$ and $$y \leq z$$ then $$x\leq z$$
 
 An **order** is any relation $$R\subseteq A \times A$$ with the same properties:
 
 * Reflexive: $$aRa$$ for all $$a\in A$$
-* Antisymetric: $$aRb$$ and $$bRa$$ simultaneously only when $$a=b$$
+* Anti-symmetric: $$aRb$$ and $$bRa$$ simultaneously only when $$a=b$$
 * Transitive: if $$aRb$$ and $$bRc$$ then $$aRc$$
 
 **FINISHME**
@@ -64,4 +64,4 @@ An **order** is any relation $$R\subseteq A \times A$$ with the same properties:
 
 ## Endnotes
 
-[^1]: It's also anti-symmetric.  But $$=$$ is the only relation that is all those things plus antisymmetric, so it's not useful
+[^1]: It's also antisymmetric.  But $$=$$ is the only relation that is all those things plus antisymmetric, so it's not useful

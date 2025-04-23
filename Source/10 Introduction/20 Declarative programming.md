@@ -4,7 +4,7 @@ pagetitle: Declarative programming
 
 These problems would be simplified if we could give the spec directly to the computer rather than writing bespoke algorithms.  Declarative programming is an approximation to this.
 
-The term declarative programming comes from a distinction in linguistics and philosophy between different kinds of utterances.  Imperatives, from the latin *imperare* (“to command”), are commands: they tell the hearer to do something.  Declaratives are statements of fact: they declare something to be true.
+The term declarative programming comes from a distinction in linguistics and philosophy between different kinds of utterances.  Imperatives, from the Latin *imperare* (“to command”), are commands: they tell the hearer to do something.  Declaratives are statements of fact: they declare something to be true.
 
 Most programming languages are referred to as **imperative languages**.  Programs in them are sequences of commands to execute in order.  They specify how to compute a solution.
 

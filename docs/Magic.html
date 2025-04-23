@@ -109,14 +109,14 @@ Spy jason_bourne.
 <h2 id="sequences-of-calls-mean-and">Sequences of calls mean &ldquo;and&rdquo;</h2>
 <p>Just as <code>[Animal ?who]</code> effectively means &ldquo;find me an animal&rdquo; and <code>[Spy ?who]</code> effectively means &ldquo;find me a spy&rdquo;, the sequence <code>[Animal ?who] [Spy ?who]</code> effectively means &ldquo;find me someone who is an animal <strong>and</strong> a spy.&rdquo;</p>
 <h2 id="the-laws-of-magic">The laws of magic</h2>
-<p>Classical logic programming languages make two guarantees to you: if you ask it to find values of variables and it succeeds, then the values it gives you are correct.  And subject to some fine print, if it fails, then there are no correct values to be found.</p>
-<p>For the moment, <em>how</em> it finds these is irrelvant.  As a programmer, you get to assume it will find them if they exist.</p>
+<p>Classical logic programming languages make two guarantees to you: if you ask it to find values of variables, and it succeeds, then the values it gives you are correct.  And subject to some fine print, if it fails, then there are no correct values to be found.</p>
+<p>For the moment, <em>how</em> it finds these is irrelevant.  As a programmer, you get to assume it will find them if they exist.</p>
 <h3 id="the-fine-print-technical">The fine print (technical)</h3>
 <p>Here's the full version with the fine print:</p>
 <ul>
 <li><strong>Soundness</strong>: if a program succeeds and reports values for its variables, then every call in the program works with those values.  For example,
 if you run <code>[A ?x] [B ?x] [C ?x]</code>, etc. and it reports <code>?x=7</code>, then <code>[A 7]</code>, <code>[B 7]</code>, and <code>[C 7]</code> are all true.</li>
-<li><strong>Completeness</strong>: for simple programs,<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> if there's a set of values you that will make the query work, it will find one.</li>
+<li><strong>Completeness</strong>: for simple programs<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>, if there's a set of values you that will make the query work, it will find one.</li>
 </ul>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
@@ -126,7 +126,7 @@ if you run <code>[A ?x] [B ?x] [C ?x]</code>, etc. and it reports <code>?x=7</co
 <p><a href="https://en.wikipedia.org/wiki/Acoustic_Kitty">Acoustic Kitty</a> was a 1960s CIA program to use cats to spy on the soviets.  It worked as well as you would imagine.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 <li id="fn:2">
-<p><em>Esoteric</em>: as you might have guessed, the phrase &ldquo;for simple programs&rdquo; is doing a lot of work here.  A program is simple in this sense if it doesn't use recursion, and only calls predicates defined by methods.  Such a program is called a <strong>definite</strong> program.  Improperly written recursions can cause it to miss answers that would make it work if the recursions were written properly.  And there are a number of  &ldquo;primitive&rdquo; predicates that are written in C# rather than through methods.  Many of these do not give completeness guarantees, and so anything that calls them isn't guaranteed complete.  The really problematic one here is that the <code>Not</code> primitive, used for asking when something is false, is not complete.  There were literally 30 years of Ph.D. disserations on trying to deal with the recalcitrance of <code>Not</code>.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+<p><em>Esoteric</em>: as you might have guessed, the phrase &ldquo;for simple programs&rdquo; is doing a lot of work here.  A program is simple in this sense if it doesn't use recursion, and only calls predicates defined by methods.  Such a program is called a <strong>definite</strong> program.  Improperly written recursions can cause it to miss answers that would make it work if the recursions were written properly.  And there are a number of &ldquo;primitive&rdquo; predicates that are written in C# rather than through methods.  Many of these do not give completeness guarantees, and so anything that calls them isn't guaranteed complete.  The really problematic one here is that the <code>Not</code> primitive, used for asking when something is false, is not complete.  There were literally 30 years of Ph.D. dissertations on trying to deal with the recalcitrance of <code>Not</code>.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>

@@ -1,0 +1,26 @@
+{"rule":"GITHUB","sentence":"^\\QIf so, you can either use the solvers used in Part I (they're on github), or read Part II to learn how to build your own solvers or otherwise incorporate these algorithms into your toolchain.\\E$"}
+{"rule":"GITHUB","sentence":"^\\QIf so, you can either use the solvers used in Part I (they're on github), or read Part II to learn how to build your own solvers or otherwise incorporate these algorithms into your tool chain.\\E$"}
+{"rule":"BOTH_AS_WELL_AS","sentence":"^\\QIf you're a Ph.D. student, you should read both sections as well as the mathematical appendices.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QIf you're a Ph.D. student, you should read both sections as well as the mathematical appendices.\\E$"}
+{"rule":"EN_A_VS_AN","sentence":"^\\QIf you assume you will always start with an \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q object and then look up their \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q, then you can simply put a \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q field inside the \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q class and be done with it.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QIf you want to go in both directions you need both.\\E$"}
+{"rule":"A_LOT_OF_NN","sentence":"^\\QIf your game requires a lot of AI or procedural content generation, and that content is written in C++, then even small additions or changes to the AI or the generators require programmer involvement.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QA change of a few lines in a declarative program might be a major undertaking in an object-oriented language, as in our Employee/JobTitle example example, or even a complete rewrite in another language.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QA change of a few lines in a declarative program might be a major undertaking in an object-oriented language, as in our Employee/JobTitle example, or even a complete rewrite in another language.\\E$"}
+{"rule":"EN_A_VS_AN","sentence":"^\\QIt's common for people to talk about programs making \"decisions.\"^1 That generally takes the form of something like an \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q statement (don't worry if this is new to you):\\E$"}
+{"rule":"EN_A_VS_AN","sentence":"^\\QAs we discussed earlier, an \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q statement combines two functions -- specifying options for a choice and specifying how to decide between them.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qto change \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q into \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QThen, we pick rules for \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q and \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q and we get something like:\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qeffectively says that a \"Hello world!\" is a kind of \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q phrase.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhich leaves the reader wondering if the cat ate itself or another cat.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qdepending on which rule was chosen.\\E$"}
+{"rule":"THEMSELF","sentence":"^\\QWe can fix this by having another method that specifically detects the case of someone giving something to themself:\\E$"}
+{"rule":"THEMSELF","sentence":"^\\QMr. Boss gave themself a nice raise.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QIf you want to rule out self-siblinghood, you can just add an extra condition to the rule that requires \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q and \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q be different:\\E$"}
+{"rule":"SINGULAR_VERB_AFTER_THESE_OR_THOSE","sentence":"^\\QFor the moment, how it finds these is irrelvant.\\E$"}
+{"rule":"SINGULAR_VERB_AFTER_THESE_OR_THOSE","sentence":"^\\QFor the moment, how it finds these is irrelevant.\\E$"}
+{"rule":"FROM_FORM","sentence":"^\\QAs we said before, the choices defined by a program form a tree:\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QThe something elses are:\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qis the part that says \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q.\\E$"}
+{"rule":"WHITESPACE_RULE","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+$"}
+{"rule":"IT_IS","sentence":"^\\QBy contrast, the content is whatever that expression is trying to convey, that is, its meaning.\\E$"}

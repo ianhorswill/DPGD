@@ -62,13 +62,13 @@ $$
 
 ## Exponentiation
 
-The the power of a set is defined analogously to  powers of numbers: $$S^2 = S\times S$$, $$S^3 = S \times S \times S$$, and so on.  More generally, $$S^n$$ is the set of all $$n$$-tuples (lists of $$n$$ elements) whose elements are all drawn from $$S$$.
+The power of a set is defined analogously to powers of numbers: $$S^2 = S\times S$$, $$S^3 = S \times S \times S$$, and so on.  More generally, $$S^n$$ is the set of all $$n$$-tuples (lists of $$n$$ elements) whose elements are all drawn from $$S$$.
 
 **Important** $$S^2$$, the set of pairs of elements drawn from $$S$$, is unrelated to $$2^S$$, the set of all subsets of $$S$$, other than both involving $$S$$.
 
 ## Cardinality (size of a set)
 
-The number of elements in a set $$S$$ is just written $$|S|$$.  For the moment, we will assume $$S$$ has a finite number of elements.  The esoterica includes a discussion of how to think about the sizes of infinite sets, which turns out to be shockinglyy hard and counter-intuitive. 
+The number of elements in a set $$S$$ is just written $$|S|$$.  For the moment, we will assume $$S$$ has a finite number of elements.  The esoterica includes a discussion of how to think about the sizes of infinite sets, which turns out to be shockingly hard and counter-intuitive. 
 
 ## Remembering the symbols
 
@@ -80,7 +80,7 @@ It's more important to understand the ideas than the notation.  That said, here 
 * For the multiplication-like operations
    * The powerset of a $$A$$ with $$a$$ elements is $$2^A$$ because has $$2^a$$ elements (there are $$2^a$$ possible subsets of $$A$)
    * The set of tuples formed from a set $$A$$ with $$a$$ elements and a set $$B$$ with $$b$$ elements is notated $$A\times B$$ because it has $$a\times b$$ elements.
-   * The set of $$n$$-tuples formed from the elements of a set $$A$$ with $$a$$ elements is $$A^n$$ both because it is $$A$$ multiplied by itself repeatedly, and becuase it has $$a^n$$ elements.
+   * The set of $$n$$-tuples formed from the elements of a set $$A$$ with $$a$$ elements is $$A^n$$ both because it is $$A$$ multiplied by itself repeatedly, and because it has $$a^n$$ elements.
 
 
 

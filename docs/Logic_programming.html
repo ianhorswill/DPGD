@@ -145,7 +145,7 @@ Cat garfield.
 </ul>
 <p>So this query is like asking &quot;who is a dog?&quot;, or equivalently, &ldquo;give me the name of a dog.&rdquo;</p>
 <h3 id="methods-as-inference-rules">Methods as inference rules</h3>
-<p>Now suppse we add another task that doesn't print anything:</p>
+<p>Now suppose we add another task that doesn't print anything:</p>
 <pre><code class="language-step">[predicate]
 Animal ?x: [Dog ?x]
 Animal ?x: [Cat ?x]
@@ -213,7 +213,7 @@ Cat garfield.
 <li>The second method matches, but tries to run <code>[Cat coffee]</code>, which also fails</li>
 <li>Both methods having failed, the call fails.</li>
 </ul>
-<p>So, again <code>Animal</code> behaves like a test for animalhood: it succeeds when its argument is an animal.  It fails when the argument isn't an animal given the information available to the computer.  Once again, if we call <code>[Animal ?x]</code>, it will report back to us a value for <code>?x</code> that is an animal.  If we added <code>[randomly]</code> to all our tasks, then it would randomly chose the animal:</p>
+<p>So, again <code>Animal</code> behaves like a test for animalhood: it succeeds when its argument is an animal.  It fails when the argument isn't an animal given the information available to the computer.  Once again, if we call <code>[Animal ?x]</code>, it will report back to us a value for <code>?x</code> that is an animal.  If we added <code>[randomly]</code> to all our tasks, then it would randomly choose the animal:</p>
 <pre><code class="language-Step"># Try: [Animal ?]
 [predicate] [randomly]
 Animal ?x: [Dog ?x]

@@ -81,7 +81,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>A formal grammar is a set of rules that define the syntax of a language.  Most commonly, these are variations on <strong>context-free grammars</strong>.  They specify a set of possible possible phrase types and templates for how a given type of phrase can be constructed from other phrases.</p>
+<p>A formal grammar is a set of rules that define the syntax of a language.  Most commonly, these are variations on <strong>context-free grammars</strong>.  They specify a set of possible phrase types and templates for how a given type of phrase can be constructed from other phrases.</p>
 <h2 id="text-generation">Text generation</h2>
 <p>Formal grammars are used in games for generating random text.  For example, the game <a href="https://en.wikipedia.org/wiki/Caves_of_Qud"><em>Caves of Qud</em></a> generates procedural histories using rules like (adapted from <a href="https://www.gdcvault.com/play/1024990/Procedurally-Generating-History-in-Caves">Grinblat GDC 2018</a>):</p>
 <pre><code class="language-step">Event: Acting against [Injustice], [SultanName] led an army to the gates of [Location].
@@ -132,7 +132,7 @@ Location: Rhepa
 Location: Ebullia
 </code></pre>
 <h2 id="parsing">Parsing</h2>
-<p>A more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult, since the program can only read one token at a time but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as:</p>
+<p>A more pervasive use case is to build parsers for compilers.  Parsing programming languages is hard.  Even writing something simple like a parser for arithmetic expressions is difficult.  The program can only read one token at a time, but the correct interpretation of the current token often depends on tokens the program hasn’t read yet.  Standard practice is to write a grammar for the language to be parsed, such as:</p>
 <pre><code class="language-step">Expression: [Expression] + [Expression]
 Expression: [Expression] - [Expression]
 Expression: [Term]

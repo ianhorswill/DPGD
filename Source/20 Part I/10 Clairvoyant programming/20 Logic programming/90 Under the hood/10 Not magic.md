@@ -4,7 +4,7 @@ pagetitle: Okay, it's not magic (technical)
 
 # Under construction
 
-As you've probably guessed, you computer is not actually magic and does not actually violate the laws of time and causality.  As we said before, the choices defined by a program form a tree:
+As you've probably guessed, your computer is not actually magic and does not actually violate the laws of time and causality.  As we said before, the choices defined by a program form a tree:
 ```mermaid
 graph TB
     a("[Animal ?x]") -- "Animal ?x: [Dog ?x]" --> d("[Dog ?x]")
@@ -62,7 +62,7 @@ The biggest disadvantage of DFS is that if you have an infinite tree, as you mig
 
 You might say we should use breadth-first search instead.  But the performance penalty of BFS is severe enough that even when one has to worry about infinite paths, one often uses depth-first search with **iterative deepening** instead.  That means you run DFS, but have it give up any time it gets past a certain depth.  So you do, for example, a depth-first search of the first 5 levels of the tree.  If that doesn't work, you do a depth-first search of the first 10 levels of the tree, even though that redoes a lot of work you did before.  If that doesn't work, you do a DFS of the first 15 levels.  And so on.  That turns out to run faster on real hardware that BFS for most problems.
 
-You may also have heard of informed-search strategies like best-first search, $A^*$, and so on.  Why don't we use these?  The main reason is that you need some way of measuring what's best.  So that means the programmer needs some way of specifying a heuristic function for the program that is going to vary menaingfully after every choice, so that it can always be used to guide the next choice.  That's proven difficult to do.  And in the absence of a good heuristic function, this informed search methods degenerate to breadth-first search, and so see above.
+You may also have heard of informed-search strategies like best-first search, $A^*$, and so on.  Why don't we use these?  The main reason is that you need some way of measuring what's best.  So that means the programmer needs some way of specifying a heuristic function for the program that is going to vary meaningfully after every choice, so that it can always be used to guide the next choice.  That's proven difficult to do.  And in the absence of a good heuristic function, this informed search methods degenerate to breadth-first search, and so see above.
 
 ## Algorithmic answer 2: Predicates are iterators
 

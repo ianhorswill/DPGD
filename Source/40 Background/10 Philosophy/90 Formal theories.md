@@ -9,13 +9,13 @@ This book is about better formalisms for game designers.  If you’re writing a 
 
 Formalism is an intimidating word, in part because college courses tend to use it without explaining what it means.  Students are exposed to formalisms without discussing why formalizing something might be useful.
 
-Formalisms are idealized models of something we want to talk about.[^1]  However, “model” gets used to mean something specific[^2], so instead the word *theory* is more common: a formalism is a theory of an idealized version of something we want to talk about.
+Formalisms are idealized models of something we want to talk about.[^1] However, “model” gets used to mean something specific[^2], so instead the word *theory* is more common: a formalism is a theory of an idealized version of something we want to talk about.
 
-Games often incorporate idealized theories of some aspect of like.  *Monopoly* has an theory of capitalism.  Chess has an theory of warfare.  The *GUMSHOE* table-top RPG system has theory of particular kinds of mystery stories.  Platformer games have theories of gravity, certain kinds of space traversal (running and jumping), and certain kinds of combat.
+Games often incorporate idealized theories of some aspect of like.  *Monopoly* has a theory of capitalism.  Chess has a theory of warfare.  The *GUMSHOE* table-top RPG system has theory of particular kinds of mystery stories.  Platformer games have theories of gravity, certain kinds of space traversal (running and jumping), and certain kinds of combat.
 
-Some of those theories are “formal" and others aren’t.  The *form* of something is how its pieces are put together.  Its *content* is what it means.  A formal theory is one whose rules you can apply using only their form, without having to already know what the terms mean (its content).
+Some of those theories are "formal" and others aren’t.  The *form* of something is how its pieces are put together.  Its *content* is what it means.  A formal theory is one whose rules you can apply using only their form, without having to already know what the terms mean (its content).
 
-Table-top roleplaying games aren’t formal in this sense, and it wouldn’t even be desirable for them to be formal.  When a TTRPG has a rule like “if an action puts a player at risk of falling then roll using these rules …”, that rule sits atop all the background knowledge of its players.  There cannot be a table of every possible player action and which of them put the player at risk of falling because players can and do constantly think of new actions the designers didn’t anticipate.  
+Table-top role-playing games aren’t formal in this sense, and it wouldn’t even be desirable for them to be formal.  When a TTRPG has a rule like “if an action puts a player at risk of falling then roll using these rules …”, that rule sits atop all the background knowledge of its players.  There cannot be a table of every possible player action and which of them put the player at risk of falling because players can and do constantly think of new actions the designers didn’t anticipate.  
 
 Computer games on the other hand, *must* be formal because the computer doesn’t know what gravity is.  Inside any given platformer game will be a rule like:
 

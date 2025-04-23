@@ -14,7 +14,7 @@ A relation $$R\subseteq A \times B$$ is left-total (or right-total) if every ele
    * No $$a\in A$$ has an empty right image / every $$a$$ has a non-empty right image
    * For all $$a\in A$$, $$\overrightarrow{R}(a)\neq\emptyset$$
 * Right-total: (the same, but reversed)
-   * Every elelement of $$B$$ is related to some element of $A$$
+   * Every element of $$B$$ is related to some element of $A$$
    * $$\overrightarrow{A}=B$$
    * For every $$b\in B$$, there's some $$a\in B$$ for which $$aRb$$
    * No $$b\in B$$ has an empty left image / every $$b$$ has a non-empty left image
@@ -34,7 +34,7 @@ A relation $$R\subseteq A \times B$$ is left-unique (or right-unique) if every e
 
 ## Combination properties
 
-A combinations of these properties make for important special kinds of relations:
+Different combinations of these properties make for important special kinds of relations:
 
 * One-to-one: both left- and right-unique
 * One-to-many: left-unique and not right-unique

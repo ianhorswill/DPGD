@@ -82,7 +82,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>To review, context-free-grammars are collections of templates that describe how to generate phrase types in terms of other phrase types.  To write that in Step, we have one task for each phrase type and one method for each rule/template.  Templates can fill in a subphrase by enclosing the subphrase's task in brackets:</p>
+<p>To review, context-free-grammars are collections of templates that describe how to generate phrase types in terms of other phrase types.  To write that in Step, we have one task for each phrase type and one method for each rule/template.  Templates can fill in a sub-phrase by enclosing the sub-phrase's task in brackets:</p>
 <pre><code class="language-step">Phrase: bla bla [Subphrase] bla
 </code></pre>
 <p>But what if you want the template to fill in text you specify yourself?  You can do that by adding a <strong>parameter</strong> (aka an <strong>argument</strong><a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>) to your phrase/task.  Parameters are extra information you specify after the name of the task when you run it or write a method for it.  For example,</p>
@@ -108,7 +108,7 @@ Greet ?who: Good morning, ?who.
 <p>Which is a little less typing than:</p>
 <pre><code class="language-step">[Greet “dawg”]
 </code></pre>
-<p>But they both mean the same thing.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Both can generate text such as “Hey, dawg.”</p>
+<p>But they both mean the same thing.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> Both can generate text such as “Hey, dawg.”</p>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
@@ -117,7 +117,7 @@ Greet ?who: Good morning, ?who.
 <p>Argument and parameter are exact synonyms for our purposes.  Argument is somewhat more common in computer science and mathematics.  I'll lean toward using parameter here because most people think of an argument as something that involves shouting.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 <li id="fn:2">
-<p><em>Extremely esteric</em>: This is a lie, but it's almost true.  Internally, <code>dawg</code> is represented using the C# <code>string</code> datatype, whereas <code>&quot;dawg&quot;</code> is represented internally using the C# <code>string[]</code> datatype, an array of one <code>string</code> for each word in the quoted text.  The only time this matters is when you are writing code that is passing data back and forth between C# and Step.  Why does Step represent text as arrays of words rather than one string?  So that when it can generate the final string at the end, it can reason about things like whether it needs to capitalize a word because it's at the start of a sentence.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+<p><em>Extremely esoteric</em>: This is a lie, but it's almost true.  Internally, <code>dawg</code> is represented using the C# <code>string</code> datatype, whereas <code>&quot;dawg&quot;</code> is represented internally using the C# <code>string[]</code> datatype, an array of one <code>string</code> for each word in the quoted text.  The only time this matters is when you are writing code that is passing data back and forth between C# and Step.  Why does Step represent text as arrays of words rather than one string?  So that when it can generate the final string at the end, it can reason about things like whether it needs to capitalize a word because it's at the start of a sentence.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>

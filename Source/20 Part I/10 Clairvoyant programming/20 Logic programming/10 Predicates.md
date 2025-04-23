@@ -26,7 +26,7 @@ Cat garfield.
 ```
 Calling `[Dog morris]` will fail, but it won't be treated as an error that stops the program, because `Dog` is declared `[predicate]`.  Instead, the system just responds "no": Morris is not a dog, given what the system knows.
 
-To make a task be a predicate, you only have to include the `[predicate]` declaration before one of it's methods. That will apply it to the task more generally.
+To make a task be a predicate, you only have to include the `[predicate]` declaration before one of its methods. That will apply it to the task more generally.
 
 ## Predicates don't print
 
@@ -34,4 +34,4 @@ The primary use of predicates is to answer questions.  So they generally aren't 
 
 ## Endnotes
 
-[^1]: *Esoteric:* This term comes from the latin *praedicatum*, meaning "that which is said of the subject [of a sentence]." The sentence "Bill loves fruitcake", has a subject, Bill, and a predicate, "loves fruitcake."  [Logic](logic) adopts this terminology to refer to properties, such as "loving fruitcake", that can be true of things or not.  Bill loves fruitcake, my television does not.  Logic also extends the term predicate to include relationships, such as "loving", that can hold between things, such as Bill and fruitcake.  Bill loves fruitcake.  Fruitcake does not love Bill.
+[^1]: *Esoteric:* This term comes from the Latin *praedicatum*, meaning "that which is said of the subject [of a sentence]." The sentence "Bill loves fruitcake", has a subject, Bill, and a predicate, "loves fruitcake."  [Logic](logic) adopts this terminology to refer to properties, such as "loving fruitcake", that can be true of things or not.  Bill loves fruitcake, my television does not.  Logic also extends the term predicate to include relationships, such as "loving", that can hold between things, such as Bill and fruitcake.  Bill loves fruitcake.  Fruitcake does not love Bill.

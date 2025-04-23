@@ -10,7 +10,7 @@ What kind of mathematical object is a relation?  One way to think about this is 
 
 The first of these is extremely complicated to reason about and so is almost never used in math, although it's important in philosophy, linguistics, and logic.
 
-The second works for most mathematics and will work for everything we do here.[^1]  It's the definition used in set theory.  The set of pairs of objects a relationship is true of is called its **extension**.  In set theory, two relationships are the same if they have the same extension.  And the relation object is just the extension.  So relations are sets of pairs.  The motherhood relation would be defined as:
+The second works for most mathematics and will work for everything we do here.[^1] It's the definition used in set theory.  The set of pairs of objects a relationship is true of is called its **extension**.  In set theory, two relationships are the same if they have the same extension.  And the relation object is just the extension.  So relations are sets of pairs.  The motherhood relation would be defined as:
 $$
 M = \{(m,c) \; | \; m \text{ is the mother of }c\}
 $$

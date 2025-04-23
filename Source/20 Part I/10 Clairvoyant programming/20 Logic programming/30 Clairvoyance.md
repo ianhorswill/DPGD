@@ -63,10 +63,10 @@ graph TB
 Ultimately, this is what Alan Turing called a *choice machine*: it makes a series of choices that lead to other choices, and ultimately to success or failure.  In this case, the choices are which method to use for a given call, although we will look at other kinds of choices in other chapters.  What matters for the moment is that when making choices the system acts as if it **always guesses right**: it will always find a green path if there is one.
 
 ### Fine print (technical)
-Again, there's some find print.  Here's the verison with the fine print:
+Again, there's some find print.  Here's the version with the fine print:
 
 * **Soundness** if the program succeeds, it has taken a successful series of choices.
-* **Completeness** if the tree of choices is finite and contains a successful sequence of choices, the system make will a successful sequence of choices; if not, it will signal failure.
+* **Completeness** if the tree of choices is finite and contains a successful sequence of choices, the system will make a successful sequence of choices; if not, if there is no successful sequence to find, the system will signal failure.
 
 There's also a little extra fine print, since in Step tasks can be `[randomized]` or not.  Your program can easily have multiple solutions (multiple green paths).  As we said, the query `[Animal ?]` has four different solutions.  If all your tasks are randomized, then you get a randomly chosen solution.  But if tasks aren't randomized, then it always gives you the **leftmost** solution in the tree.  That ends up being important when we get to recursion.
 

@@ -88,7 +88,7 @@ Greet ?who: Hello, ?who.
 Greet ?who: Hey, ?who.
 Greet ?who: Good evening, ?who.
 </code></pre>
-<p>So what does <code>?who</code> mean in the methods above?  It’s a placeholder that can be filled in when <code>Greet</code> is called, and then used in the text template to fill in blanks.  These placeholders are called <strong>variables</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  In particular, they’re called “local variables” because if two different methods each have a variable named <code>?who</code>, they’re treated as different variables &ndash; they don’t interfere with one another.</p>
+<p>So what does <code>?who</code> mean in the methods above?  It’s a placeholder that can be filled in when <code>Greet</code> is called, and then used in the text template to fill in blanks.  These placeholders are called <strong>variables</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> In particular, they’re called “local variables” because if two different methods each have a variable named <code>?who</code>, they’re treated as different variables &ndash; they don’t interfere with one another.</p>
 <p>To print the text in a variable, just list it on the right-hand side of the colon in a method:</p>
 <pre><code class="language-step">Greet ?who: Good evening, ?who.
 </code></pre>
@@ -106,7 +106,7 @@ Greet ?who: Good evening, ?who.
 <p>This task takes two parameters, who we’re briefing (<code>?who</code>), and what their mission is (<code>?mission</code>).  If we run:</p>
 <pre><code class="language-step">[MissionBriefing “Mr. Phelps” “save the world from fascism”]
 </code></pre>
-<p>It will start by calling <code>Greet</code> with <code>?who</code> as its parameter.  But <code>?who</code> is just a placeholder for <code>“Mr. Phelps”</code>.   So the system prints “Good evening, Mr. Phelps.”  Then it prints the “your mission” stuff and finally the mission and a period.  So we get:</p>
+<p>It will start by calling <code>Greet</code> with <code>?who</code> as its parameter.  But <code>?who</code> is just a placeholder for <code>“Mr. Phelps”</code>.  So the system prints “Good evening, Mr. Phelps.”  Then it prints the “your mission” stuff and finally the mission and a period.  So we get:</p>
 <blockquote>
 <p>Good evening, Mr. Phelps.  Your mission, should you decide to accept it, is to save the world from fascism.</p>
 </blockquote>
@@ -116,7 +116,7 @@ Greet ?who: Good evening, ?who.
 <hr />
 <ol>
 <li id="fn:1">
-<p>Apologies to programmers who feel talked down to because they know what a variable is.  This is for those who don't know what a variable is.  But also, be warned that local variables in languages like Step behave wildly differently from variables in regular langauges.  You'll see one example on <a href="Pattern_matching.html">the next page</a>, and a much longer discussion in <a href="Logic_programming.html">the next chapter</a>. The next page introduces a technique you probably haven't encountered before.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p>Apologies to programmers who feel talked down to because they know what a variable is.  This is for those who don't know what a variable is.  But also, be warned that local variables in languages like Step behave wildly differently from variables in regular languages.  You'll see one example on <a href="Pattern_matching.html">the next page</a>, and a much longer discussion in <a href="Logic_programming.html">the next chapter</a>. The next page introduces a technique you probably haven't encountered before.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>

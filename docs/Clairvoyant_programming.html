@@ -88,7 +88,7 @@
 <p>If you're new to programming, I'd suggest you skip to the next page at this point.  But experience programmers curious what a nondeterminism would look like in a conventional language, read on.</p>
 <h2 id="choice-and-failure-technical">Choice and failure (technical)</h2>
 <p>As we <a href="Part_I.html">discussed earlier</a>, an <code>if</code> statement combines two functions &ndash; specifying options for a choice and specifying how to decide between them.  This is inconvenient for problems involving delayed feedback.  Nondeterministic languages provide a way of breaking those functions apart, so that the decision information can come <em>after</em> the choice.  These are typically described in terms of <strong>choice</strong>, where the program guesses which option is best, and <strong>failure</strong>, which tells the system that a previous choice was incorrect.  It's the system's job to try different sequences of choices until it can find a way to run the program without failure.  But as a programmer, you think of the system as always guessing right.</p>
-<p>Conceretely, we could make a nondeterministic version of C# (or C, C++, Python, etc.) by adding two new statements.  One, <code>choose</code> is basically a <code>switch</code> statement without a control variable:</p>
+<p>Concretely, we could make a nondeterministic version of C# (or C, C++, Python, etc.) by adding two new statements.  One, <code>choose</code> is basically a <code>switch</code> statement without a control variable:</p>
 <pre><code class="language-C#">choose {
     option: // do something
     option: // do something else

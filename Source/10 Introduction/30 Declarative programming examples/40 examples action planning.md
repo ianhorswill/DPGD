@@ -1,7 +1,7 @@
 ---
 pagetitle: Action planning
 ---
-Although some games only have a few actions an NPC can take, such as running and shooting, many games have a much larger range.  For example, games that include crafting might have a large number of possible actions between harvesting materials and crafting them in different ways.  Combat games might have a large number of different types of weapons, ammo, and so on.  Writing code to decide what action a character can take next can be complicated and error prone.  And each time a new kind of weapon is introduced, it might potentially require rewriting the code from scratch.
+Although some games only have a few actions an NPC can take, such as running and shooting, many games have a much larger range.  For example, games that include crafting might have many possible actions between harvesting materials and crafting them in different ways.  Combat games might have numerous weapons, ammo types, and so on.  Writing code to decide what action a character can take next can be complicated and error-prone.  And each time a new kind of weapon is introduced, it might potentially require rewriting the code from scratch.
 
 The declarative approach to this, known as automated planning, involves telling the system what the available actions are, and for each:
 

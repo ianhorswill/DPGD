@@ -10,7 +10,7 @@ Hello: Bon jour!
 ```
 This is a grammar with one kind of phrase, `Hello`, and several rules for it.  We're representing our grammar as a program in the Step language, and Step is more versatile than just a grammar system.  So let's mention how Step thinks of this program:
 
-* `Hello` is called a **task** in Step terminology. Task just means little program.  Tasks are named and their names must start with a capital letter.
+* `Hello` is called a **task** in Step terminology. Task just means little program.  Tasks are named, and their names must start with a capital letter.
 * Each rule is called a **method** for its task.  Each gives a different way of performing the task.
 * The `[randomly]` annotation at the beginning is a **declaration** telling Step something about the nature of the `Hello` task, in this case, to choose methods randomly.
 

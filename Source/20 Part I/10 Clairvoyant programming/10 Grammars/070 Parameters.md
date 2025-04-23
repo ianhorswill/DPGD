@@ -1,7 +1,7 @@
 ---
 pagetitle: Parameterized grammars
 ---
-To review, context-free-grammars are collections of templates that describe how to generate phrase types in terms of other phrase types.  To write that in Step, we have one task for each phrase type and one method for each rule/template.  Templates can fill in a subphrase by enclosing the subphrase's task in brackets:
+To review, context-free-grammars are collections of templates that describe how to generate phrase types in terms of other phrase types.  To write that in Step, we have one task for each phrase type and one method for each rule/template.  Templates can fill in a sub-phrase by enclosing the sub-phrase's task in brackets:
 ```step
 Phrase: bla bla [Subphrase] bla
 ```
@@ -32,11 +32,11 @@ Which is a little less typing than:
 ```step
 [Greet “dawg”]
 ````
-But they both mean the same thing.[^2]  Both can generate text such as “Hey, dawg.”
+But they both mean the same thing.[^2] Both can generate text such as “Hey, dawg.”
 
 ## Endnotes
 
 [^1]: Argument and parameter are exact synonyms for our purposes.  Argument is somewhat more common in computer science and mathematics.  I'll lean toward using parameter here because most people think of an argument as something that involves shouting.
 
-[^2]: *Extremely esteric*: This is a lie, but it's almost true.  Internally, `dawg` is represented using the C# `string` datatype, whereas `"dawg"` is represented internally using the C# `string[]` datatype, an array of one `string` for each word in the quoted text.  The only time this matters is when you are writing code that is passing data back and forth between C# and Step.  Why does Step represent text as arrays of words rather than one string?  So that when it can generate the final string at the end, it can reason about things like whether it needs to capitalize a word because it's at the start of a sentence.
+[^2]: *Extremely esoteric*: This is a lie, but it's almost true.  Internally, `dawg` is represented using the C# `string` datatype, whereas `"dawg"` is represented internally using the C# `string[]` datatype, an array of one `string` for each word in the quoted text.  The only time this matters is when you are writing code that is passing data back and forth between C# and Step.  Why does Step represent text as arrays of words rather than one string?  So that when it can generate the final string at the end, it can reason about things like whether it needs to capitalize a word because it's at the start of a sentence.
 
