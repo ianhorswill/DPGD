@@ -1,6 +1,6 @@
 # directories
 pagesdir:       Source
-outputsdir:     Html
+outputsdir:     Docs
 
 # theme location
 themefile:      Theme/theme.yaml
