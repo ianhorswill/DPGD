@@ -1,0 +1,197 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Images of relations</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Images of relations">
+	<meta name="twitter:title" content="Images of relations">
+	<meta property="og:title" content="Images of relations" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Background.html"> Background appendices </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Mathematics.html"> Mathematics </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Basic_objects_of_mathematics.html"> Basic objects </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Relations.html"> Relations </a>
+			<h1><a class="simplelink" href="index.html">Images of relations</a></h1>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>We often find ourselves wanting to talk about what objects a given relation might relate a given object to.  For the equality relation, for example, a given object is only equal to itself.  In fact, every object is equal to itself and not other object.  However for the <span class="math">\(&lt;\)</span> relation for numbers, any given number is less than an infinite set of other numbers.</p>
+<p>It's useful to have a notation for writing the set of things an element is related to.  For any <span class="math">\(R\subseteq A\times B\)</span>, that is for any relation <span class="math">\(R\)</span> between elements of the sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span>, we define the <strong>images of set elements</strong> as:</p>
+<div class="math">
+\[
+\begin{align}
+\overrightarrow{R}(a)&amp;=\{b \; | \; aRb\} \\
+\overleftarrow{R}(b)&amp;=\{a \; | \; aRb\}
+\end{align}
+\]</div>
+<p>That is,</p>
+<ul>
+<li><span class="math">\(\overrightarrow{R}(a)\)</span> is the set of all the things on the right related to <span class="math">\(a\)</span>, and</li>
+<li><span class="math">\(\overleftarrow{R}(b)\)</span> is the set of things related on the left to <span class="math">\(b\)</span></li>
+</ul>
+<p>The images of sets of elements are:</p>
+<div class="math">
+\[
+\begin{align}
+\overrightarrow{R}(X)&amp;=\{b \; | \;  aRb \text{ for some } a\in X\} \\
+\overleftarrow{R}(X)&amp;=\{a \; | \; aRb \text{ for some } b\in X\}
+\end{align}
+\]</div>
+<p>That is,</p>
+<ul>
+<li><span class="math">\(\overrightarrow{R}(X)\)</span> is the set of everything on the right related to something in <span class="math">\(X\)</span>, and</li>
+<li><span class="math">\(\overleftarrow{R}(X)\)</span> is the set of everything on the left related to something in <span class="math">\(X\)</span></li>
+</ul>
+<h2 id="images-of-ary-relations">Images of <span class="math">\(n\)</span>-ary relations</h2>
+<p>We can also talk about the images of <span class="math">\(n\)</span>-ary relations, but I've never seen a good notation for writing it.  It's a pity because it would be useful for writing about constraint solvers.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Relations</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Relationships_as_sets.html" id="section_page_1"> Relationships as sets </a> <br></li>
+					<li><a class="backgroundlink" href="Functions_on_relations.html" id="section_page_2"> Functions on relations </a> <br></li>
+					<li><a class="backgroundlink" href="N-ary_relations.html" id="section_page_3"> Relations with more arguments </a> <br></li>
+					<li><a class="simplelink" href="Images_of_relations.html" id="section_page_4"> <b> Images of relations </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Properties_of_relations.html" id="section_page_5"> Properties of relations </a> <br></li>
+					<li><a class="backgroundlink" href="Functions.html" id="section_page_6"> Functions </a> <br></li>
+					<li><a class="backgroundlink" href="Homogeneous_relations.html" id="section_page_7"> Homogeneous relations </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Properties_of_relations.html"><b>Next:</b> Properties of relations</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="N-ary_relations.html"><b>Previous:</b> Relations with more arguments</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="Relations.html"><b>Up:</b> Relations</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

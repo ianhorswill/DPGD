@@ -1,0 +1,272 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Simple grammars</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Simple grammars">
+	<meta name="twitter:title" content="Simple grammars">
+	<meta property="og:title" content="Simple grammars" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+			<h1><a class="simplelink" href="index.html">Simple grammars</a></h1>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>A grammar is a set of rules describing the arrangements of words within phrases.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  Nearly all grammars in games and CS are variations of a specific formalism called a <strong>context-free grammar</strong> (<strong>CFG</strong>).  Basic CFGs are one of the simplest declarative formalisms.  They're used to describe programming languages, dialog for non-player characters, patterns for generating random names for things in a game, and many other applications.</p>
+<h2 id="a-grammar-for-treasure">A grammar for treasure</h2>
+<p>From a practical standpoint, a CFG specifies a set of templates for each phrase type: fixed text strings with the ability to substitute other phrase types in particular spots.  For example, if we were making a random treasure generator for a game, we might say that a treasure can be a weapon, a piece or armor, or an item:</p>
+<pre><code class="language-step">Treasure: [Weapon]
+Treasure: [Armor]
+Treasure: [Item]
+</code></pre>
+<p>Here, the name before the colon is a phrase type and the text after it is the template for generating it.  A type can have many alternative templates, and if a phrase type appears in brackets in the template, then a phrase of that type is to be substituted for the bracketed expression.  So the grammar above says “a treasure is a weapon, armor, or item.”</p>
+<p>Great.  What’s a weapon?</p>
+<pre><code class="language-step">Weapon: [PreBuff] [WeaponType] [PostBuff]
+WeaponType: sword
+WeaponType: mace
+...
+</code></pre>
+<p>Since “sword” and “mace’ are <em>not</em> in brackets, they’re printed verbatim.  So this says that a weapon is a weapon type (sword or mace), surrounded by two <a href="https://en.wikipedia.org/wiki/Game_balance#Buffs_and_nerfs">buffs</a>, a “pre-buff” and a “post-buff”:</p>
+<pre><code class="language-step">PreBuff: +1
+PreBuff: +2
+...
+PreBuff: cursed
+...
+
+PostBuff: of [Element]
+PostBuff: of [Effect]
+...
+
+Element: earth
+Element: air
+Element: fire
+Element: water
+Element: soul
+
+Effect: insanity
+Effect: sleep
+Effect: poison
+Effect: social anxiety
+...
+</code></pre>
+<h2 id="generating-treasure">Generating treasure</h2>
+<p>To generate a treasure using this grammar, we start with <code>[Treasure]</code> and randomly choose one of its rules, e.g.:</p>
+<pre><code class="language-step">Treasure: [Weapon]
+</code></pre>
+<p>to change <code>[Treasure]</code> into <code>[Weapon]</code>.  Then we use the rule for <code>Weapon</code> to turn it into <code>[PreBuff] [WeaponType] [PostBuff]</code>.  Then, we pick a rule to replace <code>[PreBuff]</code>, e.g. <code>PreBuff: cursed</code>, and change our text to <code>cursed [WeaponType] [PostBuff]</code>.  Then we pick rules for <code>[WeaponType]</code> and <code>[PostBuff]</code> and we get something like:</p>
+<blockquote>
+<p>cursed mace of social anxiety</p>
+</blockquote>
+<p>Producing text using a grammar is called <strong>generation</strong>.  Conversely, using a grammar to break existing text up into into its constituent phrases and subphrases, is called <strong>parsing</strong>.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Nearly all programming languages are defined in terms of CFGs. Compilers or interpreters nearly always start by using the grammar to parse the program into its pieces.</p>
+<p>This is the grammar above written as a Step program.  To try it, click the code and then type <code>Treasure</code> in the command box and hit return:</p>
+<pre><code class="language-Step"># Try: [Treasure]
+Treasure: [Weapon]
+
+Weapon: [PreBuff] [WeaponType] [PostBuff]
+
+[randomly]
+WeaponType: sword
+WeaponType: mace
+
+[randomly]
+PreBuff: +1
+PreBuff: +2
+PreBuff: cursed
+
+[randomly]
+PostBuff: of [Element]
+PostBuff: of [Effect]
+
+[randomly]
+Element: earth
+Element: air
+Element: fire
+Element: water
+Element: soul
+
+[randomly]
+Effect: insanity
+Effect: sleep
+Effect: poison
+Effect: social anxiety
+</code></pre>
+<p>The line starting with <code>#</code> is called a <strong>comment</strong>.  It's a note from the human programmer to other humans.  Step ignores the rest of a line after a <code>#</code>.</p>
+<h2 id="fancier-grammars">Fancier grammars</h2>
+<p>In games and computer science, we frequently augment the basic CFG formalism with mechanisms for:</p>
+<ul>
+<li>Passing information into and out of the parsing or generation process, and</li>
+<li>Placing conditions on when a given template can be used based on that information</li>
+</ul>
+<p>This has led to the development of endless variations on CFGs.  In this book, we’ll focus on a particular class of “unification grammars” called <em>definite clause grammars</em>, but you don’t really need to know that term, especially since it’s an extremely non-obvious name.<a id="fnref:3" href="#fn:3" class="footnote-ref"><sup>3</sup></a></p>
+<p>In this chapter, we’ll walk you through how to write CFGs using the programming language <em>Step</em>.  It will also serve as an introduction to the <em>Step</em> language.  In <a href="Logic_programming.html">the next chapter</a>, we’ll introduce how Step can be used for logical reasoning, after which we’ll return to grammars and discuss how to use logic inside grammars.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Technically, those are a particular kind of grammar called a <em>phrase structure grammar</em>.  There are other kinds of grammars such as <a href="https://en.wikipedia.org/wiki/Dependency_grammar">dependency grammars</a>.  However most grammars in computer science and game development are phrase-structure grammars.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>From the latin <em>pars</em> meaning “part” or &ldquo;piece.&rdquo;<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p><em>Esoterica</em>: The name comes from the fact that DCGs can be expressed in terms of sentences in a <a href="Logic.html">formal logic</a> called <a href="Definite_clauses.html">definite clauses</a>.<a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Simple grammars</h5>
+			<ol>
+					<li><a class="backgroundlink" href="Generating_text.html" id="section_page_1"> Grammar rules </a> <br></li>
+					<li><a class="backgroundlink" href="Tasks_and_methods.html" id="section_page_2"> Tasks and methods </a> <br></li>
+					<li><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
+					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_4"> Context-free grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_5"> A silly context-free-grammar </a> <br></li>
+					<li><a class="backgroundlink" href="Parameters.html" id="section_page_6"> Parameterized grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Variables.html" id="section_page_7"> Variables </a> <br></li>
+					<li><a class="backgroundlink" href="Pattern_matching.html" id="section_page_8"> Patterns of parameters </a> <br></li>
+					<li><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_9"> Methods for specific parameters </a> <br></li>
+					<li><a class="backgroundlink" href="Variable_substitutions.html" id="section_page_10"> A nice shorthand </a> <br></li>
+					<li><a class="backgroundlink" href="Mention.html" id="section_page_11"> Mentioning </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a class="simplelink" id="NextPage" href="Generating_text.html"><b>Next:</b> Grammar rules</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a class="simplelink" id="PreviousPage" href="Clairvoyant_programming.html"><b>Previous:</b> Clairvoyant programming</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
