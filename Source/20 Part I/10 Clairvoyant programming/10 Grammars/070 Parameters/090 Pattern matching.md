@@ -30,9 +30,8 @@ Which isn’t fluent.  We can fix this by having another method that specificall
 Give ?giver ?giver ?item: ?giver gave themself ?item
 Give ?giver ?receiver ?item: ?giver gave ?receiver ?item.
 ```
-If you don’t tag a task with `[randomly]`, then Step will always try its methods in the order they appear in the file.  But because the first method lists
-`?giver` for both its first and second parameters, it can only run when its first two parameters are the same.  In the Mr. Boss example, they are, and so we get:
+If you don’t tag a task with `[randomly]`, then Step will always prefer methods that come earlier in the program over ones that come later.  But because the first method lists `?giver` for both its first and second parameters, it can only run when its first two parameters are the same.  In the Mr. Boss example, they are, and so we get:
 
 > Mr. Boss gave themself a nice raise.
     
-But in the Mary/Jill example, the parameters can’t match to that first method.  The first method **fails**.  So Step abandons that method and moves on to the next method, which works properly.
+But in the Mary/Jill example, the parameters can’t match to that first method.  So Step doesn't consider it.

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Under the hood (technical)</title>
+	<title>What is a solution?</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Under the hood (technical)">
-	<meta name="twitter:title" content="Under the hood (technical)">
-	<meta property="og:title" content="Under the hood (technical)" />
+	<meta itemprop="name" content="What is a solution?">
+	<meta name="twitter:title" content="What is a solution?">
+	<meta property="og:title" content="What is a solution?" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -52,8 +52,8 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
-			<h1><a class="simplelink" href="index.html">Under the hood (technical)</a></h1>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="SLD_Resolution.html"> Solving </a>
+			<h1><a class="simplelink" href="index.html">What is a solution?</a></h1>
 		</div>
 	</div>
 </div>
@@ -82,8 +82,69 @@
 
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>This section describes the execution algorithm used in logic programming at a high level.  For a discussion of how to implement your own logic programming system, see <a href="Part_II.html">Part II</a>.</p>
+<p>Let's return to our dogs, cats, and spies example:</p>
+<pre><code class="language-step">[predicate]
+Dog benji.
+Dog lassie.
+
+[predicate]
+Cat morris.
+Cat garfield.
+Cat acoustic_kitty.
+
+[predicate]
+Animal ?x: [Dog ?x]
+Animal ?x: [Cat ?x]
+
+[predicate]
+Human jason_bourne.
+
+[predicate]
+Spy acoustic_kitty.
+Spy jason_bourne.
+</code></pre>
+<p>When we query:</p>
+<pre><code class="language-step">[Animal ?who] [Spy ?who]
+</code></pre>
+<p>We are asking the system to find a way to execute this query such that it succeeds rather than fails.  That means making a series of clairvoyant choices about what methods to choose for each call such that:</p>
+<ul>
+<li>The parameters of each call match the parameters of the chosen method</li>
+<li>Each variable has a consistent value throughout execution: we never ask a variable to have two different values at once</li>
+</ul>
+<p>As we said before, the choices defined by a program form a tree:</p>
+<pre class="mermaid">graph TB
+    a("[Animal ?x]") -- "Animal ?x: [Dog ?x]" --> d("[Dog ?x]")
+    style a fill:green
+    style d fill:red
+        d -- "Dog benji." --> benji("[Spy benji]")  -- "Spy acoustic_kitty." --> f1(fail)
+        style benji fill:red
+        style f1 fill:red
+        benji  -- "Spy jason_bourne." --> f1a(fail)
+        style f1a fill:red
+        d -- "Dog lassie." --> lassie("[Spy lassie]") -- "Spy acoustic_kitty." --> f2(fail)
+        style lassie fill:red
+        style f2 fill:red
+        lassie -- "Spy jason_bourne." --> f2a(fail)
+        style f2a fill:red
+    a("[Animal ?x]") -- "Animal ?x: [Cat ?x]" --> c("[Cat ?x]")
+        c -- "Cat morris." --> morris("[Spy morris]")  -- "Spy acoustic_kitty." --> f3(fail)
+        style morris fill:red
+        style c fill:green
+        style f3 fill:red
+        morris -- "Spy jason_bourne." --> f3a(fail)
+        style f3a fill:red
+        c -- "Cat garfield." --> garfield("[Spy garfield]") -- "Spy acoustic_kitty." --> f4(fail)
+        style garfield fill:red
+        style f4 fill:red
+        garfield -- "Spy jason_bourne." --> f4a(fail)
+        style f4a fill:red
+        c -- "Cat acoustic_kitty." --> ak("[Spy acoustic_kitty]") -- "Spy acoustic_kitty." --> s(success)
+        style ak fill:green
+        style s fill:green
+        ak -- "Spy jason_bourne." --> f5(fail)
+        style f5 fill:red
+</pre>
+<p>A solution is an execution of the program that doesn't dead end at a red <strong>fail</strong> node, but rather gets all the way to a green <strong>success</strong> node: a green path.  In this particular example, there's only one successful path, but there are often many possible successful paths.  We generally don't care which one we get.  We just want some successful path and we don't want to have to think about how to find it.</p>
 
 
 
@@ -95,10 +156,13 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Under the hood (technical)</h5>
-			<ol>
-					<li><a class="backgroundlink" href="Not_magic.html" id="section_page_1"> Okay, it&#x27;s not magic (technical) </a> <br></li>
-					<li><a class="backgroundlink" href="The_matching_process_in_detail.html" id="section_page_2"> The matching process in detail </a> <br></li>
+			<h5>Solving</h5>
+			<ol start="1">
+					<li><a class="simplelink" href="Solution_criteria.html" id="section_page_1"> <b> What is a solution? </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Not_magic.html" id="section_page_2"> Okay, it&#x27;s not magic (technical) </a> <br></li>
+					<li><a class="backgroundlink" href="Magic.html" id="section_page_3"> Magic </a> <br></li>
+					<li><a class="backgroundlink" href="Clairvoyance.html" id="section_page_4"> A deeper magic: clairvoyance </a> <br></li>
+					<li><a class="backgroundlink" href="The_matching_process_in_detail.html" id="section_page_5"> The matching process in detail </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -113,11 +177,11 @@
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Clairvoyance.html"><b>Previous:</b> Clairvoyance</a><br>
+			<a class="simplelink" id="PreviousPage" href="SLD_Resolution.html"><b>Previous:</b> Solving</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Logic_programming.html"><b>Up:</b> Simple logic programs</a><br>
+			<a class="simplelink" id="UpPage" href="SLD_Resolution.html"><b>Up:</b> Solving</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

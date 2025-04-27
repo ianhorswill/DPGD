@@ -109,11 +109,11 @@ Cat garfield.
 </code></pre>
 <p>If you aren't familiar with US pop culture from the 1970s, Benji and Lassie were famous dogs from movies, Morris was a cat from cat-food commercials, and Garfield is a famous cartoon cat.  So these methods form a little <strong>database</strong> of cats and dogs.</p>
 <h3 id="calls-as-queries">Calls as queries</h3>
-<p>When we run <code>[Dog lassie]</code>, it works even though it doesn't print anything.  We say the call <strong>succeeds</strong>.  In detail, it:</p>
+<p>When we run <code>[Dog lassie]</code>, it works even though it doesn't print anything.  We say the call <strong>succeeds</strong>.  It goes like this:</p>
 <ul>
-<li>Tries to match <code>Dog lassie</code> to the first method <code>Dog benji</code>, but it can't because <code>benji</code> and <code>lassie</code> are different.  So that <strong>method fails</strong>.</li>
-<li>Then moves on to the second method, <code>Dog lassie</code>, which is a perfect match for the call.</li>
-<li>Then runs the method, but the method doesn't do anything. It just finishes.  We're done.</li>
+<li>It can't match <code>Dog lassie</code> to the first method <code>Dog benji</code>, because <code>benji</code> and <code>lassie</code> are different; that <strong>method fails</strong>.</li>
+<li>However, <code>Dog lassie</code> is a perfect match for the call.</li>
+<li>It runs that method, but the method doesn't do anything. It just finishes.  We're done.</li>
 </ul>
 <p>Now what happens if we run <code>[Dog garfield]</code>?</p>
 <pre><code class="language-Step"># Try: [Dog garfield]
@@ -139,11 +139,11 @@ Cat garfield.
 </code></pre>
 <p>You've only seen variables appear inside of methods.  But Step's command line lets you specify variables as parameters.  So what does running <code>[Dog ?x]</code> do?</p>
 <ul>
-<li>It tries to match <code>Dog ?x</code> against the first method, <code>Dog benji</code>.  That succeeds, setting <code>?x</code>=<code>benji</code></li>
-<li>It runs the method, but the method doesn't print anything. It just finishes.</li>
-<li>The command line prints out <code>?x=benji</code></li>
+<li><code>Dog ?x</code> matches the first method, <code>Dog benji</code>, provided <code>?x</code>=<code>benji</code></li>
+<li>So it runs the method.  Again, the method doesn't print anything. It just finishes.</li>
+<li>The command line reports back that <code>?x=benji</code></li>
 </ul>
-<p>So this query is like asking &quot;who is a dog?&quot;, or equivalently, &ldquo;give me the name of a dog.&rdquo;</p>
+<p>So this query is like asking &quot;who is a dog?&quot;, or equivalently, &ldquo;give me the name of a dog,&rdquo; and it replies <code>benji</code>.</p>
 <h3 id="methods-as-inference-rules">Methods as inference rules</h3>
 <p>Now suppose we add another task that doesn't print anything:</p>
 <pre><code class="language-step">[predicate]
@@ -166,8 +166,8 @@ Cat garfield.
 </code></pre>
 <p>In detail, it:</p>
 <ul>
-<li>Tries to match the first method, i.e. matches <code>Animal lassie</code> to <code>Animal ?x</code>.  That works when <code>?x</code>=<code>lassie</code>.</li>
-<li>Then it runs <code>[Dog ?x]</code> which in this case means <code>[Dog lassie]</code>, since we know <code>?x</code> is <code>lassie</code>.</li>
+<li>Both methods for <code>Animal</code> match if we set <code>?x</code>=<code>lassie</code>.  It needs to guess which one to use.  Let's say it guesses the first one.</li>
+<li>That method calls <code>[Dog ?x]</code> which in this case means <code>[Dog lassie]</code>, since we know <code>?x</code> is <code>lassie</code>.</li>
 <li>That just recapitulates the example above, so it succeeds.</li>
 <li>So the method for <code>Animal</code> succeeds, and the call succeeds, even though nobody printed anything.</li>
 </ul>
@@ -187,11 +187,10 @@ Cat garfield.
 </code></pre>
 <p>But it's a little more complicated:</p>
 <ul>
-<li>It tries to match the first method, i.e. matches <code>Animal garfield</code> to <code>Animal ?x</code>.  That works when <code>?x</code>=<code>garfield</code>.</li>
-<li>Then it runs <code>[Dog ?x]</code> which in this case means <code>[Dog garfield]</code>, since we know <code>?x</code> is <code>garfield</code>.</li>
-<li>We already saw that that call fails, so the <code>Animal</code>'s first method fails.</li>
-<li>So it tries the second method for <code>Animal</code>.  It matches too, but this time, we run <code>[Cat garfield]</code> rather than <code>[Dog garfield]</code></li>
-<li>That succeeds, so the <code>Animal</code> method succeeds, and so the original call succeeds, again even though nobody printed anything.</li>
+<li>Both <code>Animal</code> methods matches if <code>?x</code>=<code>garfield</code>.  Again it needs to guess the right one.</li>
+<li>If it guesses the first method, that would fail because that method runs <code>[Dog ?x]</code> and <code>?x</code> is <code>garfield</code>, which isn't a dog.</li>
+<li>So it doesn't guess the first method, it guesses the second method.  That method runs <code>[Cat garfield]</code> rather than <code>[Dog garfield]</code></li>
+<li><code>[Cat garfield]</code> succeeds, so the <code>Animal</code> method succeeds, and so the original call succeeds, again even though nobody printed anything.</li>
 </ul>
 <p>On the other hand, if we run <code>[Animal coffee]</code>, that call <em>fails</em>:</p>
 <pre><code class="language-Step"># Try: [Animal coffee]
@@ -207,12 +206,7 @@ Dog lassie.
 Cat morris.
 Cat garfield.  
 </code></pre>
-<p>When it runs this,</p>
-<ul>
-<li>The first method matches, but tries to run <code>[Dog coffee]</code>, which fails</li>
-<li>The second method matches, but tries to run <code>[Cat coffee]</code>, which also fails</li>
-<li>Both methods having failed, the call fails.</li>
-</ul>
+<p>When it runs this, both <code>Animal</code> methods match, but neither <code>[Dog coffee]</code> nor <code>[Cat coffee]</code> could succeed, so there's no valid method to guess.  So the call <code>[Animal coffee]</code> fails.</p>
 <p>So, again <code>Animal</code> behaves like a test for animalhood: it succeeds when its argument is an animal.  It fails when the argument isn't an animal given the information available to the computer.  Once again, if we call <code>[Animal ?x]</code>, it will report back to us a value for <code>?x</code> that is an animal.  If we added <code>[randomly]</code> to all our tasks, then it would randomly choose the animal:</p>
 <pre><code class="language-Step"># Try: [Animal ?]
 [predicate] [randomly]
@@ -266,13 +260,12 @@ Cat garfield.
 
 <div class="container-fluid sidebar">
 			<h5>Simple logic programs</h5>
-			<ol>
+			<ol start="1">
 					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
 					<li><a class="backgroundlink" href="Asking_questions.html" id="section_page_2"> Asking questions of predicates </a> <br></li>
-					<li><a class="backgroundlink" href="Inference.html" id="section_page_3"> Inference </a> <br></li>
-					<li><a class="backgroundlink" href="Magic.html" id="section_page_4"> Magic </a> <br></li>
-					<li><a class="backgroundlink" href="Clairvoyance.html" id="section_page_5"> A deeper magic: clairvoyance </a> <br></li>
-					<li><a class="backgroundlink" href="Under_the_hood.html" id="section_page_6"> Under the hood (technical) </a> <br></li>
+					<li><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
+					<li><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
+					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_5"> Self-referential rules </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -287,7 +280,7 @@ Cat garfield.
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Grammars.html"><b>Previous:</b> Simple grammars</a><br>
+			<a class="simplelink" id="PreviousPage" href="Variable_substitutions.html"><b>Previous:</b> A nice shorthand</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>

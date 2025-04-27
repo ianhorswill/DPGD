@@ -53,6 +53,7 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Parameters.html"> Parameterized grammars </a>
 			<h1><a class="simplelink" href="index.html">Methods for specific parameters</a></h1>
 		</div>
 	</div>
@@ -90,7 +91,9 @@ Reflexive “Mary”: herself
 Reflexive ?: themself
 </code></pre>
 <p>Calling <code>[Reflexive ?who]</code> will print out whatever reflexive pronoun is used by <code>?who</code>.  Notice that the first two of these methods specify <strong>specific values</strong> for their parameters.  The first method will only match when the parameter is <code>“Mr. Boss”</code>.  For any other value, it will fail to match, and the system will move on to the second method.  But it will only match for the specific value, <code>“Mary”</code>.  So we have Mary and Mr. Boss covered.  The last method is a catch-all.  If the parameter is anything else (remember <code>?</code> is a variable), then the system will be conservative and print “themself”.</p>
-<p><strong>Note:</strong> it’s important that the catch-all method come last, since the system tries methods in order (unless you told it to try them randomly, of course).  It doesn’t matter what order the Mr. Boss and Mary methods are in, however, so long as they’re before the catch-all method.</p>
+<blockquote>
+<p><strong>Note:</strong> Remember that the system prefers methods that come earlier in the file, so it's important that any catch-all methods be put last.</p>
+</blockquote>
 <p>We can then use this to correct the behavior of <code>Give</code>:</p>
 <pre><code class="language-Step"># Try: [Give “Mary” “Mary” “a nice raise”]
 Give ?giver ?giver ?item: ?giver gave [Reflexive ?giver] ?item
@@ -111,19 +114,12 @@ Reflexive ?: themself
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Simple grammars</h5>
-			<ol>
-					<li><a class="backgroundlink" href="Generating_text.html" id="section_page_1"> Grammar rules </a> <br></li>
-					<li><a class="backgroundlink" href="Tasks_and_methods.html" id="section_page_2"> Tasks and methods </a> <br></li>
-					<li><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
-					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_4"> Context-free grammars </a> <br></li>
-					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_5"> A silly context-free-grammar </a> <br></li>
-					<li><a class="backgroundlink" href="Parameters.html" id="section_page_6"> Parameterized grammars </a> <br></li>
-					<li><a class="backgroundlink" href="Variables.html" id="section_page_7"> Variables </a> <br></li>
-					<li><a class="backgroundlink" href="Pattern_matching.html" id="section_page_8"> Patterns of parameters </a> <br></li>
-					<li><a class="simplelink" href="Reflexive_pronouns.html" id="section_page_9"> <b> Methods for specific parameters </b> </a> <br></li>
-					<li><a class="backgroundlink" href="Variable_substitutions.html" id="section_page_10"> A nice shorthand </a> <br></li>
-					<li><a class="backgroundlink" href="Mention.html" id="section_page_11"> Mentioning </a> <br></li>
+			<h5>Parameterized grammars</h5>
+			<ol start="1">
+					<li><a class="backgroundlink" href="Variables.html" id="section_page_1"> Variables </a> <br></li>
+					<li><a class="backgroundlink" href="Pattern_matching.html" id="section_page_2"> Patterns of parameters </a> <br></li>
+					<li><a class="simplelink" href="Reflexive_pronouns.html" id="section_page_3"> <b> Methods for specific parameters </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Variable_substitutions.html" id="section_page_4"> A nice shorthand </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -142,7 +138,7 @@ Reflexive ?: themself
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> Simple grammars</a><br>
+			<a class="simplelink" id="UpPage" href="Parameters.html"><b>Up:</b> Parameterized grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

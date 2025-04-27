@@ -130,42 +130,6 @@ Aunt ?c ?a: [Parent ?c ?p] [Siblings ?p ?a]
 <pre><code class="language-step">[predicate]
 Aunt ?c ?a: [Parent ?c ?p] [Siblings ?p ?a] [Female ?a]
 </code></pre>
-<h2 id="self-referential-rules">Self-referential rules</h2>
-<p>So far, so good.  We can define the Parent relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc. We could write:</p>
-<pre><code class="language-step">[predicate]
-Ancestor ?c ?a: [Parent ?c ?a]
-Ancestor ?c ?g: [Grandparent ?c ?g]
-Ancestor ?c ?g: [Greatgrandparent ?c ?g]
-Ancestor ?c ?g: [Greatgreatgrandparent ?c ?g]
-</code></pre>
-<p>And so on, forever.  But forever is a lot of typing.  What we can say instead is: an ancestor is either your parent, or an ancestor of your parent.  That’s just two rules that do the equivalent work of an infinite number of rules:</p>
-<pre><code class="language-step">[predicate]
-Ancestor ?c ?p: [Parent ?c ?p]
-Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]
-</code></pre>
-<p>In mathematics, logic, and computer science, this is called a <strong>recursive</strong> definition, and when the <code>Ancestor</code> rule turns around and calls <code>Ancestor</code> again, that’s called <strong>recursion</strong>.</p>
-<p>Recursive definitions have a fairly standard format.  They generally start with a rule that doesn’t recurse.  This is called a <strong>base case</strong>.  It notices when it can decide immediately without having to recurse.  Then there’s another rule that recurses, called unsurprisingly, the <strong>recursive case</strong>.  It’s important to have the base case first, and the recursive case second.  And for the recursive rule, you generally want to end with the recursive call, not start with it.
-Why is that?  Because Step doesn’t really understand logic.  It’s just mechanically running the tasks you tell it to.  We’re just using our understanding of how it runs them to make it mimic logical inference.  By putting the base case first, we’re causing it to always check whether it really needs to recurse before recursing.  If we flip the order, it will always recurse no matter what.  That means the first call recurses, but then the recursive call recurses, and that call also recurses, on and on infinitely, without Step ever understanding that something’s wrong.</p>
-<p>So if you rearrange things, it’s still conceptually correct from the standpoint of what it means to be an ancestor, but Step won’t be able to work with it.</p>
-<h2 id="taxonomies">Taxonomies</h2>
-<p>Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs.  We can express those relationships using rules:</p>
-<pre><code class="language-Step"># Try: [Animal ?x]
-[predicate]
-Animal ?a: [Dog ?a]
-Animal ?a: [Cat ?a]
-
-[predicate]
-Dog ?d: [Labrador ?d]
-Dog ?d: [Collie ?d]
-
-[predicate]
-Collie lassie.
-[predicate]
-Labrador bruce.
-</code></pre>
-<p>Now suppose we run <code>[Animal lassie]</code>, i.e. we ask “is Lassie an animal?”  The system will start by running the first <code>Animal</code> method, which will call <code>Dog</code> to check if Lassie is a dog.  It then tries the first Dog method, which calls <code>Labrador</code> to check if Lassie is a Labrador.  That fails, since Bruce is the only Labrador.  So the system abandons the first <code>Dog</code> method and tries the second, which says to call <code>Collie</code>.  That succeeds, meaning it’s verified Lassie is a collie.  That then means that the method it was running for <code>Dog</code>, which had called Collie, also succeeds.  So the system has verified Lassie is a dog.  That then means that the method for <code>Animal</code> succeeds, and so it’s verified that Lassie is an animal.</p>
-<p>We could instead have run <code>[Animal ?x]</code>, meaning “who’s an animal?”  It would then have run the first <code>Animal</code> rule, as before, but now it’s running <code>[Dog ?x]</code> rather than <code>[Dog lassie]</code>.  Then it will again start with the first <code>Dog</code> rule, which runs <code>[Labrador ?x]</code>.  Where the <code>Labrador</code> call failed in the <code>Lassie</code> example, it succeeds here because its parameter is a variable with no value.  So the call to <code>Labrador</code> actually succeeds, and binds <code>?x</code> to <code>bruce</code> (i.e. it sets <code>?x</code> to be <code>bruce</code> now).  Since <code>Labrador</code> succeeded, the <code>Dog</code> rule succeeds, which means the <code>Animal</code> rule succeeds, but in this case, it returns the answer that <code>?x=bruce</code>, i.e. “Bruce is an animal.”</p>
-<p>Note that it gave us the answer <code>Bruce</code> simply because that’s the first answer it ran into.  If we were to swap the order of the rules for <code>Dog</code>, we would have looked for <code>Collie</code>s before <code>Labrador</code>s instead of the other way around, and so we would get the answer <code>lassie</code> instead.  Or alternatively, we could have added <code>[randomly]</code> to our rules.</p>
 
 
 
@@ -178,13 +142,12 @@ Labrador bruce.
 
 <div class="container-fluid sidebar">
 			<h5>Simple logic programs</h5>
-			<ol>
+			<ol start="1">
 					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
 					<li><a class="backgroundlink" href="Asking_questions.html" id="section_page_2"> Asking questions of predicates </a> <br></li>
-					<li><a class="simplelink" href="Inference.html" id="section_page_3"> <b> Inference </b> </a> <br></li>
-					<li><a class="backgroundlink" href="Magic.html" id="section_page_4"> Magic </a> <br></li>
-					<li><a class="backgroundlink" href="Clairvoyance.html" id="section_page_5"> A deeper magic: clairvoyance </a> <br></li>
-					<li><a class="backgroundlink" href="Under_the_hood.html" id="section_page_6"> Under the hood (technical) </a> <br></li>
+					<li><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
+					<li><a class="simplelink" href="Inference.html" id="section_page_4"> <b> Inference </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_5"> Self-referential rules </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -195,11 +158,11 @@ Labrador bruce.
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Magic.html"><b>Next:</b> Magic</a><br>
+			<a class="simplelink" id="NextPage" href="Self-referential_rules.html"><b>Next:</b> Self-referential rules</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Asking_questions.html"><b>Previous:</b> Asking questions of predicates</a><br>
+			<a class="simplelink" id="PreviousPage" href="Complex_questions.html"><b>Previous:</b> Building complex questions</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>

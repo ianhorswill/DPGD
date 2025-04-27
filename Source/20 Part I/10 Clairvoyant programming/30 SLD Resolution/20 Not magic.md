@@ -2,9 +2,6 @@
 pagetitle: Okay, it's not magic (technical)
 ---
 
-# Under construction
-
-As you've probably guessed, your computer is not actually magic and does not actually violate the laws of time and causality.  As we said before, the choices defined by a program form a tree:
 ```mermaid
 graph TB
     a("[Animal ?x]") -- "Animal ?x: [Dog ?x]" --> d("[Dog ?x]")
@@ -38,7 +35,7 @@ graph TB
         ak -- "Spy jason_bourne." --> f5(fail)
         style f5 fill:red
 ```
-And what the system really does is **search** the tree: it tries different paths until it finds one that works.  And once it finds a working one, it makes it look as if it never tried any other paths.
+As you've probably guessed, your computer is not actually magic and does not actually violate the laws of time and causality.  The system  **searches** the tree of possible choices: it tries different paths until it finds one that works.  And once it finds a working one, it makes it look as if it never tried any other paths.
 
 The bad news is that there can be a lot of choices, and so trying things until something works might not scale.  Even if a program only makes ten 2-way choices, there are $2^{10}=1024$ possible combinations of choices.  If the program makes 30 such choices, there are $2^{30}$ or approximately one billion combinations.  The good news is that programs can usually avoid trying most of the combinations.  The bad news is that sometimes they can't.  So if you're wondering why it is that the world didn't convert over to doing everything using logic programming 50 years ago, that's one reason, although the Japanese government did [give it a serious try](https://en.wikipedia.org/wiki/Fifth_Generation_Computer_Systems).
 

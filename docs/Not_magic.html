@@ -52,8 +52,7 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Under_the_hood.html"> Under the hood (technical) </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="SLD_Resolution.html"> Solving </a>
 			<h1><a class="simplelink" href="index.html">Okay, it&#x27;s not magic (technical)</a></h1>
 		</div>
 	</div>
@@ -83,8 +82,6 @@
 
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>As you've probably guessed, your computer is not actually magic and does not actually violate the laws of time and causality.  As we said before, the choices defined by a program form a tree:</p>
 <pre class="mermaid">graph TB
     a("[Animal ?x]") -- "Animal ?x: [Dog ?x]" --> d("[Dog ?x]")
     style a fill:green
@@ -117,7 +114,7 @@
         ak -- "Spy jason_bourne." --> f5(fail)
         style f5 fill:red
 </pre>
-<p>And what the system really does is <strong>search</strong> the tree: it tries different paths until it finds one that works.  And once it finds a working one, it makes it look as if it never tried any other paths.</p>
+<p>As you've probably guessed, your computer is not actually magic and does not actually violate the laws of time and causality.  The system  <strong>searches</strong> the tree of possible choices: it tries different paths until it finds one that works.  And once it finds a working one, it makes it look as if it never tried any other paths.</p>
 <p>The bad news is that there can be a lot of choices, and so trying things until something works might not scale.  Even if a program only makes ten 2-way choices, there are <span class="math">\(2^{10}=1024\)</span> possible combinations of choices.  If the program makes 30 such choices, there are <span class="math">\(2^{30}\)</span> or approximately one billion combinations.  The good news is that programs can usually avoid trying most of the combinations.  The bad news is that sometimes they can't.  So if you're wondering why it is that the world didn't convert over to doing everything using logic programming 50 years ago, that's one reason, although the Japanese government did <a href="https://en.wikipedia.org/wiki/Fifth_Generation_Computer_Systems">give it a serious try</a>.</p>
 <p>If you're not a programmer, that's probably all you need to know right now.  The rest of this page talks about how the system searches the tree.  Feel free to read on, but it's more technical.  We'll give you three different algorithmic answers to what's going on.  They're all correct; they're just different ways of saying the same thing, and some may be more useful than others in different contexts.</p>
 <h2 id="algorithmic-answer-1-depth-first-search">Algorithmic answer 1: Depth-first search</h2>
@@ -230,10 +227,13 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Under the hood (technical)</h5>
-			<ol>
-					<li><a class="simplelink" href="Not_magic.html" id="section_page_1"> <b> Okay, it&#x27;s not magic (technical) </b> </a> <br></li>
-					<li><a class="backgroundlink" href="The_matching_process_in_detail.html" id="section_page_2"> The matching process in detail </a> <br></li>
+			<h5>Solving</h5>
+			<ol start="1">
+					<li><a class="backgroundlink" href="Solution_criteria.html" id="section_page_1"> What is a solution? </a> <br></li>
+					<li><a class="simplelink" href="Not_magic.html" id="section_page_2"> <b> Okay, it&#x27;s not magic (technical) </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Magic.html" id="section_page_3"> Magic </a> <br></li>
+					<li><a class="backgroundlink" href="Clairvoyance.html" id="section_page_4"> A deeper magic: clairvoyance </a> <br></li>
+					<li><a class="backgroundlink" href="The_matching_process_in_detail.html" id="section_page_5"> The matching process in detail </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -244,15 +244,15 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="The_matching_process_in_detail.html"><b>Next:</b> The matching process in detail</a><br>
+			<a class="simplelink" id="NextPage" href="Magic.html"><b>Next:</b> Magic</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Under_the_hood.html"><b>Previous:</b> Under the hood (technical)</a><br>
+			<a class="simplelink" id="PreviousPage" href="Solution_criteria.html"><b>Previous:</b> What is a solution?</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Under_the_hood.html"><b>Up:</b> Under the hood (technical)</a><br>
+			<a class="simplelink" id="UpPage" href="SLD_Resolution.html"><b>Up:</b> Solving</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

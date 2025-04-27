@@ -12,7 +12,7 @@ Reflexive ?: themself
 ```
 Calling `[Reflexive ?who]` will print out whatever reflexive pronoun is used by `?who`.  Notice that the first two of these methods specify **specific values** for their parameters.  The first method will only match when the parameter is `“Mr. Boss”`.  For any other value, it will fail to match, and the system will move on to the second method.  But it will only match for the specific value, `“Mary”`.  So we have Mary and Mr. Boss covered.  The last method is a catch-all.  If the parameter is anything else (remember `?` is a variable), then the system will be conservative and print “themself”.
 
-**Note:** it’s important that the catch-all method come last, since the system tries methods in order (unless you told it to try them randomly, of course).  It doesn’t matter what order the Mr. Boss and Mary methods are in, however, so long as they’re before the catch-all method.
+> **Note:** Remember that the system prefers methods that come earlier in the file, so it's important that any catch-all methods be put last.
 
 We can then use this to correct the behavior of `Give`:
 ```Step

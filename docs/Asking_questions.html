@@ -137,20 +137,6 @@ Likes ? pizza.
 <li><code>[Likes tanya ?]</code> could generate: sushi, burgers, Mexican, or pizza.</li>
 <li><code>[Likes ? sushi]</code> could generate Tanya or Kimiko</li>
 </ul>
-<h2 id="complex-queries">Complex queries</h2>
-<p>Now let's say we have it do multiple calls in a row: <code>[Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]</code>.  That's asking: is there a single <code>?what</code> that all three of them like?  That has two answers: burgers and pizza.  Try it out now.  You'll find it always answers <code>burgers</code>, because that's the first answer in the list.  But if you add <code>[randomly]</code> after the <code>[predicate]</code> declaration, then it will randomly switch between the two.</p>
-<pre><code class="language-Step"># Try: [Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]
-[predicate]
-Likes tanya sushi.
-Likes tanya burgers.
-Likes tanya mexican.
-Likes jayden burgers.
-Likes jayden ethiopean.
-# Kimiko likes everything
-Likes kimiko ?.
-# Everyone likes pizza.
-Likes ? pizza.
-</code></pre>
 
 
 
@@ -163,13 +149,12 @@ Likes ? pizza.
 
 <div class="container-fluid sidebar">
 			<h5>Simple logic programs</h5>
-			<ol>
+			<ol start="1">
 					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
 					<li><a class="simplelink" href="Asking_questions.html" id="section_page_2"> <b> Asking questions of predicates </b> </a> <br></li>
-					<li><a class="backgroundlink" href="Inference.html" id="section_page_3"> Inference </a> <br></li>
-					<li><a class="backgroundlink" href="Magic.html" id="section_page_4"> Magic </a> <br></li>
-					<li><a class="backgroundlink" href="Clairvoyance.html" id="section_page_5"> A deeper magic: clairvoyance </a> <br></li>
-					<li><a class="backgroundlink" href="Under_the_hood.html" id="section_page_6"> Under the hood (technical) </a> <br></li>
+					<li><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
+					<li><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
+					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_5"> Self-referential rules </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -180,7 +165,7 @@ Likes ? pizza.
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Inference.html"><b>Next:</b> Inference</a><br>
+			<a class="simplelink" id="NextPage" href="Complex_questions.html"><b>Next:</b> Building complex questions</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>

@@ -28,7 +28,7 @@ Spy jason_bourne.
 ```
 If we query `[Animal ?who] [Spy ?who]` against the code above, it will run `[Animal ?who]`, and then run `[Spy ?who]`.  A variable can only have one value, so the only way this can work is if it finds a value for `?who` that is both an animal *and* a spy.  There's only one spy animal in the database, so it reports `?who=acoustic_kitty`.  Try it now (click the code to open it in Step).
 
-## Sequences of calls mean "and"
+## Sequences of calls effectively mean "and"
 
 Just as `[Animal ?who]` effectively means "find me an animal" and `[Spy ?who]` effectively means "find me a spy", the sequence `[Animal ?who] [Spy ?who]` effectively means "find me someone who is an animal **and** a spy."
 

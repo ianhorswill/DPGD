@@ -4,10 +4,10 @@
 	@{
 		var pages = Model.Children??Model.Up.Children;
 		var sec = Model.Children != null?Model:Model.Up??Model;
-		var counter = 1;
+		var counter = sec.NumberChildrenFrom;
 
 			<h5>@sec.EffectiveShortTitle</h5>
-			<ol>
+			<ol start="@counter">
 			@foreach (var page in pages) {
 				if (page == Model)
 				{
