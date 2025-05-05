@@ -1,5 +1,6 @@
 ---
 pagetitle: Cost
+status: alpha
 ---
 A general principle of software design is that, within reason, developer time is more expensive than computer time.  Nobody chooses Python over assembly language because it's faster.  They choose it because programmers are wildly more productive with it.
 

@@ -1,5 +1,6 @@
 ---
 pagetitle: Images of relations
+status: early-draft
 ---
 We often find ourselves wanting to talk about what objects a given relation might relate a given object to.  For the equality relation, for example, a given object is only equal to itself.  In fact, every object is equal to itself and not other object.  However for the $$<$$ relation for numbers, any given number is less than an infinite set of other numbers.
 

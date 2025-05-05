@@ -1,5 +1,6 @@
 ---
 pagetitle: Functions on relations
+status: incomplete-draft
 ---
 There are a number of operations that make new relations from old ones.
 

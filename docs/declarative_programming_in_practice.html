@@ -53,6 +53,11 @@
 				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Limitations.html"> Limitations </a>
 			<h1><a class="simplelink" href="index.html">Declarative programming in practice</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   incomplete draft
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -81,12 +86,12 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Finally, declarative programming often does require thinking beyond the spec to how the spec will be used by the specific solver you’re using.  Returning to our connectedness definition from above, that nodes are connected to themselves and also connect to the things their neighbors are connected to:</p>
+<p>Finally, declarative programming often does require thinking beyond the spec to how the spec will be used by the specific solver you’re using.  Returning to our connectedness definition from above, that nodes are connected to themselves and also connect to the things their neighbors are connected to:</p>
 <pre><code class="language-step">Connected ?x ?x. 
 Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 </code></pre>
-<p>This works fine in virtually any logic programming language.  But in many of them, it won’t work if we either reverse the order of the two rules, or if we reverse the order of the <code>[]</code>’ed expressions in the second rule.  This is simply because of the way their solvers work: they are order-sensitive.</p>
-<p>This isn’t necessarily a problem.  Programmers internalize this knowledge and over time, to the point they forget that the other orderings are even possible.  But it’s a reminder that declarativity is an aspiration that can never be fully achieved.</p>
+<p>This works fine in virtually any logic programming language.  But in many of them, it won’t work if we either reverse the order of the two rules, or if we reverse the order of the <code>[]</code>’ed expressions in the second rule.  This is simply because of the way their solvers work: they are order-sensitive.</p>
+<p>This isn’t necessarily a problem.  Programmers internalize this knowledge and over time, to the point they forget that the other orderings are even possible.  But it’s a reminder that declarativity is an aspiration that can never be fully achieved.</p>
 
 
 
@@ -126,6 +131,9 @@ Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/declarative_programming_in_practice.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

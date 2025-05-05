@@ -53,6 +53,11 @@
 				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Declarative_programming_examples.html"> Examples </a>
 			<h1><a class="simplelink" href="index.html">Query languages</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -81,9 +86,9 @@
 
 			<div class="container shadow blog-contents">
 
-<p>When you choose data structures for your programs, you make assumptions about how the data will be access and whether and how it will be updated.  If you assume you will always start with an <code>Employee</code> object and then look up their <code>JobTitle</code>, then you can simply put a <code>JobTitle</code> field inside the <code>Employee</code> class and be done with it.  If, on the other hand, you need to start with a <code>JobTitle</code> and enumerate all <code>Employees</code> who have that title, then perhaps you need a <code>JobTitle</code> object with a field that points to a list of pointers to <code>Employees</code>.  If you want to go in both directions you need both.  But then you have to remember that you can’t update one without updating the other.  If you modify the program to support new use cases, you may need to modify many bits of code.  If you miss one, then you have a subtle, difficult to locate bug.</p>
-<p>Modern database systems generally don’t work this way.  Instead, you specify the logical organization of the data in terms of entities and relationships between them.  You don’t have direct access to the physical organization of the data.  Instead, you have a query language that lets you ask questions like “who are all the people with job title X who supervise someone with job title Y?”  That will be implemented internally as a set of loops, tests, and/or index lookups.  But the programmer’s SQL query doesn’t specify those algorithmic steps.  It can’t because the programmer doesn’t know the physical layout of the data.  That layout may well change over time.</p>
-<p>Logical reasoning systems, including logic programming languages, work the same way.  You describe the knowledge (the data) in terms of a set of predicates (properties and relationships) and rules for their interrelationships, and then interact with that data via queries: questions you ask the system about the data.</p>
+<p>When you choose data structures for your programs, you make assumptions about how the data will be access and whether and how it will be updated.  If you assume you will always start with an <code>Employee</code> object and then look up their <code>JobTitle</code>, then you can simply put a <code>JobTitle</code> field inside the <code>Employee</code> class and be done with it.  If, on the other hand, you need to start with a <code>JobTitle</code> and enumerate all <code>Employees</code> who have that title, then perhaps you need a <code>JobTitle</code> object with a field that points to a list of pointers to <code>Employees</code>.  If you want to go in both directions you need both.  But then you have to remember that you can’t update one without updating the other.  If you modify the program to support new use cases, you may need to modify many bits of code.  If you miss one, then you have a subtle, difficult to locate bug.</p>
+<p>Modern database systems generally don’t work this way.  Instead, you specify the logical organization of the data in terms of entities and relationships between them.  You don’t have direct access to the physical organization of the data.  Instead, you have a query language that lets you ask questions like “who are all the people with job title X who supervise someone with job title Y?”  That will be implemented internally as a set of loops, tests, and/or index lookups.  But the programmer’s SQL query doesn’t specify those algorithmic steps.  It can’t because the programmer doesn’t know the physical layout of the data.  That layout may well change over time.</p>
+<p>Logical reasoning systems, including logic programming languages, work the same way.  You describe the knowledge (the data) in terms of a set of predicates (properties and relationships) and rules for their interrelationships, and then interact with that data via queries: questions you ask the system about the data.</p>
 <p>For example, you might describe a directed acyclic graph like this:</p>
 <pre class="mermaid">graph LR
     a((a)) --> b((b))
@@ -138,7 +143,7 @@ Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 </tr>
 </tbody>
 </table>
-<p>In most languages, the “is” and “what” queries would be different subroutines.  But here, they’re just different ways of querying the same set of rules.</p>
+<p>In most languages, the “is” and “what” queries would be different subroutines.  But here, they’re just different ways of querying the same set of rules.</p>
 <p>You can try the graph program here if you like:</p>
 <pre><code class="language-Step"># Try: [Connected a f]
 Edge a b.
@@ -189,6 +194,9 @@ Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/query_languages.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

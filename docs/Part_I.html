@@ -51,6 +51,11 @@
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
 			<h1><a class="simplelink" href="index.html">Part I: Using declarative programming</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -79,34 +84,34 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Now we'll discuss how to use different declarative programming technologies, without much attention to how they're implemented under the hood (that will come in <a href="Part_II.html">Part II</a>).  We don't assume any significant programming experience, however we include deeper discussions for those with more technical background.</p>
-<p>All declarative programming systems involve a technique that I'll call &ldquo;clairvoyance.&rdquo;  Let's talk about what that means.</p>
+<p>Now we'll discuss how to use different declarative programming technologies, without much attention to how they're implemented under the hood (that will come in <a href="Part_II.html">Part II</a>).  We don't assume any significant programming experience, however we include deeper discussions for those with more technical background.</p>
+<p>All declarative programming systems involve a technique that I'll call &quot;clairvoyance.&quot;  Let's talk about what that means.</p>
 <h2 id="decision-making-in-computers">Decision-making in computers</h2>
-<p>It's common for people to talk about programs making &quot;decisions.&quot;<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> That generally takes the form of something like an <code>if</code> statement (don't worry if this is new to you):</p>
+<p>It's common for people to talk about programs making &quot;decisions.&quot;<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  That generally takes the form of something like an <code>if</code> statement (don't worry if this is new to you):</p>
 <pre><code class="language-C#">if (condition) {
     // Option 1
 } else {
     // Option 2
 }
 </code></pre>
-<p>The computer tests whether <code>condition</code> is true.  If so, it chooses option 1, otherwise option 2.  Nearly all programs have these.  The general pattern here is:</p>
+<p>The computer tests whether <code>condition</code> is true.  If so, it chooses option 1, otherwise option 2.  Nearly all programs have these.  The general pattern here is:</p>
 <blockquote>
 <p>information → decision</p>
 </blockquote>
 <h2 id="delayed-feedback">Delayed feedback</h2>
 <p><img src="Traquair_House_Maze.jpg" alt="Traquair House Maze, from Wikipedia" /></p>
-<p>The problem is we often must make decisions <em>before</em> we know the right option.  When moving through a maze, we make many left/right/straight decisions before we find out if they were correct.  So the order is reversed:</p>
+<p>The problem is we must often make decisions <em>before</em> we know the right option.  When moving through a maze, we make many left/right/straight decisions before we find out which ones were correct.  So the order is reversed:</p>
 <blockquote>
 <p>decision → information</p>
 </blockquote>
-<p>In the absence of timely information, we're left with exploration. We try things, back up, and try other things, until we find something that works.  However, keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  A large chunk of a typical undergraduate AI course is devoted just to the management of that bookkeeping.</p>
+<p>In the absence of timely information, we're left with exploration. We try things, back up, and try other things, until we find something that works.  However, keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  A large chunk of a typical undergraduate AI course is devoted just to the management of that bookkeeping.</p>
 <h2 id="clairvoyance">Clairvoyance</h2>
-<p>Programming would be easier if your computer was a Jedi.  You'd tell it the options available, and the force would whisper in its ear which option to choose.  In computer science, this is known as <em>non-deterministic choice</em> and is a useful/good thing.  However, many other things are referred to as non-determinism, all of which are bad.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> Also, it sounds like technobabble and fails to communicate why anyone would think it was a good idea.  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of non-determinism.</p>
-<p>Clairvoyant systems behave <em>as if</em> they see the future and always make the right choice.  Behind the scenes, the computer is of course trying things, backing up, and trying other things until it finds something that works.  But these systems allow you to delegate that process to the computer.</p>
+<p>Programming would be easier if your computer was a Jedi.  You'd tell it the options available, and the force would whisper in its ear which option to choose.  In computer science, this is known as <em>non-deterministic choice</em> and is a useful/good thing.  However, many other things are also referred to as non-determinism, and all of those are bad.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Also, it sounds like technobabble and fails to communicate why anyone would think it was a good idea.  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of non-determinism.</p>
+<p>Clairvoyant systems behave <em>as if</em> they see the future: they always make the right choice, provided there is a right choice to make.  Behind the scenes, the computer is of course trying things, backing up, and trying other things until it finds something that works.  But these systems allow you to delegate the trial and error process to the computer.</p>
 <h2 id="clairvoyant-languages">Clairvoyant languages</h2>
-<p>We'll start by talking about what I'll call <strong>clairvoyant programming</strong><a id="fnref:3" href="#fn:2" class="footnote-ref"><sup>2</sup></a>.  Grammars, planners, and logic programming all fall under this rubric.  These languages let you <em>under-specify</em> your programs, leaving many choices up to the computer.  The machine behaves as if it always makes the right choice, even though behind the scenes it's trying alternatives until it finds something that works.  Again, the important thing is that you can mostly ignore that process.</p>
+<p>We'll start by talking about what I'll call <strong>clairvoyant programming</strong><a id="fnref:3" href="#fn:2" class="footnote-ref"><sup>2</sup></a>.  Grammars, planners, and logic programming all fall under this rubric.  These languages let you <em>under-specify</em> your programs, leaving many choices up to the computer.  The machine behaves as if it always makes the right choice, even though behind the scenes it's trying alternatives until it finds something that works.  Again, the important thing is that you can mostly ignore that process.</p>
 <h2 id="constraint-programming">Constraint programming</h2>
-<p>Then we'll talk about <strong>constraint programming</strong>.  This also involves having the system make a series of decisions and assuming it always guesses right.  However, whereas the systems we talk about under clairvoyant programming feel like programming languages, constraint programs feels more like questions on IQ tests.  Unlike real IQ tests, you just write them; the computer solves them.  Constraint programming is both more and less powerful than clairvoyant programming, and both harder and easier to debug.  We'll explain what we mean by this when we get to it.</p>
+<p>Then we'll talk about <strong>constraint programming</strong>.  This also involves having the system make a series of decisions and assuming it always guesses right.  However, whereas the systems we talk about under clairvoyant programming feel like programming languages, constraint programs feels more like questions on IQ tests.  Unlike real IQ tests, you just write them; the computer solves them.  Constraint programming is both more and less powerful than clairvoyant programming, and both harder and easier to debug.  We'll explain what we mean by this when we get to it.</p>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
@@ -157,6 +162,9 @@
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Part_I.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

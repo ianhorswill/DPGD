@@ -1,5 +1,6 @@
 ---
 pagetitle: Basic relationships between sets and objects
+status: early-draft
 ---
 Many of the questions we might want to answer about a given set involve its relationship to potential elements or to other sets.
 

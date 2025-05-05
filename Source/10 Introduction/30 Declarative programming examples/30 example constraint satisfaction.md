@@ -1,5 +1,6 @@
 ---
 pagetitle: Constraint satisfaction
+status: incomplete-draft
 ---
 Constraint satisfaction also involves describing a problem in terms of relationships and rules.  In constraint satisfaction, we present the system with a set of choices to make, each with a set of options, together with a set of relationships that are required or forbidden to hold between the choices.
 

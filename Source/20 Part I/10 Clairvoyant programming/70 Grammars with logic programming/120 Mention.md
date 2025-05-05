@@ -1,5 +1,6 @@
 ---
 pagetitle: Mentioning
+status: incomplete-draft
 ---
 In fact, even just saying `?item` on the right-hand side, is actually shorthand for `[Mention ?item]`.  So the method:
 ```step

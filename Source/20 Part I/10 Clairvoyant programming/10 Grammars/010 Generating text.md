@@ -1,7 +1,8 @@
 ---
 pagetitle: Grammar rules
+status: alpha
 ---
-A context-free grammar consists of a set of **phrase types** and, for each type, a set of **rules** for how to generate phrases of that type in terms of words and other types of phrases.  For example, a [salutation](https://en.wikipedia.org/Saltuation), i.e. a greeting, is a kind of phrase.  In Step, the rule:
+A context-free grammar consists of a set of **phrase types** and, for each type, a set of **rules** for how to generate phrases of that type in terms of words and other types of phrases.  For example, a [salutation](https://en.wikipedia.org/Saltuation) (a greeting) is a kind of phrase.  In Step, the rule:
 ```Step
 # Try: [Hello]
 Hello: Hello world!

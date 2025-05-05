@@ -24,3 +24,5 @@
 {"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qis the part that says \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q.\\E$"}
 {"rule":"WHITESPACE_RULE","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+$"}
 {"rule":"IT_IS","sentence":"^\\QBy contrast, the content is whatever that expression is trying to convey, that is, its meaning.\\E$"}
+{"rule":"THEMSELF","sentence":"^\\QWe can fix it by having another method that is only used when someone gives something to themself:\\E$"}
+{"rule":"THEMSELF","sentence":"^\\QMr. Boss gave themself a nice raise\\E$"}

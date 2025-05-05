@@ -1,5 +1,6 @@
 ---
 pagetitle: Pairs and tuples
+status: early-draft
 ---
 Tuples are the math equivalent of lists/arrays: they're sequences of elements rather than sets of them.  A tuple with $$n$$ elements is called an $$n$$-tuple.  For tuples with only 2 elements, we usually say "pair" rather than $$2$$-tuple.  Similarly, $$3$$-tuples are often called "triples".
 

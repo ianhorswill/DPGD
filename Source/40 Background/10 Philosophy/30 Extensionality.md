@@ -1,5 +1,6 @@
 ---
 pagetitle: Sense, reference, and extensionality
+status: alpha
 ---
 The **reference** of a term is the object or objects it refers to.  The other components of its meaning are collectively referred to as its **sense**.[^1]
 

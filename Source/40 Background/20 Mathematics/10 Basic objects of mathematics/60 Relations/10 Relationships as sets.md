@@ -1,5 +1,6 @@
 ---
 pagetitle: Relationships as sets
+status: early-draft
 ---
 We often want to be able to treat a relationship, such as the $$M$$ (motherhood) relation discussed previously, as a mathematical object so we can reason about it.  Such an object is called a **relation**.  In most respects, relation is just the math word for relationship.
 

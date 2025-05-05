@@ -1,5 +1,6 @@
 ---
 pagetitle: A nice shorthand
+status: alpha
 ---
 Unfortunately, lines like these take some work to read:
 ```Step

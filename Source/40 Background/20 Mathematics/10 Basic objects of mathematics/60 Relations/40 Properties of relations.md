@@ -1,5 +1,6 @@
 ---
 pagetitle: Properties of relations
+status: incomplete-draft
 ---
 We can classify relations in terms of their images.  Once again, I'll restrict myself to binary relations, since it's notationally simpler.  But these definitions could be extended to general relations.
 

@@ -1,5 +1,6 @@
 ---
 pagetitle: Form and content
+status: alpha
 ---
 In a sentence, diagram, or any other form of expression, the **form** of the expression is its written, spoken, or otherwise material form:
 

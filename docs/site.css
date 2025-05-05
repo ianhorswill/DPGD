@@ -94,6 +94,11 @@ table, th, td {
 	border: 1px solid;
 }
 
+th, td {
+	padding-left: .3rem;
+	padding-right: .3rem;
+}
+
 th {
 	background-color: #444;
 }

@@ -54,6 +54,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
 			<h1><a class="simplelink" href="index.html">Self-referential rules</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -82,14 +87,14 @@
 
 			<div class="container shadow blog-contents">
 
-<p>So far, so good.  We can define the <code>Parent</code> relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc. We could write:</p>
+<p>So far, so good.  We can define the <code>Parent</code> relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc. We could write:</p>
 <pre><code class="language-step">[predicate]
 Ancestor ?c ?a: [Parent ?c ?a]
 Ancestor ?c ?g: [Grandparent ?c ?g]
 Ancestor ?c ?g: [Greatgrandparent ?c ?g]
 Ancestor ?c ?g: [Greatgreatgrandparent ?c ?g]
 </code></pre>
-<p>And so on, forever.  But forever is a lot of typing.</p>
+<p>And so on, forever.  But forever is a lot of typing.</p>
 <p>What we can do instead, that doesn't involve literally typing for eternity, is to define an ancestor as either:</p>
 <ul>
 <li>Your parent, or</li>
@@ -100,34 +105,54 @@ Ancestor ?c ?g: [Greatgreatgrandparent ?c ?g]
 Ancestor ?c ?p: [Parent ?c ?p]
 Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]
 </code></pre>
-<p>In mathematics, logic, and computer science, this is called a <strong>recursive</strong> definition, and when the <code>Ancestor</code> rule turns around and calls <code>Ancestor</code> again, that’s called <strong>recursion</strong>.</p>
+<p>Let's look at how this runs with our little database of cartoon characters:</p>
+<pre><code class="language-Step"># Try: [Ancestor stan ?who]
+[predicate]
+Ancestor ?c ?p: [Parent ?c ?p]
+Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]
+
+[predicate]
+Parent bart marge.
+Parent bart homer.
+Parent lisa homer.
+Parent lisa marge.
+Parent stan sharon.
+Parent stan randy.
+Parent randy grandpa.
+Parent jimbo grandpa.
+</code></pre>
+<p>The choice tree for this is more involved, but it gives us the right answers, sharon, randy, and grandpa:</p>
+<pre class="mermaid">graph TB
+    start("[Ancestor stan ?who]") -- "&lt;b>Ancestor ?c ?p: [Parent ?c ?p]&lt;/b> &lt;br> ?c = stan &lt;br> ?p = ?who" --> p1("[Parent stan ?who]") -- "&lt;b>Parent stan sharon.&lt;/b>" &lt;br> ?who = sharon --> s1[Succeed]
+    style s1 fill:green
+    p1 -- "&lt;b>Parent stan randy.&lt;/b>" &lt;br> ?who = randy --> s2[Succeed]
+    style s2 fill:green
+
+    start -- "&lt;b>Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]&lt;/b> &lt;br> ?c = stan &lt;br> ?a = ?who" --> p2("[Parent stan ?p]") -- "&lt;b>Parent stan sharon.&lt;/b>" &lt;br> ?p = sharon --> a1("[Ancestor sharon ?who]")
+    a1 -- "&lt;b>Ancestor ?c ?p: [Parent ?c ?p]&lt;/b> &lt;br> ?c = sharon ?p = ?who" --> p3("[Parent sharon ?who]") --> f1(Fail)
+    style f1 fill:red
+    a1 -- "&lt;b>Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]&lt;/b> &lt;br> ?c = sharon ?a = ?who" --> p4("[Parent sharon ?p]") --> f2(Fail)
+    style f2 fill:red
+
+    p2 -- "&lt;b>Parent stan randy.&lt;/b>" &lt;br> ?p = randy --> a2("[Ancestor randy ?who]")
+    a2 -- "&lt;b>Ancestor ?c ?p: [Parent ?c ?p]&lt;/b> &lt;br> ?c = randy ?p = ?who" --> p5("[Parent randy ?who]") -- "&lt;b>Parent randy grandpa.&lt;/b> &lt;br> ?who = grandpa" --> s3(Succeed)
+    style s3 fill:green
+
+    a2 -- "&lt;b>Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]&lt;/b> &lt;br> ?c = randy ?a = ?who" --> p6("[Parent randy ?p]") -- "&lt;b>Parent randy grandpa.&lt;/b> &lt;br> ?who = grandpa" --> a3("[Ancestor grandpa ?who]")
+
+    a3 -- "&lt;b>Ancestor ?c ?p: [Parent ?c ?p]&lt;/b> &lt;br> ?c = grandpa ?p = ?who" --> p7("[Parent grandpa ?who]") --> f3(Fail)
+    style f3 fill:red
+    a3 -- "&lt;b>Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]&lt;/b> &lt;br> ?c = grandpa ?a = ?who" --> p8("[Parent grandpa ?p]") --> f4(Fail)
+    style f4 fill:red
+</pre>
+<p>In mathematics, logic, and computer science, self-referential definitions like this are said to be <strong>recursive</strong>, and when the <code>Ancestor</code> rule turns around and calls <code>Ancestor</code> again, that’s called <strong>recursion</strong>. </p>
 <h2 id="how-to-write-a-recursive-definition">How to write a recursive definition</h2>
 <p>Recursive definitions have a fairly standard format:</p>
 <ul>
-<li>They <strong>don't say <code>[randomly]</code></strong></li>
-<li>They start with a rule that doesn’t recurse (doesn't call the predicate we're defining).  This is called a <strong>base case</strong>.  It notices when it can decide immediately without having to recurse.</li>
+<li>They start with a rule that doesn’t recurse (doesn't call the predicate we're defining).  This is called a <strong>base case</strong>.  It notices when it can decide immediately without having to recurse.</li>
 <li>Then there’s another rule called, unsurprisingly, the <strong>recursive case</strong>, that ends with a recursive call (a call to the predicate being defined).</li>
 </ul>
-<p>There are exceptions to all these rules.  But if you don't put the base case first or you put the recursive call early in the recursive case, it's possible for the program to run forever.  We'll discuss this in more detail when we talk about <a href="SLD_Resolution.html">how code gets executed</a>, but for now, just remember: base case first, recursive call last, and don't <code>[randomize]</code> a recursive task.</p>
-<h2 id="taxonomies">Taxonomies</h2>
-<p>Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs.  We can express those relationships using rules:</p>
-<pre><code class="language-Step"># Try: [Animal ?x]
-[predicate]
-Animal ?a: [Dog ?a]
-Animal ?a: [Cat ?a]
-
-[predicate]
-Dog ?d: [Labrador ?d]
-Dog ?d: [Collie ?d]
-
-[predicate]
-Collie lassie.
-[predicate]
-Labrador bruce.
-</code></pre>
-<p>Now suppose we run <code>[Animal lassie]</code>, i.e. we ask “is Lassie an animal?”  The system will start by running the first <code>Animal</code> method, which will call <code>Dog</code> to check if Lassie is a dog.  It then tries the first Dog method, which calls <code>Labrador</code> to check if Lassie is a Labrador.  That fails, since Bruce is the only Labrador.  So the system abandons the first <code>Dog</code> method and tries the second, which says to call <code>Collie</code>.  That succeeds, meaning it’s verified Lassie is a collie.  That then means that the method it was running for <code>Dog</code>, which had called Collie, also succeeds.  So the system has verified Lassie is a dog.  That then means that the method for <code>Animal</code> succeeds, and so it’s verified that Lassie is an animal.</p>
-<p>We could instead have run <code>[Animal ?x]</code>, meaning “who’s an animal?”  It would then have run the first <code>Animal</code> rule, as before, but now it’s running <code>[Dog ?x]</code> rather than <code>[Dog lassie]</code>.  Then it will again start with the first <code>Dog</code> rule, which runs <code>[Labrador ?x]</code>.  Where the <code>Labrador</code> call failed in the <code>Lassie</code> example, it succeeds here because its parameter is a variable with no value.  So the call to <code>Labrador</code> actually succeeds, and binds <code>?x</code> to <code>bruce</code> (i.e. it sets <code>?x</code> to be <code>bruce</code> now).  Since <code>Labrador</code> succeeded, the <code>Dog</code> rule succeeds, which means the <code>Animal</code> rule succeeds, but in this case, it returns the answer that <code>?x=bruce</code>, i.e. “Bruce is an animal.”</p>
-<p>Note that it gave us the answer <code>Bruce</code> simply because that’s the first answer it ran into.  If we were to swap the order of the rules for <code>Dog</code>, we would have looked for <code>Collie</code>s before <code>Labrador</code>s instead of the other way around, and so we would get the answer <code>lassie</code> instead.  Or alternatively, we could have added <code>[randomly]</code> to our rules.</p>
+<p>Note that you can run into problems if you put the rules in the opposite order, or tag them <code>[randomly]</code>.  In this case, it would work.  But there are cases where it doesn't.  We'll talk more about this later. </p>
 
 
 
@@ -142,10 +167,11 @@ Labrador bruce.
 			<h5>Simple logic programs</h5>
 			<ol start="1">
 					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
-					<li><a class="backgroundlink" href="Asking_questions.html" id="section_page_2"> Asking questions of predicates </a> <br></li>
+					<li><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions </a> <br></li>
 					<li><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
 					<li><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
-					<li><a class="simplelink" href="Self-referential_rules.html" id="section_page_5"> <b> Self-referential rules </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies </a> <br></li>
+					<li><a class="simplelink" href="Self-referential_rules.html" id="section_page_6"> <b> Self-referential rules </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -156,11 +182,11 @@ Labrador bruce.
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="SLD_Resolution.html"><b>Next:</b> Solving</a><br>
+			<a class="simplelink" id="NextPage" href="Primitive_tasks.html"><b>Next:</b> Primitive tasks</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Inference.html"><b>Previous:</b> Inference</a><br>
+			<a class="simplelink" id="PreviousPage" href="Taxonomies.html"><b>Previous:</b> Taxonomies</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
@@ -169,6 +195,9 @@ Labrador bruce.
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Self-referential_rules.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

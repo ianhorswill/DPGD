@@ -1,5 +1,6 @@
 ---
 pagetitle: Declarative programming
+status: early-draft
 ---
 
 These problems would be simplified if we could give the spec directly to the computer rather than writing bespoke algorithms.  Declarative programming is an approximation to this.

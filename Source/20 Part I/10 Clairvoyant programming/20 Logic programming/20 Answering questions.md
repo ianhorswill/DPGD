@@ -1,10 +1,11 @@
 ---
-pagetitle: Asking questions of predicates
+pagetitle: Predicates answer questions
+status: alpha
 ---
 
-Here's a little database of characters and what kinds of cuisine they like.  `[Likes tanya sushi]` means that Tanya likes sushi.  More generally, `[Likes ?who  ?what]` means `?who` likes `?what`: 
+Here's a little database of characters and what kinds of cuisine they like.  We use `[Likes tanya sushi]` to tell the computer that Tanya likes sushi.  More generally, `[Likes ?who  ?what]` means `?who` likes `?what`: 
 ```Step
-# Try: [Likes tanya sushi]
+# Try: [Likes tanya ?]
 [predicate]
 Likes tanya sushi.
 Likes tanya burgers.

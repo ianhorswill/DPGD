@@ -52,6 +52,11 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 			<h1><a class="simplelink" href="index.html">Clairvoyant programming</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -80,15 +85,15 @@
 
 			<div class="container shadow blog-contents">
 
-<p>We'll now introduce a range of different declarative formalisms from grammars to logic programming to generative planners.  Most of the examples will use the <a href="https://github.com/ianhorswill/Step">Step</a> programming language, which is in some sense a generalization of all three.  The examples are easy to translate into other declarative languages such as <a href="https://en.wikipedia.org/wiki/prolog">prolog</a>.  However, Step has a gentler learning curve than Prolog and is specifically designed for games an interactive fiction.  If Prolog is a language for the Chess Club, Step is Prolog for the theater kids.</p>
-<p>Step is open-source and written in C#.  It's easy to include in Unity or Godot projects.  And you can try it interactively in your browser by clicking on any of the Step code fragments in the following pages.  We'll teach you Step as we go along.</p>
-<p>We'll begin by discussing generating text using <a href="Grammars.html">simple grammars</a>.  While grammars are technically a declarative formalism, generation using the kinds of simple grammars we'll begin with doesn't really show off the power of clairvoyant/non-deterministic languages because there are no wrong choices to make.</p>
-<p>However, we'll then discuss <a href="Logic_programming.html">logic programming</a>, where the same language used for grammars can be thought of instead as doing logical reasoning.  This will allow us to make simple databases and to query them with almost no work.</p>
-<p>Then we'll talk about how to join the two to make grammars that involve inference.</p>
-<p>If you're new to programming, I'd suggest you skip to the next page at this point.  But experience programmers curious what a nondeterminism would look like in a conventional language, read on.</p>
+<p>We'll now introduce a range of different declarative formalisms from grammars to logic programming to generative planners.  Most of the examples will use the <a href="https://github.com/ianhorswill/Step">Step</a> programming language,<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> which is in some sense a generalization of all three, and which we will teach you along the way.</p>
+<p>The examples are easy to translate into other declarative languages such as <a href="https://en.wikipedia.org/wiki/prolog">prolog</a>.  However, Step has a gentler learning curve than Prolog and is specifically designed for games and interactive fiction.  If Prolog is a language for the Chess Club, Step is a language for theater kids.</p>
+<p>We'll begin by discussing generating text using <a href="Grammars.html">simple grammars</a>.  While grammars are technically a declarative formalism, generation using the kinds of simple context-free grammars don't really show off the power of clairvoyance because there are no wrong choices to make.  However, we'll discuss <a href="Parameterized_grammars.html">adding parameters to grammars</a> to help you control what is printed, and then the system will have to be more careful in its choices.</p>
+<p>Next, we'll show how the same language features used for grammars can be used to <a href="Logic_programming.html">do an approximation to logical reasoning</a>.  This will allow us to make simple databases and to query them with almost no work.</p>
+<p>Then, we'll join grammars with inference to make powerful text generation systems.</p>
+<p>If you're new to programming, I'd suggest you skip to the next page at this point.  But experienced programmers curious what a nondeterminism would look like in a conventional language, read on.</p>
 <h2 id="choice-and-failure-technical">Choice and failure (technical)</h2>
-<p>As we <a href="Part_I.html">discussed earlier</a>, an <code>if</code> statement combines two functions &ndash; specifying options for a choice and specifying how to decide between them.  This is inconvenient for problems involving delayed feedback.  Nondeterministic languages provide a way of breaking those functions apart, so that the decision information can come <em>after</em> the choice.  These are typically described in terms of <strong>choice</strong>, where the program guesses which option is best, and <strong>failure</strong>, which tells the system that a previous choice was incorrect.  It's the system's job to try different sequences of choices until it can find a way to run the program without failure.  But as a programmer, you think of the system as always guessing right.</p>
-<p>Concretely, we could make a nondeterministic version of C# (or C, C++, Python, etc.) by adding two new statements.  One, <code>choose</code> is basically a <code>switch</code> statement without a control variable:</p>
+<p>As we <a href="Part_I.html">discussed earlier</a>, an <code>if</code> statement combines the options available with guidance on how to choose between them.  This is inconvenient for problems involving delayed feedback.  Nondeterministic languages provide a way of breaking those functions apart, so that the guidannce can come <em>after</em> the choice.  These are typically described in terms of <strong>choice</strong>, where the program guesses which option is best, and <strong>failure</strong>, which tells the system that a previous choice was incorrect.  It's the system's job to try different sequences of choices until it can find a way to run the program without failure.  But as a programmer, you think of the system as always guessing right.</p>
+<p>Concretely, we could make a nondeterministic version of C# (or C, C++, Python, etc.) by adding a new statement, <code>choose</code>, which is basically a <code>switch</code> statement without a control variable:</p>
 <pre><code class="language-C#">choose {
     option: // do something
     option: // do something else
@@ -97,12 +102,21 @@
 <p>Or we could instead add a <code>choose</code> expression that chooses and element of an array and returns it:</p>
 <pre><code class="language-C#">var element = choose myArray;
 </code></pre>
-<p>The other statement we add is <code>fail</code>.  It tells the system that this execution path make an incorrect choice along the way, so the system should try a different one.  In the version of choose that selects an element of an array, we'll treat choosing from an array with no elements as failure.</p>
-<p>Now the algorithm to find a node in a tree with some property <code>P</code> is then just:</p>
+<p>A <code>choose</code> with no options always fails.  It tells the system that this execution path make an incorrect choice along the way, so the system should try a different one. It's common to add a separate <code>fail</code> to signal failure more clearly, but you can think of it as a shorthand for either <code>choose {}</code> or <code>choose myArray</code> where <code>myArray</code> has no elements. </p>
+<p>Using <code>choose</code>, the algoritm to find a node in a tree with some property <code>P</code> is then just:</p>
 <pre><code class="language-C#">Node FindP(Node n) =&gt; P(n) ? n : FindP(choose n.Children);
 </code></pre>
-<p>In other words: &ldquo;if <code>n</code> is the node we're looking for return it, otherwise choose the right child and recurse on it.&rdquo;  We pretend it always chooses the correct child even though, under the hood, the implementation of clairvoyant choice would be doing a tree search.</p>
-<p>This isn't the most impressive example; tree searches aren't difficult to write.  But as you will see in the coming pages, we can use clairvoyant choice to implement logical inference, parsers, planners, and natural language generators.</p>
+<p>In other words: &quot;if <code>n</code> is the node we're looking for return it, otherwise choose the correct child and recurse on it.&quot;  We pretend it always chooses the correct child even though, under the hood, the implementation of clairvoyant choice would be doing a tree search.</p>
+<p>This isn't the most impressive example; tree searches aren't difficult to write.  But as you will see in the coming pages, we can use clairvoyant choice to implement logical inference, parsers, planners, and natural language generators.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/ianhorswill/Step">Step</a> is open-source and written in C#.  It's easy to include in Unity or Godot projects.  And you can try it interactively in your browser by clicking on any of the Step code fragments in the following pages.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -117,8 +131,8 @@
 			<h5>Clairvoyant programming</h5>
 			<ol start="1">
 					<li><a class="backgroundlink" href="Grammars.html" id="section_page_1"> Simple grammars </a> <br></li>
-					<li><a class="backgroundlink" href="Logic_programming.html" id="section_page_2"> Simple logic programs </a> <br></li>
-					<li><a class="backgroundlink" href="SLD_Resolution.html" id="section_page_3"> The user&#x27;s view of the solving process </a> <br></li>
+					<li><a class="backgroundlink" href="Parameterized_grammars.html" id="section_page_2"> Parameterized grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Logic_programming.html" id="section_page_3"> Simple logic programs </a> <br></li>
 					<li><a class="backgroundlink" href="Primitive_tasks.html" id="section_page_4"> Primitive tasks </a> <br></li>
 					<li><a class="backgroundlink" href="Higher-order_tasks.html" id="section_page_5"> Higher-order tasks </a> <br></li>
 					<li><a class="backgroundlink" href="State.html" id="section_page_6"> State in clairvoyant programming </a> <br></li>
@@ -146,6 +160,9 @@
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Clairvoyant_programming.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

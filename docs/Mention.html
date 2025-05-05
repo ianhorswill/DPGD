@@ -54,6 +54,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars_with_logic_programming.html"> Augmenting grammars with logic programs </a>
 			<h1><a class="simplelink" href="index.html">Mentioning</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   incomplete draft
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -82,7 +87,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>In fact, even just saying <code>?item</code> on the right-hand side, is actually shorthand for <code>[Mention ?item]</code>.  So the method:</p>
+<p>In fact, even just saying <code>?item</code> on the right-hand side, is actually shorthand for <code>[Mention ?item]</code>.  So the method:</p>
 <pre><code class="language-step">Give ?giver ?giver ?item: ?giver gave ?giver/Reflexive ?item
 </code></pre>
 <p>is really shorthand for:</p>
@@ -90,7 +95,7 @@
    [Mention ?giver] gave [Reflexive ?giver] [Mention ?item]
 [end]
 </code></pre>
-<p>This gives us a way to control how things are printed by changing the definition of <code>Mention</code>.  This is super useful, and we'll return to it later.</p>
+<p>This gives us a way to control how things are printed by changing the definition of <code>Mention</code>.  This is super useful, and we'll return to it later.</p>
 
 
 
@@ -129,6 +134,9 @@
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Mention.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

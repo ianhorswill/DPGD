@@ -1,5 +1,6 @@
 ---
 pagetitle: Formal systems
+status: stub
 ---
 
 # Under construction

@@ -1,5 +1,6 @@
 ---
 pagetitle: Homogeneous relations
+status: incomplete-draft
 ---
 A relation $$R\subseteq A\times A$$ between a set $$A$$ and itself is called a homogeneous because both its arguments come from the same set.  Homogeneous relations come up frequently in math and computer science.  Math examples include: $$=, <, >, and \subseteq$$.  Examples from everyday life are any kind of relation between people (e.g. familiar relationships).  Examples from programming include the subclass relation graphs and tree, which are essentially homogeneous relations (see [graphs](Graphs)).
 

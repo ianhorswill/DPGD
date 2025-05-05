@@ -54,6 +54,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
 			<h1><a class="simplelink" href="index.html">Grammar rules</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -82,11 +87,11 @@
 
 			<div class="container shadow blog-contents">
 
-<p>A context-free grammar consists of a set of <strong>phrase types</strong> and, for each type, a set of <strong>rules</strong> for how to generate phrases of that type in terms of words and other types of phrases.  For example, a <a href="https://en.wikipedia.org/Saltuation">salutation</a>, i.e. a greeting, is a kind of phrase.  In Step, the rule:</p>
+<p>A context-free grammar consists of a set of <strong>phrase types</strong> and, for each type, a set of <strong>rules</strong> for how to generate phrases of that type in terms of words and other types of phrases.  For example, a <a href="https://en.wikipedia.org/Saltuation">salutation</a> (a greeting) is a kind of phrase.  In Step, the rule:</p>
 <pre><code class="language-Step"># Try: [Hello]
 Hello: Hello world!
 </code></pre>
-<p>effectively says that a &ldquo;Hello world!&rdquo; is a kind of <code>Hello</code> phrase.  Technically, the part before the colon tells us that we’re defining a little program called <code>Hello</code> and when we run it, it should print “Hello world!”  Click on the box above, press the Run button, and you should see something like this:</p>
+<p>effectively says that a &ldquo;Hello world!&rdquo; is a kind of <code>Hello</code> phrase.  Technically, the part before the colon tells us that we’re defining a little program called <code>Hello</code> and when we run it, it should print “Hello world!”  Click on the box above, press the Run button, and you should see something like this:</p>
 <blockquote>
 <p>Hello world!</p>
 </blockquote>
@@ -97,7 +102,7 @@ Hello: Hola!
 Hello: Hi there!
 Hello: Bon jour!
 </code></pre>
-<p>Each of these lines specifies a different way of saying hello.  For reasons that become clear <a href="Pattern_matching.html">soon</a>, if two rules will both work, Step will prefer the one that appears first in the list.  But we can override this by adding the annotation <code>[randomly]</code> at the beginning, which tells it to choose the rules randomly:</p>
+<p>Each of these lines specifies a different way of saying hello.  For reasons that become clear <a href="Pattern_matching.html">soon</a>, if two rules will both work, Step will prefer the one that appears first in the list.  But we can override this by adding the annotation <code>[randomly]</code> at the beginning, which tells it to choose the rules randomly:</p>
 <pre><code class="language-Step"># Try: [Hello]
 [randomly]
 Hello: Hello world!
@@ -105,7 +110,7 @@ Hello: Hola!
 Hello: Hi there!
 Hello: Bon jour!
 </code></pre>
-<p>Again, try clicking the code above and pressing Run.  But press it several times.  You should get different results.</p>
+<p>Again, try clicking the code above and pressing Run.  But press it several times.  You should get different results.</p>
 
 
 
@@ -122,9 +127,9 @@ Hello: Bon jour!
 					<li><a class="simplelink" href="Generating_text.html" id="section_page_1"> <b> Grammar rules </b> </a> <br></li>
 					<li><a class="backgroundlink" href="Tasks_and_methods.html" id="section_page_2"> Tasks and methods </a> <br></li>
 					<li><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
-					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_4"> Context-free grammars </a> <br></li>
-					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_5"> A silly context-free-grammar </a> <br></li>
-					<li><a class="backgroundlink" href="Parameters.html" id="section_page_6"> Parameterized grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Choice_machines.html" id="section_page_4"> Choice machines </a> <br></li>
+					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_5"> Context-free grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_6"> Omake: a silly grammar </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -148,6 +153,9 @@ Hello: Bon jour!
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Generating_text.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

@@ -1,5 +1,6 @@
 ---
 pagetitle: Meaning is complicated
+status: alpha
 ---
 [Content](form_and_content), i.e. **meaning**, is extremely complex.  Enough so that we basically don't understand how it works.  All [formal theories](formal_theories) of meaning are wild oversimplifications of how people use meaning in the wild.  To get a sense of how complicated meaning is, consider the following [news report from 2004](https://www.nytimes.com/2004/04/03/news/globalist-the-republicans-barbjohn-kerry-looks-french.html) about presidential candidate John Kerry:
 

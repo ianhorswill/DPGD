@@ -53,6 +53,11 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 			<h1><a class="simplelink" href="index.html">Simple grammars</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -81,21 +86,21 @@
 
 			<div class="container shadow blog-contents">
 
-<p>A grammar is a set of rules describing the arrangements of words within phrases.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> Nearly all grammars in games and CS are variations of a specific formalism called a <strong>context-free grammar</strong> (<strong>CFG</strong>).  Basic CFGs are one of the simplest declarative formalisms.  They're used for describing programming languages, dialog for non-player characters, patterns for generating random names for things in a game, and many other applications.</p>
+<p>A grammar is a set of rules describing the arrangements of words within phrases.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  Nearly all grammars in games and CS are variations of a specific formalism called a <strong>context-free grammar</strong> (<strong>CFG</strong>).  Basic CFGs are one of the simplest declarative formalisms.  They're used for describing programming languages, dialog for non-player characters, patterns for generating random names for things in a game, and many other applications.</p>
 <h2 id="a-grammar-for-treasure">A grammar for treasure</h2>
-<p>From a practical standpoint, a CFG specifies a set of templates for each phrase type: fixed text strings with the ability to substitute other phrase types in particular spots.  For example, if we were making a random treasure generator for a game, we might say that a treasure can be a weapon, a piece or armor, or an item:</p>
+<p>From a practical standpoint, a CFG defines a number of <strong>phrase types</strong>, each in terms of a set of <strong>text templates</strong>: fixed text strings with the ability to substitute other phrase types in particular spots.  For example, if we were making a random treasure generator for a game, we might say that a treasure can be a weapon, a piece or armor, or an item:</p>
 <pre><code class="language-step">Treasure: [Weapon]
 Treasure: [Armor]
 Treasure: [Item]
 </code></pre>
-<p>Here, the name before the colon is a phrase type and the text after it is the template for generating it.  A type can have many alternative templates, and if a phrase type appears in brackets in the template, then a phrase of that type is to be substituted for the bracketed expression.  So the grammar above says “a treasure is a weapon, armor, or item.”</p>
-<p>Great.  What’s a weapon?</p>
+<p>Here, the name before the colon is a phrase type and the text after it is the template for generating it.  A type can have many alternative templates, and if a phrase type appears in brackets in the template, then a phrase of that type is to be substituted for the bracketed expression.  So the grammar above says “a treasure is a weapon, armor, or item.”</p>
+<p>Great.  What’s a weapon?</p>
 <pre><code class="language-step">Weapon: [PreBuff] [WeaponType] [PostBuff]
 WeaponType: sword
 WeaponType: mace
 ...
 </code></pre>
-<p>Since &ldquo;sword&rdquo; and &ldquo;mace&rdquo; are <em>not</em> in brackets, they’re printed verbatim.  So this says that a weapon is a weapon type (sword or mace), surrounded by two <a href="https://en.wikipedia.org/wiki/Game_balance#Buffs_and_nerfs">buffs</a>, a “pre-buff” and a “post-buff”:</p>
+<p>Since &ldquo;sword&rdquo; and &ldquo;mace&rdquo; are <em>not</em> in brackets, they’re printed verbatim.  So this says that a weapon is a weapon type (sword or mace), surrounded by two <a href="https://en.wikipedia.org/wiki/Game_balance#Buffs_and_nerfs">buffs</a>, a “pre-buff” and a “post-buff”:</p>
 <pre><code class="language-step">PreBuff: +1
 PreBuff: +2
 ...
@@ -122,12 +127,15 @@ Effect: social anxiety
 <p>To generate a treasure using this grammar, we start with <code>[Treasure]</code> and randomly choose one of its rules, e.g.:</p>
 <pre><code class="language-step">Treasure: [Weapon]
 </code></pre>
-<p>to change <code>[Treasure]</code> into <code>[Weapon]</code>.  Then, we use the rule for <code>Weapon</code> to turn it into <code>[PreBuff] [WeaponType] [PostBuff]</code>.  Then, we pick a rule to replace <code>[PreBuff]</code>, e.g. <code>PreBuff: cursed</code>, and change our text to <code>cursed [WeaponType] [PostBuff]</code>.  Then, we pick rules for <code>[WeaponType]</code> and <code>[PostBuff]</code> and we get something like:</p>
+<p>to change <code>[Treasure]</code> into <code>[Weapon]</code>.  Then, we use the rule for <code>Weapon</code> to turn it into <code>[PreBuff] [WeaponType] [PostBuff]</code>.  Then, we pick a rule to replace <code>[PreBuff]</code>, e.g.:</p>
+<pre><code class="language-step">PreBuff: cursed
+</code></pre>
+<p>and change our text to <code>cursed [WeaponType] [PostBuff]</code>.  Then, we pick rules for <code>[WeaponType]</code> and <code>[PostBuff]</code> and we get something like:</p>
 <blockquote>
 <p>cursed mace of social anxiety</p>
 </blockquote>
-<p>Producing text using a grammar is called <strong>generation</strong>.  Conversely, using a grammar to break existing text up into its constituent phrases and sub-phrases, is called <strong>parsing</strong>.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> Nearly all programming languages are defined in terms of CFGs. Compilers or interpreters nearly always start by using the grammar to parse the program into its pieces.</p>
-<p>This is the grammar above written as a Step program.  To try it, click the code and then type <code>Treasure</code> in the command box and hit return:</p>
+<p>Producing text using a grammar is called <strong>generation</strong>.  Conversely, using a grammar to break existing text up into its constituent phrases and sub-phrases, is called <strong>parsing</strong>.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Nearly all programming languages are defined in terms of CFGs.  Compilers or interpreters nearly always start by using the grammar to parse the program into its pieces.</p>
+<p>This is the grammar above written as a Step program.  To try it, click the code box below to open a Step window.  Then type <code>[Treasure]</code> in the command box and press Run:</p>
 <pre><code class="language-Step"># Try: [Treasure]
 Treasure: [Weapon]
 
@@ -159,21 +167,21 @@ Effect: sleep
 Effect: poison
 Effect: social anxiety
 </code></pre>
-<p>The line starting with <code>#</code> is called a <strong>comment</strong>.  It's a note from the human programmer to other humans.  Step ignores the rest of a line after a <code>#</code>.</p>
+<p>The line starting with <code>#</code> is called a <strong>comment</strong>.  It's a note from the human programmer to other humans.  Step ignores the rest of a line after a <code>#</code>.</p>
 <h2 id="fancier-grammars">Fancier grammars</h2>
 <p>In games and computer science, we frequently augment the basic CFG formalism with mechanisms for:</p>
 <ul>
 <li>Passing information into and out of the parsing or generation process, and</li>
 <li>Placing conditions on when a given template can be used based on that information</li>
 </ul>
-<p>This has led to the development of endless variations on CFGs.  In this book, we’ll focus on a particular class of “unification grammars” called <em>definite clause grammars</em>, but you don’t really need to know that term, especially since it’s an extremely non-obvious name.<a id="fnref:3" href="#fn:3" class="footnote-ref"><sup>3</sup></a></p>
-<p>In this chapter, we’ll walk you through how to write CFGs using the programming language <em>Step</em>.  It will also serve as an introduction to the <em>Step</em> language.  In <a href="Logic_programming.html">the next chapter</a>, we’ll introduce how Step can be used for logical reasoning, after which we’ll return to grammars and discuss how to use logic inside grammars.</p>
+<p>This has led to the development of endless variations on CFGs.  In this book, we’ll focus on a particular class of “unification grammars” called <em>definite clause grammars</em>, but you don’t really need to know that term, especially since it’s an extremely non-obvious name.<a id="fnref:3" href="#fn:3" class="footnote-ref"><sup>3</sup></a></p>
+<p>In this chapter, we’ll walk you through how to write CFGs using the programming language <em>Step</em>.  It will also serve as an introduction to the <em>Step</em> language.  In <a href="Logic_programming.html">the next chapter</a>, we’ll introduce how Step can be used for logical reasoning, after which we’ll return to grammars and discuss how to use logic inside grammars.</p>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
-<p>Technically, those are a particular kind of grammar called a <em>phrase structure grammar</em>.  There are other kinds of grammars such as <a href="https://en.wikipedia.org/wiki/Dependency_grammar">dependency grammars</a>.  However, most grammars in computer science and game development are phrase-structure grammars.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p>Technically, those are a particular kind of grammar called a <em>phrase structure grammar</em>.  There are other kinds of grammars such as <a href="https://en.wikipedia.org/wiki/Dependency_grammar">dependency grammars</a>.  However, most grammars in computer science and game development are phrase-structure grammars.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 <li id="fn:2">
 <p>From the Latin <em>pars</em> meaning “part” or &ldquo;piece.&rdquo;<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
@@ -199,9 +207,9 @@ Effect: social anxiety
 					<li><a class="backgroundlink" href="Generating_text.html" id="section_page_1"> Grammar rules </a> <br></li>
 					<li><a class="backgroundlink" href="Tasks_and_methods.html" id="section_page_2"> Tasks and methods </a> <br></li>
 					<li><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
-					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_4"> Context-free grammars </a> <br></li>
-					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_5"> A silly context-free-grammar </a> <br></li>
-					<li><a class="backgroundlink" href="Parameters.html" id="section_page_6"> Parameterized grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Choice_machines.html" id="section_page_4"> Choice machines </a> <br></li>
+					<li><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_5"> Context-free grammars </a> <br></li>
+					<li><a class="backgroundlink" href="Adapting_text.html" id="section_page_6"> Omake: a silly grammar </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -225,6 +233,9 @@ Effect: social anxiety
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Grammars.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

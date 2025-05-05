@@ -1,5 +1,6 @@
 ---
 pagetitle: Grammars
+status: alpha
 ---
 
 A formal grammar is a set of rules that define the syntax of a language.  Most commonly, these are variations on **context-free grammars**.  They specify a set of possible phrase types and templates for how a given type of phrase can be constructed from other phrases. 

@@ -1,5 +1,6 @@
 ---
 pagetitle: Writing sets
+status: alpha
 ---
 Much of the time, we discuss sets that are given to us by context, and we don't worry about specifying what their members are.  But sometimes we do need to write a set down explicitly in terms of its members.  When we do, there are two main ways of doing this.  One is to literally write the elements down.  The other is to give a rule for deciding if something is a member.
 

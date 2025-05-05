@@ -1,5 +1,6 @@
 ---
 pagetitle: Complexity
+status: incomplete-draft
 ---
 The second problem is efficiency.  Sorting is a fast operation.  But there are specs that provably require at least certain amounts of time.  Most problems, for example, require at least enough time to read the input.  Sorting by comparing elements[^1] requires at least $$O(n \log ⁡n)$$ time because that’s how many pairwise comparisons you need in order to know which permutation of the input you were given.
 

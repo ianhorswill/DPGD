@@ -69,6 +69,16 @@
 				<a class="backgroundlink" href="@page.PageLink"> @page.EffectiveShortTitle </a>
 			}
 			<h1><a class="simplelink" href="index.html">@Model.PageTitle</a></h1>
+			@{
+				if (!Model.IsReleased)
+				{
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:@Model.StatusColor; color:black;">
+					   @Model.StatusText
+					</span>
+					</p>
+				}
+			}
 		</div>
 	</div>
 </div>

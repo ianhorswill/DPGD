@@ -55,6 +55,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Basic_objects_of_mathematics.html"> Basic objects </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Relations.html"> Relations </a>
 			<h1><a class="simplelink" href="index.html">Relationships as sets</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   early draft
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -83,21 +88,21 @@
 
 			<div class="container shadow blog-contents">
 
-<p>We often want to be able to treat a relationship, such as the <span class="math">\(M\)</span> (motherhood) relation discussed previously, as a mathematical object so we can reason about it.  Such an object is called a <strong>relation</strong>.  In most respects, relation is just the math word for relationship.</p>
-<p>What kind of mathematical object is a relation?  One way to think about this is to as what makes one kind of relationship different from or the same as another.  There are basically two ways to answer this:</p>
+<p>We often want to be able to treat a relationship, such as the <span class="math">\(M\)</span> (motherhood) relation discussed previously, as a mathematical object so we can reason about it.  Such an object is called a <strong>relation</strong>.  In most respects, relation is just the math word for relationship.</p>
+<p>What kind of mathematical object is a relation?  One way to think about this is to as what makes one kind of relationship different from or the same as another.  There are basically two ways to answer this:</p>
 <ul>
-<li>Two relationships are the same if they mean the same thing.  This is called an <em>intensional</em> definition.</li>
-<li>Two relationships are the same if they are true of the same pairs of objects.  This is called an <em>extensional</em> definition.</li>
+<li>Two relationships are the same if they mean the same thing.  This is called an <em>intensional</em> definition.</li>
+<li>Two relationships are the same if they are true of the same pairs of objects.  This is called an <em>extensional</em> definition.</li>
 </ul>
 <p>The first of these is extremely complicated to reason about and so is almost never used in math, although it's important in philosophy, linguistics, and logic.</p>
-<p>The second works for most mathematics and will work for everything we do here.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> It's the definition used in set theory.  The set of pairs of objects a relationship is true of is called its <strong>extension</strong>.  In set theory, two relationships are the same if they have the same extension.  And the relation object is just the extension.  So relations are sets of pairs.  The motherhood relation would be defined as:</p>
+<p>The second works for most mathematics and will work for everything we do here.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> It's the definition used in set theory.  The set of pairs of objects a relationship is true of is called its <strong>extension</strong>.  In set theory, two relationships are the same if they have the same extension.  And the relation object is just the extension.  So relations are sets of pairs.  The motherhood relation would be defined as:</p>
 <div class="math">
 \[
 M = \{(m,c) \; | \; m \text{ is the mother of }c\}
 \]</div>
 <p>This means that when we type <span class="math">\(mMc\)</span>, it's really just a shorthand for <span class="math">\((m,c)\in M\)</span>.</p>
 <h2 id="relations-and-the-cartesian-product">Relations and the Cartesian product</h2>
-<p>Again, relations in set theory are just sets of pairs.  So any relation <span class="math">\(R\)</span> between two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> is going to be some set of pairs whose first element comes from <span class="math">\(A\)</span> and whose second comes from <span class="math">\(B\)</span>.  That means <span class="math">\(R\)</span> is a subset of the Cartesian product of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>:</p>
+<p>Again, relations in set theory are just sets of pairs.  So any relation <span class="math">\(R\)</span> between two sets <span class="math">\(A\)</span> and <span class="math">\(B\)</span> is going to be some set of pairs whose first element comes from <span class="math">\(A\)</span> and whose second comes from <span class="math">\(B\)</span>.  That means <span class="math">\(R\)</span> is a subset of the Cartesian product of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>:</p>
 <div class="math">
 \[
 R\subseteq A\times B
@@ -108,7 +113,7 @@ R\subseteq A\times B
 <hr />
 <ol>
 <li id="fn:1">
-<p><em>Esoteric</em>: The extensional definition does introduce some technical weirdnesses, which is why there are people who study intensional definitions.  For example, the &ldquo;can pilot&rdquo; relationship between dogs and airplanes is, to the best of my knowledge, the empty set: no dogs can pilot airplanes.  So is the &ldquo;can eat&rdquo; relationship between airplanes and cats.  But it seems wrong to say those are the &ldquo;same relation&rdquo;, even though they are extensionally equivalent. Indeed, there is only one &ldquo;empty relation&rdquo; in set theory, because relations are sets and sets are defined extensionally.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p><em>Esoteric</em>: The extensional definition does introduce some technical weirdnesses, which is why there are people who study intensional definitions.  For example, the &ldquo;can pilot&rdquo; relationship between dogs and airplanes is, to the best of my knowledge, the empty set: no dogs can pilot airplanes.  So is the &ldquo;can eat&rdquo; relationship between airplanes and cats.  But it seems wrong to say those are the &ldquo;same relation&rdquo;, even though they are extensionally equivalent. Indeed, there is only one &ldquo;empty relation&rdquo; in set theory, because relations are sets and sets are defined extensionally.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -155,6 +160,9 @@ R\subseteq A\times B
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Relationships_as_sets.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

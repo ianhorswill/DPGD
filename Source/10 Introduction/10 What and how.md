@@ -1,5 +1,6 @@
 ---
 pagetitle: What and How
+status: early-draft
 ---
 Programming is an act of communication.  Most obviously, a program teaches a machine to perform a task.  But software design is a social endeavor: people work together to make software that solves a needed task.  Programs are written not only to communicate with the computer but with other developers.  Were that not the case, we would have no need for comments or meaningful variable names.
 

@@ -54,6 +54,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
 			<h1><a class="simplelink" href="index.html">Building complex questions</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -82,14 +87,14 @@
 
 			<div class="container shadow blog-contents">
 
-<p>To recap, we can ask questions by calling a predicate.  For example, if we say:</p>
+<p>To recap, we can ask questions by calling a predicate.  For example, if we say:</p>
 <pre><code class="language-step">[Likes tanya ?what]
 </code></pre>
 <p>The system will look for a <code>?what</code> that Tanya likes and report it back.</p>
 <p>But what if we do <strong>several calls in a row</strong> as one command?</p>
 <pre><code class="language-step">[Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]
 </code></pre>
-<p>It contains the original call <code>[Likes tanya ?what]</code> so it will select a <code>?what</code> that Tanya likes.  But by the same reasoning, it also has to select a <code>?what</code> that Jayden likes and that Kimiko likes.  We can ignore the details of how it finds that <code>?what</code>.  But if it does generate an answer, it has to be an answer that all three characters like.  You can try it yourself:</p>
+<p>It contains the original call <code>[Likes tanya ?what]</code> so it will select a <code>?what</code> that Tanya likes.  But by the same reasoning, it also has to select a <code>?what</code> that Jayden likes and that Kimiko likes.  We can ignore the details of how it finds that <code>?what</code>.  But if it does generate an answer, it has to be an answer that all three characters like.  You can try it yourself:</p>
 <pre><code class="language-Step"># Try: [Likes tanya ?what] [Likes jayden ?what] [Likes kimiko ?what]
 [predicate] [randomly]
 Likes tanya sushi.
@@ -102,16 +107,27 @@ Likes kimiko ?.
 # Everyone likes pizza.
 Likes ? pizza.
 </code></pre>
-<p>Here, we've added <code>[randomly]</code> to the definitions so it can generate different foods if you run it repeatedly.  But notice that it only generates foods that all three like, in this case burgers and pizza.</p>
+<p>Here, we've added <code>[randomly]</code> to the definitions so it can generate different foods if you run it repeatedly.  But notice that it only generates foods that all three like &mdash; in this case, burgers and pizza.</p>
+<p>What's going on when we run that?  It runs the first call, then the second, then the third.  Each call involves a choice from a set of methods.  So we have a choice tree like this.  To save screen space, I won't include all the methods that don't match, just the methods that do.  When a call has no matching methods, I put a little red &ldquo;Fail&rdquo; beneath it:</p>
+<pre class="mermaid">graph TB
+c1("[Likes tanya ?what]") -- "Likes tanya sushi.&lt;br>?what = sushi" --> c2sushi("[Likes jayden sushi]") --> f1[Fail]
+style f1 fill:red
+c1 -- "Likes tanya burgers.&lt;br>?what = burgers" --> c2burgers("[Likes jayden burgers]") -- "Likes jayden burgers." --> c3burgers("[Likes kimiko burgers]") -- "Likes kimiko ?.&lt;br>? = burgers" --> s1[Succeed]
+style s1 fill:green
+c1("[Likes tanya ?what]") -- "Likes tanya mexican.&lt;br>?what = mexican" --> c2mexican("[Likes jayden mexican]") --> f2[Fail]
+style f2 fill:red
+c1 -- "Likes ? pizza.&lt;br>?1 = tanya" --> c2pizza("[Likes jayden pizza]") -- "Likes ? pizza.&lt;br>?2 = jayden" --> c3pizza("[Likes kimiko pizza]") -- "Likes ? pizza.&lt;br>?3 = kimiko" --> s2[Succeed]
+style s2 fill:green
+</pre>
 <h2 id="multiple-calls-effectively-mean-and">Multiple calls effectively mean &ldquo;and&rdquo;</h2>
-<p>This demonstrates a general principle: if some call effectively asks if one thing is true, and another call asks if some other thing is true, then running them both in one command asks if they're both true.  And if they're questions that involve filling in variables, then we're effective asking for values of the variables that work in both calls.</p>
-<p>So when we're thinking of calls as asking questions, we think of <em>sequences</em> of calls as asking what values of their variables make them all true simultaneously.</p>
+<p>This demonstrates a general principle: if some call effectively asks if one thing is true, and another call asks if some other thing is true, then running them both in one command asks if they're both true.</p>
+<p>And if they're questions that involve filling in variables, then we're effective asking for a set of variable values that work for both calls.  So when we're thinking of calls as asking questions, we think of <em>sequences</em> of calls as asking what values of their variables make them all true simultaneously.</p>
 <h2 id="advanced-what-about-ornot">Advanced: what about &ldquo;or&rdquo;/&ldquo;not&rdquo;?</h2>
-<p>At this point, you might be saying &ldquo;that's great, but what if I want to ask an &lsquo;or&rsquo; question rather than an &lsquo;and&rsquo; question?&rdquo;  The short answer is that you can do it, but it uses a <a href="Higher-order_tasks.html">special kind of predicate</a> we haven't talked about yet, one whose parameters are themselves questions (calls).  So don't worry about that yet.  We'll get to it soon enough.</p>
+<p>At this point, you might be saying &ldquo;that's great, but what if I want to ask an &lsquo;or&rsquo; question rather than an &lsquo;and&rsquo; question?&rdquo;  The short answer is that you can do it, but it uses a <a href="Higher-order_tasks.html">special kind of predicate</a> we haven't talked about yet, one whose parameters are themselves questions (calls).  So don't worry about that yet.  We'll get to it soon enough.</p>
 <p>That said, if you're curious, you can form &ldquo;or&rdquo; questions using the <code>Or</code> predicate:</p>
 <pre><code class="language-step">[Or [Likes tanya ?what] [Likes jayden ?what]]
 </code></pre>
-<p>will give you back a <code>?what</code> that either Tanya likes or Jayden likes, or both.  There are also <code>And</code> and <code>Not</code> predicates, although <code>Not</code> has a number of caveats we'll talk about later.</p>
+<p>will give you back a <code>?what</code> that either Tanya likes or Jayden likes, or both.  There are also <code>And</code> and <code>Not</code> predicates, although <code>Not</code> has a number of caveats we'll talk about later.</p>
 
 
 
@@ -126,10 +142,11 @@ Likes ? pizza.
 			<h5>Simple logic programs</h5>
 			<ol start="1">
 					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
-					<li><a class="backgroundlink" href="Asking_questions.html" id="section_page_2"> Asking questions of predicates </a> <br></li>
+					<li><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions </a> <br></li>
 					<li><a class="simplelink" href="Complex_questions.html" id="section_page_3"> <b> Building complex questions </b> </a> <br></li>
 					<li><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
-					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_5"> Self-referential rules </a> <br></li>
+					<li><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies </a> <br></li>
+					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -144,7 +161,7 @@ Likes ? pizza.
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Asking_questions.html"><b>Previous:</b> Asking questions of predicates</a><br>
+			<a class="simplelink" id="PreviousPage" href="Answering_questions.html"><b>Previous:</b> Predicates answer questions</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
@@ -153,6 +170,9 @@ Likes ? pizza.
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Complex_questions.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

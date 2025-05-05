@@ -1,5 +1,6 @@
 ---
 pagetitle: Declarative programming in practice
+status: incomplete-draft
 ---
 Finally, declarative programming often does require thinking beyond the spec to how the spec will be used by the specific solver you’re using.  Returning to our connectedness definition from above, that nodes are connected to themselves and also connect to the things their neighbors are connected to:
 ```step

@@ -1,5 +1,6 @@
 ---
 pagetitle: Tasks and methods
+status: alpha
 ---
 ```step
 [randomly]
@@ -12,7 +13,7 @@ This is a grammar with one kind of phrase, `Hello`, and several rules for it.  W
 
 * `Hello` is called a **task** in Step terminology. Task just means little program.  Tasks are named, and their names must start with a capital letter.
 * Each rule is called a **method** for its task.  Each gives a different way of performing the task.
-* The `[randomly]` annotation at the beginning is a **declaration** telling Step something about the nature of the `Hello` task, in this case, to choose methods randomly.
+* The `[randomly]` annotation at the beginning tells step to choose methods for `Hello` randomly.
 
 A method (rule for how to perform a task) is a line that looks like:
 ```step
@@ -22,18 +23,18 @@ However, it’s too limiting to require a method to fit on one line, so you can 
 ```Step
 # Try: [Hello]
 Hello:
-   Uh, yes.  Hello.  My name is, uh, Roylance.  Uh, Richard.  Richard Roylance.
+   Uh, yes. Hello. My name is, uh, Roylance. Uh, Richard. Richard Roylance.
 
    Yes.
 
    So, um, I’m here for the, um…
 
-   Yes, that’s right.  The public speaking course.
+   Yes, that’s right. The public speaking course.
 [end]
 ```
 
 ## Esoterica
 
-"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called "hierarchical task network planners", aka HTN planners.  HTNs, for their own reasons, used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.
+"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called [**hierarchical task network planners**](https://en.wikipedia.org/wiki/Hierarchical_task_network), aka HTN planners.  HTNs, for their own reasons, used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.
 
-"Method" means close to the same thing as "method" or "overload" in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently.
+"Method" means close to the same thing as "method" or "overload" in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently at run-time.

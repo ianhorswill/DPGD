@@ -1,5 +1,6 @@
 ---
 pagetitle: Basic operations on sets
+status: incomplete-draft
 ---
 Just as with numbers, there are a number of ways we can combine or otherwise modify sets.
 

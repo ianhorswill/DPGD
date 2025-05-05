@@ -1,5 +1,6 @@
 ---
 pagetitle: Functions
+status: incomplete-draft
 ---
 Suppose we have a relation $$F\subseteq A\times B$$ that is both left-total (every element of $$A$$ relates to something) and right-unique (elements of $$A$$ only relate to one thing).  Then for any $$a\in A$$, $$\overrightarrow{F}(a)$$ is a set of one element, the unique element that $$a$$ relates to.  In cases like this, we don't care about the set, since we know it only has one element.  We want to know what the one element is.  So we adopt the completely unexpected notation:
 $$

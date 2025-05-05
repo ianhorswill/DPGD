@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>The matching process in detail</title>
+	<title>Predicates answer questions</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="The matching process in detail">
-	<meta name="twitter:title" content="The matching process in detail">
-	<meta property="og:title" content="The matching process in detail" />
+	<meta itemprop="name" content="Predicates answer questions">
+	<meta name="twitter:title" content="Predicates answer questions">
+	<meta property="og:title" content="Predicates answer questions" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -52,8 +52,13 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="SLD_Resolution.html"> Solving </a>
-			<h1><a class="simplelink" href="index.html">The matching process in detail</a></h1>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
+			<h1><a class="simplelink" href="index.html">Predicates answer questions</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -82,12 +87,61 @@
 
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>Calls get matched to methods using a process that is simple but takes some getting used to.  So we'll go through it in some detail now.</p>
-<h2 id="for-programmers">For programmers</h2>
-<p>If you’ve programmed before, the idea of calling using matching may be a kind of kick in the head.  Variables work very differently than they do in Python.  Whereas in Python, variables get their values either by being parameters that are filled in during a call, or by being updated with assignment statements like <code>x=x+1</code>.  In Step, variables more or less only get values through pattern matching.  Moreover, once a variable has a value, you can’t update it.  This turns out to be very useful for certain kinds of programming.</p>
-<p>Later, we will introduce other kinds of variables you can update with assignment statements, so you will be able to write <code>x=x+1</code>.  But the vast majority of the code you write will work through pattern matching.</p>
-<p>The technical name for this matching process is <strong>unification</strong>.  We'll discuss how to implement it in Part II.</p>
+<p>Here's a little database of characters and what kinds of cuisine they like.  We use <code>[Likes tanya sushi]</code> to tell the computer that Tanya likes sushi.  More generally, <code>[Likes ?who  ?what]</code> means <code>?who</code> likes <code>?what</code>:</p>
+<pre><code class="language-Step"># Try: [Likes tanya ?]
+[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+</code></pre>
+<p>You ask a predicate a question by calling it.  It succeeds if the answer is yes.  It fails if the answer is no.  If the answer is yes and one or more of the parameters in the call are variables, it will fill them in with values that make it true.  So we can ask different questions with different patterns of variables in the calls:</p>
+<table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Meaning</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Likes tanya sushi]</code></td>
+<td>Does Tanya like sushi?</td>
+<td>Yes (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes jayden sushi]</code></td>
+<td>Does Jayden like sushi?</td>
+<td>No (call fails)</td>
+</tr>
+<tr>
+<td><code>[Likes tanya ?]</code></td>
+<td>What does Tanya like?</td>
+<td><code>?=sushi</code> (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes ? sushi]</code></td>
+<td>Who likes sushi?</td>
+<td><code>?=tanya</code> (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes ?a ?b]</code></td>
+<td>What's something that somebody likes?</td>
+<td><code>?a=tanya</code>,<code>?b=sushi</code> (call succeeds)</td>
+</tr>
+</tbody>
+</table>
+<p>In this case, we've just listed the first solution to the queries that had <code>?</code>s.  But if <code>Likes</code> were marked <code>[randomly]</code>, then it would generate different valid results on different calls:</p>
+<ul>
+<li><code>[Likes tanya ?]</code> could generate: sushi, burgers, Mexican, or pizza.</li>
+<li><code>[Likes ? sushi]</code> could generate Tanya or Kimiko</li>
+</ul>
 
 
 
@@ -99,11 +153,14 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>The matching process in detail</h5>
+			<h5>Simple logic programs</h5>
 			<ol start="1">
-					<li><a class="backgroundlink" href="Pattern_matching_details.html" id="section_page_1"> Pattern matching in detail </a> <br></li>
-					<li><a class="backgroundlink" href="Matching_variables_with_variables.html" id="section_page_2"> Matching variables with variables </a> <br></li>
-					<li><a class="backgroundlink" href="Variable_naming.html" id="section_page_3"> Variables and names </a> <br></li>
+					<li><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
+					<li><a class="simplelink" href="Answering_questions.html" id="section_page_2"> <b> Predicates answer questions </b> </a> <br></li>
+					<li><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
+					<li><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
+					<li><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies </a> <br></li>
+					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -114,19 +171,22 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Pattern_matching_details.html"><b>Next:</b> Pattern matching in detail</a><br>
+			<a class="simplelink" id="NextPage" href="Complex_questions.html"><b>Next:</b> Building complex questions</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Clairvoyance.html"><b>Previous:</b> Clairvoyance</a><br>
+			<a class="simplelink" id="PreviousPage" href="Predicates.html"><b>Previous:</b> Predicates</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="SLD_Resolution.html"><b>Up:</b> Solving</a><br>
+			<a class="simplelink" id="UpPage" href="Logic_programming.html"><b>Up:</b> Simple logic programs</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Answering_questions.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

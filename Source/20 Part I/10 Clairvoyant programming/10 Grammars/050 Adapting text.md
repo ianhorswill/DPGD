@@ -1,5 +1,6 @@
 ---
-pagetitle: A silly context-free-grammar
+pagetitle: "Omake: a silly grammar"
+status: alpha
 ---
 The Situationist International’s 1960 manifesto begins:
 

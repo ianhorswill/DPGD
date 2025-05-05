@@ -54,6 +54,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
 			<h1><a class="simplelink" href="index.html">Predicates</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -82,7 +87,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>As we just discussed, it's possible for all the methods of a task to fail, in which case the call itself fails.  In many cases, that's an error.  So by default, Step treats that as an error.  If we try running <code>[Dog morris]</code> below, we get an error:</p>
+<p>As we just discussed, it's possible for all the methods of a task to fail, in which case the call itself fails.  In many cases, that's an error.  So by default, Step treats that as an error.  If we try running <code>[Dog morris]</code> below, we get an error:</p>
 <pre><code class="language-Step"># Try: [Dog morris]
 Dog benji.
 Dog lassie.
@@ -90,9 +95,9 @@ Dog lassie.
 Cat morris.
 Cat garfield.
 </code></pre>
-<p>However, as we've also just seen, it's useful to allow calls to fail and use the success or failure of the call as a way of answering questions.  Tasks that exist for the purpose of answering questions are called <strong>predicates</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+<p>However, as we've also just seen, it's useful to allow calls to fail and use the success or failure of the call as a way of answering questions.  Tasks that exist for the purpose of answering questions are called <strong>predicates</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> </p>
 <h2 id="the-predicate-declaration">The <code>[predicate]</code> declaration</h2>
-<p>Tagging a task with the declaration <code>[predicate]</code> tells Step not to consider a failed call to that task to be an error.  That's all it does.  So in the example:</p>
+<p>Tagging a task with the declaration <code>[predicate]</code> tells Step not to consider a failed call to that task to be an error.  That's all it does.  So in the example:</p>
 <pre><code class="language-Step"># Try: [Dog morris]
 [predicate]
 Dog benji.
@@ -102,16 +107,16 @@ Dog lassie.
 Cat morris.
 Cat garfield.
 </code></pre>
-<p>Calling <code>[Dog morris]</code> will fail, but it won't be treated as an error that stops the program, because <code>Dog</code> is declared <code>[predicate]</code>.  Instead, the system just responds &ldquo;no&rdquo;: Morris is not a dog, given what the system knows.</p>
+<p>Calling <code>[Dog morris]</code> will fail, but it won't be treated as an error that stops the program, because <code>Dog</code> is declared <code>[predicate]</code>.  Instead, the system just responds &ldquo;no&rdquo;: Morris is not a dog, given what the system knows.</p>
 <p>To make a task be a predicate, you only have to include the <code>[predicate]</code> declaration before one of its methods. That will apply it to the task more generally.</p>
 <h2 id="predicates-dont-print">Predicates don't print</h2>
-<p>The primary use of predicates is to answer questions.  So they generally aren't written to generate output.  There's nothing preventing you from writing tasks that print but are labeled <code>[predicate]</code>, but you usually wouldn't want your question-answering tasks to print things.</p>
+<p>The primary use of predicates is to answer questions.  So they generally aren't written to generate output.  There's nothing preventing you from writing tasks that print but are labeled <code>[predicate]</code>, but you usually wouldn't want your question-answering tasks to print things.</p>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
-<p><em>Esoteric:</em> This term comes from the Latin <em>praedicatum</em>, meaning &ldquo;that which is said of the subject [of a sentence].&rdquo; The sentence &ldquo;Bill loves fruitcake&rdquo;, has a subject, Bill, and a predicate, &ldquo;loves fruitcake.&rdquo;  <a href="Logic.html">Logic</a> adopts this terminology to refer to properties, such as &ldquo;loving fruitcake&rdquo;, that can be true of things or not.  Bill loves fruitcake, my television does not.  Logic also extends the term predicate to include relationships, such as &ldquo;loving&rdquo;, that can hold between things, such as Bill and fruitcake.  Bill loves fruitcake.  Fruitcake does not love Bill.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p><em>Esoteric:</em> This term comes from the Latin <em>praedicatum</em>, meaning &ldquo;that which is said of the subject [of a sentence].&rdquo; The sentence &ldquo;Bill loves fruitcake&rdquo;, has a subject, Bill, and a predicate, &quot;loves fruitcake.&quot;  <a href="Logic.html">Logic</a> adopts this terminology to refer to properties, such as &ldquo;loving fruitcake&rdquo;, that can be true of things or not.  Bill loves fruitcake, my television does not.  Logic also extends the term predicate to include relationships, such as &ldquo;loving&rdquo;, that can hold between things, such as Bill and fruitcake.  Bill loves fruitcake.  Fruitcake does not love Bill.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -129,10 +134,11 @@ Cat garfield.
 			<h5>Simple logic programs</h5>
 			<ol start="1">
 					<li><a class="simplelink" href="Predicates.html" id="section_page_1"> <b> Predicates </b> </a> <br></li>
-					<li><a class="backgroundlink" href="Asking_questions.html" id="section_page_2"> Asking questions of predicates </a> <br></li>
+					<li><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions </a> <br></li>
 					<li><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
 					<li><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
-					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_5"> Self-referential rules </a> <br></li>
+					<li><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies </a> <br></li>
+					<li><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -143,7 +149,7 @@ Cat garfield.
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Asking_questions.html"><b>Next:</b> Asking questions of predicates</a><br>
+			<a class="simplelink" id="NextPage" href="Answering_questions.html"><b>Next:</b> Predicates answer questions</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
@@ -156,6 +162,9 @@ Cat garfield.
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Predicates.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

@@ -52,6 +52,11 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Introduction.html"> Technical introduction </a>
 			<h1><a class="simplelink" href="index.html">What and How</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   early draft
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -80,8 +85,8 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Programming is an act of communication.  Most obviously, a program teaches a machine to perform a task.  But software design is a social endeavor: people work together to make software that solves a needed task.  Programs are written not only to communicate with the computer but with other developers.  Were that not the case, we would have no need for comments or meaningful variable names.</p>
-<p>And yet, software is a decidedly peculiar form of communication.  Consider the following, deliberately uncommented, program:</p>
+<p>Programming is an act of communication.  Most obviously, a program teaches a machine to perform a task.  But software design is a social endeavor: people work together to make software that solves a needed task.  Programs are written not only to communicate with the computer but with other developers.  Were that not the case, we would have no need for comments or meaningful variable names.</p>
+<p>And yet, software is a decidedly peculiar form of communication.  Consider the following, deliberately uncommented, program:</p>
 <pre><code class="language-c#">void Q(int[] A, int lo, int hi) { 
   if (lo &gt;= hi || lo &lt; 0) 
     return;    
@@ -100,15 +105,15 @@ int P(int[] A, int lo, int hi) {
   return i;
 }
 </code></pre>
-<p>If you’ve recently taken the right course or otherwise had to implement it, you might recognize this as Tony Hoare’s Quicksort algorithm.  It sorts the contents of the array <code>A</code>, in place, into ascending order.  If you didn’t recognize it, don’t feel bad. The computer doesn’t know it’s a sort algorithm either.  The program does sorting, but it never mentions sorting.</p>
-<p>Programmers often start with some kind of <strong>specification</strong> (spec) for a function before writing it, even if it’s informal.  For example, a spec for sorting might be:</p>
+<p>If you’ve recently taken the right course or otherwise had to implement it, you might recognize this as Tony Hoare’s Quicksort algorithm.  It sorts the contents of the array <code>A</code>, in place, into ascending order.  If you didn’t recognize it, don’t feel bad. The computer doesn’t know it’s a sort algorithm either.  The program does sorting, but it never mentions sorting. </p>
+<p>Programmers often start with some kind of <strong>specification</strong> (spec) for a function before writing it, even if it’s informal.  For example, a spec for sorting might be:</p>
 <blockquote>
 <p><em>Rearrange the data in array A, such that A[i]≤A[i+1] for all i.</em></p>
 </blockquote>
-<p>The spec isn’t part of the program because the computer can’t understand specs.  Any mention of sorting in a sort routine is relegated to comments or identifier names.</p>
-<p>By the way, I lied.  This isn’t really Quicksort: the <code>if</code> inside <code>P</code> should increment the variable <code>i</code> after swapping the two array elements.  But you’re even less likely to have realized it was broken than that it was Quicksort.  Programming is hard precisely because the relation between the spec (sorting) and the code (iterating, recursing, comparing, and swapping elements) is so tenuous.</p>
-<p>Moreover, the relationship between spec and code is <strong>unstable</strong>: small changes in the spec can require wildly different code.  Modifying our code to sort into descending order is a one-character change (<code>&lt;</code> to <code>&gt;</code>).  But changing it to be stable (identical elements are kept in their original order) requires an entirely different sort algorithm. <a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
-<p>This has real-world implications.  It means that recognizing bugs is hard.  It also means that communication between programmers is hard.  When you read my code, or I read my own code 2 months after writing it, it can be hard to know why it works or even what it was trying to do to begin with.  Programming is at least as much a social-psychological discipline as it is a mathematical one.  Most programming language design aims make programs easier for humans to understand, not to make the programs faster.</p>
+<p>The spec isn’t part of the program because the computer can’t understand specs.  Any mention of sorting in a sort routine is relegated to comments or identifier names.</p>
+<p>By the way, I lied.  This isn’t really Quicksort: the <code>if</code> inside <code>P</code> should increment the variable <code>i</code> after swapping the two array elements.  But you’re even less likely to have realized it was broken than that it was Quicksort.  Programming is hard precisely because the relation between the spec (sorting) and the code (iterating, recursing, comparing, and swapping elements) is so tenuous.</p>
+<p>Moreover, the relationship between spec and code is <strong>unstable</strong>: small changes in the spec can require wildly different code.  Modifying our code to sort into descending order is a one-character change (<code>&lt;</code> to <code>&gt;</code>).  But changing it to be stable (identical elements are kept in their original order) requires an entirely different sort algorithm. <a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+<p>This has real-world implications.  It means that recognizing bugs is hard.  It also means that communication between programmers is hard.  When you read my code, or I read my own code 2 months after writing it, it can be hard to know why it works or even what it was trying to do to begin with.  Programming is at least as much a social-psychological discipline as it is a mathematical one.  Most programming language design aims make programs easier for humans to understand, not to make the programs faster.</p>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
@@ -160,6 +165,9 @@ int P(int[] A, int lo, int hi) {
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/What_and_how.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

@@ -1,5 +1,6 @@
 ---
 pagetitle: Variables
+status: alpha
 ---
 ```Step
 # Try: [Greet dude]
@@ -8,7 +9,7 @@ Greet ?who: Hello, ?who.
 Greet ?who: Hey, ?who.
 Greet ?who: Good evening, ?who.
 ```
-So what does `?who` mean in the methods above?  It’s a placeholder that can be filled in when `Greet` is called, and then used in the text template to fill in blanks.  These placeholders are called **variables**.[^1] In particular, they’re called “local variables” because if two different methods each have a variable named `?who`, they’re treated as different variables -- they don’t interfere with one another.
+So what does **`?who`** mean in the methods above?  It’s a placeholder that can be filled in when `Greet` is called, and then used in the text template to fill in blanks.  These placeholders are called **variables**.[^1] In particular, they’re called “local variables” because if two different methods each have a variable named `?who`, they’re treated as different variables: they don’t interfere with one another.
 
 To print the text in a variable, just list it on the right-hand side of the colon in a method:
 ```step

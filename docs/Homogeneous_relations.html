@@ -55,6 +55,11 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Basic_objects_of_mathematics.html"> Basic objects </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Relations.html"> Relations </a>
 			<h1><a class="simplelink" href="index.html">Homogeneous relations</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   incomplete draft
+					</span>
+					</p>
 		</div>
 	</div>
 </div>
@@ -83,12 +88,12 @@
 
 			<div class="container shadow blog-contents">
 
-<p>A relation <span class="math">\(R\subseteq A\times A\)</span> between a set <span class="math">\(A\)</span> and itself is called a homogeneous because both its arguments come from the same set.  Homogeneous relations come up frequently in math and computer science.  Math examples include: <span class="math">\(=, &lt;, &gt;, and \subseteq\)</span>.  Examples from everyday life are any kind of relation between people (e.g. familiar relationships).  Examples from programming include the subclass relation graphs and tree, which are essentially homogeneous relations (see <a href="Graphs.html">graphs</a>).</p>
+<p>A relation <span class="math">\(R\subseteq A\times A\)</span> between a set <span class="math">\(A\)</span> and itself is called a homogeneous because both its arguments come from the same set.  Homogeneous relations come up frequently in math and computer science.  Math examples include: <span class="math">\(=, &lt;, &gt;, and \subseteq\)</span>.  Examples from everyday life are any kind of relation between people (e.g. familiar relationships).  Examples from programming include the subclass relation graphs and tree, which are essentially homogeneous relations (see <a href="Graphs.html">graphs</a>).</p>
 <h2 id="special-properties-of-homogeneous-relations">Special properties of homogeneous relations</h2>
-<p>Homogeneous relations can have nice properties that other relations can't.  Not all have them,</p>
+<p>Homogeneous relations can have nice properties that other relations can't.  Not all have them,</p>
 <h3 id="reflexivity">Reflexivity</h3>
-<p>A relation <span class="math">\(R\subseteq A\times A\)</span> is <strong>reflexive</strong> if all elements relate to themselves.  That is, if <span class="math">\(aRa\)</span> for all <span class="math">\(a\in A\)</span>.</p>
-<p><span class="math">\(R\)</span> is <strong>anti-reflexive</strong> if elements never relate to themselves.  That is, if <span class="math">\(aRa\)</span> is false for all <span class="math">\(a\in A\)</span>.</p>
+<p>A relation <span class="math">\(R\subseteq A\times A\)</span> is <strong>reflexive</strong> if all elements relate to themselves.  That is, if <span class="math">\(aRa\)</span> for all <span class="math">\(a\in A\)</span>.</p>
+<p><span class="math">\(R\)</span> is <strong>anti-reflexive</strong> if elements never relate to themselves.  That is, if <span class="math">\(aRa\)</span> is false for all <span class="math">\(a\in A\)</span>.</p>
 <h3 id="symmetry">Symmetry</h3>
 <p>A relation <span class="math">\(R\subseteq A\times A\)</span> is <strong>symmetric</strong> if (equivalently):</p>
 <ul>
@@ -96,24 +101,24 @@
 <li><span class="math">\(aRb\)</span> if and only if <span class="math">\(bRa\)</span></li>
 <li><span class="math">\(R=R^{-1}\)</span></li>
 </ul>
-<p>You would expect anti-symmetry to be the opposite, that if <span class="math">\(aRb\)</span> is true then <span class="math">\(bRa\)</span> must be false and vice versa.  The problem with that is that then <span class="math">\(aRa\)</span> can never be true, i.e. that definition of anti-symmetry would force the relation to <em>also</em> be anti-reflexive.</p>
+<p>You would expect anti-symmetry to be the opposite, that if <span class="math">\(aRb\)</span> is true then <span class="math">\(bRa\)</span> must be false and vice versa.  The problem with that is that then <span class="math">\(aRa\)</span> can never be true, i.e. that definition of anti-symmetry would force the relation to <em>also</em> be anti-reflexive.</p>
 <p>So instead we define <span class="math">\(R\)</span> to be <strong>antisymmetric</strong> if for all <span class="math">\(a,b\in A\)</span> <span class="math">\(aRb\)</span> and <span class="math">\(bRa\)</span> can only be true when <span class="math">\(a=b\)</span>.</p>
 <h3 id="transitivity">Transitivity</h3>
 <p>A relation <span class="math">\(R\subseteq A\times A\)</span> is <strong>transitive</strong> if <span class="math">\(aRb\)</span> and <span class="math">\(bRc\)</span> imply <span class="math">\(aRc\)</span> for all <span class="math">\(a,b,c \in A\)</span>.</p>
 <h2 id="important-kinds-of-homogeneous-relations">Important kinds of homogeneous relations</h2>
 <h3 id="equivalence">Equivalence</h3>
-<p>Much of mathematics is based on making things that are similar to other things.  <strong>Equivalence relations</strong> are things that are similar to the <span class="math">\(=\)</span> relation.
+<p>Much of mathematics is based on making things that are similar to other things.  <strong>Equivalence relations</strong> are things that are similar to the <span class="math">\(=\)</span> relation.
 In particular, <span class="math">\(=\)</span> has the formal properties of:<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
 <ul>
 <li>Reflexive: things are equal to themselves</li>
 <li>Symmetric: if <span class="math">\(a=b\)</span> then <span class="math">\(b=x\)</span></li>
 <li>Transitive: if <span class="math">\(a=b\)</span> and <span class="math">\(b=c\)</span> then <span class="math">\(a=c\)</span></li>
 </ul>
-<p>Any relation that shares these properties ends up seeming very &ldquo;equalsish&rdquo;.<br />
-The thing is, lots of relationships have these properties.  For example, any relationship of the form &ldquo;same <span class="math">\(X\)</span> as&rdquo;: same company as, same state as, same genre as, etc. A game has the same genre as itself.  If <span class="math">\(A\)</span> has the same genre as <span class="math">\(B\)</span> then <span class="math">\(B\)</span> has the same genre as <span class="math">\(A\)</span>.  If <span class="math">\(A\)</span> has the same genre as <span class="math">\(B\)</span> and <span class="math">\(B\)</span> as <span class="math">\(C\)</span>, then <span class="math">\(A\)</span> has the same genre as <span class="math">\(C\)</span>.</p>
+<p>Any relation that shares these properties ends up seeming very &ldquo;equalsish&rdquo;. 
+The thing is, lots of relationships have these properties.  For example, any relationship of the form &ldquo;same <span class="math">\(X\)</span> as&rdquo;: same company as, same state as, same genre as, etc. A game has the same genre as itself.  If <span class="math">\(A\)</span> has the same genre as <span class="math">\(B\)</span> then <span class="math">\(B\)</span> has the same genre as <span class="math">\(A\)</span>.  If <span class="math">\(A\)</span> has the same genre as <span class="math">\(B\)</span> and <span class="math">\(B\)</span> as <span class="math">\(C\)</span>, then <span class="math">\(A\)</span> has the same genre as <span class="math">\(C\)</span>.</p>
 <p><strong>FINISHME</strong></p>
 <h3 id="orderings">Orderings</h3>
-<p>Similarly, orders are things that are similar to the <span class="math">\(\leq\)</span> relation on numbers.  The <span class="math">\(\leq\)</span> relation has the properties:</p>
+<p>Similarly, orders are things that are similar to the <span class="math">\(\leq\)</span> relation on numbers.  The <span class="math">\(\leq\)</span> relation has the properties:</p>
 <ul>
 <li>Reflexive: <span class="math">\(x\leq x\)</span> for all <span class="math">\(x\)</span></li>
 <li>Anti-symmetric: <span class="math">\(x\leq y\)</span> and <span class="math">\(y\leq x\)</span> simultaneously only when <span class="math">\(x=y\)</span></li>
@@ -131,7 +136,7 @@ The thing is, lots of relationships have these properties.  For example, any rel
 <hr />
 <ol>
 <li id="fn:1">
-<p>It's also antisymmetric.  But <span class="math">\(=\)</span> is the only relation that is all those things plus antisymmetric, so it's not useful<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p>It's also antisymmetric.  But <span class="math">\(=\)</span> is the only relation that is all those things plus antisymmetric, so it's not useful<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -178,6 +183,9 @@ The thing is, lots of relationships have these properties.  For example, any rel
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Homogeneous_relations.html">Send feedback on this page</a>
+	</div>
 </div>
 
 		</div>

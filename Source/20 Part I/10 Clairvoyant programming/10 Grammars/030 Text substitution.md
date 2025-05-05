@@ -1,5 +1,6 @@
 ---
 pagetitle: Text substitution
+status: alpha
 ---
 Suppose we had a grammar like this:
 ```Step
@@ -38,6 +39,6 @@ Verb: plotted world domination with
 
 Running a task by placing it in brackets is referred to as **calling** it.  The bracketed expression itself is referred to as **a call to** the task.
 
-I honestly have no idea what the origin of this terminology is.  Another term that gets used is **invocation**, which sounds cooler since you invoke spells, curses, and demons.  But call is the more common term, whether because it sounds more wholesome or just because it has fewer symbols.
+I honestly have no idea what the origin of this terminology is.  Another term that gets used is **invocation**, which sounds cooler since you invoke spells, curses, and demons.  But call is the more common term, whether because it sounds more wholesome or just because it has fewer syllables.
 
 Suffice it to say that from hereon in, when we say "a call to `X`" we mean someplace in the code where it says `[X]` or `[X` ... *more stuff* ... `]`.  We'll talk about the "more stuff" part shortly.

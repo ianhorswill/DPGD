@@ -1,5 +1,6 @@
 ---
 pagetitle: Computability
+status: alpha
 ---
 Then there are a number of technical issues with declarative programming.  The first is often referred to as [uncomputability or undecidability](https://en.wikipedia.org/wiki/Undecidable_problem): there are valid specifications for problems for which answers exist, but for which there (provably) can be no algorithm to find those answers.
 
