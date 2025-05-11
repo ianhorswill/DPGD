@@ -68,11 +68,10 @@ ul.sidebar {
 }
 
 li.sidebar {
-	list-style: none;
+	text-align: left;
 }
 
 li.sidebar:before {
-	content: '\25aa';
 	margin-left: -20px;
 	margin-right: 10px;
 }
@@ -97,6 +96,7 @@ table, th, td {
 th, td {
 	padding-left: .3rem;
 	padding-right: .3rem;
+	text-align: left;
 }
 
 th {

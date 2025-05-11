@@ -11,11 +11,11 @@
 			@foreach (var page in pages) {
 				if (page == Model)
 				{
-					<li><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @page.PageTitle </b> </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @page.PageTitle </b> </a> <br></li>
 				}
 				else
 				{
-					<li><a class="backgroundlink" href="@page.PageLink" id="section_page_@counter"> @page.PageTitle </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="@page.PageLink" id="section_page_@counter"> @page.PageTitle </a> <br></li>
 				}
 				counter++;
 			}
@@ -33,21 +33,21 @@
 	@{
 		if (Model.EffectiveNext != null)
 		{
-			<a class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Model.EffectiveNext.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Model.EffectiveNext.EffectiveShortTitle</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
 		}
 		if (Model.EffectivePrevious != null)
 		{
-			<a class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Model.EffectivePrevious.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Model.EffectivePrevious.EffectiveShortTitle</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
 		}
 		if (Model.Up != null)
 		{
-			<a class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Model.Up.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Model.Up.EffectiveShortTitle</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>

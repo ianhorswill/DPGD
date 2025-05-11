@@ -1,0 +1,182 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Structured data</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Structured data">
+	<meta name="twitter:title" content="Structured data">
+	<meta property="og:title" content="Structured data" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+			<h1><a class="simplelink" href="index.html">Structured data</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>To recap, we’ve discussed how Step executes calls to tasks &mdash; both predicates and non-predicates &mdash; by matching the parameters specified in the call to the parameters for the different methods of the task.  It tries a method when it can match each parameter in the call to its respective parameter in the method.</p>
+<p>Thus far, all the values that have been passed along for parameters have been single pieces of data: a string, a variable, maybe a number.  But there are times when we want to pass something more complicated as the value of a parameter.  In effect, we want to package several data objects together as a single data object.  Step has two versions of these, <strong>tuples</strong> and <strong>feature structures</strong>.  We'll talk about each of these and give examples.</p>
+<h2 id="technical-comparison-to-other-languages">Technical: comparison to other languages</h2>
+<p>Step data structures basically look like JSON objects except that:</p>
+<ul>
+<li>You use spaces instead of commas as separators</li>
+<li>You can put variables inside of them</li>
+<li>You can match them against other objects; this turns out to be very cool</li>
+</ul>
+<p>Tuples in <em>Step</em> function like tuples in Python or arrays in C: they're ordered sequences of objects.  They're notated similarly to Python syntax, except you use square brackets instead of parentheses and spaces as separators instead of commas.</p>
+<p>Although they originally come from <a href="https://en.wikipedia.org/wiki/Feature_structure">linguistics</a>, feature structures are <a href="https://en.wikipedia.org/wiki/Associative_array">dictionaries</a>, similar to the Python <code>dict</code> type or <code>Javascript</code> objects.  That is, they're unordered collections of key/value pairs.  Syntactically, they look like JSON notation, but again, with spaces as separators rather than commas.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Structured data</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_3"> Belief and delusion </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_4"> 40 Feature structures </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Representing_beliefs.html"><b>Next:</b> Representing character beliefs</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Real_language.html"><b>Previous:</b> Real language is hard</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Structured_data.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

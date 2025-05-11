@@ -1,0 +1,232 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Fancier mentioning</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Fancier mentioning">
+	<meta name="twitter:title" content="Fancier mentioning">
+	<meta property="og:title" content="Fancier mentioning" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Adaptive_generation.html"> Adaptive generation </a>
+			<h1><a class="simplelink" href="index.html">Fancier mentioning</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>Let's start by telling the system about our characters.  We'll start by telling it they're characters, for one thing:</p>
+<pre><code class="language-step">[predicate]
+Character diana.
+Character bill.
+</code></pre>
+<p>But let's also tell it about their names, ages, jobs, etc.:</p>
+<pre><code class="language-step">[predicate]
+Character diana.
+Age diana: 34
+Occupation diana: titan of industry
+GivenName diana: Diana
+FamilyName diana: Ratcliffe
+
+Character bill.
+Age bill: 26
+Occupation bill: plumber
+GivenName bill: Bill
+FamilyName bill: Holmquist
+</code></pre>
+<p>Now we can define <code>Mention</code> to give first and last names for characters:</p>
+<pre><code class="language-step">Mention ?c: [Character ?c] [GivenName ?c] [FamilyName ?c]
+Mention ?anythingElse: [Write ?anythingElse]
+</code></pre>
+<p>The first line calls <code>[Character ?c]</code>.  Since <code>Character</code> is a predicate, this will fail if <code>?c</code> isn't a character.  So it prevents this method from being used to print anything other than characters.  The rest of the method prints out their first and last names.  If <code>?c</code> isn't a character, it moves on to the second method which just prints its argument verbatim.</p>
+<h2 id="useful-shorthands">Useful shorthands</h2>
+<p>This isn’t critical for you to learn, but there are some shorthands you can use to simplify the first method and make it more readable.  If you say:</p>
+<pre><code class="language-step">Mention (Character ?c): [GivenName ?c] [FamilyName ?c]
+</code></pre>
+<p>The computer understands that you mean this is a method that only applies when <code>?c</code> is a <code>Character</code>.  And you can simplify the part after the colon by saying:</p>
+<pre><code class="language-step">Mention (Character ?c): ?c/GivenName ?c/FamilyName
+</code></pre>
+<p>If you say <code>?var/Task</code>, it just treats it as a shorthand for <code>[Task ?var]</code>.  You can even simplify it further to:</p>
+<pre><code class="language-step">Mention (Character ?c): ?c/GivenName+FamilyName
+</code></pre>
+<p>Step treats <code>?var/Task1+Task2</code> as a shorthand for <code>[Task1 ?var] [Task2 ?var]</code>.  Step treats all these shorthands as identical to the original, longer version.  But the intention is that it will make the code look a little less like code and a little more like text.  Your mileage may vary, so use whichever form looks best to you.  Step doesn’t care.</p>
+<h2 id="specializing-first-use-of-a-name">Specializing first use of a name</h2>
+<p>Suppose we say:</p>
+<pre><code class="language-step">Introduce ?who:
+  ?who is ?who/Age years old. ?who is a ?who/Occupation.
+[end]
+</code></pre>
+<p>And run <code>[Introduce diana]</code>, we get:</p>
+<blockquote>
+<p>Diana Ratcliffe is 34 years old.  Diana Ratcliffe is a titan of industry.</p>
+</blockquote>
+<p>It feels clunky to use her full name both times.  Once she's introduced, we would expect it to use something shorter, probably either just her first name or just her last name, depending on how intimate we want the reader to feel with the character.  This is a common pattern: wanting to hand the first mention of something differently than subsequent ones.  That's easy to implement by using a <a href="Fluents.html">fluent</a> to track which characters have already been introduced.  We'll call this fluent <code>Mentioned</code>:</p>
+<pre><code class="language-step">fluent Mentioned ?who.
+</code></pre>
+<p>This just tells Step that <code>Mentioned</code> is a fluent, without adding a method for it.  Now we can modify our definition of <code>Mention</code> to take advantage of it:</p>
+<pre><code class="language-step">Mention (Character ?c): [Mentioned ?c] ?c/GivenName
+Mention (Character ?c): ?c/GivenName+FamilyName [now [Mentioned ?c]]
+Mention ?anythingElse: [Write ?anythingElse]
+</code></pre>
+<p>Now, the first time we <code>Mention</code> a character it will use the second method, which prints their full name.  But the <code>now</code> command will cause it to remember that character has been mentioned, and so when <code>Mention</code> is called on that same character in the future, it will just print their first name.  Now when we run <code>[Introduce diana]</code>, we get:</p>
+<blockquote>
+<p>Diana Ratcliffe is 34 years old.  Diana is a titan of industry.</p>
+</blockquote>
+<p>Of course, the most fluent thing to do here would be to use a pronoun.  We'll show you how to do that next.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Adaptive generation</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Mention.html" id="section_page_1"> Customizing output using Mention </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Fancier_mentioning.html" id="section_page_2"> <b> Fancier mentioning </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Pronouns.html" id="section_page_3"> Tracking pronouns </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Subject-verb_agreement.html" id="section_page_4"> Subject-verb agreement </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Case.html" id="section_page_5"> Subject and object case </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Real_language.html" id="section_page_6"> Real language is hard </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Pronouns.html"><b>Next:</b> Tracking pronouns</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Mention.html"><b>Previous:</b> Customizing output using Mention</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Adaptive_generation.html"><b>Up:</b> Adaptive generation</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+			</script>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Fancier_mentioning.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

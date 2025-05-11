@@ -116,12 +116,24 @@ Greet ?who: Good evening, ?who.
 <p>Good evening, Mr. Phelps.  Your mission, should you decide to accept it, is to save the world from fascism.</p>
 </blockquote>
 <p>Notice we named this task <code>MissionBriefing</code> and not “<code>Mission briefing</code>”.  The reason for that is that if we put a space in the middle of the task name, Step would think it was named <code>Mission</code> and <code>briefing</code> was a parameter to it.  So variables and task names can’t have spaces in them.  Parameters can, but only if you use quotation marks to make clear that you mean the words in quotation marks as a single parameter.</p>
+<h2 id="technical-assignment-statements">Technical: Assignment statements</h2>
+<p>Skip this is you aren't a programmer who's confused by the weird way variables work in Step.</p>
+<p>Step's local variables are unusual: they only get their values through the matching process.  That also means they're <em>write-once</em>: you can only give them a value once; then they have that value for all time.</p>
+<p>If you're an experienced programmer, you're used to variables you can update endlessly using <strong>assignment statements</strong> <code>variable = newValue</code>.  Many languages that support matching, particularly <a href="Logic_programming.html">logic programming languages</a> like <a href="https://en.wikipedia.org/wiki/Prolog">Prolog</a> specifically prohibit assignment statements.  <a href="https://en.wikipedia.org/wiki/Functional_programming">Functional languages</a> are the same way.</p>
+<p>There are arguments to be made both for and against assignment statements.  It is true, however, that they don't play well with pattern matching, and pattern is very useful.  So Step has two kinds of variables:</p>
+<ul>
+<li>Local variables, whose names begin with a <code>?</code>, get their values from matching and are write-once.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></li>
+<li>Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be <a href="Global_variables.html">updated using assignment statements</a>.  We'll talk about this more when we talk about <a href="State.html">state</a>.</li>
+</ul>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
 <p>Apologies to programmers who feel talked down to because they know what a variable is.  This is for those who don't know what a variable is.  But also, be warned that local variables in languages like Step behave wildly differently from variables in regular languages.  You'll see one example on <a href="Pattern_matching.html">the next page</a>, and a much longer discussion in <a href="Logic_programming.html">the next chapter</a>. The next page introduces a technique you probably haven't encountered before.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>These are often referred to as <em>logic variables</em> in the research literature because they were popularized in logic-programming languages.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -138,11 +150,10 @@ Greet ?who: Good evening, ?who.
 <div class="container-fluid sidebar">
 			<h5>Parameterized grammars</h5>
 			<ol start="1">
-					<li><a class="simplelink" href="Variables.html" id="section_page_1"> <b> Variables </b> </a> <br></li>
-					<li><a class="backgroundlink" href="Pattern_matching.html" id="section_page_2"> Patterns of parameters </a> <br></li>
-					<li><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_3"> Methods for specific parameters </a> <br></li>
-					<li><a class="backgroundlink" href="Variable_substitutions.html" id="section_page_4"> A nice shorthand </a> <br></li>
-					<li><a class="backgroundlink" href="How_matching_works.html" id="section_page_5"> How matching works </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Variables.html" id="section_page_1"> <b> Variables </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Pattern_matching.html" id="section_page_2"> Patterns of parameters </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_3"> Methods for specific parameters </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="How_matching_works.html" id="section_page_4"> How matching works </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -153,15 +164,15 @@ Greet ?who: Good evening, ?who.
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a class="simplelink" id="NextPage" href="Pattern_matching.html"><b>Next:</b> Patterns of parameters</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Pattern_matching.html"><b>Next:</b> Patterns of parameters</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Parameterized_grammars.html"><b>Previous:</b> Parameterized grammars</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Parameterized_grammars.html"><b>Previous:</b> Parameterized grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Parameterized_grammars.html"><b>Up:</b> Parameterized grammars</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Parameterized_grammars.html"><b>Up:</b> Parameterized grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
