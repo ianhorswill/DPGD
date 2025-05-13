@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>40 Feature structures</title>
+	<title>Feature structures</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="40 Feature structures">
-	<meta name="twitter:title" content="40 Feature structures">
-	<meta property="og:title" content="40 Feature structures" />
+	<meta itemprop="name" content="Feature structures">
+	<meta name="twitter:title" content="Feature structures">
+	<meta property="og:title" content="Feature structures" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,10 +53,10 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Structured_data.html"> Structured data </a>
-			<h1><a class="simplelink" href="index.html">40 Feature structures</a></h1>
+			<h1><a class="simplelink" href="index.html">Feature structures</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
-					   The status of this page is &#x27;unknown&#x27;.  It probably needs a lot of work.
+					   early draft
 					</span>
 					</p>
 		</div>
@@ -87,6 +87,38 @@
 
 			<div class="container shadow blog-contents">
 
+<p><strong>Note:</strong> This chapter describes a future version of feature structures that isn't quite implemented yet.  295/296 students, just skip over this.</p>
+<p>Suppose we want to write a task that prints someone's name:</p>
+<pre><code class="language-step">SayName ?name: ?name
+</code></pre>
+<p>That's easy when the name is one string, like <code>&quot;Ben&quot;</code>.  But what if the name is both a first and last name, i.e. a given name and a family name?  We could pass it in as a single string like <code>&quot;Ben Ramsey&quot;</code>, and that would work fine for <code>SayName</code>.  But what if you want two versions of <code>SayName</code>, one which gives the family name first, as in &ldquo;Ramset, Ben&rdquo;, and the other which gives it last, as in &ldquo;Ben Ramsey&rdquo;.  If the name is represented as a string, there's no way to access its parts individually.  So we could instead represent it as a tuple: <code>[&quot;Ben&quot; &quot;Ramsey&quot;]</code>.  The we can write our two versions as:</p>
+<pre><code class="language-step">FamilyFirst [?givenName ?familyName]: ?givenName ?familyName
+FamilyLast [?givenName ?familyName]: ?familyName, ?givenName 
+</code></pre>
+<p>Now suppose we want to change it allow:</p>
+<ul>
+<li>Middle names</li>
+<li>Hispanic dual surnames</li>
+<li>Titles like &ldquo;Esq.&rdquo;</li>
+<li>Generational titles like &ldquo;Jr.&rdquo; or &ldquo;II&rdquo;</li>
+</ul>
+<p>Now we're looking at a tuple representation like: <code>[title firstName middleName surname secondSurname generationalTitle]</code>.  That's suboptimal for a number of reasons:</p>
+<ul>
+<li>We have to go find all the old tuples and change them to the new format</li>
+<li>Most people have most of those elements blank</li>
+<li>We have to remember what order they go in</li>
+</ul>
+<p>It would be nice if we could write just the elements that are being used and refer to them by name.  That's what a feature structure is: a set of elements tagged with names, and surrounded by curly braces.  Ben Ramsey's name would be notated as:</p>
+<pre><code class="language-step">{ firstName: &quot;Ben&quot; surname: &quot;Ramsey&quot; }
+</code></pre>
+<p>But we can have more complicated names like:</p>
+<pre><code class="language-step">{ title:&quot;Dr.&quot; firstName: &quot;Maria&quot; surname: &quot;Cruz&quot; secondSurname: &quot;Sanchez&quot; }
+</code></pre>
+<p>We can then have rules like:</p>
+<pre><code class="language-step">FamilyFirst { firstName: ?f surname: ?s1 secondSurname: ?s2} : ?f ?s1 ?s2
+FamilyFirst { firstName: ?f surname: ?s1 } : ?f ?s1
+</code></pre>
+<p>The first prints out both surnames, if the character has two surnames, while the second handles people with only one surname.</p>
 
 
 
@@ -103,7 +135,7 @@
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_3"> Belief and delusion </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Feature_structures.html" id="section_page_4"> <b> 40 Feature structures </b> </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Feature_structures.html" id="section_page_4"> <b> Feature structures </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {

@@ -105,6 +105,152 @@ Believes richard [important helping_people].
 </code></pre>
 <p>We were actually calling <code>Not</code> with one argument that was a tuple: <code>[Believes ?c2 ?disagreement]</code>.  Not takes that tuple and tries to run the call it specifies, i.e. calling <code>Believes</code> with <code>?c2</code> and <code>?disagreement</code> as parameters.  If the call to <code>Believes</code> succeeds, then <code>Not</code> fails; if <code>Believes</code> fails, then <code>Not</code> succeeds.  <code>Not</code> just calls the task specified by the tuple, checks whether it failed or succeeded, and then does the opposite.</p>
 <p>We call <code>Not</code> a <strong>higher-order</strong> predicate because it takes code as an argument rather than plain old data.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>   Higher-order tasks are very important, and we'll talk more about them <a href="Higher-order_tasks.html">shortly</a>.</p>
+<h2 id="matching-tuples">Matching tuples</h2>
+<p>Tuples match if they have the same number of elements and all the elements themselves match.  Since tuples can have not only variables, but other tuples as elements, things can get complicated fast.  So let's look at some examples.</p>
+<h2 id="tuples-without-variables">Tuples without variables</h2>
+<p>Let's start with tuples containing non-variables.  Here's a table of what tuples can and can't match against one another:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>[1]</code></th>
+<th><code>[1 1]</code></th>
+<th><code>[1 2]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[1]</code></td>
+<td>🟩</td>
+<td>🟥</td>
+<td>🟥</td>
+</tr>
+<tr>
+<td><code>[1 1]</code></td>
+<td>🟥</td>
+<td>🟩</td>
+<td>🟥</td>
+</tr>
+<tr>
+<td><code>[1 2]</code></td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟩</td>
+</tr>
+<tr>
+<td><code>?a</code></td>
+<td>🟩 <code>?a=[1]</code></td>
+<td>🟩 <code>?a=[1 1]</code></td>
+<td>🟩 <code>?a=[1 2]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tuples-containing-variables">Tuples containing variables</h2>
+<p>As we said, tuples can contain variables.  So here are some examples:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>[1]</code></th>
+<th><code>[1 ?x]</code></th>
+<th><code>[?x ?y]</code></th>
+<th><code>[?x ?x]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[1]</code></td>
+<td>🟩</td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟥</td>
+</tr>
+<tr>
+<td><code>[1 ?a]</code></td>
+<td>🟥</td>
+<td>🟩 <code>?a=?x</code></td>
+<td>🟩 <code>?x=1</code>, <code>?a=?y</code></td>
+<td>🟩 <code>?a=?x=1</code></td>
+</tr>
+<tr>
+<td><code>[?a 2]</code></td>
+<td>🟥</td>
+<td>🟩 <code>?a=1</code>, <code>?x=2</code></td>
+<td>🟩 <code>?a=?x</code>, <code>?y=2</code></td>
+<td>🟩 <code>?a=?x=2</code></td>
+</tr>
+<tr>
+<td><code>[?a ?a]</code></td>
+<td>🟥</td>
+<td>🟩 <code>?a=?x=1</code></td>
+<td>🟩 <code>?a=?x=?y</code></td>
+<td>🟩 <code>?a=?x</code></td>
+</tr>
+<tr>
+<td><code>?a</code></td>
+<td>🟩 <code>?a=[1]</code></td>
+<td>🟩 <code>?a=[1 ?x]</code></td>
+<td>🟩 <code>?a=[?x ?y]</code></td>
+<td>🟩 <code>?a=[?x ?x]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tuples-containing-tuples">Tuples containing tuples</h2>
+<p>So here are some examples of matching tuples containing sub-tuples:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>[1]</code></th>
+<th><code>[[1]]</code></th>
+<th><code>[1 [1 ?x]]</code></th>
+<th><code>[1 [?x ?y]]</code></th>
+<th><code>[?x [?y 1]]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[1]</code></td>
+<td>🟩</td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟥</td>
+</tr>
+<tr>
+<td><code>[1 ?a]</code></td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟩 <code>?a=[1 ?x]</code></td>
+<td>🟩 <code>?a=[?x ?y]</code></td>
+<td>🟩 <code>?x=1</code>, <code>?a=[?y 1]</code></td>
+</tr>
+<tr>
+<td><code>[?a 2]</code></td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟥</td>
+<td>🟥</td>
+</tr>
+<tr>
+<td><code>[?a ?a]</code></td>
+<td>🟥</td>
+<td>🟩 <code>?a=?x=1</code></td>
+<td>🟩 <code>?a=?x=?y</code></td>
+<td></td>
+<td>🟩 <code>?a=?x=[?y 1]</code></td>
+</tr>
+<tr>
+<td><code>?a</code></td>
+<td>🟩 <code>?a=[1]</code></td>
+<td>🟩 <code>?a=[1 ?x]</code></td>
+<td>🟩 <code>?a=[?x ?y]</code></td>
+<td>🟩 <code>?a=[1 [?x ?y]]</code></td>
+<td>🟩 <code>?a=[?x [?y 1]]</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
@@ -130,7 +276,7 @@ Believes richard [important helping_people].
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
 					<li class="sidebar"><a class="simplelink" href="Step_tuples.html" id="section_page_2"> <b> Tuples in Step </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_3"> Belief and delusion </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_4"> 40 Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_4"> Feature structures </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {

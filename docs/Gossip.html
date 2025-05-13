@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Random selection algorithms</title>
+	<title>Gossip generator</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Random selection algorithms">
-	<meta name="twitter:title" content="Random selection algorithms">
-	<meta property="og:title" content="Random selection algorithms" />
+	<meta itemprop="name" content="Gossip generator">
+	<meta name="twitter:title" content="Gossip generator">
+	<meta property="og:title" content="Gossip generator" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,11 +50,12 @@
 
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Background.html"> Background appendices </a>
-			<h1><a class="simplelink" href="index.html">Random selection algorithms</a></h1>
+				<a class="backgroundlink" href="Exercises.html"> Exercises </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Making_grammars.html"> Making grammars </a>
+			<h1><a class="simplelink" href="index.html">Gossip generator</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -85,8 +86,81 @@
 
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>Placeholder</p>
+<p>Here's a dumb little grammar that generates bits of gossip about imaginary people:</p>
+<pre><code class="language-Step"># Try: [Gossip]
+Gossip: [Person] [JuicyVerb] [Person]
+
+[randomly]
+JuicyVerb: is dating
+JuicyVerb: was trash-talking
+JuicyVerb: got in a fight with
+
+[randomly]
+MetaGossip: [Gossip]
+[2] MetaGossip: [Person] said [MetaGossip]
+
+# Lots of random names for people
+[randomly]
+Person: Alexandra
+Person: Alexis
+Person: Alyssa
+Person: Angel
+Person: Aniyah
+Person: Brianna
+Person: Chloe
+Person: Destiny
+Person: Diamond
+Person: Gabrielle
+Person: Hailey
+Person: Hannah
+Person: Imani
+Person: Isis
+Person: Jada
+Person: Jasmine
+Person: Jayla
+Person: Jordan
+Person: Kayla
+Person: Kennedy
+Person: Kiara
+Person: Laila
+Person: Madison
+Person: Makayla
+Person: Nevaeh
+Person: Sydney
+Person: Taylor
+Person: Tiana
+Person: Trinity
+Person: Anthony
+Person: Brandon
+Person: Caleb
+Person: Cameron
+Person: Christian
+Person: Christopher
+Person: Daniel
+Person: David
+Person: Elijah
+Person: Ethan
+Person: Gabriel
+Person: Isaiah
+Person: James
+Person: Jayden
+Person: Jaylen
+Person: Jeremiah
+Person: Jordan
+Person: Joseph
+Person: Joshua
+Person: Josiah
+Person: Justin
+Person: Kevin
+Person: Malik
+Person: Matthew
+Person: Michael
+Person: Nathan
+Person: Tyler
+Person: William
+Person: Xavier
+Person: Zion
+</code></pre>
 
 
 
@@ -98,8 +172,12 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Random selection</h5>
+			<h5>Making grammars</h5>
 			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Sentences.html" id="section_page_1"> Sentences </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Gossip.html" id="section_page_2"> <b> Gossip generator </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Greetings.html" id="section_page_3"> Greetings </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Stories.html" id="section_page_4"> Very simple story grammars </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -110,21 +188,21 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Exercises.html"><b>Next:</b> Exercises</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Greetings.html"><b>Next:</b> Greetings</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Definite_clauses.html"><b>Previous:</b> Definite clauses</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Sentences.html"><b>Previous:</b> Sentences</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Background.html"><b>Up:</b> Background appendices</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Making_grammars.html"><b>Up:</b> Making grammars</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Randomization.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Gossip.html">Send feedback on this page</a>
 	</div>
 </div>
 
