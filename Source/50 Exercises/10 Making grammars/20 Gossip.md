@@ -2,7 +2,15 @@
 pagetitle: Gossip generator
 status: alpha
 ---
-Here's a dumb little grammar that generates bits of gossip about imaginary people:
+Here's a dumb little grammar that generates bits of gossip about imaginary people.  Try running:
+
+* `[Gossip]`
+* `[MetaGossip]`
+
+Then add some extra `JuicyVerbs`.
+
+Finally, go back to [Sentences](sentences) and add a new rule for `Sentence` that says a sentence can be a `Person`, followed by the word "said" and then another sentence.
+
 ```Step
 # Try: [Gossip]
 Gossip: [Person] [JuicyVerb] [Person]

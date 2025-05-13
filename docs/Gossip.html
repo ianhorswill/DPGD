@@ -86,7 +86,13 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Here's a dumb little grammar that generates bits of gossip about imaginary people:</p>
+<p>Here's a dumb little grammar that generates bits of gossip about imaginary people.  Try running:</p>
+<ul>
+<li><code>[Gossip]</code></li>
+<li><code>[MetaGossip]</code></li>
+</ul>
+<p>Then add some extra <code>JuicyVerbs</code>.</p>
+<p>Finally, go back to <a href="Sentences.html">Sentences</a> and add a new rule for <code>Sentence</code> that says a sentence can be a <code>Person</code>, followed by the word &ldquo;said&rdquo; and then another sentence.</p>
 <pre><code class="language-Step"># Try: [Gossip]
 Gossip: [Person] [JuicyVerb] [Person]
 

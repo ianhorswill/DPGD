@@ -20,3 +20,4 @@ Try running each of the following:
 * `[FancyGreeting informal "Lassie"]`
 * `[FancyGreeting formal "Lassie"]`
 
+Now add some more greetings.

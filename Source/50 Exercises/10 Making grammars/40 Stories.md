@@ -2,7 +2,7 @@
 pagetitle: Very simple story grammars
 status: alpha
 ---
-Here's the beginnings of a grammar for a simple story:
+Here's an incomplete grammar for a simple story.  Try running `[Story]` a few times, and then complete the story as you like.
 ```Step
 # Try: [Story]
 Story:
