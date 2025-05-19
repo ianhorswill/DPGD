@@ -55,8 +55,8 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Structured_data.html"> Structured data </a>
 			<h1><a class="simplelink" href="index.html">Feature structures</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
-					   early draft
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -87,38 +87,47 @@
 
 			<div class="container shadow blog-contents">
 
-<p><strong>Note:</strong> This chapter describes a future version of feature structures that isn't quite implemented yet.  295/296 students, just skip over this.</p>
-<p>Suppose we want to write a task that prints someone's name:</p>
-<pre><code class="language-step">SayName ?name: ?name
+<p>Suppose we want to represent information about a character.  We <a href="Fancier_mentioning.html">previously</a> represented it by representing the character as a string like <code>diana</code> and then put all the supporting information in different predicates:</p>
+<pre><code class="language-step">[predicate]
+Character diana.
+Age diana: 34
+Occupation diana: titan of industry
+GivenName diana: Diana
+FamilyName diana: Ratcliffe
+
+Character bill.
+Age bill: 26
+Occupation bill: plumber
+GivenName bill: Bill
+FamilyName bill: Holmquist
+
+Mention (Character ?who): ?who/GivenName ?who/FamilyName
 </code></pre>
-<p>That's easy when the name is one string, like <code>&quot;Ben&quot;</code>.  But what if the name is both a first and last name, i.e. a given name and a family name?  We could pass it in as a single string like <code>&quot;Ben Ramsey&quot;</code>, and that would work fine for <code>SayName</code>.  But what if you want two versions of <code>SayName</code>, one which gives the family name first, as in &ldquo;Ramset, Ben&rdquo;, and the other which gives it last, as in &ldquo;Ben Ramsey&rdquo;.  If the name is represented as a string, there's no way to access its parts individually.  So we could instead represent it as a tuple: <code>[&quot;Ben&quot; &quot;Ramsey&quot;]</code>.  The we can write our two versions as:</p>
-<pre><code class="language-step">FamilyFirst [?givenName ?familyName]: ?givenName ?familyName
-FamilyLast [?givenName ?familyName]: ?familyName, ?givenName 
+<p>This works well when we're hand-authoring the character.  It can be a little more cumbersome if we're writing a program to automatically generate characters.  Then the procedure for generating the characters has to use the <code>now</code> command a lot.  In those cases, it might be more convenient to put all that information in one data object.  We could use <a href="Step_tuples.html">tuples</a>, putting each piece of information in one element of the tuple, as in:</p>
+<pre><code class="language-step">[&quot;Diana&quot; &quot;Ratfliffe&quot; 34 &quot;tital of industry&quot;]
 </code></pre>
-<p>Now suppose we want to change it allow:</p>
-<ul>
-<li>Middle names</li>
-<li>Hispanic dual surnames</li>
-<li>Titles like &ldquo;Esq.&rdquo;</li>
-<li>Generational titles like &ldquo;Jr.&rdquo; or &ldquo;II&rdquo;</li>
-</ul>
-<p>Now we're looking at a tuple representation like: <code>[title firstName middleName surname secondSurname generationalTitle]</code>.  That's suboptimal for a number of reasons:</p>
-<ul>
-<li>We have to go find all the old tuples and change them to the new format</li>
-<li>Most people have most of those elements blank</li>
-<li>We have to remember what order they go in</li>
-</ul>
-<p>It would be nice if we could write just the elements that are being used and refer to them by name.  That's what a feature structure is: a set of elements tagged with names, and surrounded by curly braces.  Ben Ramsey's name would be notated as:</p>
-<pre><code class="language-step">{ firstName: &quot;Ben&quot; surname: &quot;Ramsey&quot; }
+<p>And use that whole tuple to represent the character.  Then our character database might look like:</p>
+<pre><code class="language-step">[predicate]
+Character [&quot;Diana&quot; &quot;Ratfliffe&quot; 34 &quot;tital of industry&quot;].
+Character [&quot;Bill&quot; &quot;Holmquist&quot; 26 plumber].
 </code></pre>
-<p>But we can have more complicated names like:</p>
-<pre><code class="language-step">{ title:&quot;Dr.&quot; firstName: &quot;Maria&quot; surname: &quot;Cruz&quot; secondSurname: &quot;Sanchez&quot; }
+<p>And then we would change <code>Mention</code> to print characters this way:</p>
+<pre><code class="language-step">Mention [?givenName ?familyName ?age ?occupation]: ?givenName ?familyName
 </code></pre>
-<p>We can then have rules like:</p>
-<pre><code class="language-step">FamilyFirst { firstName: ?f surname: ?s1 secondSurname: ?s2} : ?f ?s1 ?s2
-FamilyFirst { firstName: ?f surname: ?s1 } : ?f ?s1
+<p>That works, so far as it goes.  But it doesn't scale well as we try to add more information to our characters.  If we have 50 possible pieces of information to represent, then we have to type 50-element tuples every time we want to use a character.  Worse, we have to remember whether their birthday (or whatever) is the 31st element or the 32nd element.  And if we want to add a 51st piece of information, we have to go back and change all the existing tuples.</p>
+<p>A better choice is to represent the character as a collection of <strong>features</strong> and their associated <strong>values</strong>.  In linguistics, this is known as <a href="https://en.wikipedia.org/wiki/Feature_structure">feature structure</a>, although most programming languages have similar things, often called <em>dictionaries</em> or <em>property lists</em>.</p>
+<p>A feature structure is notated in Step as <code>{ feature1: value1 feature2: value2 ...}</code>.  It pairs each feature with its value and wraps them all in <code>{}</code>.  The order in which you list them doesn't matter; <code>{ feature1: value1 feature2: value2 }</code> and <code>{ feature2: value2 feature1: value1 }</code> can be used interchangeably.</p>
+<p>This lets us represent Diana like this:</p>
+<pre><code class="language-step">{ givenName: &quot;Diana&quot; familyName: &quot;Ratfliffe&quot; age: 34 occupation: &quot;tital of industry&quot; }
 </code></pre>
-<p>The first prints out both surnames, if the character has two surnames, while the second handles people with only one surname.</p>
+<p>This is more typing than the tuple verison:</p>
+<pre><code class="language-step">[&quot;Diana&quot; &quot;Ratfliffe&quot; 34 &quot;tital of industry&quot;]
+</code></pre>
+<p>But it's easier to keep track of what parts mean what.  Our database then looks like:</p>
+<pre><code class="language-step">[predicate]
+Character { givenName: &quot;Diana&quot; familyName: &quot;Ratfliffe&quot; age: 34 occupation: &quot;tital of industry&quot; }.
+Character { givenName: &quot;Bill&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+</code></pre>
 
 
 
@@ -134,8 +143,13 @@ FamilyFirst { firstName: ?f surname: ?s1 } : ?f ?s1
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_3"> Belief and delusion </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Feature_structures.html" id="section_page_4"> <b> Feature structures </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_5"> Belief and delusion </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Feature_structures.html" id="section_page_8"> <b> Feature structures </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -146,11 +160,11 @@ FamilyFirst { firstName: ?f surname: ?s1 } : ?f ?s1
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Primitive_tasks.html"><b>Next:</b> Primitive tasks</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Matching_feature_structures.html"><b>Next:</b> Matching feature structures</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Delusion.html"><b>Previous:</b> Belief and delusion</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="List_matching.html"><b>Previous:</b> Matching variable-length lists (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>

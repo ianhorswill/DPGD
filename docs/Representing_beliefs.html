@@ -94,15 +94,15 @@ Believes john money_is_important.
 Believes richard god_exists.
 Believes richard helping_humanity_is_important.
 </code></pre>
-<p>Then we could write a predicate like this (note we have to break the rules into separate lines to make it fit in word):</p>
+<p>Then we could write a predicate that holds when two characters disagree on something:</p>
 <pre><code class="language-step">[predicate] [randomly]
 Disagreement ?c1 ?c2 ?disagreement: [Believes ?c1 ?disagreement] [Not [Believes ?c2 ?disagreement]]
 Disagreement ?c1 ?c2 ?disagreement: [Believes ?c2 ?disagreement] [Not [Believes ?c1 ?disagreement]]
 </code></pre>
-<p>Then we could have a task like:</p>
+<p>And write a task to generate a plot point about disagreement:</p>
 <pre><code class="language-step">FallingOut ?c1 ?c2: [Disagreement ?c1 ?c2 ?dis] ?c1 and ?c2 had a falling out over ?dis.
 </code></pre>
-<p>Which might generate some text like:</p>
+<p>which might generate some text like:</p>
 <blockquote>
 <p>John and Richard had a falling out over helping humanity is important.</p>
 </blockquote>
@@ -149,8 +149,13 @@ Mention ?x: [Write ?x]
 			<ol start="1">
 					<li class="sidebar"><a class="simplelink" href="Representing_beliefs.html" id="section_page_1"> <b> Representing character beliefs </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_3"> Belief and delusion </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_4"> Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_5"> Belief and delusion </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_8"> Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {

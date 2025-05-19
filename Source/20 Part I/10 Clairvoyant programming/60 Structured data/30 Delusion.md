@@ -20,7 +20,7 @@ Believes john [Friends john richard].
 Believes john [Friends john elon_musk].
 ```
 If we assume that in this story world, John has never actually met Elon Musk, then John has one true belief about his friends, and one false one.
-We can now write a variant of `Believes`, called `Delusion`, that tells us about things a character believes that **aren’t true** within the story world:
+We can now write a variant of `Believes`, called `Delusion`, that tells us about things a character believes that **aren’t true** within the story world:[^1]
 ```step
 Delusion ?who ?fact: [Believes ?who ?fact] [Not ?fact]
 ```
@@ -55,3 +55,7 @@ Mention [delusion ?who ?fact]: ?who’s crazy belief that ?fact.
 Mention [Friends ?a ?b]: ?a and ?b are friends.
 Mention ?x: [Write ?x]
 ```
+
+## Endnotes
+
+[^1]: Note that the parameter `?fact` is actually a piece of code to run: `Delusion` passes it to `Not`, which runs it.  So `Delusion` is a [higher-order tasks](higher-order_tasks) like `Not`.

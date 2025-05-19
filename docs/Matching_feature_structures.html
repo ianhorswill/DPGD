@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Tuples in Step</title>
+	<title>Matching feature structures</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Tuples in Step">
-	<meta name="twitter:title" content="Tuples in Step">
-	<meta property="og:title" content="Tuples in Step" />
+	<meta itemprop="name" content="Matching feature structures">
+	<meta name="twitter:title" content="Matching feature structures">
+	<meta property="og:title" content="Matching feature structures" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,7 +53,7 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Structured_data.html"> Structured data </a>
-			<h1><a class="simplelink" href="index.html">Tuples in Step</a></h1>
+			<h1><a class="simplelink" href="index.html">Matching feature structures</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -87,23 +87,50 @@
 
 			<div class="container shadow blog-contents">
 
-<p>The thing is, those <code>Mention</code> rules are almost the same:</p>
-<pre><code class="language-step">Mention helping_humanity_is_important: whether helping humanity is important.
-Mention money_is_important: whether money is important.
-Mention status_is_important: whether status is important.
+<p>The other nice thing about feature structures is that when you match them, you only have to include the features that you care about.  In effect, every feature structure has an implicit &ldquo;...&rdquo; at the end that can match any features not otherwise listed.  So the <code>Mention</code> rule:</p>
+<pre><code class="language-step">Mention { givenName: ?g familyName: ?f }: ?g ?f
 </code></pre>
-<p>Rather than treating all these separately, we can unify them all by having a slightly more complex representation of beliefs: when we want to talk about the belief that something is important, we’ll write that in the code as <code>[important something]</code>, where <code>something</code> is the thing that’s supposed to be important.  Then we can write John and Richard’s beliefs as:</p>
+<p>will match any feature structure that has a <code>givenName</code> and a <code>familyName</code>, regardless of what other features it might have.</p>
+<p>Now suppose we have a slightly bigger database of characters:</p>
 <pre><code class="language-step">[predicate] [randomly]
-Believes john god_exists.
-Believes john [important money].
-Believes richard god_exists.
-Believes richard [important helping_people].
+Character { givenName: &quot;Diana&quot; familyName: &quot;Ratfliffe&quot; age: 34 occupation: &quot;tital of industry&quot; }.
+Character { givenName: &quot;Mario&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+Character { givenName: &quot;Luigi&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+Character { givenName: &quot;Wario&quot; familyName: &quot;Holmquist&quot; age: 28 occupation: antagonist }.
+Character { title: &quot;Princess&quot; givenName: &quot;Peach&quot; age: 26 occupation: royalty }.
+Character { givenName: &quot;Bowser&quot; occupation: antagonist }.
 </code></pre>
-<p>By bracketing together the word <code>important</code> with the thing that’s important, we tell the system that they come as a unit, and they’re one parameter.  Now we can collapse the different <code>Mention</code> rules down to just:</p>
-<pre><code class="language-step">Mention [important ?thing]: whether ?thing is important.
+<p>If we run:</p>
+<pre><code class="language-step">[Character { occupation: plumber }]
 </code></pre>
-<p>Now, as we add more character beliefs about what's important, we don't have to keep adding new <code>Mention</code> rules.</p>
-<p>These bracketed values are called <strong>tuples</strong> and they let us represent complex data relatively compactly.  The pattern matching process treats tuples largely the way it treats other data objects: if you match a tuple against a variable with no value, the variable is given the tuple as its value.  If you match a tuple against something that isn’t a tuple, that just fails, since they’re different.  The only thing that’s slightly complicated is that when you match tuples with one another: then they must have the same number of elements and those elements need to match.  So we can’t match <code>[important money]</code> to <code>[important]</code>, but we can match <code>[important money]</code> to <code>[important ?thing]</code> by setting <code>?thing</code> = <code>money</code>.</p>
+<p>It will randomly choose one of the <code>Character</code> methods whose argument specifies <code>plumber</code> for its occupation &mdash; either Mario or Luigi.  But remember that matching means <strong>make these things be the same</strong> by filling parts in.  So far, that has consisted of filling in variables.  But it can also fill in features in a feature structure.  Let's try the following bit of code:</p>
+<pre><code class="language-Step"># Try: [Plumber ?x] [Character ?x]
+[predicate] [randomly]
+Character { givenName: &quot;Diana&quot; familyName: &quot;Ratfliffe&quot; age: 34 occupation: &quot;tital of industry&quot; }.
+Character { givenName: &quot;Mario&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+Character { givenName: &quot;Luigi&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+Character { givenName: &quot;Wario&quot; familyName: &quot;Holmquist&quot; age: 28 occupation: antagonist }.
+Character { title: &quot;Princess&quot; givenName: &quot;Peach&quot; age: 26 occupation: royalty }.
+Character { givenName: &quot;Bowser&quot; occupation: antagonist }.
+
+[predicate]
+Plumber { occupation: plumber }.
+</code></pre>
+<p>The value it prints for <code>?x</code> should be one of (the order of the features may be different):</p>
+<pre><code class="language-step">?x = { occupation:plumber givenName:&quot;Mario&quot; familyName:&quot;Holmquist&quot; age:26 }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-step">?x = { occupation:plumber givenName:&quot;Luigi&quot; familyName:&quot;Holmquist&quot; age:26 }
+</code></pre>
+<p>Here's how that works.  The call says we need to find a value for <code>?x</code> that satisfies both <code>Plumber</code> and <code>Character</code>, i.e. that's both a plumber and a character.  The definition for plumber:</p>
+<pre><code class="language-step">[predicate]
+Plumber { occupation: plumber }.
+</code></pre>
+<p>says that <code>?x</code> must have the <code>occupation:</code> feature to have the value <code>plumber</code>.  The definition for <code>Character</code> allows many different collections of features.  But it only allows the <code>occupation:</code> to be <code>plumber</code> with the two rules:</p>
+<pre><code class="language-step">Character { givenName: &quot;Mario&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+Character { givenName: &quot;Luigi&quot; familyName: &quot;Holmquist&quot; age: 26 occupation: plumber }.
+</code></pre>
+<p>but only if <code>?x</code> <em>also</em> has the other features listed in the rule being matched.  So the only solutions are those two specific feature structures.</p>
 
 
 
@@ -118,14 +145,14 @@ Believes richard [important helping_people].
 			<h5>Structured data</h5>
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Step_tuples.html" id="section_page_2"> <b> Tuples in Step </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_5"> Belief and delusion </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_8"> Feature structures </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Matching_feature_structures.html" id="section_page_9"> <b> Matching feature structures </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -136,11 +163,11 @@ Believes richard [important helping_people].
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Tuples_as_code.html"><b>Next:</b> Tuples look an awful lot like calls</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Primitive_tasks.html"><b>Next:</b> Primitive tasks</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Representing_beliefs.html"><b>Previous:</b> Representing character beliefs</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Feature_structures.html"><b>Previous:</b> Feature structures</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
@@ -150,7 +177,7 @@ Believes richard [important helping_people].
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Step_tuples.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Matching_feature_structures.html">Send feedback on this page</a>
 	</div>
 </div>
 

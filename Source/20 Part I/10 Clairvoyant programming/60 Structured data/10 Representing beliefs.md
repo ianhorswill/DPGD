@@ -10,17 +10,17 @@ Believes john money_is_important.
 Believes richard god_exists.
 Believes richard helping_humanity_is_important.
 ```
-Then we could write a predicate like this (note we have to break the rules into separate lines to make it fit in word):
+Then we could write a predicate that holds when two characters disagree on something:
 ```step
 [predicate] [randomly]
 Disagreement ?c1 ?c2 ?disagreement: [Believes ?c1 ?disagreement] [Not [Believes ?c2 ?disagreement]]
 Disagreement ?c1 ?c2 ?disagreement: [Believes ?c2 ?disagreement] [Not [Believes ?c1 ?disagreement]]
 ```
-Then we could have a task like:
+And write a task to generate a plot point about disagreement:
 ```step
 FallingOut ?c1 ?c2: [Disagreement ?c1 ?c2 ?dis] ?c1 and ?c2 had a falling out over ?dis.
 ```
-Which might generate some text like:
+which might generate some text like:
 
 > John and Richard had a falling out over helping humanity is important.
 

@@ -101,7 +101,7 @@
 Believes john [Friends john elon_musk].
 </code></pre>
 <p>If we assume that in this story world, John has never actually met Elon Musk, then John has one true belief about his friends, and one false one.
-We can now write a variant of <code>Believes</code>, called <code>Delusion</code>, that tells us about things a character believes that <strong>aren’t true</strong> within the story world:</p>
+We can now write a variant of <code>Believes</code>, called <code>Delusion</code>, that tells us about things a character believes that <strong>aren’t true</strong> within the story world:<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
 <pre><code class="language-step">Delusion ?who ?fact: [Believes ?who ?fact] [Not ?fact]
 </code></pre>
 <p>Now if we add the rules:</p>
@@ -133,6 +133,15 @@ Mention [delusion ?who ?fact]: ?who’s crazy belief that ?fact.
 Mention [Friends ?a ?b]: ?a and ?b are friends.
 Mention ?x: [Write ?x]
 </code></pre>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Note that the parameter <code>?fact</code> is actually a piece of code to run: <code>Delusion</code> passes it to <code>Not</code>, which runs it.  So <code>Delusion</code> is a <a href="Higher-order_tasks.html">higher-order tasks</a> like <code>Not</code>.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -148,8 +157,13 @@ Mention ?x: [Write ?x]
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Delusion.html" id="section_page_3"> <b> Belief and delusion </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_4"> Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Delusion.html" id="section_page_5"> <b> Belief and delusion </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_8"> Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -160,11 +174,11 @@ Mention ?x: [Write ?x]
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Feature_structures.html"><b>Next:</b> Feature structures</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Lists.html"><b>Next:</b> Tuples as lists</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Step_tuples.html"><b>Previous:</b> Tuples in Step</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_tuples.html"><b>Previous:</b> Matching tuples</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>

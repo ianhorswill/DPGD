@@ -110,3 +110,7 @@ table {
 .language-Step {
 	border: 1px solid #888;
 }
+
+.hljs-title {
+	font-weight: bold;
+}

@@ -54,8 +54,8 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 			<h1><a class="simplelink" href="index.html">Primitive tasks</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   early draft
 					</span>
 					</p>
 		</div>
@@ -86,8 +86,27 @@
 
 			<div class="container shadow blog-contents">
 
-<h2 id="under-construction">Under construction</h2>
-<p>Placeholder</p>
+<p>Up to now, we've looked almost exclusively at tasks that are defined by methods.  However, we've seen a couple of exceptions, such as the <code>Write</code> and <code>Not</code> predicates, which aren't defined by methods.  They're callable by Step, but they're not they're not written in Step.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>   Rather, they are a core part of the Step system itself.  Most programming languages have something like these, and they get referred to as <strong>primitives</strong> or <strong>built-ins</strong>.</p>
+<p>Some of these tasks bring up issues that we haven't had to grapple with before, so let's talk about them now.</p>
+<h2 id="determinism">Determinism</h2>
+<p>Many primitives, like <code>Write</code> do their work without making choices; they're called <strong>deterministic</strong> because their behavior is completely <em>determined</em> by their inputs.</p>
+<p>Primitives that make choices are called <strong>nondeterministic</strong>.  Many of them are like</p>
+<p>primitives &mdash; sometimes make choices from such large sets of options that it's impractical for them to consider all possible choices.  For example, <code>RandomFloat</code>, which chooses a random number, are making a choice from such a large space of possibilities that it's impractical for them to try.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></p>
+<h2 id="argument-instantiation">Argument instantiation</h2>
+<p>A related issue is that some predicates, only work if particular parameters are either values, or variables that already have values.  Others might require particular parameters to be variables without values.  For example, the <code>Tuple</code> predicate is true (succeeds) if its parameter is a tuple, and false (fails) if it isn't.  However, if its parameter is a variable with no value, it generates an error.  You could imagine it binding the variable to some tuple to forcibly <em>make</em> it a tuple, but then again, there's an infinite number of possible tuples, and because of the way languages like this work internally, that isn't practical to do.</p>
+<p>We'll now talk about a number of built-in tasks you might find useful.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Step itself is written in the C# language, so primitives are also written in C#.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>This is technically a lie.  Numbers in computers are represented using a finite number of bits and there are only a finite number of numbers you can represent using a finite number of bits.  However, <code>RandomFloat</code> is choosing from over four billion possible bit patterns, so drawing that in a choice diagram is not practical.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -101,6 +120,8 @@
 <div class="container-fluid sidebar">
 			<h5>Primitive tasks</h5>
 			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Type_predicates.html" id="section_page_1"> Type testing </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Output_primitives.html" id="section_page_2"> Output </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -111,11 +132,11 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Higher-order_tasks.html"><b>Next:</b> Higher-order tasks</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Type_predicates.html"><b>Next:</b> Type testing</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Feature_structures.html"><b>Previous:</b> Feature structures</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_feature_structures.html"><b>Previous:</b> Matching feature structures</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>

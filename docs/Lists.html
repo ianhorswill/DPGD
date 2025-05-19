@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Tuples in Step</title>
+	<title>Tuples as lists</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Tuples in Step">
-	<meta name="twitter:title" content="Tuples in Step">
-	<meta property="og:title" content="Tuples in Step" />
+	<meta itemprop="name" content="Tuples as lists">
+	<meta name="twitter:title" content="Tuples as lists">
+	<meta property="og:title" content="Tuples as lists" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,7 +53,7 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Structured_data.html"> Structured data </a>
-			<h1><a class="simplelink" href="index.html">Tuples in Step</a></h1>
+			<h1><a class="simplelink" href="index.html">Tuples as lists</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -87,23 +87,39 @@
 
 			<div class="container shadow blog-contents">
 
-<p>The thing is, those <code>Mention</code> rules are almost the same:</p>
-<pre><code class="language-step">Mention helping_humanity_is_important: whether helping humanity is important.
-Mention money_is_important: whether money is important.
-Mention status_is_important: whether status is important.
-</code></pre>
-<p>Rather than treating all these separately, we can unify them all by having a slightly more complex representation of beliefs: when we want to talk about the belief that something is important, we’ll write that in the code as <code>[important something]</code>, where <code>something</code> is the thing that’s supposed to be important.  Then we can write John and Richard’s beliefs as:</p>
-<pre><code class="language-step">[predicate] [randomly]
+<p>We've now written a <code>Believes</code> predicate that can be used to ask about the beliefs of a character.  When we call it, it only answers one belief of the character.  What if we wanted to know <em>all</em> of the character's beliefs?  We'd like some kind of predicate like <code>[BeliefsOf ?character ?beliefs]</code> that, given a <code>?character</code> tells us (all) their beliefs.  But <code>?beliefs</code> is just one argument; how can <code>BeliefsOf</code> communicate a whole list of items as a single parameter?</p>
+<p>The answer is to put them in a tuple.  Each element of the tuple is a belief, but the number of elements depends on the number of beliefs the character has.  Such tuples that are used to represent lists of things are often referred to, unsurprisingly, as <strong>lists</strong>.  But a list is just a tuple.</p>
+<p>Here's a definition for <code>BeliefsOf</code>.  It uses another predicate, <code>FindAll</code>, that we will discuss <a href="Higher-order_tasks.html">later</a>.  For the moment just try running <code>[BeliefsOf john ?]</code> and <code>[BeliefsOf richard ?]</code>:</p>
+<pre><code class="language-Step"># Try: [BeliefsOf john ?]
+[predicate]
+BeliefsOf ?character ?beliefs: [FindAll ?b [Believes ?character ?b] ?beliefs]
+
+[predicate]
 Believes john god_exists.
 Believes john [important money].
 Believes richard god_exists.
 Believes richard [important helping_people].
+Believes john [Friends john richard].
+Believes john [Friends john elon_musk].
+Believes richard [Friends john richard].
+
+[predicate]
+Friends john richard.
 </code></pre>
-<p>By bracketing together the word <code>important</code> with the thing that’s important, we tell the system that they come as a unit, and they’re one parameter.  Now we can collapse the different <code>Mention</code> rules down to just:</p>
-<pre><code class="language-step">Mention [important ?thing]: whether ?thing is important.
+<p>When we run <code>[BeliefsOf john ?]</code> we get:</p>
+<pre><code class="language-step">?= [god_exists [important money] [Friends john richard] [Friends john elon_musk]]
 </code></pre>
-<p>Now, as we add more character beliefs about what's important, we don't have to keep adding new <code>Mention</code> rules.</p>
-<p>These bracketed values are called <strong>tuples</strong> and they let us represent complex data relatively compactly.  The pattern matching process treats tuples largely the way it treats other data objects: if you match a tuple against a variable with no value, the variable is given the tuple as its value.  If you match a tuple against something that isn’t a tuple, that just fails, since they’re different.  The only thing that’s slightly complicated is that when you match tuples with one another: then they must have the same number of elements and those elements need to match.  So we can’t match <code>[important money]</code> to <code>[important]</code>, but we can match <code>[important money]</code> to <code>[important ?thing]</code> by setting <code>?thing</code> = <code>money</code>.</p>
+<p>The outer brackets mean that it's a tuple.  It has 4 elements, each representing one of John's beliefs:</p>
+<ul>
+<li><code>god_exists</code></li>
+<li><code>[important money]</code></li>
+<li><code>[Friends john richard]</code></li>
+<li><code>[Friends john elon_musk]</code></li>
+</ul>
+<p>But when we run <code>[BeliefsOf richard ?]</code> we get:</p>
+<pre><code class="language-step">?= [god_exists [important helping_people] [Friends john richard]]
+</code></pre>
+<p>Again, a tuple with each element representing a belief.  But this time, there are only three beliefs.</p>
 
 
 
@@ -118,11 +134,11 @@ Believes richard [important helping_people].
 			<h5>Structured data</h5>
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Step_tuples.html" id="section_page_2"> <b> Tuples in Step </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_5"> Belief and delusion </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Lists.html" id="section_page_6"> <b> Tuples as lists </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_8"> Feature structures </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
@@ -136,11 +152,11 @@ Believes richard [important helping_people].
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Tuples_as_code.html"><b>Next:</b> Tuples look an awful lot like calls</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="List_matching.html"><b>Next:</b> Matching variable-length lists (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Representing_beliefs.html"><b>Previous:</b> Representing character beliefs</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Delusion.html"><b>Previous:</b> Belief and delusion</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
@@ -150,7 +166,7 @@ Believes richard [important helping_people].
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Step_tuples.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Lists.html">Send feedback on this page</a>
 	</div>
 </div>
 

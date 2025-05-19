@@ -87,15 +87,15 @@
 			<div class="container shadow blog-contents">
 
 <p>To recap, we’ve discussed how Step executes calls to tasks &mdash; both predicates and non-predicates &mdash; by matching the parameters specified in the call to the parameters for the different methods of the task.  It tries a method when it can match each parameter in the call to its respective parameter in the method.</p>
-<p>Thus far, all the values that have been passed along for parameters have been single pieces of data: a string, a variable, maybe a number.  But there are times when we want to pass something more complicated as the value of a parameter.  In effect, we want to package several data objects together as a single data object.  Step has two versions of these, <strong>tuples</strong> and <strong>feature structures</strong>.  We'll talk about each of these and give examples.</p>
+<p>Thus far, all the values that have been passed along for parameters have been single pieces of data: a text string, a variable, maybe a number.  But there are times when we want to pass something more complicated as the value of a parameter.  In effect, we want to package several data objects together as a single data object.  Step has two versions of these, <strong>tuples</strong> and <strong>feature structures</strong>.  We'll talk about each of these and give examples.</p>
 <h2 id="technical-comparison-to-other-languages">Technical: comparison to other languages</h2>
-<p>Step data structures basically look like JSON objects except that:</p>
+<p>If you're an experienced programmer, then the way to think about Step data structures is they're like JSON objects that:</p>
 <ul>
-<li>You use spaces instead of commas as separators</li>
-<li>You can put variables inside of them</li>
-<li>You can match them against other objects; this turns out to be very cool</li>
+<li>Use spaces instead of commas as separators</li>
+<li>Can have variables inside of them</li>
+<li>Can bed matched to other objects, binding variables in the process</li>
 </ul>
-<p>Tuples in <em>Step</em> function like tuples in Python or arrays in C: they're ordered sequences of objects.  They're notated similarly to Python syntax, except you use square brackets instead of parentheses and spaces as separators instead of commas.</p>
+<p>Tuples in <em>Step</em> function like tuples in Python or arrays in C, C# or JavaScript: they're ordered sequences of objects.  They're notated similarly to JAvaScript syntax, except you use spaces as separators instead of commas.</p>
 <p>Although they originally come from <a href="https://en.wikipedia.org/wiki/Feature_structure">linguistics</a>, feature structures are <a href="https://en.wikipedia.org/wiki/Associative_array">dictionaries</a>, similar to the Python <code>dict</code> type or <code>Javascript</code> objects.  That is, they're unordered collections of key/value pairs.  Syntactically, they look like JSON notation, but again, with spaces as separators rather than commas.</p>
 
 
@@ -112,8 +112,13 @@
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_3"> Belief and delusion </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_4"> Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_5"> Belief and delusion </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_8"> Feature structures </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Tuples in Step</title>
+	<title>Matching variable-length lists (technical)</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Tuples in Step">
-	<meta name="twitter:title" content="Tuples in Step">
-	<meta property="og:title" content="Tuples in Step" />
+	<meta itemprop="name" content="Matching variable-length lists (technical)">
+	<meta name="twitter:title" content="Matching variable-length lists (technical)">
+	<meta property="og:title" content="Matching variable-length lists (technical)" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,7 +53,7 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Structured_data.html"> Structured data </a>
-			<h1><a class="simplelink" href="index.html">Tuples in Step</a></h1>
+			<h1><a class="simplelink" href="index.html">Matching variable-length lists (technical)</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -87,23 +87,65 @@
 
 			<div class="container shadow blog-contents">
 
-<p>The thing is, those <code>Mention</code> rules are almost the same:</p>
-<pre><code class="language-step">Mention helping_humanity_is_important: whether helping humanity is important.
-Mention money_is_important: whether money is important.
-Mention status_is_important: whether status is important.
+<p>This is somewhat technical and is only used in advanced Step code.  So non-programmers may want to skip over it, at least on a first reading.</p>
+<p>Previously, when we've pattern-matched tuples, we've written down all the elements of the tuple:</p>
+<pre><code class="language-step">Mention [delusion ?who ?fact]: ?who’s crazy belief that ?fact.
+Mention [Friends ?a ?b]: ?a and ?b are friends.
 </code></pre>
-<p>Rather than treating all these separately, we can unify them all by having a slightly more complex representation of beliefs: when we want to talk about the belief that something is important, we’ll write that in the code as <code>[important something]</code>, where <code>something</code> is the thing that’s supposed to be important.  Then we can write John and Richard’s beliefs as:</p>
-<pre><code class="language-step">[predicate] [randomly]
-Believes john god_exists.
-Believes john [important money].
-Believes richard god_exists.
-Believes richard [important helping_people].
+<p>That's fine, but it means we need to know in advance how many elements there will be.  As you've seen, when tuples are used to represent <strong>lists</strong> of things, their lengths can be unpredictable.  How do we match lists of unknown length?</p>
+<h2 id="matching-the-beginning-of-a-list">Matching the beginning of a list</h2>
+<p>There's a special notation for matching variable-length lists:</p>
+<pre><code class="language-step">[ a | ?rest ]
 </code></pre>
-<p>By bracketing together the word <code>important</code> with the thing that’s important, we tell the system that they come as a unit, and they’re one parameter.  Now we can collapse the different <code>Mention</code> rules down to just:</p>
-<pre><code class="language-step">Mention [important ?thing]: whether ?thing is important.
+<p>This matches any list whose first element is the string <code>a</code>, and whose remaining elements  are the list <code>?rest</code>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>   So if we match <code>[a | ?rest]</code> to the list <code>[a b c]</code>, it matches, and we get <code>?rest = [b c]</code>.  If we match it to the list <code>[a b c d]</code>, it still matches but now <code>?rest = [b c d]</code>.  But we can't match it to <code>[d c b a]</code> because their first elements are different.</p>
+<p>We can specify a variable for the first argument:</p>
+<pre><code class="language-step">[ ?first | ?rest ]
 </code></pre>
-<p>Now, as we add more character beliefs about what's important, we don't have to keep adding new <code>Mention</code> rules.</p>
-<p>These bracketed values are called <strong>tuples</strong> and they let us represent complex data relatively compactly.  The pattern matching process treats tuples largely the way it treats other data objects: if you match a tuple against a variable with no value, the variable is given the tuple as its value.  If you match a tuple against something that isn’t a tuple, that just fails, since they’re different.  The only thing that’s slightly complicated is that when you match tuples with one another: then they must have the same number of elements and those elements need to match.  So we can’t match <code>[important money]</code> to <code>[important]</code>, but we can match <code>[important money]</code> to <code>[important ?thing]</code> by setting <code>?thing</code> = <code>money</code>.</p>
+<p>This will match any list (any tuple) with at least one element.  If we match it to <code>[a b c]</code>, we get <code>?first = a</code>, <code>?rest = [b c]</code>.  But if we match it to <code>[a]</code>, we get <code>?first = a</code>, <code>?rest = []</code>, the <strong>empty list</strong> of no elements.</p>
+<p>We can also specify multiple starting elements:</p>
+<pre><code class="language-step">[ a b c ?fourth | ?rest ]
+</code></pre>
+<p>This will match any list with at least four elements, the first three of which are <code>a</code>, <code>b</code> and <code>c</code>.  It will match <code>?fourth</code> to the 4th element and <code>?rest</code> to the remaining elements.</p>
+<h2 id="appending-lists">Appending lists</h2>
+<p>We can use pattern matching to write standard list operations.  For example, we can write a predicate, <code>Append</code> that is true when its last argument is its first argument joined with its second argument:</p>
+<pre><code class="language-Step"># Try: [Append [a b c] [d e f] ?]
+[predicate]
+Append [] ?list ?list.
+Append [?first | ?rest]  ?list  [?first | ?restAndList]: [Append ?rest ?list ?restAndList]
+</code></pre>
+<p>This is the standard definition for append you might see in a book on a language like Lisp, Racket, or Clojure.  Its methods say:</p>
+<ul>
+<li>Appending any <code>?list</code> to the empty list <code>[]</code> just gives you <code>?list</code></li>
+<li>Appending <code>?list</code> to any other list gives you the first element of the other list followed by whatever you get when you append <code>?list</code> to the rest of the other list.</li>
+</ul>
+<p>What's fun about this, and different from languages like Lisp, is that since Step (mostly) doesn't distinguish between parameters that are inputs and parameters that are outputs, we can run this &quot;backwards.&quot;  If we call:</p>
+<pre><code class="language-step">[Append [a b c] [d e f] ?]
+</code></pre>
+<p>which asks &quot;what do we get if we join <code>[a b c]</code> and  <code>[d e f]</code>?&quot;, we get:</p>
+<pre><code class="language-step">? = [a b c d e f]
+</code></pre>
+<p>as expected.  But we can also call:</p>
+<pre><code class="language-step">[Append [a b c] ? [a b c d e f]]
+</code></pre>
+<p>meaning &quot;what do we need to add to the end of <code>[a b c]</code> to get <code>[a b c d e f]</code>?&quot;, we get:</p>
+<pre><code class="language-step">? = [d e f]
+</code></pre>
+<p>And similarly,</p>
+<pre><code class="language-step">[Append ? [d e f] [a b c d e f]]
+</code></pre>
+<p>meaning &ldquo;what do we need to prepend to <code>[d e f]</code> to get <code>[a b c d e f]</code>?&rdquo; gives us:</p>
+<pre><code class="language-step">? = [a b c]
+</code></pre>
+<p><code>Append</code> is the goto example people use for logic programming because it has this nice property that you can choose any of its parameters to be the output.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p><em>Esoteric</em>: this is suggestive that tuples/lists are represented as linked lists internally.  And in conventional logic programming languages, this is true.  However, Step is made to interface with game engines and this kind of processing isn't very common in Step code anyway.  So Step uses arrays to represent tuples (in particular the C# <code>object?[]</code> type) by default and converts between that and linked lists as<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -118,12 +160,12 @@ Believes richard [important helping_people].
 			<h5>Structured data</h5>
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Representing_beliefs.html" id="section_page_1"> Representing character beliefs </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Step_tuples.html" id="section_page_2"> <b> Tuples in Step </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Step_tuples.html" id="section_page_2"> Tuples in Step </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Tuples_as_code.html" id="section_page_3"> Tuples look an awful lot like calls </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Matching_tuples.html" id="section_page_4"> Matching tuples </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Delusion.html" id="section_page_5"> Belief and delusion </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Lists.html" id="section_page_6"> Tuples as lists </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="List_matching.html" id="section_page_7"> Matching variable-length lists (technical) </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="List_matching.html" id="section_page_7"> <b> Matching variable-length lists (technical) </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Feature_structures.html" id="section_page_8"> Feature structures </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Matching_feature_structures.html" id="section_page_9"> Matching feature structures </a> <br></li>
 			</ol>
@@ -136,11 +178,11 @@ Believes richard [important helping_people].
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Tuples_as_code.html"><b>Next:</b> Tuples look an awful lot like calls</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Feature_structures.html"><b>Next:</b> Feature structures</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Representing_beliefs.html"><b>Previous:</b> Representing character beliefs</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Lists.html"><b>Previous:</b> Tuples as lists</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
 			</script>
@@ -150,7 +192,7 @@ Believes richard [important helping_people].
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Step_tuples.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/List_matching.html">Send feedback on this page</a>
 	</div>
 </div>
 
