@@ -134,15 +134,26 @@ FancyGreeting formal ?who: Good day to you, ?who.
 	<p>
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Stories.html"><b>Next:</b> Very simple story grammars</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Gossip.html"><b>Previous:</b> Gossip generator</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="UpPage" href="Making_grammars.html"><b>Up:</b> Making grammars</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">

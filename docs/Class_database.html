@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Context-free grammars</title>
+	<title>A simple database of classes</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Context-free grammars">
-	<meta name="twitter:title" content="Context-free grammars">
-	<meta property="og:title" content="Context-free grammars" />
+	<meta itemprop="name" content="A simple database of classes">
+	<meta name="twitter:title" content="A simple database of classes">
+	<meta property="og:title" content="A simple database of classes" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,10 +50,9 @@
 
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars </a>
-			<h1><a class="simplelink" href="index.html">Context-free grammars</a></h1>
+				<a class="backgroundlink" href="Exercises.html"> Exercises </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_databases.html"> Logic databases </a>
+			<h1><a class="simplelink" href="index.html">A simple database of classes</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -87,30 +86,44 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Our ending example from the last section was:</p>
-<pre><code class="language-step">[randomly]
-Sentence: the cat [Verb] the dog
-Sentence: the dog [Verb] the cat
+<p>Here's a simple list of courses.  Try asking it for a course that's on Monday or a day that phil250 tales place.</p>
+<pre><code class="language-Step"># Try: [Class monday ?]
+# [Class ?day ?course]
+# True (succeeds) when ?course takes place on ?day
+[predicate]
+Class monday math300.
+Class monday phil250.
+Class tuesday cs396.
+Class tuesday rtvf376.
+Class wednesday math300.
+Class wednesday phil250.
+Class thursday cs396.
+Class friday math300.
 </code></pre>
-<p>Another way to write this is to say:</p>
-<pre><code class="language-Step"># Try: [Sentence]
-Sentence: [Noun] [Verb] [Noun]
+<p>Now try writing a query that will tell you a day of the week when there is no class.  Note that you can check if there is a class on day <code>?day</code> by saying <code>[Class ?day ?]</code> and if there is <em>not</em> a class that day by saying <code>[NotAny [Class ?day ?]]</code>.</p>
+<pre><code class="language-Step"># [Class ?day ?course]
+# True (succeeds) when ?course takes place on ?day
+[predicate]
+Class monday math300.
+Class monday phil250.
+Class tuesday cs396.
+Class tuesday rtvf376.
+Class wednesday math300.
+Class wednesday phil250.
+Class thursday cs396.
+Class friday math300.
 
-[randomly]
-Noun: the cat
-Noun: the dog
-
-[randomly]
-Verb: ate 
-Verb: chased 
-Verb: plotted world domination with
+# [DayOfWeek ?day]
+# True (succeeds) when ?day is a day of the week
+[predicate]
+DayOfWeek monday.
+DayOfWeek tuesday.
+DayOfWeek wednesday.
+DayOfWeek thursday.
+DayOfWeek friday.
+DayOfWeek saturday.
+DayOfWeek sunday.
 </code></pre>
-<p>As we said, this structure of templates-within-templates is called a <strong>context-free grammar</strong>.  If you'd seen the phrase used elsewhere and were intimidated by it, that's all it is.  Context-free grammars are popular ways of generating text, and the near-universal way of defining and parsing computer languages. </p>
-<p>One issue with context-free grammars is that they often generate odd-sounding sentences.  For example, this one generates</p>
-<blockquote>
-<p>the cat ate the cat</p>
-</blockquote>
-<p>which leaves the reader wondering if the cat ate itself or another cat.  In either scenario, a fluent English speaker wouldn’t use the phrase “the cat ate the cat” to describe it.  Issues like this are one of the reasons it’s difficult to generate good text.  We’ll talk about ways of dealing with some of these issues <a href="Reflexive_pronouns.html">shortly</a>.</p>
 
 
 
@@ -122,14 +135,10 @@ Verb: plotted world domination with
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Simple grammars</h5>
+			<h5>Logic databases</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Generating_text.html" id="section_page_1"> Grammar rules </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Tasks_and_methods.html" id="section_page_2"> Tasks and methods </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Text_substitution.html" id="section_page_3"> Text substitution </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Choice_machines.html" id="section_page_4"> Choice machines </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Context-free_grammars.html" id="section_page_5"> <b> Context-free grammars </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Adapting_text.html" id="section_page_6"> Omake: a silly grammar </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Class_database.html" id="section_page_1"> <b> A simple database of classes </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Monster_high.html" id="section_page_2"> Monster High </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -140,7 +149,7 @@ Verb: plotted world domination with
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Adapting_text.html"><b>Next:</b> Omake: a silly grammar</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Monster_high.html"><b>Next:</b> Monster High</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -148,7 +157,7 @@ Verb: plotted world domination with
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Choice_machines.html"><b>Previous:</b> Choice machines</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Logic_databases.html"><b>Previous:</b> Logic databases</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -156,7 +165,7 @@ Verb: plotted world domination with
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> Simple grammars</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Logic_databases.html"><b>Up:</b> Logic databases</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -165,7 +174,7 @@ Verb: plotted world domination with
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Context-free_grammars.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Class_database.html">Send feedback on this page</a>
 	</div>
 </div>
 

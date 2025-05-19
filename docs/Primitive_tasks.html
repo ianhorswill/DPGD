@@ -134,15 +134,26 @@
 	<p>
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Type_predicates.html"><b>Next:</b> Type testing</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_feature_structures.html"><b>Previous:</b> Matching feature structures</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">

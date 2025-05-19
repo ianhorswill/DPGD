@@ -158,7 +158,11 @@
 	<p>
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Introduction.html"><b>Next:</b> Technical introduction</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">

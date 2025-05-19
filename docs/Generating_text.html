@@ -142,15 +142,26 @@ Hello: Bon jour!
 	<p>
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Tasks_and_methods.html"><b>Next:</b> Tasks and methods</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Grammars.html"><b>Previous:</b> Simple grammars</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> Simple grammars</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">

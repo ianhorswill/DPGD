@@ -176,15 +176,26 @@ Mention ?x: [Write ?x]
 	<p>
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Lists.html"><b>Next:</b> Tuples as lists</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowRight' || e.key == "Return") document.getElementById('NextPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_tuples.html"><b>Previous:</b> Matching tuples</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowLeft') document.getElementById('PreviousPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
 			</script>
 			<a style="text-align: left;" class="simplelink" id="UpPage" href="Structured_data.html"><b>Up:</b> Structured data</a><br>
 			<script>
-				document.addEventListener('keyup', function(e) { if (e.key == 'ArrowUp') document.getElementById('UpPage').click()}, false);
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
