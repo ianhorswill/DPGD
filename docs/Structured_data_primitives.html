@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Higher-order tasks</title>
+	<title>List and feature structure predicates</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Higher-order tasks">
-	<meta name="twitter:title" content="Higher-order tasks">
-	<meta property="og:title" content="Higher-order tasks" />
+	<meta itemprop="name" content="List and feature structure predicates">
+	<meta name="twitter:title" content="List and feature structure predicates">
+	<meta property="og:title" content="List and feature structure predicates" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -52,10 +52,11 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-			<h1><a class="simplelink" href="index.html">Higher-order tasks</a></h1>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks (technical) </a>
+			<h1><a class="simplelink" href="index.html">List and feature structure predicates</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -86,8 +87,21 @@
 
 			<div class="container shadow blog-contents">
 
-<h2 id="under-construction">Under construction</h2>
-<p>Placeholder</p>
+<p>Step includes useful predicates for working with <a href="Lists.html">lists</a>, and <a href="Feature_structures.html">feature structures</a>.</p>
+<h2 id="lists">Lists</h2>
+<ul>
+<li><code>[Member </code><em>element</em><code>  </code><em>list</em><code>]</code><br />
+True when <em>element</em> is an element of <em>list</em>.</li>
+<li><code>[Length </code><em>list</em><code>  </code><em>length</em><code>]</code><br />
+True when <em>list</em> has exactly <em>length</em> elements.</li>
+<li><code>[Nth </code><em>list</em><code>  </code><em>index</em><code>  </code><em>element</em><code>]</code><br />
+True when the element of <em>list</em> at position <em>index</em> is <em>element</em>.  Note that programming languages traditionally number elements starting from 0.  So the first element is index 0, the second is index 1, etc.</li>
+</ul>
+<h2 id="feature-structures">Feature structures</h2>
+<ul>
+<li><code>[HasFeature </code><em>featureStructure</em><code>  </code><em>feature</em><code>]</code><br />
+True when <em>featureStructure</em> contains a feature named <em>feature</em>.</li>
+</ul>
 
 
 
@@ -99,10 +113,15 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Higher-order tasks</h5>
+			<h5>Primitive tasks (technical)</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_1"> Logical connectives </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parse_primitive.html" id="section_page_2"> Parsing text </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Type_predicates.html" id="section_page_1"> Type testing </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Output_primitives.html" id="section_page_2"> Output </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Comparisons.html" id="section_page_3"> Comparisons </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Structured_data_primitives.html" id="section_page_4"> <b> List and feature structure predicates </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Testing_binding_status.html" id="section_page_5"> Testing binding status </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Randomization_primitives.html" id="section_page_6"> Randomization primitives </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Writing_primitives.html" id="section_page_7"> Advanced: writing your own primitives </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -113,7 +132,7 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Logical_connectives.html"><b>Next:</b> Logical connectives</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Testing_binding_status.html"><b>Next:</b> Testing binding status</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -121,7 +140,7 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Writing_primitives.html"><b>Previous:</b> Advanced: writing your own primitives</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Comparisons.html"><b>Previous:</b> Comparisons</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -129,7 +148,7 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -138,7 +157,7 @@
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Higher-order_tasks.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Structured_data_primitives.html">Send feedback on this page</a>
 	</div>
 </div>
 

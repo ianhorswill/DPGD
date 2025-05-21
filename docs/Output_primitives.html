@@ -52,11 +52,11 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks (technical) </a>
 			<h1><a class="simplelink" href="index.html">Output</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -87,6 +87,24 @@
 
 			<div class="container shadow blog-contents">
 
+<p>There are a number of primitive tasks that print.  You've already seen <code>Write</code> but here's the full list:</p>
+<ul>
+<li><code>[Write </code><em>x</em><code>]</code><br />
+Prints <em>x</em>.  Any &lsquo;_&rsquo; characters contained in strings are changed to spaces.  Unbound variables, tuples, feature structures print in the form you would see them in code.  It is printed as a separate word, and so in the final text generation, it is separated from whatever was previously printed by a space, except in limited circumstances such as if it comes after an open quote or if what we're printing is a close quote.</li>
+<li><code>[WriteVerbatim </code><em>x</em><code>]</code><br />
+Identical to <code>Write</code>, but does not change &lsquo;_&rsquo; characters in strings to spaces.</li>
+<li><code>[WriteCapitalized </code><em>x</em><code>]</code><br />
+Identical to <code>Write</code> except the first character is converted to upper case.</li>
+<li><code>[WriteConcatenated </code><em>x</em><code>  </code><em>y</em><code>]</code><br />
+Identical to <code>Write</code> but prints both <em>x</em> and <em>y</em> without any space between them.</li>
+<li><code>[NewLine]</code><br />
+Starts a new line.</li>
+<li><code>[FreshLine]</code><br />
+Starts a new line unless we're already at the start of a line.</li>
+<li><code>[Paragraph]</code><br />
+Starts a new paragraph.</li>
+</ul>
+<p>These primitives are all deterministic.  And for most purposes they operate only in <strong>input mode</strong>.  However, when <a href="Parse_primitive.html">parsing text</a>, they flip from being input mode and printing, to being output mode and reading from the input string.  See <a href="Parse_primitive.html">parsing text</a>.</p>
 
 
 
@@ -98,10 +116,15 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Primitive tasks</h5>
+			<h5>Primitive tasks (technical)</h5>
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Type_predicates.html" id="section_page_1"> Type testing </a> <br></li>
 					<li class="sidebar"><a class="simplelink" href="Output_primitives.html" id="section_page_2"> <b> Output </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Comparisons.html" id="section_page_3"> Comparisons </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Structured_data_primitives.html" id="section_page_4"> List and feature structure predicates </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Testing_binding_status.html" id="section_page_5"> Testing binding status </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Randomization_primitives.html" id="section_page_6"> Randomization primitives </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Writing_primitives.html" id="section_page_7"> Advanced: writing your own primitives </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -112,7 +135,7 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Higher-order_tasks.html"><b>Next:</b> Higher-order tasks</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Comparisons.html"><b>Next:</b> Comparisons</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -128,7 +151,7 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return

@@ -52,11 +52,11 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks (technical) </a>
 			<h1><a class="simplelink" href="index.html">Type testing</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
-					   incomplete draft
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -87,6 +87,15 @@
 
 			<div class="container shadow blog-contents">
 
+<p><strong>Type predicates</strong> take a single parameter and test whether it's a specific kind of object:</p>
+<ul>
+<li><code>[Number </code><em>x</em><code>]</code> is true when <em>x</em> is a number</li>
+<li><code>[String </code><em>x</em><code>]</code> is true when <em>x</em> is a string</li>
+<li><code>[Tuple </code><em>x</em><code>]</code> is true when <em>x</em> is a tuple</li>
+<li><code>[FeatureStructure </code><em>x</em><code>]</code> is true when <em>x</em> is a feature structure</li>
+</ul>
+<p>Because the sets of numbers, string, tuples, and feature structures are effectively infinite, these predicates only work in <strong>input mode</strong> and so are <strong>deterministic</strong>.  So the <em>x</em> above can't be an unbound variable.  You can say <code>[Number 7]</code> or <code>[Number foo]</code>, although there would be little reason to because the answer would be obvious.  But you can only say <code>[Number ?x]</code> when <code>?x</code> has already been given a value.</p>
+<p>There are a few type predicates, however, that can work in both input and output mode because there are relatively few objects of those types.  The predicate <code>CompoundTask</code> is true when its parameter is a task defined by methods (isn't primitive).  Since there's a relatively small set of these, it can operate in both input mode (test if an obejct is a compound task) and output mode (enumerate the existing compound tasks).</p>
 
 
 
@@ -98,10 +107,15 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Primitive tasks</h5>
+			<h5>Primitive tasks (technical)</h5>
 			<ol start="1">
 					<li class="sidebar"><a class="simplelink" href="Type_predicates.html" id="section_page_1"> <b> Type testing </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Output_primitives.html" id="section_page_2"> Output </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Comparisons.html" id="section_page_3"> Comparisons </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Structured_data_primitives.html" id="section_page_4"> List and feature structure predicates </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Testing_binding_status.html" id="section_page_5"> Testing binding status </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Randomization_primitives.html" id="section_page_6"> Randomization primitives </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Writing_primitives.html" id="section_page_7"> Advanced: writing your own primitives </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -120,7 +134,7 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Primitive_tasks.html"><b>Previous:</b> Primitive tasks</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Primitive_tasks.html"><b>Previous:</b> Primitive tasks (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -128,7 +142,7 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return

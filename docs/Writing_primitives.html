@@ -1,0 +1,236 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Advanced: writing your own primitives</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Advanced: writing your own primitives">
+	<meta name="twitter:title" content="Advanced: writing your own primitives">
+	<meta property="og:title" content="Advanced: writing your own primitives" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks (technical) </a>
+			<h1><a class="simplelink" href="index.html">Advanced: writing your own primitives</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>If you're writing interactive fiction in Step, you probably don't need any new primitives.  But if you're using it inside of a game engine such as <a href="https://unity.com/">Unity</a> or <a href="https://godotengine.org/">Godot</a>, you'll need some mechanism for letting Step code read and write the game state.  This is more of a <a href="Part_II.html">Part II</a> topic, and it does vary from language to language.  However, for those who are game programmers who want some sense of what's involved, here's a simple example of how you would write a simple primitive for Step.  If you're not that person, I recommend you <a href="Higher-order_tasks.html">skip to the next page</a>.</p>
+<h2 id="accessing-a-component-type">Accessing a component type</h2>
+<p>Suppose you game has a component type called <code>Enemy</code> and you want some way of letting Step code interact with it.  We'll start by writing a type predicate for it.  So we're writing a one-argument predicate:</p>
+<ul>
+<li><code>[Enemy </code><em>x</em><code>]</code><br />
+True when <em>x</em> is an <code>Enemy</code> component.</li>
+</ul>
+<p>When we write primitives, we generally have to worry about different input/output modes.  Since this predicate only has one parameter, we only have to worry about two modes:</p>
+<ul>
+<li>Input mode: test whether an object is an <code>Enemy</code></li>
+<li>Output mode: enumerate all the <code>Enemy</code> objects</li>
+</ul>
+<p>It's up to you which of these you implement.  The <code>Number</code> predicate doesn't implement output mode because there are too many numbers to enumerate.  But let's assume you do want to implement output mode.  Then we're going to write two methods (two lambda expressions), one for each mode, and we'll wrap them using one of Step's built-in classes:</p>
+<pre><code class="language-csharp">Step.Module.Global[&quot;Enemy&quot;] = new GeneralPredicate&lt;Enemy&gt;(&quot;Enemy&quot;,  inMode, outMode);
+</code></pre>
+<p>where <code>inMode</code> and <code>outMode</code> are the implementations for the two modes.  <code>Step.Module.Global</code> is the namespace holding all the predefined Step predicates.  So this line says to add a new one named <code>Enemy</code>.</p>
+<h3 id="type-testing">Type testing</h3>
+<p>When your predicate runs in input mode, it's being passed an object <em>x</em> and it needs to determine if it's of type <code>Enemy</code>.  The C# code for that is just:</p>
+<pre><code class="language-csharp">x is Enemy
+</code></pre>
+<p>and so <code>inMode</code> above is just:</p>
+<pre><code class="language-csharp">x =&gt; x is Enemy
+</code></pre>
+<h3 id="enumerating-objects">Enumerating objects</h3>
+<p>When we call it in output, the primitive needs to iterate through all the existing <code>Enemy</code> objects in the game.  The API for that is to have the output implementation just return an <code>IEnumerable&lt;Enemy&gt;</code> and then the Step interpreter manages the rest.  In Unity, you ask for all the instances of a component type using <code>Unity.Object.FindObjectsOfType&lt;Type&gt;()</code>.  So our <code>outMode</code> implementation is just:</p>
+<pre><code class="language-csharp">() =&gt; Unity.Object.FindObjectsOfType&lt;Type&gt;()
+</code></pre>
+<p>And so our full implementation is:</p>
+<pre><code class="language-csharp">Step.Module.Global[&quot;Enemy&quot;] = new GeneralPredicate&lt;Enemy&gt;(&quot;Enemy&quot;,
+    x =&gt; x is Enemy,
+    () =&gt; Unity.Object.FindObjectsOfType&lt;Type&gt;());
+</code></pre>
+<h2 id="extracting-information-from-a-component">Extracting information from a component</h2>
+<p>To write accessors for a C# object, we define predicates that are true when the specified object has the specified information.  So suppose we want to access the <code>name</code> field of the enemies.  We might write a predicate:</p>
+<ul>
+<li><code>[EnemyName </code><em>enemy</em><code>  </code><em>name</em><code>]</code><br />
+True when <em>enemy</em> has the name <em>name</em>.</li>
+</ul>
+<p>This is basically a function from the first parameter to the second parameter, and that's a very common pattern in primitives, so there's a wrapper for it:</p>
+<pre><code class="language-csharp">Step.Module.Global[&quot;EnemyName&quot;] = new SimpleFunction&lt;Enemy,string&gt;(&quot;EnemyName&quot;,  enemy =&gt; enemy.name);
+</code></pre>
+<h2 id="calling-a-c-method-on-an-object">Calling a C# method on an object</h2>
+<p>Finally, let's say we want to run some engine method on the component, such as Unity's <code>Destroy</code> method, which removes a <code>GameObject</code> or <code>Component</code> from the game.  Again, that's a common pattern and there's a wrapper for it:</p>
+<pre><code class="language-csharp">Step.Module.Global[&quot;Destroy&quot;] = new SimplePredicate&lt;Component&gt;(&quot;Destroy&quot;, component =&gt; {
+    Object.Destroy(component));
+    return true;
+}
+</code></pre>
+<p>We <code>return true</code> at the end to tell Step that the predicate succeeded.  If we want it to fail, for example, because we did something that returned an error code, we would return <code>false</code>.  To throw an exception, just use C#'s <code>throw</code> normally.</p>
+<p><strong>Important</strong>: Step is carefully designed so that if it tries an execution path this prints something or updates a variable, but then fails, that output or variable update are <strong>undone</strong> before trying another execution path.  That is not true for primitives like these; Step has no way to reach in and &ldquo;undestroy&rdquo; an object.  There are more complicated wrappers for primitives that allow you to be informed when a failure has happened so that you can undo things, but we won't cover them here.  And in any case, it's entirely up to the author of the primitives to implement any undoing.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Primitive tasks (technical)</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Type_predicates.html" id="section_page_1"> Type testing </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Output_primitives.html" id="section_page_2"> Output </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Comparisons.html" id="section_page_3"> Comparisons </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Structured_data_primitives.html" id="section_page_4"> List and feature structure predicates </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Testing_binding_status.html" id="section_page_5"> Testing binding status </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Randomization_primitives.html" id="section_page_6"> Randomization primitives </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Writing_primitives.html" id="section_page_7"> <b> Advanced: writing your own primitives </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Higher-order_tasks.html"><b>Next:</b> Higher-order tasks</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Randomization_primitives.html"><b>Previous:</b> Randomization primitives</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks (technical)</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
+			</script>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Writing_primitives.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

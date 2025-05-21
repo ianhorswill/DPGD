@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Higher-order tasks</title>
+	<title>Testing binding status</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Higher-order tasks">
-	<meta name="twitter:title" content="Higher-order tasks">
-	<meta property="og:title" content="Higher-order tasks" />
+	<meta itemprop="name" content="Testing binding status">
+	<meta name="twitter:title" content="Testing binding status">
+	<meta property="og:title" content="Testing binding status" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -52,10 +52,11 @@
 		<div class="col-10 col-md-8 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-			<h1><a class="simplelink" href="index.html">Higher-order tasks</a></h1>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Primitive_tasks.html"> Primitive tasks (technical) </a>
+			<h1><a class="simplelink" href="index.html">Testing binding status</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -86,8 +87,29 @@
 
 			<div class="container shadow blog-contents">
 
-<h2 id="under-construction">Under construction</h2>
-<p>Placeholder</p>
+<p>There are times when a method only wants to run if a given argument is a variable, or if it is not a variable.  You can test these using the built-in predicates <code>Var</code> and <code>NonVar</code>:</p>
+<ul>
+<li><code>[NonVar </code><em>x</em><code>]</code><br />
+Succeeds when its argument is a <em>not</em> an uninstantiated variable.</li>
+<li><code>[Var </code><em>x</em><code>]</code><br />
+Succeeds when its argument is an uninstantiated variable (a variable without a value)</li>
+</ul>
+<p>These do not change <em>x</em> in any way; they just succeed or fail depending on whether it's a value, or an unbound variable, respectively.  These are useful as guards on methods.  For example, if you want to use different methods for when called in input and output mode, you can say:</p>
+<pre><code class="language-step">Task (NonVar ?x): ... method for input mode ...
+Tast (Var ?x): ... method for output mode ...
+</code></pre>
+<p>These are common enough that there's a shorthand for them; you can use <code>+</code> and <code>-</code> as substitutes for the more verbose <code>NonVar</code> and <code>Var</code>:</p>
+<pre><code class="language-step">Task (+ ?x): ... method for input mode ...
+Tast (- ?x): ... method for output mode ...
+</code></pre>
+<h2 id="ground-values">Ground values</h2>
+<p><code>NonVar</code> will accept any value that isn't itself an unbound variable; but that doesn't preclude it <em>containing</em> an unbound variable.  For example, the value <code>[a b ?x]</code> isn't a variable, it's a tuple.  But it does contain a variable and depending on context, that variable may be unbound. </p>
+<ul>
+<li><code>[Ground </code><em>x</em><code>]</code><br />
+True when its argument is a value and doesn't contain unbound variables.  So not only is it <code>NonVar</code>, but its elements (if any) are also <code>NonVar</code>, as their elements (if any), and so on.</li>
+<li><code>[Nonground </code><em>x</em><code>]</code><br />
+True when its argument isn't ground; either it's an unbound variable, or contains an unbound variable somewhere within it.</li>
+</ul>
 
 
 
@@ -99,10 +121,15 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Higher-order tasks</h5>
+			<h5>Primitive tasks (technical)</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_1"> Logical connectives </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parse_primitive.html" id="section_page_2"> Parsing text </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Type_predicates.html" id="section_page_1"> Type testing </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Output_primitives.html" id="section_page_2"> Output </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Comparisons.html" id="section_page_3"> Comparisons </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Structured_data_primitives.html" id="section_page_4"> List and feature structure predicates </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Testing_binding_status.html" id="section_page_5"> <b> Testing binding status </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Randomization_primitives.html" id="section_page_6"> Randomization primitives </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Writing_primitives.html" id="section_page_7"> Advanced: writing your own primitives </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -113,7 +140,7 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Logical_connectives.html"><b>Next:</b> Logical connectives</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Randomization_primitives.html"><b>Next:</b> Randomization primitives</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -121,7 +148,7 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Writing_primitives.html"><b>Previous:</b> Advanced: writing your own primitives</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Structured_data_primitives.html"><b>Previous:</b> List and feature structure predicates</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -129,7 +156,7 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Primitive_tasks.html"><b>Up:</b> Primitive tasks (technical)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -138,7 +165,7 @@
 			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Higher-order_tasks.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Testing_binding_status.html">Send feedback on this page</a>
 	</div>
 </div>
 
