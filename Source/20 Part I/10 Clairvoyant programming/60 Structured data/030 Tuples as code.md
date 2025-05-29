@@ -19,7 +19,13 @@ You’ve actually run into tuples before.  When we said:
 ```step
 [Not [Believes ?c2 ?disagreement]]
 ```
-We were actually calling `Not` with one argument that was a tuple: `[Believes ?c2 ?disagreement]`.  Not takes that tuple and tries to run the call it specifies, i.e. calling `Believes` with `?c2` and `?disagreement` as parameters.  If the call to `Believes` succeeds, then `Not` fails; if `Believes` fails, then `Not` succeeds.  `Not` just calls the task specified by the tuple, checks whether it failed or succeeded, and then does the opposite.
+We were actually calling `Not` with one argument that was a tuple: `[Believes ?c2 ?disagreement]`, that is, it's a data object containing the sequence of data objects:
+
+* The task `Believes`
+* The variable `?c2`
+* The variable `?disagreement`
+
+`Not` takes that tuple and tries to run the call it specifies, i.e. calling `Believes` with `?c2` and `?disagreement` as parameters.  If the call to `Believes` succeeds, then `Not` fails; if `Believes` fails, then `Not` succeeds.  `Not` just calls the task specified by the tuple, checks whether it failed or succeeded, and then does the opposite.
 
 We call `Not` a **higher-order** predicate because it takes code as an argument rather than plain old data.[^2]   Higher-order tasks are very important, and we'll talk more about them [shortly](higher-order_tasks).
 
