@@ -104,7 +104,7 @@ Starts a new line unless we're already at the start of a line.</li>
 <li><code>[Paragraph]</code><br />
 Starts a new paragraph.</li>
 </ul>
-<p>These primitives are all deterministic.  And for most purposes they operate only in <strong>input mode</strong>.  However, when <a href="Parse_primitive.html">parsing text</a>, they flip from being input mode and printing, to being output mode and reading from the input string.  See <a href="Parse_primitive.html">parsing text</a>.</p>
+<p>These primitives are all deterministic.  And for most purposes they operate only in <strong>input mode</strong>.  However, when <a href="Parsing.html">parsing text</a>, they flip from being input mode and printing, to being output mode and reading from the input string.  See <a href="Parsing.html">parsing text</a>.</p>
 
 
 
@@ -138,7 +138,7 @@ Starts a new paragraph.</li>
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Comparisons.html"><b>Next:</b> Comparisons</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
 					if (e.key == 'ArrowRight' || e.key == "Return")
 					  document.getElementById('NextPage').click()
 				}, false);
@@ -156,6 +156,20 @@ Starts a new paragraph.</li>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Higher-order_tasks.html"><b>Next section:</b> Higher-order tasks</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Structured_data.html"><b>Previous section:</b> Structured data</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
 	</p>

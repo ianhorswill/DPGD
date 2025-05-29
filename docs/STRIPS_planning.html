@@ -1,0 +1,443 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>STRIPS planning</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="STRIPS planning">
+	<meta name="twitter:title" content="STRIPS planning">
+	<meta property="og:title" content="STRIPS planning" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Exercises.html"> Exercises </a>
+			<h1><a class="simplelink" href="index.html">STRIPS planning</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<pre><code class="language-Step"># Try: [Feed athena]
+Feed ?who: [Achieve [TummyFull ?who]]
+
+###
+### Story world
+###
+
+[randomly]
+predicate Character ?who.
+[randomly]
+predicate PreferredPronoun ?who ?pronoun.
+[randomly]
+predicate Food ?what.
+[randomly]
+predicate HasBankAccount ?who.
+
+Character roy.
+At roy roys_home.
+CustomPrint roys_home: Roy's home
+PreferredPronoun roy he.
+Has roy money.
+Likes roy athena.
+
+Character athena.
+At athena athenas_home.
+CustomPrint athenas_home: Athena's home
+PreferredPronoun athena she.
+HasBankAccount athena.
+
+Character taco_dude.
+PreferredPronoun taco_dude he.
+At taco_dude taco_truck.
+CustomPrint taco_truck: the taco truck
+Has taco_dude taco.
+Food taco.
+
+Character sam.
+PreferredPronoun sam she.
+At sam deli.
+CustomPrint deli: the deli
+Has sam sandwich.
+Food sandwich.
+
+Character nyarlathotep.
+PreferredPronoun nyarlathotep he.
+At nyarlathotep white_castle.
+CustomPrint white_castle: White Castle
+Has nyarlathotep sliders.
+Food sliders.
+
+CustomPrint atm: the ATM
+CustomPrint money: money
+
+###
+### Actions
+###
+
+## Goto
+fluent At ?who ?where.
+Achieves [At ?who ?where] [Goto ?who ?where].
+Goto ?who ?where: ?who goes to ?where. [NowAt ?who ?where]
+
+NowAt ?who ?where: [At ?who ?old] [now [Not [At ?who ?old]]] [now [At ?who ?where]]
+NowAt ?who ?where: [now [At ?who ?where]]
+
+## Give
+fluent Has ?who ?what.
+fluent Likes ?liker likee.
+
+Achieves [Has ?receiver ?item] [Give ?giver ?receiver ?item]:
+    [Character ?giver] [Character ?receiver]
+    [Has ?giver ?item]
+[end]
+
+Give ?giver ?receiver ?item:
+    [Has ?giver ?item]
+    [Achieve [Likes ?giver ?receiver]]
+    [At ?giver ?location]
+    [Achieve [At ?receiver ?location]]
+    ?giver gives ?receiver/Obj ?giver/Possessive ?item/Write.
+    [Transfer ?item ?giver ?receiver]
+[end]
+
+Transfer ?item ?from ?to: [now [Not [Has ?from ?item]] [Has ?to ?item]]
+
+## Flatter
+Achieves [Likes ?flateree ?flaterer] [Flatter ?flaterer ?flateree].
+Flatter ?flaterer ?flateree:
+    [At ?flateree ?location]
+    [Achieve [At ?flaterer ?location]]
+    ?flaterer flatters ?flateree/Obj.
+    [now [Likes ?flateree ?flaterer]]
+[end]
+
+## Buy
+Achieves [Has ?buyer ?item] [Buy ?buyer ?item ?seller]:
+    [Character ?buyer] [Character ?seller]
+    [Has ?seller ?item]
+    [Not [= ?item money]]
+[end]
+
+Buy ?buyer ?item ?seller:
+    [Achieve [Has ?buyer money]]
+    [At ?seller ?store]
+    [Achieve [At ?buyer ?store]]
+    ?buyer buys ?item from ?seller/Obj.
+    [Transfer money ?buyer ?seller]
+    [Transfer ?item ?seller ?buyer]
+[end]
+
+## Eat
+fluent TummyFull ?who.
+Achieves [TummyFull ?who] [Eat ?who ?_what]: [Character ?who]
+Eat ?who ?what:
+    [Food ?what]
+    [Achieve [Has ?who ?what]]
+    ?who eats ?who/Possessive ?what/Write.
+    [now [Not [Has ?who ?what]]]
+    [now [TummyFull ?who]]
+[end]
+
+## Withdraw cash from ATM
+Achieves [Has ?who money] [Withdraw ?who]: [Character ?who] [HasBankAccount ?who]
+Withdraw ?who:
+    [Achieve [At ?who atm]]
+    ?who takes out some money from the ATM.
+    [now [Has ?who money]]
+[end]
+
+## Steal
+Achieves [Has ?who ?what] [Steal ?who ?what ?victim]: [Character ?who] [Character ?victim] [Has ?victim ?what]
+Steal ?thief ?item ?victim:
+    [At ?victim ?location]
+    [Achieve [At ?thief ?location]]
+    ?thief steals ?victim/Possessive ?item/Write.
+    [Transfer ?item ?victim ?thief]
+[end]
+
+fluent Dead ?who.
+
+###
+### Core planning algorithm
+###
+
+[randomly]
+predicate Achieves ?goal ?action.
+
+# Used for loop detection
+fluent TryingToAchieve ?goal.
+
+# If it's already true, we don't need to do anything.
+[predicate]
+Achieve ?goal: [Call ?goal]
+# It's not already true, so try to make it true.&amp;ensp;  
+Achieve ?goal:
+    [Not [TryingToAchieve ?goal]]
+    [now [TryingToAchieve ?goal]]
+    [GenerateActions ?goal]
+    [now [Not [TryingToAchieve ?goal]]]
+[end]
+
+[predicate]
+GenerateActions ?goal:
+    [Achieves ?goal ?action]
+    [FreshLine]&lt;i&gt;Doing ?action/WriteVerbatim to achieve ?goal/WriteVerbatim&lt;/i&gt;[FreshLine]
+    [Call ?action]
+[end]
+
+###
+### This configures Step to be able to generate pronouns
+### You don't need to touch this code.
+###
+
+###
+### Stuff you can call from your code (you would use these in PrintPlotPoint):
+###
+### Mention ?x      (or just ?x)
+### Prints ?x.&amp;ensp; If it uses a pronoun, it will be he/she/they rather than him/her/them
+###
+### Obj ?x          (or just ?x/Obj)
+### Prints ?x, but if it uses a pronoun, uses him/her/them rather than he/she/they
+###
+### Possessive ?x   (or just ?x/Possessive)
+### Prints ?x's or his/her/their, as appropriate
+###
+### Plural ?x       (or just ?x/Plural)
+### Tries to guess the plural of ?x and prints it.
+###
+
+### Using gendered pronouns (optional)
+###
+### By default the system will use they/their for all students.&amp;ensp; If you want it to
+### use gendered pronouns, add facts saying:
+###
+###     PreferredPronoun &lt;student&gt; &lt;pronoun&gt;
+###
+### where &lt;student&gt; is the student student you're specifying the pronoun for and
+### &lt;pronoun&gt; is either he, she, or they.
+###
+### If you want to specify gendered pronouns, I would recommend you add these to
+### Student.step.
+
+ClearContext:
+  [set Him = nothing]
+  [set Her = nobody]
+  [set Them = nobody]
+  [set It = nothing]
+  [set ThirdPersonSingular = true]
+  [set MentionedPlural = false]
+[end]
+
+initially: [ClearContext]
+
+# Mention ?x
+# Print ?x however is appropriate, and keeping track of pronouns.
+Mention Him: he [set ThirdPersonSingular = true] [set MentionedPlural = false]
+Mention Her: she [set ThirdPersonSingular = true] [set MentionedPlural = false]
+Mention Them: they [set ThirdPersonSingular = false] [set MentionedPlural = true] 
+Mention It: it [set ThirdPersonSingular = true] [set MentionedPlural = false]
+Mention ?x: ?x/Print [NotePronouns ?x] [set ThirdPersonSingular = true] [set MentionedPlural = false]
+
+# Update Him/Her/Them/It based on the argument.
+NotePronouns ?who: [Character ?who] [NotePersonalPronouns ?who]
+NotePronouns ?what: [set It = ?what]
+
+# Update Him/Her/Them based on the preferred pronouns of the character.
+NotePersonalPronouns ?who: [PreferredPronoun ?who he] [set Him = ?who]
+NotePersonalPronouns ?who: [PreferredPronoun ?who she] [set Her = ?who]
+NotePersonalPronouns ?who: [set Them = ?who] 
+
+# Obj ?x
+# Like Mention, but prints in object case (substitutes him for he, etc.)
+Obj Him: him [set MentionedPlural = false] [set ThirdPersonSingular = truee]
+Obj Her: her [set MentionedPlural = false] [set ThirdPersonSingular = true]
+Obj Them: them [set MentionedPlural = true] [set ThirdPersonSingular = false]
+Obj It: it [set MentionedPlural = false] [set ThirdPersonSingular = true]
+Obj ?x: [Mention ?x]
+
+fluent Mentioned ?what.
+[fallible]
+task CustomPrint ?x.
+Print ?x: [CustomPrint ?x]
+Print (Character ?x): ?x/WriteCapitalized
+Print (Mentioned ?x): the ?x/Write
+Print ?x: a ?x/Write [now [Mentioned ?x]]
+
+# Possessive ?x
+# Generates the possessive case of x - either &quot;x's&quot; or a possessive pronoun.
+[main]
+Possessive Him: his
+Possessive Her: her
+Possessive Them: their
+Possessive It: its
+Possessive ?x: ?x's
+
+Plural werewolf: werewolves
+Plural ?x: ?x/NounSingularPlural/Write
+
+Is: [MentionedPlural] are
+Is: is
+
+predicate PreferredPronoun ?who ?heshethey.
+</code></pre>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Exercises</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Making_grammars.html" id="section_page_1"> Making grammars </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logic_databases.html" id="section_page_2"> Logic databases </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Monster_Highlights.html" id="section_page_3"> Assignment: Monster High fandom </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="STRIPS_planning.html" id="section_page_4"> <b> STRIPS planning </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Monster_Highlights.html"><b>Previous:</b> Assignment: Monster High fandom</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Exercises.html"><b>Up:</b> Exercises</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Background.html"><b>Previous section:</b> Background appendices</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/STRIPS_planning.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

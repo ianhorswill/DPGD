@@ -1,0 +1,609 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Assignment: Monster High fandom</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Assignment: Monster High fandom">
+	<meta name="twitter:title" content="Assignment: Monster High fandom">
+	<meta property="og:title" content="Assignment: Monster High fandom" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-10 col-md-8 header-contents">
+				<a class="backgroundlink" href="Exercises.html"> Exercises </a>
+			<h1><a class="simplelink" href="index.html">Assignment: Monster High fandom</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<h2 id="introduction">Introduction</h2>
+<p>In this assignment, you’ll work and extended version of the code we used in class to generate random fan tweets from the account <em>@MonsterHighlights</em> about the current episode of the soap opera, <em>Monster High</em>.</p>
+<p>This code works by first creating a <strong>plausible plot</strong> point that might occur in an episode, and then printing it in the form of a tweet.  Plot points will be represented as <a href="Step_tuples.html">tuples</a>, so if you haven’t done <a href="Structured_data.html">the reading on tuples</a>, do that now.</p>
+<p>For example, we might represent the plot point that Jayden confesses their love to Tiana with the tuple: <code>[confess_love jayden tiana]</code>.  That might then be printed as:</p>
+<blockquote>
+<p>It was so great when Jayden confessed their love to Tiana!</p>
+</blockquote>
+<p>However, this only makes sense if we know that Jayden has a crush on Tiana.  Otherwise, why would they confess?  And it doesn’t make sense if the two are already dating.  So you need to make sure that your plot point generator only generates <code>confess_love</code> plot points when there’s an attraction that isn’t being acted on.</p>
+<p>Note also that we’ve provided you with a version of <a href="Mention.html"><code>Mention</code></a> that understands things like pronoun generation and capitalization of character names.  You don’t need to modify it, just realize that it’s there.  If you don’t know what <code>Mention</code> is, read <a href="Adaptive_generation.html">generating text in context</a>.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>The code for the assignment is below.  You can just click on it to bring it up in the Step interpreter.</p>
+<h2 id="part-one-optional-making-a-student-body">Part One (optional): Making a student body</h2>
+<p>We included a bare-bones student database.  There are only a few characters defined in them.  So feel free to add to it or to replace it with the code you and your troupe added to those files in class.  However, you don’t need to do this if you don’t want to.</p>
+<h3 id="specifying-pronouns">Specifying pronouns</h3>
+<p>Note that the <code>Mention</code> code we gave you uses <em>they</em> as the default pronoun.  If you prefer, you may specify preferred pronouns for some or all of your characters.  To do that, just add statements of the form:</p>
+<pre><code class="language-step">PreferredPronoun student pronoun.
+</code></pre>
+<p>Where <em>student</em> is the student you’re specifying a pronoun for, and <em>pronoun</em> is either <code>he</code> or <code>she</code>.  You can specify <code>they</code>, but since that’s the default anyway, there’s no particular point in doing so.  Anyone you don’t specify a pronoun for will be referred to using <code>they</code>.</p>
+<h2 id="part-two-generating-plot-points">Part two: Generating plot points</h2>
+<p>Here’s how tweet generation works.</p>
+<p>The task called <code>Tweet</code> generates a random plot point then prints it as a tweet.  Tweet works by calling <code>PlotPoint</code>, which generates plot points, and <code>PrintPlotPoint</code>, which prints them.  These are the tasks you will fill in.</p>
+<p><code>PlotPoint</code> is a predicate: <code>[PlotPoint  </code><em>event</em><code>]</code> means that <em>event</em> is a plausible thing to happen in a <em>Monster High</em> episode given the characters and relationships specified.  We will represent plot points as tuples:</p>
+<ul>
+<li><code>[hot_character  </code><em>who</em><code>  </code><em>monsterType</em><code>]</code><br />
+This isn’t really something that happens in the episode; it just means the fan is expressing their enthusiasm for how hot <em>who</em> is and that they like <em>monsterType</em> characters (vampires, humans, etc.).  You are free to generate this for any character, but the monster type should be correct for the character.</li>
+<li><code>[confess_love  </code><em>a</em><code>  </code><em>b</em><code>]</code><br />
+means <em>a</em> confessed their love for <em>b</em>.  This plot point should only be generated when <em>a</em> has a crush on <em>b</em> but they aren’t already dating.</li>
+<li><code>[smoldering_look  </code><em>a</em><code>  </code><em>b</em><code>  </code><em>club</em><code>]</code><br />
+means <em>a</em> gave <em>b</em> a smoldering look when they were together at <em>club</em>.  This should only be generated when the characters have crushes on one another and they both belong to the <em>club</em>.</li>
+<li><code>[got_together  </code><em>a</em><code>  </code><em>b</em><code>]</code><br />
+means <em>a</em> and <em>b</em> started dating.  This should only be generated when they have crushes on one another and aren’t already dating.</li>
+<li><code>[breakup  </code><em>a</em><code>  </code><em>b</em><code>]</code><br />
+means <em>a</em> and <em>b</em> broke up.  This only makes sense if they’re actually dating.</li>
+<li><code>[rejected  </code><em>a</em><code>  </code><em>b</em><code>]</code><br />
+means <em>a</em> rejected <em>b</em> when <em>b</em> confessed to <em>a</em>.  This only makes sense if <em>b</em> has a crush on <em>a</em> but not vice-versa.</li>
+<li><code>[conflict </code><em>attacker</em><code>  </code><em>defender</em><code>  </code><em>reason</em><code>]</code><br />
+means <em>attacker</em> started a fight (verbal or physical) with <em>defender</em> because of <em>reason</em>.  Reason is another tuple, describing why the fight broke out:
+<ul>
+<li><code>[conflict </code><em>cheatee</em><code>  </code><em>cheater</em><code> [cheating </code><em>cheater</em><code>  </code><em>cheetee</em><code>  </code><em>other</em><code>]]</code></li>
+<li><code>[conflict </code><em>cheatee</em><code>  </code><em>other</em><code> [cheating </code><em>cheater</em><code>  </code><em>cheetee</em><code>  </code><em>other</em><code>]]</code><br />
+These mean <em>cheater</em> and <em>cheetee</em> are dating but <em>cheater</em> is also dating <em>other</em> and <em>cheatee</em> starts the fight.  So only generate this event when cheating is happening in the story world.</li>
+<li><code>[conflict </code><em>attacker</em><code>  </code><em>defender</em><code> [triangle </code><em>attacker</em><code>  </code><em>defender</em><code>  </code><em>loveInterest</em><code>]]</code><br />
+Means there’s a love triangle and both <em>attacker</em> and <em>defender</em> are interested in the <em>love interest</em>.  Only generate this event when the triangle exists in the story world.</li>
+</ul>
+</li>
+<li><code>[cheating </code><em>a</em><code>  </code><em>b</em><code>]</code><br />
+means <em>a</em> is cheating on <em>b</em>.  Only generate this when cheating is happening in the story world.</li>
+<li><code>[star_crossed_lovers </code><em>a</em><code>  </code><em>atype</em><code>  </code><em>b</em><code>  </code><em>btype</em><code>]</code><br />
+means <em>a</em> and <em>b</em> are dating, but their monster types (<em>atype</em> and <em>btype</em>) are supposed to be in conflict with one another.  Only generate this when they are dating and their types are incompatible.  Incompatible types are specified using the <code>RivalMonsterTypes</code> predicate.</li>
+</ul>
+<p>So for this part, you need to add methods for PlotPoint.  The methods are going to look like:</p>
+<pre><code class="language-step">PlotPoint [eventType other-information …]: condition
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><em>eventType</em> is the kind of event (e.g. cheating, star_crossed_lovers, etc.)</li>
+<li><em>other-information</em> is the other information that appears in that kind of event: definitely the characters participating in it, but for some of them, there are things like the monster types or clubs the students belong to</li>
+<li><em>condition</em> is the information to determine whether this plot point makes sense given the story world</li>
+</ul>
+<p>Here’s an example.  For the <code>breakup</code> plot point, it only makes sense for it to happen if the characters are already dating.  So the rule for that would look like:</p>
+<pre><code class="language-step">PlotPoint [breakup ?a ?b]: [Dating ?a ?b]
+</code></pre>
+<p>This says that <code>[breakup ?a ?b]</code> is a valid plot point provided <code>[Dating ?a ?b]</code>.  In other words, breaking up is a valid plot point when the characters are currently dating.</p>
+<p>Add methods for each of the types of plot points and make sure they only generate in plausible circumstances.</p>
+<h3 id="testing-your-plot-point-generator">Testing your plot-point generator</h3>
+<p>You can test your generator in a few different ways:</p>
+<ul>
+<li>Running: <code>[PlotPoint ?]</code><br />
+That is, typing <code>[PlotPoint ?]</code> in the command box, and hitting Run, will generate a completely random plot point and print it in tuple form.</li>
+<li>Running: <code>[PlotPoint [type args …]]</code><br />
+This will force it to try to generate a plot point of the specified type.  For example:
+<ul>
+<li><code>[PlotPoint [cheating ?a ?b]]</code><br />
+Will find an <code>?a</code> that is cheating on <code>?b</code></li>
+<li><code>[PlotPoint [cheating cameron hailey]]</code><br />
+Will test whether <code>[cheating cameron hailey]</code> is a valid plot point.  If Step says &ldquo;yes&rdquo;, it’s valid.  If it say &ldquo;no&rdquo;, then that’s not a valid plot point.  This is a valid plot point in the version of the code we hand out because Cameron is actually cheating on Hailey.  But it might not be true in your story world.</li>
+<li><code>[PlotPoint [cheating tiana jada]]</code><br />
+Tests if that’s a valid plot point in your story world.  It isn’t valid in the version of the code we hand out because they aren’t even dating in that story world.  So in that version of the code, this would print “no”.</li>
+</ul>
+</li>
+</ul>
+<h2 id="part-three-generating-text">Part three: generating text</h2>
+<p>Now write methods for <code>PrintPlotPoint</code>.  These should take the form of:</p>
+<pre><code class="language-step">PrintPlotPoint [eventType other-information …]: text-to-print …
+</code></pre>
+<p>Where, <em>eventType</em> and <em>other-information</em> are as above, and <em>text-to-print</em> is what to print to describe this kind of plot point.  The text will need to refer to the variables in other-information to fill in blanks.  For example, we can write something like this:</p>
+<pre><code class="language-step">PrintPlotPoint [breakup ?a ?b]: I’m so bummed that ?a and ?b broke up. ?a seemed so great!
+</code></pre>
+<p>Note that these are supposed to be tweets printed by a fan of the series, so they should not only say what happened (e.g. <code>?a</code> and <code>?b</code> broke up), but also what the fan thinks about it (“I’m so bummed”, “<code>?a</code> seemed so great”).</p>
+<p>Write at least one <code>PrintPlotPoint</code> method for each event type, so that the system will be able to print any plot points it generates.  You are welcome, but not required, to write multiple methods if you want to have more variation in how the system prints a given plot point.  You can test <code>PrintPlotPoint</code> by typing a call into the command box.  For example, typing:</p>
+<pre><code class="language-step">[PrintPlotPoint [breakup jayden cameron]]
+</code></pre>
+<p>Will run whatever method you specified for printing a breakup.  If you used the method above, it would print:</p>
+<blockquote>
+<p>I’m so bummed that Jayden and Cameron broke up.  Jayden seemed so great!</p>
+</blockquote>
+<p>When you have print methods for all your plot points, you can generate random tweets by running:</p>
+<pre><code class="language-step">[Tweets]
+</code></pre>
+<p>However, if you don’t have print methods for all the plot points, it might generate a plot point it can’t print in which case it will say that the call to <code>PrintPlotPoint</code> failed.</p>
+<h3 id="pronoun-generation">Pronoun generation</h3>
+<p>As discussed above, if a tweet uses a character’s name more than once, it will generate pronouns to refer to them when appropriate.  By default, it uses <code>they</code> as everyone’s pronoun, but you can specify pronouns for a specific character using <code>PreferredPronoun</code> (see above).  That’s purely up to you, though.</p>
+<p>What you should definitely pay attention to is whether it’s generating pronouns in the right grammatical case.  If your code to print says something like:</p>
+<pre><code class="language-step">PrintPlotPoint [hot_character ?who ?]: I love ?who. ?who is just so great.
+</code></pre>
+<p>This will generate something like:</p>
+<blockquote>
+<p>I love Jayden.  They are so great.</p>
+</blockquote>
+<p>Because the second use of <code>?who</code> is the subject of a sentence, this is fine.  We want it to say &ldquo;they&rdquo; rather than &quot;them.&quot;  But if our code says:</p>
+<pre><code class="language-step">PrintPlotPoint [hot_character ?who ?]: I love ?who. I could just hug ?who.
+</code></pre>
+<p>Then we get something a little odd:</p>
+<blockquote>
+<p>I like Jayden.  I could just hug they.</p>
+</blockquote>
+<p>Here we want to use &ldquo;them&rdquo; rather than &ldquo;they&rdquo; because the second use of <code>?who</code> is the <em>object</em> of the verb rather than the subject.  This is easy to fix.  Just change <code>?x</code> to <code>?x/Obj</code>:</p>
+<pre><code class="language-step">PrintPlotPoint [hot_character ?who ?]: I love ?who. I could just hug ?who/Obj.
+</code></pre>
+<p>This will produce the correct text:</p>
+<blockquote>
+<p>I like Jayden.  I could just hug them.</p>
+</blockquote>
+<p>When you see your code is generating pronouns in the wrong case, just change it as follows:</p>
+<ul>
+<li><code>?x</code><br />
+Prints they/she/he</li>
+<li><code>?x/Obj</code><br />
+Prints them/her/him</li>
+<li><code>?x/Possessive</code><br />
+Prints their/her/his</li>
+</ul>
+<h3 id="verb-conjugation">Verb conjugation</h3>
+<p>Hopefully this won’t affect you for this assignment.  I didn’t have to use it for my reference solution, but you may want to generate more ambitious text than I did.  As discussed in the reading, you sometimes want to generate different forms of verbs, depending on how the subject is in third-person plural or not.  We’ve provided you with <a href="Subject-verb_agreement.html">the <code>[Is]</code> task from the reading</a>, which prints “is” or “are”, depending on what’s appropriate, as well as <code>[Has]</code>, which prints “has” or “have” as appropriate.  For example:</p>
+<pre><code class="language-step">PrintPlotPoint [got_together ?a ?b]: ?a [Is] going out with ?b
+</code></pre>
+<p>Will generate “bill is going out with jenny” or “he is going out with jenny”, but “they are going out with jenny” when ?who is realized with the pronoun they.</p>
+<p>For regular verbs, you can add <code>[s]</code> at the end of the verb and it will add an -s or an -es, as appropriate.  For example:</p>
+<pre><code class="language-step">TestConjugation ?who: I like ?who.&amp;ensp; ?who read[s] books.
+</code></pre>
+<p>Will generate:</p>
+<blockquote>
+<p>I like Jayden.  They read books.</p>
+</blockquote>
+<p>If Jayden’s preferred pronoun is they, but:</p>
+<blockquote>
+<p>I like Jayden.  He reads books.</p>
+</blockquote>
+<p>If Jayden’s preferred pronoun is he.</p>
+<p>The magic <code>[s]</code> task only works for regular verbs.  If you want to handle a different verb, then grab the code for Is from Mention.step and just change it for your verb.  Or just post to Discord and we’ll walk you through it.</p>
+<h2 id="part-four-invent-some-more-plot-points">Part four: Invent some more plot points</h2>
+<p>Now write <code>PlotPoint</code> and <code>PrintPlotPoint</code> methods for two more kinds of plot points.  They can be anything of your choosing, although they need to depend on the story world.  Feel free to add new information to the story world if you like.</p>
+<p>Some ideas:</p>
+<ul>
+<li>Two characters have a heart-to-heart discussion while at their club.  This would obviously only make sense when they’re in the same club.</li>
+<li>Two characters become friends after a fight.  For that, there’d need to be a reason for them to have the fight.  And they probably shouldn’t be dating, since people who are dating should probably already be friends.</li>
+<li>A werewolf character does something on the full moon</li>
+<li>A vampire character bites a human character</li>
+</ul>
+<h2 id="part-five-showing-off">Part five: showing off</h2>
+<p>At this point, you should be able to run <code>[Tweets]</code> over and over again and generate lots of tweets.  Do this until you find one or more that you like and post them to the <em>#MonsterHighlights</em> channel on Discord.</p>
+<h2 id="turning-it-in">Turning it in</h2>
+<p>Press <strong>Download program</strong> to save your code.  It will appear in your Download folder as <code>Saved.step</code>.  Now upload it to canvas.</p>
+<h2 id="grading">Grading</h2>
+<p>This assignment will be machine graded by running <code>PlotPoint</code> to verify that particular plot points that should exist can be generated by your code and that others that shouldn’t aren’t generated by your code.  Since you’re able to change your story world by adding and removing characters and romances, we’ll remove your characters and romance information and replace it with our own, just for testing purposes.</p>
+<p>Since we didn’t specify specific text to generate, we will not check that your code generates specific text.  We will just test that for each of the plot points specified in part 2, it is able to generate some text without failing or producing an error.</p>
+<h1 id="code">Code</h1>
+<p>Click below to run the code and start working with it.</p>
+<pre><code class="language-Step">###
+### Students
+###
+
+[randomly] 
+predicate IsA ?who ?what.
+# ?who (a student) is a ?what (human, vampire, etc.)
+
+# Fill in as you like
+IsA aniyah human.
+IsA tiana vampire.
+IsA cameron werewolf.
+IsA david witch.
+IsA jayden werewolf.
+IsA hailey ghost.
+IsA jada werewolf.
+
+[predicate] [randomly]
+RivalMonsterTypes vampire werewolf.
+
+[randomly]
+predicate InClub ?who ?club.
+# ?who is in the club ?club
+
+# Fill in as you like
+InClub aniyah ttrpg_club.
+InClub jayden ttrpg_club.
+InClub hailey track_team.
+InClub tiana ttrpg_club.
+
+###
+### Romances
+###
+
+[randomly]
+predicate CrushOn ?crusher ?crushee.
+# Crusher has a crush on crushee, not not necessarily the other way around
+
+[randomly]
+predicate AssertDating ?a ?b.
+# A and B are dating.&amp;ensp; Use this when you want to write a fact
+# stating that A and B are dating, but use CheckDating when
+# you want to ask if A and B are dating.
+
+[randomly]
+predicate Dating ?a ?b.
+# Check if A and B are dating
+Dating ?a ?b: [AssertDating ?a ?b]
+Dating ?a ?b: [AssertDating ?b ?a]
+
+# Write the romances for your school below
+
+CrushOn cameron jayden.
+CrushOn jayden cameron.
+AssertDating jayden cameron.
+
+CrushOn tiana jayden.
+CrushOn jayden tiana.
+CrushOn hailey jada.
+CrushOn hailey cameron.
+
+CrushOn jayden david.
+
+CrushOn aniyah jada.
+AssertDating aniyah jada.
+
+AssertDating hailey cameron.
+
+###
+### Queries
+###
+
+predicate UnrequitedLove ?crusher ?crushee.
+# Crusher has an unrequired crush on crushee.
+UnrequitedLove ?a ?b: [CrushOn ?a ?b] [Not [CrushOn ?b ?a]]
+
+# MutualAttraction ?a ?b
+# True if ?a and ?b have crushes on each other
+[predicate]
+MutualAttraction ?a ?b: [CrushOn ?a ?b] [CrushOn ?b ?a]
+
+predicate Student ?who.
+# True if ?who is a student.
+# Write a rule to define Student in terms of IsA
+Student ?who: [IsA ?who ?]
+
+predicate SameClub ?a ?b.
+# A and B are in the same club.
+# Write a rule for SameClub here
+SameClub ?a ?b: [InClub ?a ?c] [InClub ?b ?c] [Not [= ?a ?b]]
+
+predicate LoveTriangle ?a ?b ?c.
+# A and B both have crushes on C
+# Write a rule here
+LoveTriangle ?rival1 ?rival2 ?sharedLoveInterest: [CrushOn ?rival1 ?sharedLoveInterest] [CrushOn ?rival2 ?sharedLoveInterest] [Not [= ?rival1 ?rival2]]
+
+predicate LovelessRelationship ?a ?b.
+# A and B are dating but not actually into each other
+# Write a rule here
+LovelessRelationship ?a ?b: [Dating ?a ?b] [Not [CrushOn ?a ?b]] [Not [CrushOn ?b ?a]]
+
+predicate CheatingOn ?cheater ?cheatee.
+# Cheater and cheatee are dating, but cheater is also dating someone else
+# Write a rule here
+CheatingOn ?a ?b: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
+
+predicate CheatingOnWith ?cheater ?cheatee ?other.
+# Cheater and cheatee are dating, but cheater is also dating other
+# Write a rule here
+CheatingOnWith ?a ?b ?c: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
+
+predicate PossibleRomance ?a ?b.
+# A and B are into each other and in the same club, but not presently dating
+# Write a rule here
+PossibleRomance ?a ?b: [MutualAttraction ?a ?b] [Not [Dating ?a ?b]] [OpportunityToMeet ?a ?b]
+
+[predicate]
+OpportunityToMeet ?a ?b: [SameClub ?a ?b]
+
+###
+### Twitter
+###
+
+# Print 6 tweets
+Tweets: [Tweet] [Tweet] [Tweet] [Tweet] [Tweet] [Tweet]
+
+# Tweet
+# Print a tweet for a randomly selected plot point.
+Tweet: &lt;b&gt;Monster Highlights&lt;/b&gt; [NewLine] @MonsterHighlights [NewLine] [ClearContext] [Event] [Paragraph]
+
+# Event
+# Generate a random plot point and print it.
+Event: [PlotPoint ?event] [PrintPlotPoint ?event]
+
+###
+### What you need to write
+###
+
+[randomly]
+predicate PlotPoint ?event.
+# ?event is a possible plot point in a Monster High episode given
+# the characters and their relationships.&amp;ensp; Fill in methods for this,
+# below.
+
+[randomly]
+task PrintPlotPoint ?event.
+# Generate text to describe the specified plot point. Fill in methods
+# for this, below.
+
+###
+### Utilities
+###
+
+# Find all the solutions to ?query and for each one, print ?var.
+# This only makes sense if ?var appears in ?query.
+PrintAll ?var ?query: [DoAll ?query [Write ?var] [NewLine]]
+
+# Find all solutions to ?query and for each one print ?a and ?b.
+# Again, only makes sense if ?a and ?b appear in ?query.
+PrintAllPairs ?a ?b ?query: [DoAll ?query [Write ?a] [Write ?b] [NewLine]]
+
+###
+### Mention
+###
+
+###
+### Stuff you can call from your code (you would use these in PrintPlotPoint):
+###
+### Mention ?x      (or just ?x)
+### Prints ?x.&amp;ensp; If it uses a pronoun, it will be he/she/they rather than him/her/them
+###
+### Obj ?x          (or just ?x/Obj)
+### Prints ?x, but if it uses a pronoun, uses him/her/them rather than he/she/they
+###
+### Possessive ?x   (or just ?x/Possessive)
+### Prints ?x's or his/her/their, as appropriate
+###
+### Plural ?x       (or just ?x/Plural)
+### Tries to guess the plural of ?x and prints it.
+###
+
+### Using gendered pronouns (optional)
+###
+### By default the system will use they/their for all students.&amp;ensp; If you want it to
+### use gendered pronouns, add facts saying:
+###
+###     PreferredPronoun &lt;student&gt; &lt;pronoun&gt;
+###
+### where &lt;student&gt; is the student student you're specifying the pronoun for and
+### &lt;pronoun&gt; is either he, she, or they.
+###
+### If you want to specify gendered pronouns, I would recommend you add these to
+### Student.step.
+
+ClearContext:
+  [set Him = nothing]
+  [set Her = nobody]
+  [set Them = nobody]
+  [set It = nothing]
+  [set ThirdPersonSingular = true]
+  [set MentionedPlural = false]
+[end]
+
+initially: [ClearContext]
+
+# Mention ?x
+# Print ?x however is appropriate, and keeping track of pronouns.
+Mention Him: he [set ThirdPersonSingular = true] [set MentionedPlural = false]
+Mention Her: she [set ThirdPersonSingular = true] [set MentionedPlural = false]
+Mention Them: they [set ThirdPersonSingular = false] [set MentionedPlural = true] 
+Mention It: it [set ThirdPersonSingular = true] [set MentionedPlural = false]
+Mention ?x: ?x/Print [NotePronouns ?x] [set ThirdPersonSingular = true] [set MentionedPlural = false]
+
+# Update Him/Her/Them/It based on the argument.
+NotePronouns ?who: [Student ?who] [NotePersonalPronouns ?who]
+NotePronouns ?what: [set It = ?what]
+
+# Update Him/Her/Them based on the preferred pronouns of the character.
+NotePersonalPronouns ?who: [PreferredPronoun ?who he] [set Him = ?who]
+NotePersonalPronouns ?who: [PreferredPronoun ?who she] [set Her = ?who]
+NotePersonalPronouns ?who: [set Them = ?who] 
+
+# Obj ?x
+# Like Mention, but prints in object case (substitutes him for he, etc.)
+Obj Him: him [set MentionedPlural = false] [set ThirdPersonSingular = truee]
+Obj Her: her [set MentionedPlural = false] [set ThirdPersonSingular = true]
+Obj Them: them [set MentionedPlural = true] [set ThirdPersonSingular = false]
+Obj It: it [set MentionedPlural = false] [set ThirdPersonSingular = true]
+Obj ?x: [Mention ?x]
+
+
+Print ?who: [Student ?who] ?who/WriteCapitalized
+Print ?x: ?x/Write
+
+# Possessive ?x
+# Generates the possessive case of x - either &quot;x's&quot; or a possessive pronoun.
+Possessive Him: his
+Possessive Her: her
+Possessive Them: their
+Possessive It: its
+Possessive ?x: ?x's
+
+Plural werewolf: werewolves
+Plural ?x: ?x/NounSingularPlural/Write
+
+Has: [MentionedPlural] have
+Has: has
+
+Is: [MentionedPlural] are
+Is: is
+
+predicate PreferredPronoun ?who ?heshethey.
+</code></pre>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Exercises</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Making_grammars.html" id="section_page_1"> Making grammars </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logic_databases.html" id="section_page_2"> Logic databases </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Monster_Highlights.html" id="section_page_3"> <b> Assignment: Monster High fandom </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="STRIPS_planning.html" id="section_page_4"> STRIPS planning </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation: (click or use arrow keys)</h5>
+	<p>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="STRIPS_planning.html"><b>Next:</b> STRIPS planning</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Monster_high.html"><b>Previous:</b> Monster High</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Exercises.html"><b>Up:</b> Exercises</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Background.html"><b>Previous section:</b> Background appendices</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Monster_Highlights.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

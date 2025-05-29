@@ -54,8 +54,8 @@
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 			<h1><a class="simplelink" href="index.html">Higher-order tasks</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   early draft
 					</span>
 					</p>
 		</div>
@@ -86,8 +86,64 @@
 
 			<div class="container shadow blog-contents">
 
-<h2 id="under-construction">Under construction</h2>
-<p>Placeholder</p>
+<p>We've seen, some tasks calls to run as parameters.  These are known as <a href="https://en.wikipedia.org/wiki/Higher-order_function">high-order tasks</a>.  Higher-order tasks are used to do most of the complicated algorithmic work in logic programming, but they also have other uses.</p>
+<p>There are a number of higher-order primitives, such as <code>Not</code>, but it's also common to write your own higher-order tasks.</p>
+<h2 id="higher-order-primitives">Higher-order primitives</h2>
+<p>Most higher-order primitive tasks either:</p>
+<ul>
+<li>Ask whether has a successful path <strong>exists</strong> for a given call, as with <code>Not</code>, or</li>
+<li>Ask something about <strong>all</strong> successful paths for the call.  These are the looping constructs of logic programs.  For example, <code>ForEach</code> and <code>Implies</code> ask whether something is true for all possible execution paths.  And <code>FindAll</code> and <code>AccumulateOutput</code>, which aggregate information about all successful paths of a call.</li>
+</ul>
+<p>There are a few special-purpose higher-order primitives used for things like catching exceptions or controlling Step's search mechanisms, but those are relatively advanced features.</p>
+<h2 id="examples">Examples</h2>
+<p>Suppose we run:</p>
+<pre><code class="language-Step">[Member ?who [tanya jayden kimiko]]
+</code></pre>
+<p>This asks for a <code>?who</code> that is a member of the tuple <code>[tanya jayden kimiko]</code>.  It has one choice path for each element of the tuple, and all the choice paths are solutions:</p>
+<pre class="mermaid">graph TB
+    start("[Member ?who [tanya jayden kimiko]]") -- "?who=tanya" --> ea[Succeed]
+    style ea fill:green;
+    start -- "?who=jayden" --> eb[Succeed]
+    style eb fill:green;
+    start -- "?who=kimiko" --> ec[Succeed]
+    style ec fill:green;
+</pre>
+<p>If instead we run:</p>
+<pre><code class="language-Step">[Member ?who [tanya jayden kimiko]] [Like ?who mexican]
+</code></pre>
+<p>we're asking &ldquo;is there someone in the list who likes mexican food?&rdquo;  If our database says:</p>
+<pre><code class="language-step">[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+</code></pre>
+<p>then the choice diagram for it is:</p>
+<pre class="mermaid">graph TB
+    start("[Member ?who [tanya jayden kimiko]]") -- "?who=tanya" --> callt("[Likes tanya mexican]") --> ea[Succeed]
+    style ea fill:green;
+    start -- "?who=jayden" --> callj("[Likes jayden mexican]") -->eb[Fail]
+    style eb fill:red;
+    start -- "?who=kimiko" --> callk("[Likes tanya mexican]") --> ec[Succeed]
+    style ec fill:green;
+</pre>
+<p>And, as we said, we're basically asking if there is <strong>some</strong> success path in the diagram.</p>
+<h3 id="checking-all-paths">Checking all paths</h3>
+<p>Now suppose we run:</p>
+<pre><code class="language-Step">[Implies [Member ?who [tanya jayden kimiko]] [Like ?who mexican]]
+</code></pre>
+<p>This asks <strong>does everyone in the list like Mexican food?</strong></p>
+<h2 id="code-as-tuples">Code as tuples</h2>
+<p>As we've mentioned before, when you say:</p>
+<pre><code class="language-step">[Not [Number ?who]]
+</code></pre>
+<p>you are technically calling a predicate, <code>Not</code>, whose parameter is the <strong>tuple</strong> <code>[Number ?x]</code>.  The fact that tuples and calls are spelled the same way allows us to pass code as parameters to predicates and other tasks.</p>
+<p>For the most part, you don't have to think about this.  It matters if you're writing your own higher-order primitives, or in a few cases where you write a higher-order task that modifies the code before running it.  Otherwise, you can safely ignore it.  We mention it primarily to reassure anyone who feels confused about whether these parameters are calls or tuples: they are both in some sense.</p>
 
 
 
@@ -101,8 +157,11 @@
 <div class="container-fluid sidebar">
 			<h5>Higher-order tasks</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_1"> Logical connectives </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parse_primitive.html" id="section_page_2"> Parsing text </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="All_paths_predicates.html" id="section_page_1"> All-paths predicates </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_2"> Ands and Ors </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="primitive.html" id="section_page_3"> Parsing text </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_4"> Parsing </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Call_primitive.html" id="section_page_5"> The Call primitive </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -113,10 +172,10 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Logical_connectives.html"><b>Next:</b> Logical connectives</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="All_paths_predicates.html"><b>Next:</b> All-paths predicates</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
 					if (e.key == 'ArrowRight' || e.key == "Return")
 					  document.getElementById('NextPage').click()
 				}, false);
@@ -134,6 +193,13 @@
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html"><b>Previous section:</b> Primitive tasks (technical)</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
 	</p>

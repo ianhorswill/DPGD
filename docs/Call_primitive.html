@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Parsing text</title>
+	<title>The Call primitive</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Parsing text">
-	<meta name="twitter:title" content="Parsing text">
-	<meta property="og:title" content="Parsing text" />
+	<meta itemprop="name" content="The Call primitive">
+	<meta name="twitter:title" content="The Call primitive">
+	<meta property="og:title" content="The Call primitive" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,10 +53,10 @@
 				<a class="backgroundlink" href="Part_I.html"> Part I </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Higher-order_tasks.html"> Higher-order tasks </a>
-			<h1><a class="simplelink" href="index.html">Parsing text</a></h1>
+			<h1><a class="simplelink" href="index.html">The Call primitive</a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   early draft
 					</span>
 					</p>
 		</div>
@@ -87,6 +87,13 @@
 
 			<div class="container shadow blog-contents">
 
+<p>The simplest and most fundamental higher-order primitive is <code>Call</code>, which just calls its parameter: <code>[Call </code><em>code</em><code>]</code> runs <em>code</em>.  If <em>code</em> succeeds, then <code>Call</code> succeeds.  If <em>code</em> fails, then <code>Call</code> fails.</p>
+<p>So:</p>
+<pre><code class="language-step">[Call [Write hello]]
+</code></pre>
+<p>behaves exactly as if you'd typed:</p>
+<pre><code class="language-step">[Write hello]
+</code></pre>
 
 
 
@@ -100,8 +107,11 @@
 <div class="container-fluid sidebar">
 			<h5>Higher-order tasks</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_1"> Logical connectives </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Parse_primitive.html" id="section_page_2"> <b> Parsing text </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="All_paths_predicates.html" id="section_page_1"> All-paths predicates </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_2"> Ands and Ors </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="primitive.html" id="section_page_3"> Parsing text </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_4"> Parsing </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Call_primitive.html" id="section_page_5"> <b> The Call primitive </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -115,12 +125,12 @@
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Constraint_programming.html"><b>Next:</b> Constraint programming</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
 					if (e.key == 'ArrowRight' || e.key == "Return")
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Logical_connectives.html"><b>Previous:</b> Logical connectives</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Parsing.html"><b>Previous:</b> Parsing</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -135,9 +145,16 @@
 					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
 				}, false);
 			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html"><b>Previous section:</b> Primitive tasks (technical)</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Parse_primitive.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Call_primitive.html">Send feedback on this page</a>
 	</div>
 </div>
 

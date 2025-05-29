@@ -174,7 +174,7 @@ Likes ? pizza.
 			<a style="text-align: left;" class="simplelink" id="NextPage" href="Complex_questions.html"><b>Next:</b> Building complex questions</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
 					if (e.key == 'ArrowRight' || e.key == "Return")
 					  document.getElementById('NextPage').click()
 				}, false);
@@ -192,6 +192,20 @@ Likes ? pizza.
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="State.html"><b>Next section:</b> State</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html"><b>Previous section:</b> Parameterized grammars</a><br>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
 	</p>
