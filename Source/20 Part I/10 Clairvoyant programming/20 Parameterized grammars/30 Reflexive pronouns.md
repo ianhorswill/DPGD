@@ -1,5 +1,5 @@
 ---
-pagetitle: "Methods for specific parameters"
+pagetitle: "Methods for specific parameter values"
 status: alpha
 ---
 The "themself" example brings up the issue that English *marks* certain words for gender: “himself” implies the person spoken of identifies as male or otherwise prefers male pronouns.  However, the code above uses the fixed text “themself” regardless of who the `?giver` is.

@@ -66,9 +66,9 @@
 				{
 					<text>&nbsp;&#x25BB;&nbsp;</text>
 				}
-				<a class="backgroundlink" href="@page.PageLink"> @page.EffectiveShortTitle </a>
+				<a class="backgroundlink" href="@page.PageLink"> @Raw(page.EffectiveShortTitle) </a>
 			}
-			<h1><a class="simplelink" href="index.html">@Model.PageTitle</a></h1>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">@Raw(Model.PageTitle)</a></h1>
 			@{
 				if (!Model.IsReleased)
 				{

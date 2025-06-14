@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Global variables and set commands</title>
+	<title>Global variables and the &lt;code&gt;set&lt;/code&gt; command&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Global variables and set commands">
-	<meta name="twitter:title" content="Global variables and set commands">
-	<meta property="og:title" content="Global variables and set commands" />
+	<meta itemprop="name" content="Global variables and the &lt;code&gt;set&lt;/code&gt; command&#xA;">
+	<meta name="twitter:title" content="Global variables and the &lt;code&gt;set&lt;/code&gt; command&#xA;">
+	<meta property="og:title" content="Global variables and the &lt;code&gt;set&lt;/code&gt; command&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,10 +50,14 @@
 
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="State.html"> State </a>
-			<h1><a class="simplelink" href="index.html">Global variables and set commands</a></h1>
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="State.html"> State
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Global variables and the <code>set</code> command
+</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -152,11 +156,15 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>State</h5>
+			<h5>State
+</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Matching_over_time.html" id="section_page_1"> Matching over time </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Global_variables.html" id="section_page_2"> <b> Global variables and set commands </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Fluents.html" id="section_page_3"> Fluents: predicates with state </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_over_time.html" id="section_page_1"> Matching over time
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Global_variables.html" id="section_page_2"> <b> Global variables and the <code>set</code> command
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Fluents.html" id="section_page_3"> Fluents: predicates with state
+ </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -167,7 +175,8 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Fluents.html"><b>Next:</b> Fluents: predicates with state</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Fluents.html"><b>Next:</b> Fluents: predicates with state
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -175,7 +184,8 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_over_time.html"><b>Previous:</b> Matching over time</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_over_time.html"><b>Previous:</b> Matching over time
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -183,21 +193,24 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="State.html"><b>Up:</b> State</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="State.html"><b>Up:</b> State
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Adaptive_generation.html"><b>Next section:</b> Adaptive generation</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Adaptive_generation.html"><b>Next section:</b> Adaptive generation
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html"><b>Previous section:</b> Simple logic programs</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html"><b>Previous section:</b> Simple logic programs
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return

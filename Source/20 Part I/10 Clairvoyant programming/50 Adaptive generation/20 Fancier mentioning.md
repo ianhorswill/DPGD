@@ -1,5 +1,5 @@
 ---
-pagetitle: Fancier mentioning
+pagetitle: Fancier `Mention`ing
 status: alpha
 ---
 Let's start by telling the system about our characters.  We'll start by telling it they're characters, for one thing:

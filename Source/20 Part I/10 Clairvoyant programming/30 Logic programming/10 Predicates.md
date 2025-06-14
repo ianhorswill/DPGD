@@ -2,7 +2,7 @@
 pagetitle: Predicates
 status: alpha
 ---
-As we just discussed, it's possible for all the methods of a task to fail, in which case the call itself fails.  In many cases, that's an error.  So by default, Step treats that as an error.  If we try running `[Dog morris]` below, we get an error:
+As we just discussed, it's possible for all the methods of a task to fail, in which case the call itself fails.  In many cases, that's a bug, so Step normally treats that as an error.  If we try running `[Dog morris]` below, we get an error:
 ```Step
 # Try: [Dog morris]
 Dog benji.

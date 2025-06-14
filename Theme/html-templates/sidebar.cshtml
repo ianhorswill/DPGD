@@ -6,16 +6,16 @@
 		var sec = Model.Children != null?Model:Model.Up??Model;
 		var counter = sec.NumberChildrenFrom;
 
-			<h5>@sec.EffectiveShortTitle</h5>
+			<h5>@Raw(sec.EffectiveShortTitle)</h5>
 			<ol start="@counter">
 			@foreach (var page in pages) {
 				if (page == Model)
 				{
-					<li class="sidebar"><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @page.PageTitle </b> </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @Raw(page.PageTitle) </b> </a> <br></li>
 				}
 				else
 				{
-					<li class="sidebar"><a class="backgroundlink" href="@page.PageLink" id="section_page_@counter"> @page.PageTitle </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="@page.PageLink" id="section_page_@counter"> @Raw(page.PageTitle) </a> <br></li>
 				}
 				counter++;
 			}
@@ -33,7 +33,7 @@
 	@{
 		if (Model.EffectiveNext != null)
 		{
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Model.EffectiveNext.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Raw(Model.EffectiveNext.EffectiveShortTitle)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -44,7 +44,7 @@
 		}
 		if (Model.EffectivePrevious != null)
 		{
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Model.EffectivePrevious.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Raw(Model.EffectivePrevious.EffectiveShortTitle)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -55,17 +55,17 @@
 		}
 		if (Model.Up != null)
 		{
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Model.Up.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Raw(Model.Up.EffectiveShortTitle)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
 		}
 		if (Model.NextSection != null)
 		{
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="@Model.NextSection.PageLink"><b>Next section:</b> @Model.NextSection.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="@Model.NextSection.PageLink"><b>Next section:</b> @Raw(Model.NextSection.EffectiveShortTitle)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -75,7 +75,7 @@
 		}
 		if (Model.PreviousSection != null)
 		{
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="@Model.PreviousSection.PageLink"><b>Previous section:</b> @Model.PreviousSection.EffectiveShortTitle</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="@Model.PreviousSection.PageLink"><b>Previous section:</b> @Raw(Model.PreviousSection.EffectiveShortTitle)</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return

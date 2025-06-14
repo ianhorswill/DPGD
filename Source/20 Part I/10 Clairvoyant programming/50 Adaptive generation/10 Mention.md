@@ -1,5 +1,5 @@
 ---
-pagetitle: Customizing output using Mention
+pagetitle: Customizing output using `Mention`
 status: alpha
 ---
 Let’s return to our `Greet` example that says hello to someone:

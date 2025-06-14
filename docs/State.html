@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>State and time in clairvoyant programming</title>
+	<title>State and time in clairvoyant programming&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="State and time in clairvoyant programming">
-	<meta name="twitter:title" content="State and time in clairvoyant programming">
-	<meta property="og:title" content="State and time in clairvoyant programming" />
+	<meta itemprop="name" content="State and time in clairvoyant programming&#xA;">
+	<meta name="twitter:title" content="State and time in clairvoyant programming&#xA;">
+	<meta property="og:title" content="State and time in clairvoyant programming&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,9 +50,12 @@
 
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-			<h1><a class="simplelink" href="index.html">State and time in clairvoyant programming</a></h1>
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">State and time in clairvoyant programming
+</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -91,10 +94,10 @@
 <blockquote>
 <p>If a method contains <strong>multiple operations</strong> &mdash; multiple calls, multiple pieces of output, or mixtures of calls and output &mdash; those operations are performed <strong>left-to-right</strong>.  Thus, leftmost operation is done first and the rightmost is last.</p>
 </blockquote>
-<p>That order can matter because each operation can <strong>change the state</strong> of the computer.  There are three main kinds of state that can change:</p>
+<p>That order can matter because each operation can <strong>change the state</strong> of the computer.  It particular, it can change:</p>
 <ul>
-<li>The <strong>output</strong> &mdash; printing adds to it</li>
-<li>The values of <strong>variables</strong> &mdash; matching can give values to local variables and the <code>set</code> operation can change the values of global variables</li>
+<li>The <strong>output</strong> by printing</li>
+<li>The values of <strong>variables</strong> by matching or using the <code>set</code> operation</li>
 <li>The status of special predicates called <strong>fluents</strong>, whose definition can be changed during execution using the <code>now</code> operation.</li>
 </ul>
 <p>You already know about output.  Now we'll talk about each of the others, in turn.</p>
@@ -118,11 +121,15 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>State</h5>
+			<h5>State
+</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Matching_over_time.html" id="section_page_1"> Matching over time </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Global_variables.html" id="section_page_2"> Global variables and set commands </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Fluents.html" id="section_page_3"> Fluents: predicates with state </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Matching_over_time.html" id="section_page_1"> Matching over time
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Global_variables.html" id="section_page_2"> Global variables and the <code>set</code> command
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Fluents.html" id="section_page_3"> Fluents: predicates with state
+ </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -133,7 +140,8 @@
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Matching_over_time.html"><b>Next:</b> Matching over time</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Matching_over_time.html"><b>Next:</b> Matching over time
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -141,7 +149,8 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Self-referential_rules.html"><b>Previous:</b> Self-referential rules</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Self-referential_rules.html"><b>Previous:</b> Self-referential rules
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -149,21 +158,24 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Adaptive_generation.html"><b>Next section:</b> Adaptive generation</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Adaptive_generation.html"><b>Next section:</b> Adaptive generation
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html"><b>Previous section:</b> Simple logic programs</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html"><b>Previous section:</b> Simple logic programs
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return

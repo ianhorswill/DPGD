@@ -90,7 +90,7 @@ It prints something like the following.  Don't worry about the fact that the sys
 
 > Before calls: *?who0 ?parent3*.  After first call: *?who0* marge.  After second call: lisa marge.
 
-It's printing *exactly the same variables* each time.  However, printing captures a variable's state at the moment of printing so it makes visible the variables' progression from being unbound to bound.
+It's printing *exactly the same variables* each time.  However, printing captures a variable's state at the moment of printing.  So this example makes visible the variables' progression from being unbound to bound.
 
 Similar issues will come up when we talk about [primitive tasks and predicates](primitive_tasks).  For example, it's not obvious what answer `Different` should return if we call it with two different unbound variables, as in `[Different ?a ?b]`.  Should it succeed because they're different variables, or fail because they might become equal in the future?
 

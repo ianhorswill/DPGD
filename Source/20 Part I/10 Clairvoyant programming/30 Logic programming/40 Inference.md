@@ -19,7 +19,7 @@ For example, let's assume we've defined a predicate `Parent` so that `[Parent ?x
 [predicate]
 Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent]
 ```
-As far as the computer is concerned, that’s just a rule that says “if trying to run `Siblings`, one way to do it is to first run `[Parent ?a ?parent]`, and if that succeeds, run `[Parent ?b ?parent]`”.  But another way of looking at it is that the method can only succeed if `?a` and `?b` have the same parent.  So we could read it as a rule that effectively says that **people are siblings if they share a parent**.
+As far as the computer is concerned, that’s just a rule that says “if trying to run `Siblings`, first run `[Parent ?a ?parent]`, and if that succeeds, run `[Parent ?b ?parent]`”.  But another way of looking at it is that the method can only succeed if `?a` and `?b` have the same `?parent`.  So we could read it as a rule that effectively says that **people are siblings if they share a parent**.
 
 This is a general technique we can use to write rules of the form “this is true if these things are also true.”  If we want to say A is true if B is true, we write:
 ```step

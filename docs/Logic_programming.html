@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Simple logic programs</title>
+	<title>Simple logic programs&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Simple logic programs">
-	<meta name="twitter:title" content="Simple logic programs">
-	<meta property="og:title" content="Simple logic programs" />
+	<meta itemprop="name" content="Simple logic programs&#xA;">
+	<meta name="twitter:title" content="Simple logic programs&#xA;">
+	<meta property="og:title" content="Simple logic programs&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,9 +50,12 @@
 
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-			<h1><a class="simplelink" href="index.html">Simple logic programs</a></h1>
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Simple logic programs
+</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -140,7 +143,7 @@ Cat garfield.
   start -- "&lt;b>Dog lassie.&lt;/b>" --> f2(Fail)
   style f2 fill:red
 </pre>
-<p>Neither method matches, so both methods fail.  That means <strong>the call itself fails</strong>.<a id="fnref:2" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  The command line prints &ldquo;no&rdquo;.</p>
+<p>Neither method matches, so both methods fail.  That means <strong>the call itself fails</strong>.  The command line prints &ldquo;no&rdquo;.</p>
 <p>So <code>Dog</code> executes successfully &ndash; it <strong>succeeds</strong> &ndash; if you call it with a parameter it knows to be a dog.  It <strong>fails</strong> if you call it with a something else.  So we can test the doghood of something by calling <code>Dog</code> with the something as a parameter.</p>
 <p>Now what happens if we run <code>[Dog ?x]</code>?</p>
 <pre><code class="language-Step"># Try: [Dog ?]
@@ -179,9 +182,9 @@ Dog lassie.
 
 [predicate]
 Cat morris.
-Cat garfield.&amp;ensp; 
+Cat garfield.
 </code></pre>
-<p>It starts by choosing <code>Animal</code> method, but depending on the method then calls either <code>Dog</code> or <code>Cat</code>.  So then it chooses a method for that.  Here's the choice tree:</p>
+<p>It starts by choosing a method for <code>Animal</code>.  The chosen method then calls either <code>Dog</code> or <code>Cat</code>, so then it chooses a method for that.  Here's the choice tree:</p>
 <pre class="mermaid">graph TB
     start("[Animal lassie]") -- "&lt;b>Animal ?x: [Dog ?x]&lt;/b> &lt;br> ?x = lassie" --> dog("[Dog lassie]")
     dog -- "&lt;b>Dog benji.&lt;/b>" --> f1(Fail)
@@ -208,7 +211,7 @@ Dog lassie.
 
 [predicate]
 Cat morris.
-Cat garfield.&amp;ensp; 
+Cat garfield.
 </code></pre>
 <p>It's basically the same choice tree, but with different variable values, and so a different solution path:</p>
 <pre class="mermaid">graph TB
@@ -236,7 +239,7 @@ Dog lassie.
 
 [predicate]
 Cat morris.
-Cat garfield.&amp;ensp; 
+Cat garfield.
 </code></pre>
 <p>Because every possible set of choices fails:</p>
 <pre class="mermaid">graph TB
@@ -278,7 +281,7 @@ Dog lassie.
 
 [predicate] [randomly]
 Cat morris.
-Cat garfield.&amp;ensp; 
+Cat garfield.
 </code></pre>
 <p>Although the computer is really just matching calls to methods, we as humans can interpret the method:</p>
 <pre><code class="language-step">Animal ?x: [Dog ?x]
@@ -304,7 +307,7 @@ Cat garfield.&amp;ensp;
 <hr />
 <ol>
 <li id="fn:1">
-<p>As well talk about <a href="Predicates.html">shortly</a>, the <code>[predicate]</code> annotation simply tells Step not to consider failed calls to that task to be an error.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a><a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+<p>As well talk about <a href="Predicates.html">shortly</a>, the <code>[predicate]</code> annotation simply tells Step not to consider failed calls to that task to be an error.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -319,14 +322,21 @@ Cat garfield.&amp;ensp;
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Simple logic programs</h5>
+			<h5>Simple logic programs
+</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules
+ </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -337,7 +347,8 @@ Cat garfield.&amp;ensp;
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Predicates.html"><b>Next:</b> Predicates</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Predicates.html"><b>Next:</b> Predicates
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -345,7 +356,8 @@ Cat garfield.&amp;ensp;
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="How_matching_works.html"><b>Previous:</b> How matching works</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="How_matching_works.html"><b>Previous:</b> How matching works
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -353,21 +365,24 @@ Cat garfield.&amp;ensp;
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html"><b>Up:</b> Clairvoyant programming
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="State.html"><b>Next section:</b> State</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="State.html"><b>Next section:</b> State
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html"><b>Previous section:</b> Parameterized grammars</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html"><b>Previous section:</b> Parameterized grammars
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return

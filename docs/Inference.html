@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Inference</title>
+	<title>Inference&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Inference">
-	<meta name="twitter:title" content="Inference">
-	<meta property="og:title" content="Inference" />
+	<meta itemprop="name" content="Inference&#xA;">
+	<meta name="twitter:title" content="Inference&#xA;">
+	<meta property="og:title" content="Inference&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,10 +50,14 @@
 
 	<div class="container">
 		<div class="col-10 col-md-8 header-contents">
-				<a class="backgroundlink" href="Part_I.html"> Part I </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs </a>
-			<h1><a class="simplelink" href="index.html">Inference</a></h1>
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Inference
+</a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
 					   alpha test
@@ -96,7 +100,7 @@
 <pre><code class="language-step">[predicate]
 Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent]
 </code></pre>
-<p>As far as the computer is concerned, that’s just a rule that says “if trying to run <code>Siblings</code>, one way to do it is to first run <code>[Parent ?a ?parent]</code>, and if that succeeds, run <code>[Parent ?b ?parent]</code>”.  But another way of looking at it is that the method can only succeed if <code>?a</code> and <code>?b</code> have the same parent.  So we could read it as a rule that effectively says that <strong>people are siblings if they share a parent</strong>.</p>
+<p>As far as the computer is concerned, that’s just a rule that says “if trying to run <code>Siblings</code>, first run <code>[Parent ?a ?parent]</code>, and if that succeeds, run <code>[Parent ?b ?parent]</code>”.  But another way of looking at it is that the method can only succeed if <code>?a</code> and <code>?b</code> have the same <code>?parent</code>.  So we could read it as a rule that effectively says that <strong>people are siblings if they share a parent</strong>.</p>
 <p>This is a general technique we can use to write rules of the form “this is true if these things are also true.”  If we want to say A is true if B is true, we write:</p>
 <pre><code class="language-step">[predicate]
 A: [B]
@@ -252,14 +256,21 @@ Parent jimbo grandpa.
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Simple logic programs</h5>
+			<h5>Simple logic programs
+</h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Inference.html" id="section_page_4"> <b> Inference </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Inference.html" id="section_page_4"> <b> Inference
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Taxonomies.html" id="section_page_5"> Taxonomies
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_6"> Self-referential rules
+ </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -270,7 +281,8 @@ Parent jimbo grandpa.
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
 	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Taxonomies.html"><b>Next:</b> Taxonomies</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextPage" href="Taxonomies.html"><b>Next:</b> Taxonomies
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -278,7 +290,8 @@ Parent jimbo grandpa.
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Complex_questions.html"><b>Previous:</b> Building complex questions</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Complex_questions.html"><b>Previous:</b> Building complex questions
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -286,21 +299,24 @@ Parent jimbo grandpa.
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Logic_programming.html"><b>Up:</b> Simple logic programs</a><br>
+			<a style="text-align: left;" class="simplelink" id="UpPage" href="Logic_programming.html"><b>Up:</b> Simple logic programs
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowUp') document.getElementById('UpPage').click()
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="State.html"><b>Next section:</b> State</a><br>
+			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="State.html"><b>Next section:</b> State
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html"><b>Previous section:</b> Parameterized grammars</a><br>
+			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html"><b>Previous section:</b> Parameterized grammars
+</a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
