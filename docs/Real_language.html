@@ -144,8 +144,8 @@ But humans are way smarter than that.  If you take an example like:</p>
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
-	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Structured_data.html"><b>Next:</b> Structured data
+	<p style="text-align: left;">
+			<a class="simplelink" id="NextPage" href="Structured_data.html"><b>Next:</b> Structured data
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -154,7 +154,7 @@ But humans are way smarter than that.  If you take an example like:</p>
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Case.html"><b>Previous:</b> Subject and object case
+			<a class="simplelink" id="PreviousPage" href="Case.html"><b>Previous:</b> Subject and object case
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -163,7 +163,7 @@ But humans are way smarter than that.  If you take an example like:</p>
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Adaptive_generation.html"><b>Up:</b> Adaptive generation
+			<a class="simplelink" id="UpPage" href="Adaptive_generation.html"><b>Up:</b> Adaptive generation
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -171,7 +171,7 @@ But humans are way smarter than that.  If you take an example like:</p>
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Structured_data.html"><b>Next section:</b> Structured data
+			<a class="simplelink" id="NextSectionPage" href="Structured_data.html"><b>Next section:</b> Structured data
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -179,7 +179,7 @@ But humans are way smarter than that.  If you take an example like:</p>
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="State.html"><b>Previous section:</b> State
+			<a class="simplelink" id="PreviousSectionPage" href="State.html"><b>Previous section:</b> State
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {

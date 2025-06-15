@@ -91,7 +91,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Step has two kinds of variables, local and global.  We've mostly discussed local variables, whose names start with a &quot;<code>?</code>&quot;.  They're &ldquo;local to&rdquo; the particular method they appear in, meaning that if two different methods have variables named <code>?x</code>, those are different variables in the same way that two people named &ldquo;Jennifer&rdquo; are still different people.  Local variables start without a value, acquire a value through matching, and then never change that value.</p>
+<p>Step has two kinds of variables: local and global.  We've mostly discussed local variables, whose names start with a &quot;<code>?</code>&quot;.  They're &ldquo;local to&rdquo; the particular method they appear in, meaning that if two different methods have variables named <code>?x</code>, those are different variables in the same way that two people named &ldquo;Jennifer&rdquo; are still different people.  Local variables start without a value, acquire a value through matching, and then never change that value.</p>
 <p><strong>Global</strong> variables, whose names start with capital letters, are shared by all methods; hence the term &quot;global.&quot;  We'll talk about these now.</p>
 <h2 id="tasks-are-stored-in-global-variables">Tasks are stored in global variables</h2>
 <p>Names like <code>Siblings</code> and <code>Parent</code> are global variables.  In this case, the values they refer to are tasks, and so we tend to just say &ldquo;<code>Parent</code> is a task&rdquo;, or &ldquo;<code>Parent</code> is a predicate&rdquo; rather than the pedantically correct &quot;<code>Parent</code> is a global variable whose value is a task.&quot;  Technically, when we define a method, such as:</p>
@@ -174,8 +174,8 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
-	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Fluents.html"><b>Next:</b> Fluents: predicates with state
+	<p style="text-align: left;">
+			<a class="simplelink" id="NextPage" href="Fluents.html"><b>Next:</b> Fluents: predicates with state
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -184,7 +184,7 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Matching_over_time.html"><b>Previous:</b> Matching over time
+			<a class="simplelink" id="PreviousPage" href="Matching_over_time.html"><b>Previous:</b> Matching over time
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -193,7 +193,7 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="State.html"><b>Up:</b> State
+			<a class="simplelink" id="UpPage" href="State.html"><b>Up:</b> State
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -201,7 +201,7 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Adaptive_generation.html"><b>Next section:</b> Adaptive generation
+			<a class="simplelink" id="NextSectionPage" href="Adaptive_generation.html"><b>Next section:</b> Adaptive generation
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -209,7 +209,7 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html"><b>Previous section:</b> Simple logic programs
+			<a class="simplelink" id="PreviousSectionPage" href="Logic_programming.html"><b>Previous section:</b> Simple logic programs
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {

@@ -112,8 +112,8 @@
 	</p>
 	<br>
 	<h5>Navigation: (click or use arrow keys)</h5>
-	<p>
-			<a style="text-align: left;" class="simplelink" id="NextPage" href="Part_II.html"><b>Next:</b> Part II
+	<p style="text-align: left;">
+			<a class="simplelink" id="NextPage" href="Part_II.html"><b>Next:</b> Part II
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -122,7 +122,7 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousPage" href="Call_primitive.html"><b>Previous:</b> The Call primitive
+			<a class="simplelink" id="PreviousPage" href="Call_primitive.html"><b>Previous:</b> The Call primitive
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -131,7 +131,7 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="UpPage" href="Part_I.html"><b>Up:</b> Part I
+			<a class="simplelink" id="UpPage" href="Part_I.html"><b>Up:</b> Part I
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -139,7 +139,7 @@
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="NextSectionPage" href="Part_II.html"><b>Next section:</b> Part II
+			<a class="simplelink" id="NextSectionPage" href="Part_II.html"><b>Next section:</b> Part II
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {
@@ -147,7 +147,7 @@
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a style="text-align: left;" class="simplelink" id="PreviousSectionPage" href="Introduction.html"><b>Previous section:</b> Technical introduction
+			<a class="simplelink" id="PreviousSectionPage" href="Introduction.html"><b>Previous section:</b> Technical introduction
 </a><br>
 			<script>
 				document.addEventListener('keyup', function(e) {

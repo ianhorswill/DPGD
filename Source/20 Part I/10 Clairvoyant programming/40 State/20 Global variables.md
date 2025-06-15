@@ -2,7 +2,7 @@
 pagetitle: Global variables and the `set` command
 status: alpha
 ---
-Step has two kinds of variables, local and global.  We've mostly discussed local variables, whose names start with a "`?`".  They're "local to" the particular method they appear in, meaning that if two different methods have variables named `?x`, those are different variables in the same way that two people named "Jennifer" are still different people.  Local variables start without a value, acquire a value through matching, and then never change that value.
+Step has two kinds of variables: local and global.  We've mostly discussed local variables, whose names start with a "`?`".  They're "local to" the particular method they appear in, meaning that if two different methods have variables named `?x`, those are different variables in the same way that two people named "Jennifer" are still different people.  Local variables start without a value, acquire a value through matching, and then never change that value.
 
 **Global** variables, whose names start with capital letters, are shared by all methods; hence the term "global."  We'll talk about these now.
 
