@@ -35,7 +35,7 @@
 		if (Model.EffectiveNext != null)
 		{
 			<tr style="border: none;">
-				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
 					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink">@Raw(Model.EffectiveNext.EffectiveShortTitle)</a><br>
 				</td>
@@ -52,7 +52,7 @@
 		if (Model.EffectivePrevious != null)
 		{
 			<tr style="border: none;">
-				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
 					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink">@Raw(Model.EffectivePrevious.EffectiveShortTitle)</a><br>
 				</td>
@@ -68,7 +68,7 @@
 		if (Model.Up != null)
 		{
 			<tr style="border: none;">
-				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
 					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="@Model.Up.PageLink">@Raw(Model.Up.EffectiveShortTitle)</a><br>
 				</td>
@@ -83,7 +83,7 @@
 		if (Model.NextSection != null)
 		{
 			<tr style="border: none;">
-				<td style="border: none;"><b>Next &sect;:</b></td>
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
 					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="@Model.NextSection.PageLink">@Raw(Model.NextSection.EffectiveShortTitle)</a><br>
 				</td>
@@ -98,7 +98,7 @@
 		if (Model.PreviousSection != null)
 		{
 			<tr style="border: none;">
-				<td style="border: none;"><b>Prev &sect;:</b></td>
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
 					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="@Model.PreviousSection.PageLink">@Raw(Model.PreviousSection.EffectiveShortTitle)</a><br>
 				</td>
