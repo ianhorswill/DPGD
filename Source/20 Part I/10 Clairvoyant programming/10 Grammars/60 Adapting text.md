@@ -1,5 +1,5 @@
 ---
-pagetitle: "Omake: a silly grammar"
+pagetitle: "*omake*: A silly grammar"
 status: alpha
 ---
 The Situationist International’s 1960 manifesto begins:

@@ -161,10 +161,16 @@
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
-			<a class="simplelink" id="NextPage" href="Introduction.html"><b>Next:</b> Technical introduction
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Introduction.html">Technical introduction
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -172,6 +178,7 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/index.html">Send feedback on this page</a>

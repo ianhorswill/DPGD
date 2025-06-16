@@ -159,7 +159,7 @@ Verb: chased
  </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Context-free_grammars.html" id="section_page_5"> Context-free grammars
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Adapting_text.html" id="section_page_6"> Omake: a silly grammar
+					<li class="sidebar"><a class="backgroundlink" href="Adapting_text.html" id="section_page_6"> <em>omake</em>: A silly grammar
  </a> <br></li>
 			</ol>
 	<script>
@@ -169,10 +169,16 @@ Verb: chased
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
-			<a class="simplelink" id="NextPage" href="Context-free_grammars.html"><b>Next:</b> Context-free grammars
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Context-free_grammars.html">Context-free grammars
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -180,8 +186,13 @@ Verb: chased
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Text_substitution.html"><b>Previous:</b> Text substitution
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Text_substitution.html">Text substitution
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -189,22 +200,33 @@ Verb: chased
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Grammars.html"><b>Up:</b> Simple grammars
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Grammars.html">Simple grammars
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="NextSectionPage" href="Parameterized_grammars.html"><b>Next section:</b> Parameterized grammars
+			<tr style="border: none;">
+				<td style="border: none;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Choice_machines.html">Send feedback on this page</a>

@@ -153,10 +153,16 @@ DayOfWeek sunday.
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
-			<a class="simplelink" id="NextPage" href="Monster_high.html"><b>Next:</b> Monster High
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Monster_high.html">Monster High
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -164,8 +170,13 @@ DayOfWeek sunday.
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Logic_databases.html"><b>Previous:</b> Logic databases
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Logic_databases.html">Logic databases
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -173,30 +184,46 @@ DayOfWeek sunday.
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Logic_databases.html"><b>Up:</b> Logic databases
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Logic_databases.html">Logic databases
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="NextSectionPage" href="Monster_Highlights.html"><b>Next section:</b> Assignment: Monster High fandom
+			<tr style="border: none;">
+				<td style="border: none;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Monster_Highlights.html">Assignment: Monster High fandom
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousSectionPage" href="Making_grammars.html"><b>Previous section:</b> Making grammars
+			<tr style="border: none;">
+				<td style="border: none;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Making_grammars.html">Making grammars
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Class_database.html">Send feedback on this page</a>

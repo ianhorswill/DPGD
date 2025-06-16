@@ -113,10 +113,16 @@
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
-			<a class="simplelink" id="NextPage" href="Logic.html"><b>Next:</b> Logic
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Logic.html">Logic
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -124,8 +130,13 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Homogeneous_relations.html"><b>Previous:</b> Homogeneous relations
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Homogeneous_relations.html">Homogeneous relations
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -133,30 +144,46 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Mathematics.html"><b>Up:</b> Mathematics
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Mathematics.html">Mathematics
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="NextSectionPage" href="Logic.html"><b>Next section:</b> Logic
+			<tr style="border: none;">
+				<td style="border: none;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Logic.html">Logic
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousSectionPage" href="Philosophy.html"><b>Previous section:</b> Philosophy
+			<tr style="border: none;">
+				<td style="border: none;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Philosophy.html">Philosophy
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Graphs.html">Send feedback on this page</a>

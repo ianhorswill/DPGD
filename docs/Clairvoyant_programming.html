@@ -157,10 +157,16 @@
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
-			<a class="simplelink" id="NextPage" href="Grammars.html"><b>Next:</b> Simple grammars
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Grammars.html">Simple grammars
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -168,8 +174,13 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Part_I.html"><b>Previous:</b> Part I
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Part_I.html">Part I
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -177,22 +188,33 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Part_I.html"><b>Up:</b> Part I
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Part_I.html">Part I
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="NextSectionPage" href="Constraint_programming.html"><b>Next section:</b> Constraint programming
+			<tr style="border: none;">
+				<td style="border: none;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Constraint_programming.html">Constraint programming
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Clairvoyant_programming.html">Send feedback on this page</a>

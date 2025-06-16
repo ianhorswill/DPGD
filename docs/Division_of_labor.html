@@ -120,10 +120,16 @@
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
-			<a class="simplelink" id="NextPage" href="Exploration_and_experimentation.html"><b>Next:</b> Exploration and experimentation
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Exploration_and_experimentation.html">Exploration and experimentation
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -131,8 +137,13 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousPage" href="Cost.html"><b>Previous:</b> Cost
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Cost.html">Cost
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -140,22 +151,33 @@
 						document.getElementById('PreviousPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="UpPage" href="Advantages.html"><b>Up:</b> Advantages
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Advantages.html">Advantages
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<a class="simplelink" id="PreviousSectionPage" href="Limitations.html"><b>Previous section:</b> Limitations
+			<tr style="border: none;">
+				<td style="border: none;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Limitations.html">Limitations
 </a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Division_of_labor.html">Send feedback on this page</a>

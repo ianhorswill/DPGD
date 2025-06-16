@@ -28,12 +28,18 @@
 	</script>
 	</p>
 	<br>
-	<h5>Navigation: (click or use arrow keys)</h5>
+	<h5>Navigation</h5>
 	<p style="text-align: left;">
+	<table style="border: none;">
 	@{
 		if (Model.EffectiveNext != null)
 		{
-			<a class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink"><b>Next:</b> @Raw(Model.EffectiveNext.EffectiveShortTitle)</a><br>
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink">@Raw(Model.EffectiveNext.EffectiveShortTitle)</a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
@@ -41,10 +47,16 @@
 					  document.getElementById('NextPage').click()
 				}, false);
 			</script>
+			
 		}
 		if (Model.EffectivePrevious != null)
 		{
-			<a class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink"><b>Previous:</b> @Raw(Model.EffectivePrevious.EffectiveShortTitle)</a><br>
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink">@Raw(Model.EffectivePrevious.EffectiveShortTitle)</a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -55,7 +67,12 @@
 		}
 		if (Model.Up != null)
 		{
-			<a class="simplelink" id="UpPage" href="@Model.Up.PageLink"><b>Up:</b> @Raw(Model.Up.EffectiveShortTitle)</a><br>
+			<tr style="border: none;">
+				<td style="border: none;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="@Model.Up.PageLink">@Raw(Model.Up.EffectiveShortTitle)</a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -65,7 +82,12 @@
 		}
 		if (Model.NextSection != null)
 		{
-			<a class="simplelink" id="NextSectionPage" href="@Model.NextSection.PageLink"><b>Next section:</b> @Raw(Model.NextSection.EffectiveShortTitle)</a><br>
+			<tr style="border: none;">
+				<td style="border: none;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="@Model.NextSection.PageLink">@Raw(Model.NextSection.EffectiveShortTitle)</a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -75,7 +97,12 @@
 		}
 		if (Model.PreviousSection != null)
 		{
-			<a class="simplelink" id="PreviousSectionPage" href="@Model.PreviousSection.PageLink"><b>Previous section:</b> @Raw(Model.PreviousSection.EffectiveShortTitle)</a><br>
+			<tr style="border: none;">
+				<td style="border: none;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="@Model.PreviousSection.PageLink">@Raw(Model.PreviousSection.EffectiveShortTitle)</a><br>
+				</td>
+			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
@@ -84,6 +111,7 @@
 			</script>
 		}
 	}
+	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
 		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/@Model.PageLink">Send feedback on this page</a>
