@@ -49,7 +49,7 @@
 	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
 
 	<div class="container">
-		<div class="col-10 col-md-8 header-contents">
+		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Exercises.html"> Exercises
  </a>
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Assignment: Monster High fandom
@@ -68,7 +68,7 @@
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
 		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
 			var handler = function(e) { 
 				console.log(e.data);
 				interp.postMessage(element.textContent, "*");
@@ -225,7 +225,7 @@ Prints their/her/his</li>
 </code></pre>
 <p>Will generate “bill is going out with jenny” or “he is going out with jenny”, but “they are going out with jenny” when ?who is realized with the pronoun they.</p>
 <p>For regular verbs, you can add <code>[s]</code> at the end of the verb and it will add an -s or an -es, as appropriate.  For example:</p>
-<pre><code class="language-step">TestConjugation ?who: I like ?who.&amp;ensp; ?who read[s] books.
+<pre><code class="language-step">TestConjugation ?who: I like ?who.  ?who read[s] books.
 </code></pre>
 <p>Will generate:</p>
 <blockquote>
@@ -295,7 +295,7 @@ predicate CrushOn ?crusher ?crushee.
 
 [randomly]
 predicate AssertDating ?a ?b.
-# A and B are dating.&amp;ensp; Use this when you want to write a fact
+# A and B are dating.  Use this when you want to write a fact
 # stating that A and B are dating, but use CheckDating when
 # you want to ask if A and B are dating.
 
@@ -396,7 +396,7 @@ Event: [PlotPoint ?event] [PrintPlotPoint ?event]
 [randomly]
 predicate PlotPoint ?event.
 # ?event is a possible plot point in a Monster High episode given
-# the characters and their relationships.&amp;ensp; Fill in methods for this,
+# the characters and their relationships.  Fill in methods for this,
 # below.
 
 [randomly]
@@ -424,7 +424,7 @@ PrintAllPairs ?a ?b ?query: [DoAll ?query [Write ?a] [Write ?b] [NewLine]]
 ### Stuff you can call from your code (you would use these in PrintPlotPoint):
 ###
 ### Mention ?x      (or just ?x)
-### Prints ?x.&amp;ensp; If it uses a pronoun, it will be he/she/they rather than him/her/them
+### Prints ?x.  If it uses a pronoun, it will be he/she/they rather than him/her/them
 ###
 ### Obj ?x          (or just ?x/Obj)
 ### Prints ?x, but if it uses a pronoun, uses him/her/them rather than he/she/they
@@ -438,7 +438,7 @@ PrintAllPairs ?a ?b ?query: [DoAll ?query [Write ?a] [Write ?b] [NewLine]]
 
 ### Using gendered pronouns (optional)
 ###
-### By default the system will use they/their for all students.&amp;ensp; If you want it to
+### By default the system will use they/their for all students.  If you want it to
 ### use gendered pronouns, add facts saying:
 ###
 ###     PreferredPronoun &lt;student&gt; &lt;pronoun&gt;

@@ -49,7 +49,7 @@
 	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
 
 	<div class="container">
-		<div class="col-10 col-md-8 header-contents">
+		<div class="col-md-7 header-contents">
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Part I: Using declarative programming
 </a></h1>
 					<p>
@@ -66,7 +66,7 @@
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
 		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
 			var handler = function(e) { 
 				console.log(e.data);
 				interp.postMessage(element.textContent, "*");
@@ -85,46 +85,40 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Now we'll discuss how to use different declarative programming technologies, without much attention to how they're implemented under the hood (that will come in <a href="Part_II.html">Part II</a>).  We don't assume any significant programming experience, however we include deeper discussions for those with more technical background.</p>
-<p>All declarative programming systems involve a technique that I'll call &quot;clairvoyance.&quot;  Let's talk about what that means.</p>
-<h2 id="decision-making-in-computers">Decision-making in computers</h2>
-<p>It's common for people to talk about programs making &quot;decisions.&quot;<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  That generally takes the form of something like an <code>if</code> statement (don't worry if this is new to you):</p>
-<pre><code class="language-C#">if (condition) {
-    // Option 1
-} else {
-    // Option 2
-}
-</code></pre>
-<p>The computer tests whether <code>condition</code> is true.  If so, it chooses option 1, otherwise option 2.  Nearly all programs have these.  The general pattern here is:</p>
-<blockquote>
-<p>information → decision</p>
-</blockquote>
-<h2 id="delayed-feedback">Delayed feedback</h2>
-<p><img src="Traquair_House_Maze.jpg" alt="Traquair House Maze, from Wikipedia" /></p>
-<p>The problem is we must often make decisions <em>before</em> we know the right option.  When moving through a maze, we make many left/right/straight decisions before we find out which ones were correct.  So the order is reversed:</p>
-<blockquote>
-<p>decision → information</p>
-</blockquote>
-<p>In the absence of timely information, we're left with exploration. We try things, back up, and try other things, until we find something that works.  However, keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  A large chunk of a typical undergraduate AI course is devoted just to the management of that bookkeeping.</p>
-<h2 id="clairvoyance">Clairvoyance</h2>
-<p>Programming would be easier if your computer was a Jedi.  You'd tell it the options available, and the force would whisper in its ear which option to choose.  In computer science, this is known as <em>non-deterministic choice</em> and is a useful/good thing.  However, many other things are also referred to as non-determinism, and all of those are bad.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Also, it sounds like technobabble and fails to communicate why anyone would think it was a good idea.  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of non-determinism.</p>
-<p>Clairvoyant systems behave <em>as if</em> they see the future: they always make the right choice, provided there is a right choice to make.  Behind the scenes, the computer is of course trying things, backing up, and trying other things until it finds something that works.  But these systems allow you to delegate the trial and error process to the computer.</p>
-<h2 id="clairvoyant-languages">Clairvoyant languages</h2>
-<p>We'll start by talking about what I'll call <strong>clairvoyant programming</strong><a id="fnref:3" href="#fn:2" class="footnote-ref"><sup>2</sup></a>.  Grammars, planners, and logic programming all fall under this rubric.  These languages let you <em>under-specify</em> your programs, leaving many choices up to the computer.  The machine behaves as if it always makes the right choice, even though behind the scenes it's trying alternatives until it finds something that works.  Again, the important thing is that you can mostly ignore that process.</p>
+<p>Most declarative programming systems can be classified into two groups, <strong>constraint programming</strong>, and non-deterministic programming, which I'll call <strong>clairvoyant programming</strong>.  We'll defer talking about how these are implemented under the hood (see <a href="Part_II.html">Part II</a> for that).  For the moment, we'll focus on what these technologies are and how you can use them.  For most of this I won't assume any significant programming experience, although I'll include additional pages and comments for those who do.</p>
+<h2 id="clairvoyant-programming">Clairvoyant programming</h2>
+<p>Clairvoyant languages are normal programming languages that include an operation for <em>guessing</em>.  The program mostly runs normally, but whenever it likes it can lay out some options and tell the computer to guess which one is right.  At other times it can say &quot;nope; you made a bad guess.&quot;  The series of choice points of the program form a tree:</p>
+<pre class="mermaid">graph TB
+   start[Guess] -- "option" --> o1[Guess]  -- "option" --> f1[Nope]
+   o1 -- "option" --> s1[Done]
+   start -- "option" --> o2[Guess]  -- "option" --> o3[Guess] -- option --> f2[Nope]
+    o3[Guess] -- option --> s2[Done]
+   o2  -- "option" --> f3[Nope]
+   style start fill: green;
+   style o1 fill: green;
+   style o2 fill: green;
+   style o3 fill: green;
+   style f1 fill: red;
+   style f2 fill: red;
+   style f3 fill: red;
+   style s1 fill:green;
+   style s2 fill:green;
+</pre>
+<p>Clairvoyant language guarantee they always guess options that lead &ldquo;done&rdquo;, or give up if not option leads to &ldquo;done&rdquo;.  In this sense, they predict the future; hence the term &quot;clairvoyant.&quot;  However, if there are multiple paths that lead to &ldquo;done&rdquo;, as above, they often don't guarantee which one they'll choose; hence the term &ldquo;non-deterministic.&rdquo;</p>
+<p>Grammars, planners, and logic programming all fall under this rubric.  These languages let you <em>under-specify</em> your programs, leaving many choices up to the computer.  The machine behaves as if it always makes the right choice, even though behind the scenes it's trying alternatives until it finds something that works.</p>
 <h2 id="constraint-programming">Constraint programming</h2>
-<p>Then we'll talk about <strong>constraint programming</strong>.  This also involves having the system make a series of decisions and assuming it always guesses right.  However, whereas the systems we talk about under clairvoyant programming feel like programming languages, constraint programs feels more like questions on IQ tests.  Unlike real IQ tests, you just write them; the computer solves them.  Constraint programming is both more and less powerful than clairvoyant programming, and both harder and easier to debug.  We'll explain what we mean by this when we get to it.</p>
-<h2 id="endnotes">Endnotes</h2>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn:1">
-<p>Decision-making is necessary to <a href="https://en.wikipedia.org/wiki/Turing_completeness">Turing completeness</a>: the ability for a language or computer to be truly general-purpose.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>The &ldquo;good&rdquo; sense of nondetermininism is sometimes referred to as <em>angelic</em> non-determinism to distinguish it from the bad kinds.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a><a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<p>Constraint programming is both more and less powerful than clairvoyant programming.  It's less powerful in the sense that not all problems can be phrased as constraint problems.  It's more powerful in the sense that it can be <em>very</em> smart at solving those problems that can be phased in its terms.</p>
+<p>A <strong>constraint satisfaction problem</strong> is a set of choices to make, together with options for each choice, and a set of restrictions (known as <em>constraints</em>) on what options can be selected together.  For example, generating a character might involve choosing:</p>
+<ul>
+<li>A <em>class</em> for the character</li>
+<li>A set of numeric <em>stats</em> for the character</li>
+</ul>
+<p>Constraints on those choices might involve:</p>
+<ul>
+<li>Requiring the sum of the stats be some specific number (i.e. a &ldquo;build point&rdquo; system)</li>
+<li>Imposing minimum or maximum values for particular stats given particular choices of class</li>
+</ul>
+<p>Alternatively, the problem might be to generate a <em>party</em> of multiple characters with additional constraints such as requiring the party contain minimum numbers of support characters, tanks, etc.</p>
 
 
 

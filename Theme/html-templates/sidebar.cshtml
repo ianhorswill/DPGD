@@ -2,7 +2,7 @@
 
 <div class="container-fluid sidebar">
 	@{
-		var pages = Model.Children??Model.Up.Children;
+		var pages = Model.Children??Model.Up.Children??Model.Up.SideTrails;
 		var sec = Model.Children != null?Model:Model.Up??Model;
 		var counter = sec.NumberChildrenFrom;
 
@@ -12,6 +12,14 @@
 				if (page == Model)
 				{
 					<li class="sidebar"><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @Raw(page.PageTitle) </b> </a> <br></li>
+					if (Model.SideTrails != null && Model.SideTrails.Length > 0)
+					{
+						<ul>
+						@foreach (var side in Model.SideTrails) {
+							<li class="sidebar"><a class="simplelink" href="@side.PageLink"><i>@Raw(side.PageTitle)</i></a></li>
+						}
+						</ul>
+					}
 				}
 				else
 				{

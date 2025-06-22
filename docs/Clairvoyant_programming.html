@@ -49,7 +49,7 @@
 	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
 
 	<div class="container">
-		<div class="col-10 col-md-8 header-contents">
+		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Clairvoyant programming
@@ -68,7 +68,7 @@
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
 		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
 			var handler = function(e) { 
 				console.log(e.data);
 				interp.postMessage(element.textContent, "*");
@@ -87,38 +87,34 @@
 
 			<div class="container shadow blog-contents">
 
-<p>We'll now introduce a range of different declarative formalisms from grammars to logic programming to generative planners.  Most of the examples will use the <a href="https://github.com/ianhorswill/Step">Step</a> programming language,<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> which is in some sense a generalization of all three, and which we will teach you along the way.</p>
-<p>The examples are easy to translate into other declarative languages such as <a href="https://en.wikipedia.org/wiki/prolog">prolog</a>.  However, Step has a gentler learning curve than Prolog and is specifically designed for games and interactive fiction.  If Prolog is a language for the Chess Club, Step is a language for theater kids.</p>
-<p>We'll begin by discussing generating text using <a href="Grammars.html">simple grammars</a>.  While grammars are technically a declarative formalism, generation using the kinds of simple context-free grammars don't really show off the power of clairvoyance because there are no wrong choices to make.  However, we'll discuss <a href="Parameterized_grammars.html">adding parameters to grammars</a> to help you control what is printed, and then the system will have to be more careful in its choices.</p>
-<p>Next, we'll show how the same language features used for grammars can be used to <a href="Logic_programming.html">do an approximation to logical reasoning</a>.  This will allow us to make simple databases and to query them with almost no work.</p>
-<p>Then, we'll join grammars with inference to make powerful text generation systems.</p>
-<p>If you're new to programming, I'd suggest you skip to the next page at this point.  But experienced programmers curious what a nondeterminism would look like in a conventional language, read on.</p>
-<h2 id="choice-and-failure-technical">Choice and failure (technical)</h2>
-<p>As we <a href="Part_I.html">discussed earlier</a>, an <code>if</code> statement combines the options available with guidance on how to choose between them.  This is inconvenient for problems involving delayed feedback.  Nondeterministic languages provide a way of breaking those functions apart, so that the guidannce can come <em>after</em> the choice.  These are typically described in terms of <strong>choice</strong>, where the program guesses which option is best, and <strong>failure</strong>, which tells the system that a previous choice was incorrect.  It's the system's job to try different sequences of choices until it can find a way to run the program without failure.  But as a programmer, you think of the system as always guessing right.</p>
-<p>Concretely, we could make a nondeterministic version of C# (or C, C++, Python, etc.) by adding a new statement, <code>choose</code>, which is basically a <code>switch</code> statement without a control variable:</p>
-<pre><code class="language-C#">choose {
-    option: // do something
-    option: // do something else
+<p>All declarative programming systems involve &ldquo;clairvoyance&rdquo; in the sense of appearing to guess correct choices.</p>
+<h2 id="decision-making-in-computers">Decision-making in computers</h2>
+<p>When computers  &ldquo;make decisions&rdquo; it generally takes the form of something like an <code>if</code> statement (don't worry if this is new to you):</p>
+<pre><code class="language-C#">if (condition) {
+    // Option 1
+} else {
+    // Option 2
 }
 </code></pre>
-<p>Or we could instead add a <code>choose</code> expression that chooses and element of an array and returns it:</p>
-<pre><code class="language-C#">var element = choose myArray;
-</code></pre>
-<p>A <code>choose</code> with no options always fails.  It tells the system that this execution path make an incorrect choice along the way, so the system should try a different one. It's common to add a separate <code>fail</code> to signal failure more clearly, but you can think of it as a shorthand for either <code>choose {}</code> or <code>choose myArray</code> where <code>myArray</code> has no elements. </p>
-<p>Using <code>choose</code>, the algoritm to find a node in a tree with some property <code>P</code> is then just:</p>
-<pre><code class="language-C#">Node FindP(Node n) =&gt; P(n) ? n : FindP(choose n.Children);
-</code></pre>
-<p>In other words: &quot;if <code>n</code> is the node we're looking for return it, otherwise choose the correct child and recurse on it.&quot;  We pretend it always chooses the correct child even though, under the hood, the implementation of clairvoyant choice would be doing a tree search.</p>
-<p>This isn't the most impressive example; tree searches aren't difficult to write.  But as you will see in the coming pages, we can use clairvoyant choice to implement logical inference, parsers, planners, and natural language generators.</p>
-<h2 id="endnotes">Endnotes</h2>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn:1">
-<p><a href="https://github.com/ianhorswill/Step">Step</a> is open-source and written in C#.  It's easy to include in Unity or Godot projects.  And you can try it interactively in your browser by clicking on any of the Step code fragments in the following pages.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<p>The computer tests whether <code>condition</code> is true.  If so, it chooses option 1, otherwise option 2.  Nearly all programs have these.  The general pattern here is:</p>
+<blockquote>
+<p>information → decision</p>
+</blockquote>
+<h2 id="delayed-feedback">Delayed feedback</h2>
+<p><img src="Traquair_House_Maze.jpg" alt="Traquair House Maze, from Wikipedia" /></p>
+<p>The problem is we must often make decisions <em>before</em> we know the right option.  When moving through a maze, we make many left/right/straight decisions before we find out which ones were correct.  So the order is reversed:</p>
+<blockquote>
+<p>decision → information</p>
+</blockquote>
+<p>In the absence of timely information, we're left with exploration. We try things, back up, and try other things, until we find something that works:</p>
+<blockquote>
+<p>decision → information → decision → information → ...</p>
+</blockquote>
+<p>Keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  A large chunk of a typical undergraduate AI course &ndash; the chunk referred to as <em>search</em> &ndash; is devoted to managing that bookkeeping.</p>
+<h2 id="clairvoyance">Clairvoyance</h2>
+<p>Programming would be easier if your computer was a Jedi.  You'd tell it the options available, and the force would whisper in its ear which option to choose.  In computer science, this is known as <em>non-deterministic choice</em> and is a useful/good thing.  However, many other things are also referred to as non-determinism, and all of those are bad.  Moreover, it fails to communicate its appearl.  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of non-determinism.</p>
+<p>Clairvoyant systems behave <em>as if</em> they see the future: they always make the right choice, provided there is a right choice to make.  Behind the scenes, the computer still trying things, backing up, and trying other things until it finds something that works.  But these systems allow you to delegate the trial and error process to the computer.</p>
+<p>We'll now introduce a range of different declarative formalisms from grammars to logic programming to generative planners.  We'll begin by teaching the <a href="https://github.com/ianhorswill/Step">Step</a> programming language.  Subsequent sections will discuss specific kinds of clairvoyant systems and illustrate them using versions written in Step.  All examples could be written equally well in logic programming languages such as <a href="https://en.wikipedia.org/wiki/Prolog">Prolog</a>, however, Step has a gentler learning curve and is arguably more general.</p>
 
 
 
@@ -133,21 +129,13 @@
 			<h5>Clairvoyant programming
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Grammars.html" id="section_page_1"> Simple grammars
+					<li class="sidebar"><a class="backgroundlink" href="The_Step_language.html" id="section_page_1"> The Step language
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parameterized_grammars.html" id="section_page_2"> Parameterized grammars
+					<li class="sidebar"><a class="backgroundlink" href="Planning.html" id="section_page_2"> Planning
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Logic_programming.html" id="section_page_3"> Simple logic programs
+					<li class="sidebar"><a class="backgroundlink" href="Adaptive_generation.html" id="section_page_3"> Adapting text to context
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="State.html" id="section_page_4"> State and time in clairvoyant programming
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Adaptive_generation.html" id="section_page_5"> Adapting text to context
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Structured_data.html" id="section_page_6"> Structured data
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Primitive_tasks.html" id="section_page_7"> Primitive tasks (technical)
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Higher-order_tasks.html" id="section_page_8"> Higher-order tasks
+					<li class="sidebar"><a class="backgroundlink" href="Natural_language_parsing.html" id="section_page_4"> Natural language parsing
  </a> <br></li>
 			</ol>
 	<script>
@@ -163,7 +151,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Grammars.html">Simple grammars
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="The_Step_language.html">Step
 </a><br>
 				</td>
 			</tr>

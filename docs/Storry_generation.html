@@ -49,7 +49,7 @@
 	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
 
 	<div class="container">
-		<div class="col-10 col-md-8 header-contents">
+		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Exercises.html"> Exercises
  </a>
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Story generation
@@ -68,7 +68,7 @@
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
 		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
 			var handler = function(e) { 
 				console.log(e.data);
 				interp.postMessage(element.textContent, "*");
@@ -252,7 +252,7 @@ CharacterRole lovedOne.
 ### Stuff you can call from your code (you would use these in PrintPlotPoint):
 ###
 ### Mention ?x      (or just ?x)
-### Prints ?x.&amp;ensp; If it uses a pronoun, it will be he/she/they rather than him/her/them
+### Prints ?x.  If it uses a pronoun, it will be he/she/they rather than him/her/them
 ###
 ### Obj ?x          (or just ?x/Obj)
 ### Prints ?x, but if it uses a pronoun, uses him/her/them rather than he/she/they
@@ -266,7 +266,7 @@ CharacterRole lovedOne.
 
 ### Using gendered pronouns (optional)
 ###
-### By default the system will use they/their for all students.&amp;ensp; If you want it to
+### By default the system will use they/their for all students.  If you want it to
 ### use gendered pronouns, add facts saying:
 ###
 ###     PreferredPronoun &lt;student&gt; &lt;pronoun&gt;

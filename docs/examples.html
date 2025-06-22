@@ -1,0 +1,462 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Matching examples&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Matching examples&#xA;">
+	<meta name="twitter:title" content="Matching examples&#xA;">
+	<meta property="og:title" content="Matching examples&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Parameterized_grammars.html"> Parameterized grammars
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="How_matching_works.html"> How matching works
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Matching examples
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   The status of this page is &#x27;unknown&#x27;.  It probably needs a lot of work.
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null && element.classList.contains('language-Step')) {
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
+			var handler = function(e) { 
+				console.log(e.data);
+				interp.postMessage(element.textContent, "*");
+				window.removeEventListener('message', handler);
+			};
+			window.addEventListener('message', handler);
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>We can summarize all this in a table:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th><code>[Reflexive &quot;Mr. Boss&quot;]</code></th>
+<th><code>[Reflexive &quot;Mary&quot;]</code></th>
+<th><code>[Reflexive ?x]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Reflexive “Mr. Boss”: himself</code></td>
+<td>🟩</td>
+<td>🟥 Fail</td>
+<td>🟩 <code>?x</code> = <code>&quot;Mr. Boss&quot;</code></td>
+</tr>
+<tr>
+<td><code>Reflexive “Mary”: herself</code></td>
+<td>🟥 Fail</td>
+<td>🟩</td>
+<td>🟩 <code>?x</code> = <code>&quot;Mary&quot;</code></td>
+</tr>
+<tr>
+<td><code>Reflexive ?who: themself</code></td>
+<td>🟩 <code>?who</code>=<code>&quot;Mr. Boss&quot;</code></td>
+<td>🟩 <code>?who</code>=<code>&quot;Mary&quot;</code></td>
+<td>🟩 <code>?who</code>=<code>?x</code></td>
+</tr>
+</tbody>
+</table>
+<p>Here, a 🟩 means a successful match, and a 🟥 means a failed match.  For those that involve variables, we also list what the variable is connected to.</p>
+<h2 id="matching-multiple-parameters">Matching multiple parameters</h2>
+<p>When we match a call with multiple parameters, we just match each parameter in turn.  But since one parameter might connect a variable to a value (or another variable), it can affect the matching of other parameters.[^2]</p>
+<h3 id="easy-case">Easy case</h3>
+<p>When we match the call <code>[Give &quot;Mary&quot; &quot;Jill&quot; &quot;a nice raise&quot;]</code>
+against the method:</p>
+<pre><code class="language-step">Give ?giver ?receiver ?item: ?giver gave ?receiver ?item.
+</code></pre>
+<p>Each variable is in a different parameter, so matching is easy:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Task</th>
+<th>Parameter 1</th>
+<th>Parameter 2</th>
+<th>Parameter 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call</td>
+<td><code>Give</code></td>
+<td><code>&quot;Mary&quot;</code></td>
+<td><code>&quot;Jill&quot;</code></td>
+<td><code>&quot;a nice raise&quot;</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>Give</code></td>
+<td><code>?giver</code></td>
+<td><code>?receiver</code></td>
+<td><code>?item</code></td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>🟩</td>
+<td>🟩 <code>&quot;Mary&quot;</code> = <code>?giver</code></td>
+<td>🟩 <code>&quot;Jill&quot;</code> = <code>?receiver</code></td>
+<td>🟩 <code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="matching-between-parameters">Matching between parameters</h3>
+<p>What if we match the same call against the <em>other</em> method:</p>
+<pre><code class="language-step">Give ?giver ?giver ?item: ?giver gave [Reflexive ?giver] ?item
+</code></pre>
+<p>Then we have a problem.  Parameter 1 wants to connect <code>?giver</code> wtih <code>&quot;Mary&quot;</code> and parameter 2 wants to connect it with <code>&quot;Jill&quot;</code>.
+It can't do both, so the match fails:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Task</th>
+<th>Parameter 1</th>
+<th>Parameter 2</th>
+<th>Parameter 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call</td>
+<td><code>Give</code></td>
+<td><strong><code>&quot;Mary&quot;</code></strong></td>
+<td><strong><code>&quot;Jill&quot;</code></strong></td>
+<td><code>&quot;a nice raise&quot;</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>Give</code></td>
+<td><strong><code>?giver</code></strong></td>
+<td><strong><code>?giver</code></strong></td>
+<td><code>?item</code></td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>🟩 <code>Give</code>=<code>Give</code></td>
+<td>🟥 <code>&quot;Mary&quot;</code> = <code>?giver</code></td>
+<td>🟥<code>&quot;Jill&quot;</code> = <code>?giver</code></td>
+<td>🟩 <code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
+</tr>
+</tbody>
+</table>
+<p>On the other hand, the call <code>[Give &quot;Mary&quot; &quot;Mary&quot; &quot;a nice raise&quot;]</code> works fine, because both parameters want to connect <code>?giver</code> to the same value:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Task</th>
+<th>Parameter 1</th>
+<th>Parameter 2</th>
+<th>Parameter 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call</td>
+<td><code>Give</code></td>
+<td><code>&quot;Mary&quot;</code></td>
+<td><code>&quot;Mary&quot;</code></td>
+<td><code>&quot;a nice raise&quot;</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>Give</code></td>
+<td><code>?giver</code></td>
+<td><code>?giver</code></td>
+<td><code>?item</code></td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>🟩<code>Give</code>=<code>Give</code></td>
+<td>🟩<code>&quot;Mary&quot;</code> = <code>?giver</code></td>
+<td>🟩 <code>&quot;Mary&quot;</code> = <code>?giver</code></td>
+<td>🟩 <code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="fancy-example">Fancy example</h3>
+<p>Now let's match against the same method, but change the call slightly:</p>
+<pre><code class="language-step">[Give &quot;Mary&quot; ?somebody &quot;a nice raise&quot;]
+</code></pre>
+<p>we might do this because we want to print something about Mary giving someone a raise, but we don't care about who.  This matches:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Task</th>
+<th>Parameter 1</th>
+<th>Parameter 2</th>
+<th>Parameter 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call</td>
+<td><code>Give</code></td>
+<td><code>&quot;Mary&quot;</code></td>
+<td><code>?somebody</code></td>
+<td><code>&quot;a nice raise&quot;</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>Give</code></td>
+<td><code>?giver</code></td>
+<td><code>?giver</code></td>
+<td><code>?item</code></td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>🟩<code>Give</code>=<code>Give</code></td>
+<td>🟩<code>&quot;Mary&quot;</code> = <code>?giver</code></td>
+<td>🟩<code>?somebody</code> = <code>?giver</code></td>
+<td>🟩<code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
+</tr>
+</tbody>
+</table>
+<p>It connects the <code>?giver</code>, <code>?somebody</code> and <code>&quot;Mary&quot;</code> all together.</p>
+<h2 id="matching-summary">Matching summary</h2>
+<p>Here's table of the matching results between different kinds of calls and different kinds of methods.  To save space, We'll just use two parameters and name it <code>Task</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th><code>[Task 1 1]</code></th>
+<th><code>[Task 1 2]</code></th>
+<th><code>[Task 1 ?a]</code></th>
+<th><code>[Task ?a ?b]</code></th>
+<th><code>[Task ?a ?a]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Task 1 2: ...</code></td>
+<td>🟥</td>
+<td>🟩</td>
+<td>🟩<code>?a</code>=2</td>
+<td>🟩<code>?a</code>=<code>1</code>, <code>?b</code>=<code>2</code></td>
+<td>🟥</td>
+</tr>
+<tr>
+<td><code>Task 1 ?x: ...</code></td>
+<td>🟩<code>?x</code>=<code>1</code></td>
+<td>🟩<code>?x</code>=<code>2</code></td>
+<td>🟩<code>?a</code>=<code>?x</code></td>
+<td>🟩<code>?a</code>=<code>1</code>, <code>?b</code>=<code>?x</code></td>
+<td>🟩<code>?a</code>=<code>?x</code>=<code>1</code></td>
+</tr>
+<tr>
+<td><code>Task ?x y: ...</code></td>
+<td>🟩<code>?x</code>=<code>y</code>=<code>1</code></td>
+<td>🟩<code>?x</code>=<code>1</code>, <code>?y</code>=<code>2</code></td>
+<td>🟩<code>?x</code>=<code>1</code>, <code>?b</code>=<code>?y</code></td>
+<td>🟩<code>?a</code>=<code>?x</code>, <code>?b</code>=<code>?y</code></td>
+<td>🟩<code>?a</code>=<code>?x</code>=<code>y</code></td>
+</tr>
+<tr>
+<td><code>Task ?x ?x: ...</code></td>
+<td>🟩<code>?x</code>=<code>1</code></td>
+<td>🟥</td>
+<td>🟩<code>?a</code>=<code>?x</code>=<code>1</code></td>
+<td>🟩<code>?a</code>=<code>?x</code>=<code>?b</code></td>
+<td>🟩<code>?a</code>=<code>?x</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>How matching works
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="as_equations.html" id="section_page_1"> Matching as equations
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="examples.html" id="section_page_2"> <b> Matching examples
+ </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Logic_programming.html">Simple logic programs
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="as_equations.html">Matching as equations
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="How_matching_works.html">How matching works
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Reflexive_pronouns.html">Methods for specific parameter values
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/examples.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

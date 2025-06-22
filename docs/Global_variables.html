@@ -49,10 +49,12 @@
 	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
 
 	<div class="container">
-		<div class="col-10 col-md-8 header-contents">
+		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="State.html"> State
  </a>
@@ -72,7 +74,7 @@
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
 		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
 			var handler = function(e) { 
 				console.log(e.data);
 				interp.postMessage(element.textContent, "*");
@@ -220,7 +222,7 @@ Test: ^X [set X = X + 1] ^X [set X = X + 1] ^X
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Adaptive_generation.html">Adaptive generation
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Structured_data.html">Structured data
 </a><br>
 				</td>
 			</tr>

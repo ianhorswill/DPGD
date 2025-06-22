@@ -49,10 +49,12 @@
 	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
 
 	<div class="container">
-		<div class="col-10 col-md-8 header-contents">
+		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Parameterized_grammars.html"> Parameterized grammars
  </a>
@@ -72,7 +74,7 @@
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
 		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/WebStep", "step");
+			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
 			var handler = function(e) { 
 				console.log(e.data);
 				interp.postMessage(element.textContent, "*");
@@ -117,269 +119,12 @@ Reflexive ?who: themself
 <pre><code class="language-step">Reflexive ?who: themself
 </code></pre>
 <p>When we do this, the match succeeds.  But rather than connecting the variables to a value, we <strong>connect the variables to each other</strong>.  Then, should we connect either to something else in the future, we will be connecting both.</p>
-<h3 id="summary">Summary</h3>
-<p>We can summarize all this in a table:</p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th><code>[Reflexive &quot;Mr. Boss&quot;]</code></th>
-<th><code>[Reflexive &quot;Mary&quot;]</code></th>
-<th><code>[Reflexive ?x]</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Reflexive “Mr. Boss”: himself</code></td>
-<td>🟩</td>
-<td>🟥 Fail</td>
-<td>🟩 <code>?x</code> = <code>&quot;Mr. Boss&quot;</code></td>
-</tr>
-<tr>
-<td><code>Reflexive “Mary”: herself</code></td>
-<td>🟥 Fail</td>
-<td>🟩</td>
-<td>🟩 <code>?x</code> = <code>&quot;Mary&quot;</code></td>
-</tr>
-<tr>
-<td><code>Reflexive ?who: themself</code></td>
-<td>🟩 <code>?who</code>=<code>&quot;Mr. Boss&quot;</code></td>
-<td>🟩 <code>?who</code>=<code>&quot;Mary&quot;</code></td>
-<td>🟩 <code>?who</code>=<code>?x</code></td>
-</tr>
-</tbody>
-</table>
-<p>Here, a 🟩 means a successful match, and a 🟥 means a failed match.  For those that involve variables, we also list what the variable is connected to.</p>
-<h2 id="matching-multiple-parameters">Matching multiple parameters</h2>
-<p>When we match a call with multiple parameters, we just match each parameter in turn.  But since one parameter might connect a variable to a value (or another variable), it can affect the matching of other parameters.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></p>
-<h3 id="easy-case">Easy case</h3>
-<p>When we match the call <code>[Give &quot;Mary&quot; &quot;Jill&quot; &quot;a nice raise&quot;]</code>
-against the method:</p>
-<pre><code class="language-step">Give ?giver ?receiver ?item: ?giver gave ?receiver ?item.
-</code></pre>
-<p>Each variable is in a different parameter, so matching is easy:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Task</th>
-<th>Parameter 1</th>
-<th>Parameter 2</th>
-<th>Parameter 3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Call</td>
-<td><code>Give</code></td>
-<td><code>&quot;Mary&quot;</code></td>
-<td><code>&quot;Jill&quot;</code></td>
-<td><code>&quot;a nice raise&quot;</code></td>
-</tr>
-<tr>
-<td>Method</td>
-<td><code>Give</code></td>
-<td><code>?giver</code></td>
-<td><code>?receiver</code></td>
-<td><code>?item</code></td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>🟩</td>
-<td>🟩 <code>&quot;Mary&quot;</code> = <code>?giver</code></td>
-<td>🟩 <code>&quot;Jill&quot;</code> = <code>?receiver</code></td>
-<td>🟩 <code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="matching-between-parameters">Matching between parameters</h3>
-<p>What if we match the same call against the <em>other</em> method:</p>
-<pre><code class="language-step">Give ?giver ?giver ?item: ?giver gave [Reflexive ?giver] ?item
-</code></pre>
-<p>Then we have a problem.  Parameter 1 wants to connect <code>?giver</code> wtih <code>&quot;Mary&quot;</code> and parameter 2 wants to connect it with <code>&quot;Jill&quot;</code>.
-It can't do both, so the match fails:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Task</th>
-<th>Parameter 1</th>
-<th>Parameter 2</th>
-<th>Parameter 3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Call</td>
-<td><code>Give</code></td>
-<td><strong><code>&quot;Mary&quot;</code></strong></td>
-<td><strong><code>&quot;Jill&quot;</code></strong></td>
-<td><code>&quot;a nice raise&quot;</code></td>
-</tr>
-<tr>
-<td>Method</td>
-<td><code>Give</code></td>
-<td><strong><code>?giver</code></strong></td>
-<td><strong><code>?giver</code></strong></td>
-<td><code>?item</code></td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>🟩 <code>Give</code>=<code>Give</code></td>
-<td>🟥 <code>&quot;Mary&quot;</code> = <code>?giver</code></td>
-<td>🟥<code>&quot;Jill&quot;</code> = <code>?giver</code></td>
-<td>🟩 <code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
-</tr>
-</tbody>
-</table>
-<p>On the other hand, the call <code>[Give &quot;Mary&quot; &quot;Mary&quot; &quot;a nice raise&quot;]</code> works fine, because both parameters want to connect <code>?giver</code> to the same value:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Task</th>
-<th>Parameter 1</th>
-<th>Parameter 2</th>
-<th>Parameter 3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Call</td>
-<td><code>Give</code></td>
-<td><code>&quot;Mary&quot;</code></td>
-<td><code>&quot;Mary&quot;</code></td>
-<td><code>&quot;a nice raise&quot;</code></td>
-</tr>
-<tr>
-<td>Method</td>
-<td><code>Give</code></td>
-<td><code>?giver</code></td>
-<td><code>?giver</code></td>
-<td><code>?item</code></td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>🟩<code>Give</code>=<code>Give</code></td>
-<td>🟩<code>&quot;Mary&quot;</code> = <code>?giver</code></td>
-<td>🟩 <code>&quot;Mary&quot;</code> = <code>?giver</code></td>
-<td>🟩 <code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="fancy-example">Fancy example</h3>
-<p>Now let's match against the same method, but change the call slightly:</p>
-<pre><code class="language-step">[Give &quot;Mary&quot; ?somebody &quot;a nice raise&quot;]
-</code></pre>
-<p>we might do this because we want to print something about Mary giving someone a raise, but we don't care about who.  This matches:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Task</th>
-<th>Parameter 1</th>
-<th>Parameter 2</th>
-<th>Parameter 3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Call</td>
-<td><code>Give</code></td>
-<td><code>&quot;Mary&quot;</code></td>
-<td><code>?somebody</code></td>
-<td><code>&quot;a nice raise&quot;</code></td>
-</tr>
-<tr>
-<td>Method</td>
-<td><code>Give</code></td>
-<td><code>?giver</code></td>
-<td><code>?giver</code></td>
-<td><code>?item</code></td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>🟩<code>Give</code>=<code>Give</code></td>
-<td>🟩<code>&quot;Mary&quot;</code> = <code>?giver</code></td>
-<td>🟩<code>?somebody</code> = <code>?giver</code></td>
-<td>🟩<code>&quot;a nice raise&quot;</code> = <code>?item</code></td>
-</tr>
-</tbody>
-</table>
-<p>It connects the <code>?giver</code>, <code>?somebody</code> and <code>&quot;Mary&quot;</code> all together.</p>
-<h2 id="matching-summary">Matching summary</h2>
-<p>Here's table of the matching results between different kinds of calls and different kinds of methods.  To save space, We'll just use two parameters and name it <code>Task</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th><code>[Task 1 1]</code></th>
-<th><code>[Task 1 2]</code></th>
-<th><code>[Task 1 ?a]</code></th>
-<th><code>[Task ?a ?b]</code></th>
-<th><code>[Task ?a ?a]</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Task 1 2: ...</code></td>
-<td>🟥</td>
-<td>🟩</td>
-<td>🟩<code>?a</code>=2</td>
-<td>🟩<code>?a</code>=<code>1</code>, <code>?b</code>=<code>2</code></td>
-<td>🟥</td>
-</tr>
-<tr>
-<td><code>Task 1 ?x: ...</code></td>
-<td>🟩<code>?x</code>=<code>1</code></td>
-<td>🟩<code>?x</code>=<code>2</code></td>
-<td>🟩<code>?a</code>=<code>?x</code></td>
-<td>🟩<code>?a</code>=<code>1</code>, <code>?b</code>=<code>?x</code></td>
-<td>🟩<code>?a</code>=<code>?x</code>=<code>1</code></td>
-</tr>
-<tr>
-<td><code>Task ?x y: ...</code></td>
-<td>🟩<code>?x</code>=<code>y</code>=<code>1</code></td>
-<td>🟩<code>?x</code>=<code>1</code>, <code>?y</code>=<code>2</code></td>
-<td>🟩<code>?x</code>=<code>1</code>, <code>?b</code>=<code>?y</code></td>
-<td>🟩<code>?a</code>=<code>?x</code>, <code>?b</code>=<code>?y</code></td>
-<td>🟩<code>?a</code>=<code>?x</code>=<code>y</code></td>
-</tr>
-<tr>
-<td><code>Task ?x ?x: ...</code></td>
-<td>🟩<code>?x</code>=<code>1</code></td>
-<td>🟥</td>
-<td>🟩<code>?a</code>=<code>?x</code>=<code>1</code></td>
-<td>🟩<code>?a</code>=<code>?x</code>=<code>?b</code></td>
-<td>🟩<code>?a</code>=<code>?x</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="matching-as-an-equation">Matching as an equation</h2>
-<p>There's a reason we notated the connections between variables and values above as <code>?x</code>=<code>1</code> or <code>?a</code>=<code>?x</code>.</p>
-<p>A call matches a method if each part of the call is the same as the corresponding part of the method.  But &ldquo;the same as&rdquo; is just an informal way of saying &ldquo;is equal to&rdquo;: the first parameters of the call and method have to be equal, as do the second parameters, and so on. The process of matching is simply one of finding what values for the variables would allow that to be true: it's <strong>solving for</strong> the variables.</p>
-<p>When we match a call like:</p>
-<pre><code class="language-step">[Task 1 ?a]
-</code></pre>
-<p>Against a method like:</p>
-<pre><code class="language-step">Task ?x ?x: ...
-</code></pre>
-<p>We're saying <code>1</code> and <code>?x</code> must be the same, and that <code>?a</code> and <code>?x</code> must be the same.  Again, that's the same as saying that they're equal, and so the matching process is really setting up the system of equations:</p>
-<ul>
-<li><code>?x</code> = <code>1</code></li>
-<li><code>?a</code> = <code>?a</code></li>
-</ul>
-<p>And then solving for the values of <code>?x</code> and <code>?a</code>, which tells us that they're both 1.</p>
-<p>This can be a useful way of looking at it when we think of how different calls interact with one another, as we'll see in the next section.</p>
 <h2 id="endnotes">Endnotes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
 <p>It also matches the third, but we'll talk about variables shortly.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>It turns out not to matter what order the matching is done in, however.  You can match the first parameter first, or you can match it last; you get the same answer regardless.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -394,17 +139,13 @@ It can't do both, so the match fails:</p>
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Parameterized grammars
+			<h5>How matching works
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Variables.html" id="section_page_1"> Variables
+					<li class="sidebar"><a class="backgroundlink" href="as_equations.html" id="section_page_1"> Matching as equations
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Pattern_matching.html" id="section_page_2"> Patterns of parameters
+					<li class="sidebar"><a class="backgroundlink" href="examples.html" id="section_page_2"> Matching examples
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_3"> Methods for specific parameter values
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="How_matching_works.html" id="section_page_4"> <b> How matching works
- </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -419,7 +160,7 @@ It can't do both, so the match fails:</p>
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Logic_programming.html">Simple logic programs
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="as_equations.html">Matching as equations
 </a><br>
 				</td>
 			</tr>
@@ -458,22 +199,9 @@ It can't do both, so the match fails:</p>
 				}, false);
 			</script>
 			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Logic_programming.html">Simple logic programs
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Grammars.html">Simple grammars
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Reflexive_pronouns.html">Methods for specific parameter values
 </a><br>
 				</td>
 			</tr>
