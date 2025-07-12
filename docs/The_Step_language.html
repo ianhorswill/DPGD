@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>The Step language&#xA;</title>
+	<title>Step: a maximal clairvoyant language&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="The Step language&#xA;">
-	<meta name="twitter:title" content="The Step language&#xA;">
-	<meta property="og:title" content="The Step language&#xA;" />
+	<meta itemprop="name" content="Step: a maximal clairvoyant language&#xA;">
+	<meta name="twitter:title" content="Step: a maximal clairvoyant language&#xA;">
+	<meta property="og:title" content="Step: a maximal clairvoyant language&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -31,7 +31,8 @@
 	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
-	<script src="step.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -54,7 +55,7 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">The Step language
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Step: a maximal clairvoyant language
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
@@ -69,14 +70,22 @@
 	<script>
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
-		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
-			var handler = function(e) { 
-				console.log(e.data);
-				interp.postMessage(element.textContent, "*");
-				window.removeEventListener('message', handler);
-			};
-			window.addEventListener('message', handler);
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
 		}
 	}, false);
 	</script>
@@ -156,7 +165,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Clairvoyant_programming.html">Clairvoyant programming
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Minimization.html">Minimization
 </a><br>
 				</td>
 			</tr>
@@ -191,6 +200,19 @@
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="A_clairvoyant_scripting_language.html">NDScript
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
 	</table>

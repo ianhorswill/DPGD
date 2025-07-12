@@ -1,4 +1,4 @@
-const KEYWORD = {
+{const KEYWORD = {
   scope: 'keyword',
   beginKeywords: 'set initially now'
   
@@ -216,3 +216,4 @@ hljs.registerLanguage('step', function() {
       ]
     }
   })
+}

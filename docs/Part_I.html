@@ -31,7 +31,8 @@
 	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
-	<script src="step.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -65,14 +66,22 @@
 	<script>
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
-		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
-			var handler = function(e) { 
-				console.log(e.data);
-				interp.postMessage(element.textContent, "*");
-				window.removeEventListener('message', handler);
-			};
-			window.addEventListener('message', handler);
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
 		}
 	}, false);
 	</script>
@@ -85,40 +94,27 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Most declarative programming systems can be classified into two groups, <strong>constraint programming</strong>, and non-deterministic programming, which I'll call <strong>clairvoyant programming</strong>.  We'll defer talking about how these are implemented under the hood (see <a href="Part_II.html">Part II</a> for that).  For the moment, we'll focus on what these technologies are and how you can use them.  For most of this I won't assume any significant programming experience, although I'll include additional pages and comments for those who do.</p>
-<h2 id="clairvoyant-programming">Clairvoyant programming</h2>
-<p>Clairvoyant languages are normal programming languages that include an operation for <em>guessing</em>.  The program mostly runs normally, but whenever it likes it can lay out some options and tell the computer to guess which one is right.  At other times it can say &quot;nope; you made a bad guess.&quot;  The series of choice points of the program form a tree:</p>
-<pre class="mermaid">graph TB
-   start[Guess] -- "option" --> o1[Guess]  -- "option" --> f1[Nope]
-   o1 -- "option" --> s1[Done]
-   start -- "option" --> o2[Guess]  -- "option" --> o3[Guess] -- option --> f2[Nope]
-    o3[Guess] -- option --> s2[Done]
-   o2  -- "option" --> f3[Nope]
-   style start fill: green;
-   style o1 fill: green;
-   style o2 fill: green;
-   style o3 fill: green;
-   style f1 fill: red;
-   style f2 fill: red;
-   style f3 fill: red;
-   style s1 fill:green;
-   style s2 fill:green;
-</pre>
-<p>Clairvoyant language guarantee they always guess options that lead &ldquo;done&rdquo;, or give up if not option leads to &ldquo;done&rdquo;.  In this sense, they predict the future; hence the term &quot;clairvoyant.&quot;  However, if there are multiple paths that lead to &ldquo;done&rdquo;, as above, they often don't guarantee which one they'll choose; hence the term &ldquo;non-deterministic.&rdquo;</p>
-<p>Grammars, planners, and logic programming all fall under this rubric.  These languages let you <em>under-specify</em> your programs, leaving many choices up to the computer.  The machine behaves as if it always makes the right choice, even though behind the scenes it's trying alternatives until it finds something that works.</p>
-<h2 id="constraint-programming">Constraint programming</h2>
-<p>Constraint programming is both more and less powerful than clairvoyant programming.  It's less powerful in the sense that not all problems can be phrased as constraint problems.  It's more powerful in the sense that it can be <em>very</em> smart at solving those problems that can be phased in its terms.</p>
-<p>A <strong>constraint satisfaction problem</strong> is a set of choices to make, together with options for each choice, and a set of restrictions (known as <em>constraints</em>) on what options can be selected together.  For example, generating a character might involve choosing:</p>
+<p>We begin with a tour of different kinds of declarative programming and how to use them.  In each case we'll give you a version you can try out interactively in your browser; when you see a box around some code, you can click it to experiment with it in a sandbox.  If you find declarative programming appealing, you can either include the systems here in your games &mdash; they're open source &mdash; or you can read <a href="Part_II.html">Part II</a> for a discussion of how to build your own solvers for declarative systems.</p>
+<h2 id="types-of-declarative-programming">Types of declarative programming</h2>
+<p>Again, declarative programming is a family of techniques that let you describe how to recognize a solution to a problem rather than having to describe how to generate one.  The different types vary based on how they let you describe problems:</p>
 <ul>
-<li>A <em>class</em> for the character</li>
-<li>A set of numeric <em>stats</em> for the character</li>
+<li><strong>Grammars</strong> describe how some type of artifact can be built by repeatedly replacing parts of it with more complex assemblages.  The artifact could be a quest, some text an NPC is speaking, or a plant such as a tree.</li>
+<li><strong>Constraint programming</strong> involves specifying the problem in terms of a set of variables, their allowable values, and relationships, called constraints, that either must hold or cannot hold between the chosen values of the variables.  For example, given a set of tasks to do for the week, choose what days you're to do them, subject to the constraints that you can only do three tasks a day and some tasks can only be done certain days, or only weekdays. </li>
+<li><strong>Planning</strong> involves describing the current state of the world, the desired state of the world, and how different actions change the state of the world.  The solver &mdash; called a planner &mdash; then finds a sequence of actions that will leave the world in the desired state.</li>
+<li><strong>Clairvoyant programming</strong> is the most general class of techniques.  It essentially lets you provide an arbitrary program to say &ldquo;yes, this is what I want&rdquo; or &quot;no, not this.&quot;  The name for this in the academic literature is <em>nondeterministic</em> programming, but for reasons that will become clear in a moment, we'll refer to it as clairvoyant programming.</li>
 </ul>
-<p>Constraints on those choices might involve:</p>
-<ul>
-<li>Requiring the sum of the stats be some specific number (i.e. a &ldquo;build point&rdquo; system)</li>
-<li>Imposing minimum or maximum values for particular stats given particular choices of class</li>
-</ul>
-<p>Alternatively, the problem might be to generate a <em>party</em> of multiple characters with additional constraints such as requiring the party contain minimum numbers of support characters, tanks, etc.</p>
+<p>Generally speaking, the techniques early in the list are the most limited in the kinds of problems they can describe; grammars are very restrictive, whereas clairvoyant programming can be used to decribe any problem.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  On the other hand, the more narrow techniques, such as constraint programming, can take advantage of specialized solvers that can be very efficient.</p>
+<h2 id="choice">Choice</h2>
+<p>Under the hood, all these techniques involve making a series of choices from prescribed options and recognizing when combinations of choices don't work.  The solver's job is to find a combination of choices that works.  For some types of declarative programming, the choices and the limitations on them are explicit parts of the problem description.  For example, in constraint programming, the choices are the values of the variables and the constraints directly specify how to recognize good and bad combinations.  For other types of systems, such as logic programming, the choices are implicit in structure of the program. </p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>That is to say, it's <a href="https://en.wikipedia.org/wiki/Turing_completeness">Turing complete</a>.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 

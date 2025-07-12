@@ -78,6 +78,7 @@ li.sidebar:before {
 
 code {
 	color:  #ccc;
+	font-weight: bold;
 }
 
 blockquote {
@@ -107,7 +108,7 @@ table {
 	margin-bottom: 1rem;
 }
 
-.language-Step {
+.language-Step, .language-NDScript {
 	border: 1px solid #888;
 }
 

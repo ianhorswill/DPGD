@@ -31,7 +31,8 @@
 	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
-	<script src="step.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -65,14 +66,22 @@
 	<script>
 	document.querySelector("body").addEventListener('click', function(e) {
 		var element = e.target.closest('code');
-		if(element !== null && element.classList.contains('language-Step')) {
-			var interp = window.open("https://ianhorswill.github.io/StepSandbox", "step");
-			var handler = function(e) { 
-				console.log(e.data);
-				interp.postMessage(element.textContent, "*");
-				window.removeEventListener('message', handler);
-			};
-			window.addEventListener('message', handler);
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
 		}
 	}, false);
 	</script>
