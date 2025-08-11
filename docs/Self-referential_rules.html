@@ -102,7 +102,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>So far, so good.  We can define the <code>Parent</code> relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc. We could write:</p>
+<p>So far, so good.  We can define the <code>Parent</code> relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc. We could write:</p>
 <pre><code class="language-step">[predicate]
 Ancestor ?c ?a: [Parent ?c ?a]
 Ancestor ?c ?g: [Grandparent ?c ?g]
@@ -160,14 +160,23 @@ Parent jimbo grandpa.
     a3 -- "&lt;b>Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]&lt;/b> &lt;br> ?c = grandpa ?a = ?who" --> p8("[Parent grandpa ?p]") --> f4(Fail)
     style f4 fill:red
 </pre>
-<p>In mathematics, logic, and computer science, self-referential definitions like this are said to be <strong>recursive</strong>, and when the <code>Ancestor</code> rule turns around and calls <code>Ancestor</code> again, that’s called <strong>recursion</strong>. </p>
-<h2 id="how-to-write-a-recursive-definition">How to write a recursive definition</h2>
-<p>Recursive definitions have a fairly standard format:</p>
+<p>In mathematics, logic, and computer science, self-referential definitions like this are said to be <strong>recursive</strong><a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>, and when the <code>Ancestor</code> rule turns around and calls <code>Ancestor</code> again, that’s called <strong>recursion</strong>. </p>
+<h2 id="how-to-write-a-recursive-predicate">How to write a recursive predicate</h2>
+<p>Recursive predicates have a fairly standard format:</p>
 <ul>
 <li>They start with a rule that doesn’t recurse (doesn't call the predicate we're defining).  This is called a <strong>base case</strong>.  It notices when it can decide immediately without having to recurse.</li>
 <li>Then there’s another rule called, unsurprisingly, the <strong>recursive case</strong>, that ends with a recursive call (a call to the predicate being defined).</li>
 </ul>
 <p>Note that you can run into problems if you put the rules in the opposite order, or tag them <code>[randomly]</code>.  In this case, it would work.  But there are cases where it doesn't.  We'll talk more about this later. </p>
+<h2 id="notes">Notes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p><em>Esoteric</em>: Sometimes self-referential rules are called <em>inductive</em> rather than <em>recursive</em>.  The distinction is that recursions start with the complex case and move to the base case and inductions move from the base case to the complex case.  Self-referential functions are usually described as recursive, whereas self-referential data structures are usually described as inductive.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -208,7 +217,7 @@ Parent jimbo grandpa.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="State.html">State
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>
@@ -249,7 +258,7 @@ Parent jimbo grandpa.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="State.html">State
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>

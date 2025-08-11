@@ -41,6 +41,6 @@ Are you any more comfortable with these statements?
 
 Again, these problems tend not to come up in mathematics, where extensionality is most frequently used.  But hopefully this gives you an understanding both of why extensionality is used and why one might want to depart from it.
 
-## Endnotes
+## Notes
 
 [^1]: The [sense/reference distinction](https://en.wikipedia.org/wiki/Sense_and_reference) is originally due to Gottlob Frege, developer of the first [formal logic](logic).

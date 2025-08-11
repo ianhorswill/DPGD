@@ -44,6 +44,6 @@ $$
 \{ n \in {\mathbb Z} \;|\; n \; \text{is even} \}
 $$
 
-## Endnotes
+## Notes
 
 [^1]: Because it's short for *zahl* which is the German term for integer.

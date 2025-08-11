@@ -27,6 +27,6 @@ $$
 
 As a result, it's very common for writers to say things like "let $$R\subseteq A\times B$$ be a relation" rather than the more verbose "let $$R$$ be a relation between elements of $$A$$ and elements of $$B$$".
 
-## Endnotes
+## Notes
 
 [^1]: *Esoteric*: The extensional definition does introduce some technical weirdnesses, which is why there are people who study intensional definitions.  For example, the "can pilot" relationship between dogs and airplanes is, to the best of my knowledge, the empty set: no dogs can pilot airplanes.  So is the "can eat" relationship between airplanes and cats.  But it seems wrong to say those are the "same relation", even though they are extensionally equivalent. Indeed, there is only one "empty relation" in set theory, because relations are sets and sets are defined extensionally.

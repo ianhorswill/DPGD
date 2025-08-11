@@ -1,0 +1,351 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Tracking viable tiles&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Tracking viable tiles&#xA;">
+	<meta name="twitter:title" content="Tracking viable tiles&#xA;">
+	<meta property="og:title" content="Tracking viable tiles&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="NDScript.html"> Clairvoyant algorithms
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Map_generation.html"> Map generation
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Tracking viable tiles
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>Checking in the neighborhood of a tile after placing it is helpful.  But it's even better if we never place bad tiles to begin with.  We can do that by keeping track of what tiles are valid in each location.  On this page, we'll use a <span class="math">\(3\times 3\)</span> grid for our examples rather than <span class="math">\(10\times 10\)</span>, so it will fit the screen better.</p>
+<p>We start with every cell being able to have every tile:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td><td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td><td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td><td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td><td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td><td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td><td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+</table>
+<h2 id="first-choice">First choice</h2>
+<p>Now we choose a cell and <strong>narrow</strong> it to a single tile.  Let's say we make the center be grass, so that's the only candidate for the center position:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+</table>
+<p>Here's the key insight: once we decide that cell is grass, we've effectively decided that its neighbors aren't water, so we can remove water from the set of possible tiles for the neighbors:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+       <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+        <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+</table>
+<h2 id="second-choice">Second choice</h2>
+<p>Now, if we make the top-left corner be water:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue255.png" alt="sea" width="auto"></td>
+       <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+        <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+</table>
+<p>Then its neighbors can't be grass, removing grass from the candidates for those cells:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue255.png" alt="sea" width="auto"></td>
+       <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+        <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+</table>
+<p>We've effectively assigned those tiles to be sand because that's the only remaining option, even though we never explicitly decided that.</p>
+<h2 id="third-choice">Third choice</h2>
+<p>Now suppose we make the opposite corner also be water:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue255.png" alt="sea" width="auto"></td>
+       <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td> <img src="green200.png" alt="grass" width="auto"><img src="brown200.png" alt="sand" width="auto"></td>
+        <td><img src="blue255.png" alt="sea" width="auto"> </tr>
+</table>
+<p>Then that, again, rules out grass for the adjacent cells:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue255.png" alt="sea" width="auto"></td>
+       <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td> </tr>
+<tr> <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td> <img src="brown255.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="blue150.png" alt="sea" width="auto"><img src="green150.png" alt="grass" width="auto"><img src="brown150.png" alt="sand" width="auto"></td>
+        <td><img src="brown255.png" alt="sand" width="auto"></td>
+        <td><img src="blue255.png" alt="sea" width="auto"> </tr>
+</table>
+<p>Three choices have fully determined the tiles of 7 cells.</p>
+<h2 id="finishing-the-map">Finishing the map</h2>
+<p>We can set the remaining cells to any tiles we want &mdash; they don't interact.  Let's say we make them both grass:</p>
+<table class="centered">
+<tr> <td width="auto"><img src="blue255.png" alt="sea" width="auto"></td>
+       <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td> </tr>
+<tr> <td> <img src="brown255.png" alt="sand" width="auto"></td>
+       <td><img src="green255.png" alt="grass" width="auto"></td>
+       <td> <img src="brown255.png" alt="sand" width="auto"></td> </tr>
+<tr> <td><img src="green255.png" alt="grass" width="auto"></td>
+        <td><img src="brown255.png" alt="sand" width="auto"></td>
+        <td><img src="blue255.png" alt="sea" width="auto"> </tr>
+</table>
+<p>Even though we only made five choices, those five choices determined all nine cells.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Map generation
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Early_checking.html" id="section_page_1"> Early checking
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Tracking_sets_of_tiles.html" id="section_page_2"> <b> Tracking viable tiles
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Propagating_constraints.html" id="section_page_3"> Propagating constraints
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Writing_a_constraint_propagator.html" id="section_page_4"> A clairvoyant map generator
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="An_adjustable_version.html" id="section_page_5"> Adjusting the amounts of grass, sand, and water
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="WFC.html" id="section_page_6"> Constraint-based maps in the game industry
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Propagating_constraints.html">Propagating constraints
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Early_checking.html">Early checking
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Map_generation.html">Map generation
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Clairvoyant_languages_in_real_life.html">Clairvoyant languages in real life
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Comparing_solutions.html">Least-cost paths
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Tracking_sets_of_tiles.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

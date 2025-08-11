@@ -1,0 +1,558 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>PCG in Starflight&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Example: Procedural generation in &lt;em&gt;Starflight&lt;/em&gt;&#xA;">
+	<meta name="twitter:title" content="Example: Procedural generation in &lt;em&gt;Starflight&lt;/em&gt;&#xA;">
+	<meta property="og:title" content="Example: Procedural generation in &lt;em&gt;Starflight&lt;/em&gt;&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Example: Procedural generation in <em>Starflight</em>
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p><img src="Starflight_cover.jpg" alt="Startflight" title="Original game cover (source: wikipedia)" /></p>
+<p><em>Starflight</em>  (Binary Systems, 1986) is an early example of procedural generation in games and the first use of context-free grammars I know of in commercial games.  It was an inspiration for both <em>Dwarf Fortress</em> and the <em>Mass Effect</em> series.  A number of its <a href="https://github.com/tangentforks/starflight">design documents</a> are available on GitHub, so we have a fairly detailed record of how they used PCG.  I've included a copy of the grammar design docs in the <a href="Starflight_design_document.html">side trail for this page</a>.</p>
+<p>I've translated part of their PCG system into Step code.  I've only implemented generators for three commands, but it gives a good sense of how the system works. </p>
+<h2 id="main-generators">Main generators</h2>
+<p>The three top-level commands are:</p>
+<ul>
+<li><code>ExamineEquipment</code>, which runs their grammar for generating equipment names</li>
+<li><code>EquipmentUsageDescription</code>, which runs their grammar for the text printed by the USE command when you use equipment other than the function analyser</li>
+<li><code>FunctionalDescrption</code>, which runs their grammar for the text printed by the USE command when you use it with the analyzer.</li>
+</ul>
+<p>The code for those three is here:</p>
+<pre><code class="language-step">ExamineEquipment: [RelativeSize] [Color] [EquipmentTexture] [StructuralEntity] [OptionalEquipmentFeatures]
+EquipmentUsageDescription: using [EquipmentName]. [OptSoundAndVision] [IndirectObjectEffect] [DirectObjectEffect]
+FunctionalDescription: [randomly] [EquipmentPhylum] [or] [EquipmentClass ?] [end]
+</code></pre>
+<p>These call generators for other phrase types. </p>
+<h2 id="supporting-generators">Supporting generators</h2>
+<p>Many of them, like <code>RelativeSize</code> are simple lists of possible words.  This would normally be written as:</p>
+<pre><code class="language-step">[randomly]
+RelativeSize: wee
+RelativeSize: tiny
+RelativeSize: very small
+...
+RelativeSize: gargantuan
+</code></pre>
+<p>However, that takes a lot of space on the screen, so instead, we write it as a single rule with an embedded <code>[randomly] [or] [end]</code> block.  We haven't talked about that feature before, but it lets you specify alternatives to choose between randomly within the same rule:</p>
+<pre><code class="language-step">RelativeSize: [randomly] wee  [or] tiny  [or] very small  [or] small  [or] big  [or] large  [or] very large [or] huge [or] massive [or] humongous [or] gargantuan [end]
+</code></pre>
+<h3 id="generating-color-descriptions">Generating color descriptions</h3>
+<p>Colors are described in English using terms to describe their luminosity (brightness), hue (basic color), and tint (modification of the hue).  To keep the text from being monotonous, it has different templates that it switches between:</p>
+<pre><code class="language-step">[randomly]
+Color: [Luminosity]
+Color: [Luminosity] [Hue pure]
+Color: [Tint] [Hue pure]
+Color: [Hue mixed]
+</code></pre>
+<p><code>Luminosity</code> and <code>Tint</code> are just lists of adjectives that it randomly chooses between.  However, it divides <code>Hue</code> words into &ldquo;pure&rdquo; hues and &ldquo;mixed&rdquo; hues.  We implemented that by providing an argument to the <code>Hue</code> generator to switch which one you want.  If you pass a variable, it will randomly switch between the two.</p>
+<h3 id="tagged-adjectives">Tagged adjectives</h3>
+<p>Just as <code>Hue</code>s have attributes of being pure or mixed, a number of the other adjectives are also tagged with information about how they can be used.  The design document defines these in terms of <a href="https://en.wikipedia.org/wiki/Bit_field">bit fields</a>, where each possible use is encoded by having a 1 in a specific bit position.  For example, the [design document]](Starflight_design_document) specified bit positions for different kinds of &ldquo;sound qualities&rdquo; and their associated adjectives:</p>
+<pre><code class="language-text">             _LIFEFORM            
+            /_HIGH PITCHED        
+           //_LOW PITCHED         
+          ///_LOAD                
+         ////_THUNDEROUS/DEAFENING
+        /////_BLAST/ROAR          
+       //////_EQUIPMENT           
+      ///////_(NOT USED)          
+     ////////                     
+ 1  00011110 EXPLOSIVE  
+ 2  00111010 BOOMING    
+ 3  00111010 FUNKY      
+ 4  00111010 POUNDING   
+ 5  00111010 RUMBLING   
+ 6  00111011 RESONATING 
+ 7  01010010 RINGING    
+ 8  01110110 SIZZELING  
+ 9  01111010 MECHANICAL 
+10  10000000 FLAPPING   
+11  10000000 WHISPERING 
+...
+42  11110110 HISSING  
+</code></pre>
+<p>which we translate into Step by saying that <code>SoundQuality</code> is a task that prints an adjective but also matches its argument to a bit pattern that depends on the adjective.  This lets us print something while also knowing what kind of thing we printed.</p>
+<pre><code class="language-step">[randomly]
+SoundQuality 0b00011110: explosive  
+SoundQuality 0b00111010: booming    
+SoundQuality 0b00111010: funky      
+SoundQuality 0b00111010: pounding   
+SoundQuality 0b00111010: rumbling   
+SoundQuality 0b00111011: resonating 
+SoundQuality 0b01010010: ringing    
+SoundQuality 0b01110110: sizzeling  
+SoundQuality 0b01111010: mechanical 
+SoundQuality 0b10000000: flapping   
+SoundQuality 0b10000000: whispering 
+...
+SoundQuality 0b11110110: hissing
+</code></pre>
+<p><code>SoundFrequency</code> (high-pitched or low-pitched) works the same way:</p>
+<pre><code class="language-step">[randomly]
+SoundFrequency 0b01000000: high pitched
+SoundFrequency 0b00100000: low pitched
+SoundFrequency 0b01100000.
+</code></pre>
+<p>The first rule matches to the bitset <code>0b01000000</code>, which has a 1 in the position the design document reserves for high-pithed sounds and prints the text <code>high pitched</code>.  The second has a 1 in the position for low-pitched sounds and prints the text <code>low pitched</code>.  The third prints nothing but has 1s in both positions, to indicate it can be used with descriptors for high- or low-pitched sounds.  When printing both a <code>SoundFrequency</code> and a <code>SoundQuality</code> we make sure their features are compatible using the <code>BitsetsIntersect</code> predicate, which fails if its arguments don't share 1's in any positions.</p>
+<p><code>WildcardAdjective</code> &mdash; adjectives like &ldquo;beautiful&rdquo; that can be applied to many different kinds of nouns &mdash; are also tagged this way, however with a different set of possible features.  See the <a href="Starflight_design_document.html">design document</a> for more details.</p>
+<h3 id="generating-sound-descriptions">Generating sound descriptions</h3>
+<p>Sounds are similar: they consist of randomly chosen phrases for the amplitude (loudness), frequency (pitch), and further description.  However, many of the descriptions are only compatible with some of the frequencies.  So <code>SoundFrequency</code> not only prints the relevant description, but also binds its argument <code>?freq</code> to the attributes of the sound it chose.  That is then passed on to <code>SoundDescriptor</code>, which can then choose its description based on the selected pitch:</p>
+<pre><code class="language-step">Sound: [SoundAmplitude] [SoundFrequency ?freq] [SoundDescriptor ?freq]
+</code></pre>
+<p><code>SoundDescriptor</code> then either:</p>
+<ul>
+<li>Prints a <code>SoundQuality</code> that's compatible with <code>?freq</code> followed by &ldquo;sound&rdquo; (first rule)</li>
+<li>Prints one of the <code>WildcardAdjectives</code> with a 1 in the &ldquo;I'm a sound sound&rdquo; position followed by &ldquo;sound&rdquo; (second rule)</li>
+<li>Just prints &ldquo;sound&rdquo; (third rule)</li>
+<li>Prints a random sound word (last rule)</li>
+</ul>
+<p>Here's the code, broken out into 4 rules to make it clearer, although the final version combines the first three rules into one rule:</p>
+<pre><code class="language-step">[randomly]
+SoundDescriptor ?freq: [SoundQuality ?bits] [BitSetsIntersect ?freq ?bits] sound
+SoundDescriptor ?freq: [WildcardAdjective ?bits] [BitSetsIntersect ?bits 0b01000000] sound
+SoundDescriptor ?freq: sound
+SoundDescriptor ?: [randomly] noise [or] blast [or] roar [end]
+</code></pre>
+<h2 id="full-code">Full code</h2>
+<p>Here's the full system so you can try it if you like:</p>
+<pre><code class="language-Step"># Try: [EquipmentUsageDescription]
+###
+### TOP-LEVEL COMMANDS
+### Try one of these three
+###
+# Generates the text for the EXAMINE command when examining equipment
+ExamineEquipment: [RelativeSize] [Color] [EquipmentTexture] [StructuralEntity] [OptionalEquipmentFeatures]
+# Generates text for the USE command when using equipment that isn't the analyzer
+EquipmentUsageDescription: using [EquipmentName]. [OptSoundAndVision] [IndirectObjectEffect] [DirectObjectEffect]
+# Generates text for the USE command when using the analyzer
+FunctionalDescription: [randomly] [EquipmentPhylum] [or] [EquipmentClass ?] [end]
+
+###
+### EQUIPMENT DESRCIPTIONS
+###
+
+[randomly]
+EquipmentName: [EthnicOrigin] [EquipmentClass ?]
+EquipmentName: [EthnicOrigin] [Color] [StructuralEntity]
+
+[randomly]
+EquipmentClass weapon: [randomly]knife [or] sling [or] sword [or] rock [or] stun projector [or] club [or] needler [or] darts [or] web gun [or] boomerang [or] laser pistol [or] magnum [or] laser rifle [or] projectile gun [or] sonic rifle [or] thrip gun [or] stun grenade [or] shtoltac rifle [or] plasma grenade [or] light saber [or] mortar [or] ecstasy orb [or] bolo [or] focusing cone [or] flail [or] black egg [or] bow [or] spear [or] pike [or] javelin [end]
+EquipmentClass vehicle: [randomly] skimmer [or] floater [or] hovercraft [or] landcrawler [or] ice clipper [or] robowalker [or] ornithopter [or] gyrocopter [or] landsphere [or] vacuum lifter [or] stratocruiser [or] groundleaper [or] centipede [or] dirigible [or] glider [or] sandship [or] boat [or] triwheel [end]
+EquipmentClass sensor: [randomly] bioscanner [or] masscanner [or] function analyzer [or] image amplifier [or] endurium sensor [end]
+EquipmentClass communication: universal translator
+EquipmentClass life_support: [randomly] food processor [or] light duty environment suit [or] medium duty environment suit [or] heavy duty environment suit [or] medikit[end]
+EquipmentClass general: [randomly] mining gear [or] alien repellent spray [or] malthusian muk-muk [or] assorted gems [or] denebian fire wine [or] synthi-harp [or] plastic beads [or] holo-imager [or] beef jerky [or] sun glasses [or] tanning lotion [or] gummy bears [or] boom box [or] starflight game [or] mystery box [end]
+
+EquipmentPhylum: [randomly] weapon [or] vehicle [or] sensor [or] communication [or] life support [or] general [end]
+
+[randomly]
+OptionalEquipmentFeatures: with [EquipmentFeature]
+OptionalEquipmentFeatures: with [EquipmentFeature] and [EquipmentFeature]
+OptionalEquipmentFeatures.
+
+EquipmentFeature: [StructuralEntity]
+
+EquipmentTexture: [randomly] pyramid shaped [or] cylindrical [or] diamond shaped [or] square [or] hexagonal [or] circular [or] triangular [or] finely sculptured [or] cuboid [or] round [or]  [or] octagonal [or] oval [or] bowl shaped [or] cupped [or] dish shaped [or] disk shaped [or] armoured [or] retractible [or] blade-like [or] saucer shaped [or] spiral [or] spiked [or] needle shaped [or] blunt [or] conical [or] razor sharp [or] sharp [or] flexible [or] spear shaped [or] rod shaped [or] pronged [or] pointed [or] spherical [or] dome shaped [or] tear shaped [or] very intricate [or] curved [or] irregular [or] jointed [or] powerful-looking [or] stubby [end]
+
+EthnicOrigin: [randomly] old empire [or] elowan [or] thrynn [or] veloxi [or] mechan [or] spemin [or] gazurtoid [or] seeayti [or] ulek [or] phlegmak [or] jaggn [or] numlox [or] xystythyx [end]
+
+RelativeSize: [randomly] wee  [or] tiny  [or] very small  [or] small  [or] big  [or] large  [or] very large [or] huge [or] massive [or] humongous [or] gargantuan [end]
+
+StructuralEntity: [randomly] blob [or] dial [or] window [or] sphere [or] light [or] seat [or] globe [or] meter [or] control [or] orb [or] lens [or] door [or] dome [or] hole [or] engine [or] cylinder [or] grid [or] coil [or] rod [or] ridge [or] fin [or] bar [or] wire [or] hull [or] cone [or] screen [or] antennae [or] pyramid [or] display [or] membrane [or] cube [or] handle [or] box [or] wheel [or] polyhedron [or] tread [or] tube [or] blade [or] button [or] trigger [or] lever [or] rotor [or] switch [or] wing [or] knob [or] sail [end]
+
+###
+### EFFECT DESCRIPTIONS
+###
+
+# I'm leaving these blank because it's too hard to figure out what's supposed to happen from the documentation.
+IndirectObjectEffect.
+DirectObjectEffect.
+
+[randomly]
+OptSoundAndVision: there is [a] [randomly] [Sound] [or] [VisualEffect] [or] [Sound] and [a] [VisualEffect] [end].
+OptSoundAndVision.
+
+VisualEffect: [randomly] [Luminosity] [or] [end] [randomly] [Hue ?] [or] [end] [RadiantEnergy]
+RadiantEnergy: [randomly] beam of energy [or] flash of light [or] bright glare [end]
+
+###
+### SOUND
+###
+
+Sound: [SoundAmplitude] [SoundFrequency ?freq] [SoundDescriptor ?freq]
+
+[randomly]
+SoundDescriptor ?freq: [randomly] [SoundQuality ?bits] [BitSetsIntersect ?freq ?bits] [or] [WildcardAdjective ?bits] [BitSetsIntersect ?bits 0b01000000] [or] [end] sound
+SoundDescriptor ?: [randomly] noise [or] blast [or] roar [end]
+
+SoundAmplitude: [randomly] loud [or] faint [or] thunderous [or] deafening [end]
+
+[randomly]
+SoundFrequency 0b01000000: high pitched
+SoundFrequency 0b00100000: low pitched
+SoundFrequency 0b01100000.
+
+[randomly]
+SoundQuality 0b00011110: explosive  
+SoundQuality 0b00111010: booming    
+SoundQuality 0b00111010: funky      
+SoundQuality 0b00111010: pounding   
+SoundQuality 0b00111010: rumbling   
+SoundQuality 0b00111011: resonating 
+SoundQuality 0b01010010: ringing    
+SoundQuality 0b01110110: sizzeling  
+SoundQuality 0b01111010: mechanical 
+SoundQuality 0b10000000: flapping   
+SoundQuality 0b10000000: whispering 
+SoundQuality 0b10010000: chattering 
+SoundQuality 0b10010000: crashing   
+SoundQuality 0b10010000: crackling  
+SoundQuality 0b10010000: howling    
+SoundQuality 0b10010000: snapping   
+SoundQuality 0b10010010: clicking   
+SoundQuality 0b10010010: crunching  
+SoundQuality 0b10010010: popping    
+SoundQuality 0b10010010: tapping    
+SoundQuality 0b10010010: whoosing   
+SoundQuality 0b10010010: buzzing    
+SoundQuality 0b10100000: cooing     
+SoundQuality 0b10100010: murmuring  
+SoundQuality 0b10110000: growling   
+SoundQuality 0b10110000: thumping   
+SoundQuality 0b10110010: drumming   
+SoundQuality 0b10110010: grinding   
+SoundQuality 0b10110010: purring    
+SoundQuality 0b10110010: thrumming  
+SoundQuality 0b10111010: roaring    
+SoundQuality 0b11010000: cackling   
+SoundQuality 0b11010000: chirping   
+SoundQuality 0b11010000: screaching 
+SoundQuality 0b11010000: sqeeeling  
+SoundQuality 0b11010010: whining    
+SoundQuality 0b11010010: whistling  
+SoundQuality 0b11010110: piercing   
+SoundQuality 0b11010110: screaming  
+SoundQuality 0b11100010: musical    
+SoundQuality 0b11110010: humming    
+SoundQuality 0b11110110: hissing
+
+###
+### COLOR
+###
+
+# Original source:
+# color = luminosity:(luminosity &quot; &quot;)1 pure hue : (tint &quot; &quot;)1 pure hue: mixed hue
+[randomly]
+Color: [Luminosity]
+Color: [Luminosity] [Hue pure]
+Color: [Tint] [Hue pure]
+Color: [Hue mixed]
+
+Tint: [randomly] dark [or] light [or] grey [end]
+
+Luminosity: [randomly] blinding [or] bright [or] glowing [or] luminescent [or] translucent [or] shimmering [end]
+
+# Starflight used a table of hues with a separate marker for which were mixed and pure.
+[randomly]
+Hue pure:  red
+Hue mixed: chartruse
+Hue mixed: magenta
+Hue mixed: greenish brown
+Hue mixed: maroon
+Hue pure:  green
+Hue mixed: puce
+Hue mixed: lime green
+Hue mixed: rust colored
+Hue pure:  blue green
+Hue mixed: pink
+Hue mixed: turquoise
+Hue pure:  redish orange
+Hue pure:  blue
+Hue mixed: brass colored
+Hue mixed: lavender
+Hue mixed: brown
+Hue pure:  violet
+Hue mixed: beige
+Hue pure:  purple
+Hue mixed: copper colored
+Hue mixed: obnoxious purple
+Hue pure:  orange
+Hue mixed: mauve
+Hue pure:  yellowish orange
+Hue mixed: many colored
+Hue pure:  yellow
+Hue mixed: white
+Hue pure:  lemon yellow
+Hue mixed: black
+Hue pure:  yellowish green
+
+###
+### MISC
+###
+
+WildcardAdjective 0b01010000:  bitchin'
+WildcardAdjective 0b10110000:  mondo
+WildcardAdjective 0b11010000:  groovy
+WildcardAdjective 0b10000000:  grody
+WildcardAdjective 0b10000000:  nauseating
+WildcardAdjective 0b11110000:  outrageous
+WildcardAdjective 0b11110000:  totally radical
+WildcardAdjective 0b10110000:  awesome
+WildcardAdjective 0b01000000:  edifying
+WildcardAdjective 0b01000000:  uplifting
+WildcardAdjective 0b10000000:  grotesque
+WildcardAdjective 0b10100000:  bodacious
+WildcardAdjective 0b01000000:  funkadelic
+WildcardAdjective 0b10000000:  gorgeous
+WildcardAdjective 0b10000000:  seductive
+WildcardAdjective 0b11110000:  beautiful
+WildcardAdjective 0b10110000:  incredible
+</code></pre>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Step
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Grammars.html" id="section_page_1"> Simple grammars
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Parameterized_grammars.html" id="section_page_2"> Parameterized grammars
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logic_programming.html" id="section_page_3"> Simple logic programs
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Starflight_PCG.html" id="section_page_4"> <b> Example: Procedural generation in <em>Starflight</em>
+ </b> </a> <br></li>
+						<ul>
+							<li class="sidebar"><a class="simplelink" href="Starflight_design_document.html"><i>Original design document from <em>Starflight</em>
+</i></a></li>
+						</ul>
+					<li class="sidebar"><a class="backgroundlink" href="State.html" id="section_page_5"> State and time in clairvoyant programming
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Structured_data.html" id="section_page_6"> Structured data
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Primitive_tasks.html" id="section_page_7"> Primitive tasks (technical)
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Higher-order_tasks.html" id="section_page_8"> Higher-order tasks
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="State.html">State
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Self-referential_rules.html">Self-referential rules
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="The_Step_language.html">Step
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Planning.html">Planning
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="NDScript.html">Clairvoyant algorithms
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Starflight_PCG.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

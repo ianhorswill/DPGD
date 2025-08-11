@@ -14,7 +14,7 @@ For example, we might represent the plot point that Jayden confesses their love 
 
 However, this only makes sense if we know that Jayden has a crush on Tiana.  Otherwise, why would they confess?  And it doesn’t make sense if the two are already dating.  So you need to make sure that your plot point generator only generates `confess_love` plot points when there’s an attraction that isn’t being acted on.
 
-Note also that we’ve provided you with a version of [`Mention`](mention) that understands things like pronoun generation and capitalization of character names.  You don’t need to modify it, just realize that it’s there.  If you don’t know what `Mention` is, read [generating text in context](adaptive_generation).
+Note also that we’ve provided you with a version of [`Mention`](mention) that understands things like pronoun generation and capitalization of character names.  You don’t need to modify it, just realize that it’s there.  If you don’t know what `Mention` is, read [generating text in context](adaptive_text_generation).
 
 ## Getting started
 

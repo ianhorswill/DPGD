@@ -101,7 +101,7 @@
 <blockquote>
 <p>information → decision</p>
 </blockquote>
-<p>Unfortunately, many problems, such as finding one's way in a maze, involve <strong>delayed feedback</strong>.  You first make the decision and then find out later if it was the right decision.  So the order is reversed:</p>
+<p>Unfortunately, many problems, such as finding one's way in a maze, involve <strong>delayed feedback</strong>.  You first make the decision and then find out later if it was the right decision.  The order is reversed:</p>
 <blockquote>
 <p>decision → information</p>
 </blockquote>
@@ -109,10 +109,14 @@
 <blockquote>
 <p>decision → information → decision → information → ...</p>
 </blockquote>
-<p>Keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  A large chunk of a typical undergraduate AI course is devoted to managing that bookkeeping.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+<p>Keeping track of what we have and haven't tried, avoiding trying things we don't need to try, and choosing the best next thing to try is a lot of work.  Programming it can be error-prone.  A large chunk of a typical undergraduate AI course is devoted to managing that bookkeeping.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
 <h2 id="clairvoyance">Clairvoyance</h2>
-<p>Programming would be easier if your computer was a Jedi.  You'd tell it the options available, and the force would whisper in its ear which option to choose.  In computer science, this is known as <a href="https://en.wikipedia.org/wiki/Nondeterministic_Programming">nondeterministic choice</a> and is a useful/good thing.  However, many other things in CS are also referred to as nondeterminism, and all of those are bad.  Moreover, the name fails to communicate its value  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of nondeterminism.</p>
-<h2 id="endnotes">Endnotes</h2>
+<p>Programming would be easier if your computer was a <a href="https://en.wikipedia.org/wiki/Jedi">Jedi</a>.  You'd tell it the options available, and <a href="https://en.wikipedia.org/wiki/The_Force">the force</a> would whisper in its ear which option to choose.  In computer science, this is known as <a href="https://en.wikipedia.org/wiki/Nondeterministic_Programming">nondeterministic choice</a> and is a useful/good thing.  However, many other things in CS are also referred to as nondeterminism, and all of those are bad.  Moreover, the name fails to communicate its value.  So I'll use the tongue-in-cheek term <strong>clairvoyance</strong> in place of nondeterminism.</p>
+<h2 id="structure-of-this-section">Structure of this section</h2>
+<p>In this section, we'll show you have to use languages that behave as if they're clairvoyant.</p>
+<p>For those of you who are already programmers, we'll begin with <a href="NDScript.html">NDScript</a>, a sort of JavaScript-subset with the minimum possible clairvoyance features added into it.  Being simpler, it makes it easier for us to describe some of the underlying theory.  And it lets you directly execute the kinds of <a href="https://en.wikipedia.org/wiki/nondeterministic_algorithm">nondeterministic algorithms</a> frequently found in textbooks and the academic literature.  This section moves quickly and assumes some computer science background.  So skip it if you aren't a programmer.</p>
+<p>Then we'll continue with <a href="The_Step_language.html">Step</a>, a much more flexible and powerful language.  Start here if you're not an experienced programmer.  Step is more like the clairvoyant languages that are in common use.  It combines features of both <a href="https://en.wikipedia.org/wiki/logic_programming">logic programming</a> and <a href="https://en.wikipedia.org/wiki/hierarchical_task_network">planners</a>.  Both these languages are open source and can be used easily in a Unity or Godot game.</p>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
@@ -135,13 +139,13 @@
 			<h5>Clairvoyant programming
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="A_clairvoyant_scripting_language.html" id="section_page_1"> NDScript: a minimal clairvoyant language
+					<li class="sidebar"><a class="backgroundlink" href="NDScript.html" id="section_page_1"> A minimalist clairvoyant language (technical)
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="The_Step_language.html" id="section_page_2"> Step: a maximal clairvoyant language
+					<li class="sidebar"><a class="backgroundlink" href="The_Step_language.html" id="section_page_2"> Step: a maximalist clairvoyant language
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Planning.html" id="section_page_3"> Planning
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Adaptive_generation.html" id="section_page_4"> Adapting text to context
+					<li class="sidebar"><a class="backgroundlink" href="Adaptive_text_generation.html" id="section_page_4"> Adapting text to context
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Natural_language_parsing.html" id="section_page_5"> Natural language parsing
  </a> <br></li>
@@ -159,7 +163,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="A_clairvoyant_scripting_language.html">NDScript
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="NDScript.html">Clairvoyant algorithms
 </a><br>
 				</td>
 			</tr>

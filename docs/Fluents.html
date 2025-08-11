@@ -102,7 +102,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Fluents are predicates you can change during the execution of the program.  In particular, you can declare them to have become newly true or false for some specific set of parameters using the <code>now</code> command:</p>
+<p>Fluents are predicates you can change during the execution of the program.  In particular, you can use the <code>now</code> to change them to be newly true or false for specific sets of parameter values:</p>
 <ul>
 <li><code>[now [Predicate a b]]</code> says that henceforth, <code>[Predicate a b]</code> is true (that is, it should succeed), regardless of whether it was true before.</li>
 <li><code>[now [Not [Predicate a b]]]</code> says that it's false (should fail), regardless of whether it was false before.</li>
@@ -128,7 +128,7 @@ Owner car yifan.
   [now [Not [Owner ?giver ?item]]]
 [end]
 </code></pre>
-<p>Note that the <code>now</code> command <em>only</em> updates the table of methods inside <code>Owner</code>.  It doesn't understand any consequences of the change.  So it doesn't object usually only have one owner, and so making <code>?receiver</code> the owner of something automatically makes its previous owner stop owning it.  Thus, we have to use two <code>now</code> commands, one to give it to the receiver and own to take it away from the giver.</p>
+<p>Note that the <code>now</code> command <em>only</em> updates the table of methods inside <code>Owner</code>.  It doesn't understand any consequences of the change.  For example, it doesn't understand that objects usually only have one owner.  So making <code>?receiver</code> the owner of something automatically makes its previous owner stop owning it in our minds but not for the computer.  Thus, we have to use two <code>now</code> commands, one to give it to the receiver and own to take it away from the giver.</p>
 <h2 id="functions">Functions</h2>
 <p>That said, it's so common for relationships to have this sort of &ldquo;only one&rdquo; property, that there's a special name for it in <a href="Basic_objects_of_mathematics.html">set theory</a>: such relationships are called <strong><a href="Functions.html">functions</a></strong>: we might say, for example, that ownership is a function from an object to a person (the owner).  In saying that, you are saying that an object can't have multiple owners.</p>
 <p>If we tag <code>Owner</code> with the <code>[function]</code> annotation, the system will understand that an object can only have one owner, and so when transferring ownership, we don't have to explicitly remove the old owner.  This simplifies updates considerably:</p>
@@ -246,7 +246,7 @@ Give ?giver ?receiver ?item: [now [Owner ?reciver ?item]]
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html">Simple logic programs
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>

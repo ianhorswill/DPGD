@@ -125,7 +125,7 @@ int P(int[] A, int lo, int hi) {
 <p>By the way, I lied.  This isn’t really Quicksort: the <code>if</code> inside <code>P</code> should increment the variable <code>i</code> after swapping the two array elements.  But you’re even less likely to have realized it was broken than that it was Quicksort.  Programming is hard precisely because the relation between the spec (sorting) and the code (iterating, recursing, comparing, and swapping elements) is so tenuous.</p>
 <p>Moreover, the relationship between spec and code is <strong>unstable</strong>: small changes in the spec can require wildly different code.  Modifying our code to sort into descending order is a one-character change (<code>&lt;</code> to <code>&gt;</code>).  But changing it to be stable (identical elements are kept in their original order) requires an entirely different sort algorithm. <a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
 <p>This has real-world implications.  It means that recognizing bugs is hard.  It also means that communication between programmers is hard.  When you read my code, or I read my own code 2 months after writing it, it can be hard to know why it works or even what it was trying to do to begin with.  Programming is at least as much a social-psychological discipline as it is a mathematical one.  Most programming language design aims make programs easier for humans to understand, not to make the programs faster.</p>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Finding minimum-cost solutions&#xA;</title>
+	<title>Minimization&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Finding minimum-cost solutions&#xA;">
-	<meta name="twitter:title" content="Finding minimum-cost solutions&#xA;">
-	<meta property="og:title" content="Finding minimum-cost solutions&#xA;" />
+	<meta itemprop="name" content="Minimization&#xA;">
+	<meta name="twitter:title" content="Minimization&#xA;">
+	<meta property="og:title" content="Minimization&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -55,9 +55,11 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="A_clairvoyant_scripting_language.html"> NDScript
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="NDScript.html"> Clairvoyant algorithms
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Finding minimum-cost solutions
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Comparing_solutions.html"> Least-cost paths
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Minimization
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -130,8 +132,8 @@ function solve()
 }
 
 // Design of the map
-var s = &quot;white.png&quot;;     // free space
-var X = &quot;red.png&quot;;       // obstacle
+var s = &quot;white&quot;;     // free space
+var X = &quot;red&quot;;       // obstacle
 var size = 5;
 var map = grid([
              [s, s, s, s, s],
@@ -145,31 +147,31 @@ var x = 0;
 var y = 0;
 
 function right() {
-   map[x, y] = &quot;right.png&quot;;
+   map[x, y] = &quot;right&quot;;
    x = x+1;
    if (x == size || map[x, y] != s) fail;
-   map[x, y] = &quot;green.png&quot;;
+   map[x, y] = &quot;green&quot;;
 }
 
 function left() {
-   map[x, y] = &quot;left.png&quot;;
+   map[x, y] = &quot;left&quot;;
    x = x-1;
    if (x &lt; 0 || map[x, y] != s) fail;
-   map[x, y] = &quot;green.png&quot;;
+   map[x, y] = &quot;green&quot;;
 }
 
 function up() {
-   map[x, y] = &quot;up.png&quot;;
+   map[x, y] = &quot;up&quot;;
    y = y-1;
    if (y &lt; 0 || map[x, y] != s) fail;
-   map[x, y] = &quot;green.png&quot;;
+   map[x, y] = &quot;green&quot;;
 }
 
 function down() {
-   map[x, y] = &quot;down.png&quot;;
+   map[x, y] = &quot;down&quot;;
    y = y+1;
    if (y == size || map[x, y] != s) fail;
-   map[x, y] = &quot;green.png&quot;;
+   map[x, y] = &quot;green&quot;;
 }
 
 function done()
@@ -184,7 +186,7 @@ minimize(solve);
 printLine(&quot;Path:&quot;);
 printTilemap(map);
 </code></pre>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
@@ -204,18 +206,10 @@ printTilemap(map);
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>NDScript
+			<h5>Least-cost paths
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Clairvoyant_path_finding.html" id="section_page_1"> Clairvoyant pathfinding
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Verification.html" id="section_page_2"> Generation vs. verification
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="NDScript_choice_paths.html" id="section_page_3"> Choice paths
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Better_planner.html" id="section_page_4"> A more realistic pathfinding problem
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Minimization.html" id="section_page_5"> <b> Finding minimum-cost solutions
+					<li class="sidebar"><a class="simplelink" href="Minimization.html" id="section_page_1"> <b> Minimization
  </b> </a> <br></li>
 			</ol>
 	<script>
@@ -231,7 +225,7 @@ printTilemap(map);
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="The_Step_language.html">Step
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Map_generation.html">Map generation
 </a><br>
 				</td>
 			</tr>
@@ -245,7 +239,7 @@ printTilemap(map);
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Better_planner.html">Moving up and left
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Comparing_solutions.html">Least-cost paths
 </a><br>
 				</td>
 			</tr>
@@ -259,7 +253,7 @@ printTilemap(map);
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="A_clairvoyant_scripting_language.html">NDScript
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Comparing_solutions.html">Least-cost paths
 </a><br>
 				</td>
 			</tr>
@@ -272,7 +266,7 @@ printTilemap(map);
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="The_Step_language.html">Step
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Map_generation.html">Map generation
 </a><br>
 				</td>
 			</tr>
@@ -280,6 +274,19 @@ printTilemap(map);
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="NDScript_execution.html">Execution
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
 	</table>

@@ -41,6 +41,6 @@ graph TB
 We'll call this a **choice tree**.  Different sequences of choices -- different **choice paths** -- produce different outputs, shown here in green.  We'll use green in these diagrams to indicate the ends of **successful** choice paths, and red to indicate **failed** ones.  For the moment, all paths are green because there's nothing that can fail.
 
 
-## Endnotes
+## Notes
 
 [^1]: [Turing, A. M. *On Computable Numbers, with an Application to the Entscheidungsproblem."](https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/plms/s2-42.1.230).

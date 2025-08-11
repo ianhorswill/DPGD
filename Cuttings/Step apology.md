@@ -21,7 +21,7 @@ Step automatically searches the tree of possible method choices.  When the progr
 This feature is sometimes called **non-determinism**.[^3]  Step is a non-deterministic language.
 
 
-## Endnotes
+## Notes
 
 [^1]: For those who know these terms already, *Step* has nearly all the features of classical logic programming languages such as [*Prolog*](https://en.wikipedia.org/wiki/Prolog), and HTN planners such as [*SHOP*](https://www.cs.umd.edu/~nau/projects/shop).  It is both weaker and more powerful than [answer set programming](https://en.wikipedia.org/wiki/Answer_set_programming).  If you don't know what these terms mean, we will explain them later in the book.
 

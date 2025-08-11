@@ -39,6 +39,6 @@ graph TB
 ```
 Again, the left subtree fails because the *South Park* doesn't tell us anything about Sharon's siblings.[^1]
 
-## Endnotes
+## Notes
 
 [^1]: For those who aren't familiar, these examples are taken from the TV shows [*The Simpsons*](https://en.wikipedia.org/wiki/The_Simpsons) and [*South Park*](https://en.wikipedia.org/wiki/South_Park).  Sharon is a character from *South Park* and so far as I know, her parents haven't appeared in any episodes.  Or at least, Wikipedia doesn't list any names for them.

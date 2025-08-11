@@ -1,0 +1,331 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Negation is (necessary) evil&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Negation is (necessary) evil&#xA;">
+	<meta name="twitter:title" content="Negation is (necessary) evil&#xA;">
+	<meta property="og:title" content="Negation is (necessary) evil&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Higher-order_tasks.html"> Higher-order tasks
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Negation is (necessary) evil
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<blockquote>
+<p><strong>Prince Charming</strong>: You're telling me you don't know where Shrek is?</p>
+<p><strong>Pinocchio</strong>: It wouldn't be inaccurate to assume that I couldn't exactly not say that it is or isn't almost partially incorrect.</p>
+<p><strong>Prince Charming</strong>: So you do know where he is!</p>
+<p><strong>Pinocchio</strong>: On the contrary. I'm possibly more or less not definitely rejecting the idea that in no way with any amount of uncertainty that I undeniably &mdash;</p>
+<p><strong>Prince Charming</strong>: Stop it!</p>
+<p>— <em>Shrek the Third</em><a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+</blockquote>
+<p>The concept of <strong>negation</strong> (being <em>not X</em> rather than being <em>X</em>) is inherently confusing.  So much so, that it's been the subject of countless Ph.D. theses in philosophy, mathematics, logic, and computer science.  There are entire, <a href="https://en.wikipedia.org/wiki/intuitionism">century-long debates between different schools in logic and mathematics</a> that amount to disagreements as to whether <em>not not being true</em> is the same as <em>being true</em>.  Distressingly, both sides have persuasive arguments.</p>
+<p>Negation (<code>Not</code> and <code>NotAny</code>) in logic programming has an equally controversial history.  The technical name for it is <a href="https://en.wikipedia.org/wiki/Negation_as_failure">negation-as-failure</a> and there were 30 years of Ph.D. theses trying to address the problems with it. </p>
+<h2 id="best-practices-for-negation">Best practices for negation</h2>
+<p>We'll talk about why negation-as-failure is problematic shortly.  But it's quite technical and you may want to skip it on a first reading.  So first, let's talk about how to protect yourself from the problems.</p>
+<h3 id="best-practice-avoid-unbound-variables-in-negations">Best practice: avoid unbound variables in negations</h3>
+<p>The thing to remember is that negation is only problematic when there are <strong>unbound variables</strong> in the query; that is, any variables that haven't been given a value.  It's not that the program crashes, it's that unbound variables in negative queries behave differently than those in positive queries, and that leads to bugs.  So best practice is to avoid them unless you really know what you're doing.  Here's how you do that.</p>
+<h3 id="best-practice-use-not-in-preference-to-notany-when-possible">Best practice: use <code>Not</code> in preference to <code>NotAny</code> when possible</h3>
+<p><code>Not</code> is the same as <code>NotAny</code> except that it throws an exception whenever it finds an unbound variable in its argument.  So if you're writing code with negation and you don't specifically want and expect it to have an unbound variable, use <code>Not</code>.  That way, if you mess up and call it with a variable, it will stop and let you know.</p>
+<h3 id="best-practice-use-domain-predicates-to-fill-in-variables-before-calling-not">Best practice: use domain predicates to fill in variables before calling <code>Not</code></h3>
+<p>The <strong>domain</strong> of a variable is its set of possible values.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  A <strong>domain predicate</strong> is a predicate that's true of its argument if it's in some domain (i.e. some specific set).  For example, you might have a predicate like <code>[Character ?x]</code> that is true when <code>?x</code> is a character in your game.  So:</p>
+<ul>
+<li><code>[Character john]</code> will be true if <code>john</code> is a character, and</li>
+<li><code>[Character ?x]</code> will bind <code>?x</code> to some character.</li>
+</ul>
+<p>If you have some other predicate like <code>[Married ?x]</code> that's true when the character <code>?x</code> is married.</p>
+<p>Let's write an a <code>[Unmarried ?x]</code> predicate that's true when <code>?x</code> is unmarried.  We want it to behave &ldquo;normally&rdquo; in the sense that if we call it with an unbound variable, it fills in the variable with someone who's unmarried.  That means we have to use <code>NotAny</code> rather than <code>Not</code> since not will error you call it with an unbound variable.  You might write this as:</p>
+<pre><code class="language-step">Unmarried ?x: [NotAny [Married ?x]]
+</code></pre>
+<p>This looks good.  If we call <code>[Unmarried john]</code>, then as we except it succeeds if <code>john</code> is married and fails if he isn't.  We get the same behavior when we call <code>[Unmarried ?x]</code> when <code>?x=john</code>.</p>
+<p>But if we call <code>[Unmarried ?x]</code> when <code>?x</code> is unbound, then this succeeds only when <code>[Married ?x]</code> fails.  That only happens when <strong>every character in your game is unmarried</strong>.  That's not the behavior we intended; we wanted it to report back a specific value for <code>?x</code> that was an unmarried character.</p>
+<p>The good news is that it's easy to fix.  We just change the definition to:</p>
+<pre><code class="language-step">Unmarried ?x: [Character ?x] [Not [Married ?x]]
+</code></pre>
+<p>Adding the <code>Character</code> call forces <code>?x</code> to be bound when you enter the <code>Not</code> call, and specifically forces it to be bound to a character.  Now, if you call <code>[Unmarried john]</code>, if first checks if <code>john</code> is a character, and assuming he is, continues on to check his marital status.  But if you say <code>[Unmarried ?x]</code> when <code>?x</code> is unbound, then it will search for an <code>?x</code> that is both a character and unmarried, as we wanted.</p>
+<p><strong>Important:</strong> this doesn't work if you reverse the order:</p>
+<pre><code class="language-step">[Not [Married ?x]] [Character ?x]
+</code></pre>
+<p>This brings us to our last best practice.</p>
+<h3 id="best-practice-put-negations-at-the-end">Best practice: put negations at the end</h3>
+<p>Because a negation means something different when it has an unbound variable in it, and because variables tend to get bound over time (that is, as we move left to right in a method), it's generally best to put your negations as late in the rule as possible.</p>
+<h2 id="technical-why-negation-as-failure-is-problematic">Technical: why negation-as-failure is problematic</h2>
+<p>Now let's talk a bit more about why negation in these languages is problematic.  The problems can be divided roughly into <em>ambivalent features</em>, which are good sometimes and bad in others, <em>misfeatures</em> which aren't necessarily bugs but which programmers with weren't true, and <em>bugs</em> which are clearly bad.</p>
+<h3 id="ambivalent-the-closed-world-assumption">Ambivalent: the closed-world assumption</h3>
+<p>Negation-as-failure is the assumption that anything that isn't provable is false.  It's often useful, maybe even usually useful.  But it's only valid if the system has all relevant information.  Consider the following example of US presidents:</p>
+<pre><code class="language-Step"># Try: [President kennedy]
+[predicate]
+President washington.
+President j_adams.
+President jefferson.
+President madison.
+President monrow.
+President j_q_adams.
+President jackson.
+President van_buren.
+President harrison.
+President tyler.
+</code></pre>
+<p>Here, it will reply &ldquo;no&rdquo; to the question &ldquo;was Kennedy a President?&rdquo; because its list is incomplete.  If you run <code>[Not [President kennedy]]</code> it will reply &ldquo;yes.&rdquo;</p>
+<p>Another way of thinking about it is that the system treats &ldquo;don't know&rdquo; as &quot;is false.&quot;  It can't distinguish the two.</p>
+<h3 id="misfeature-some-vs.every">Misfeature: some vs. every</h3>
+<p>Negation in languages like Step and <a href="https://en.wikipedia.org/wiki/prolog">Prolog</a> changes the meaning of variables in a query.</p>
+<p>A query like <code>[P ?x]</code>, when <code>?x</code> is unbound, means &quot;is <code>P</code> true for <strong>some</strong> <code>?x</code>?&quot;.  But <code>[NotAny [P ?x]]</code> means:</p>
+<ul>
+<li>Is <code>[P ?x]</code> false?</li>
+<li>In other words: is it false that <code>P</code> is true for <strong>some</strong> <code>?x</code>?</li>
+<li>In other words: is it true that <code>P</code> is false for <strong>every</strong> <code>?x</code>?</li>
+</ul>
+<p>It quietly flips <strong>some</strong> to <strong>every</strong>.  Even experienced programmers routinely forget this, and it leads to innumerable bugs.</p>
+<p>One way to see how this can trip you up is that, normally, if a predicate is true for some particular value, for example <code>[President washington]</code>, then it's also true for a variable: <code>[President ?x]</code>.  But in the case of negation, it doesn't work that way.  We just showed that <code>[NotAny [President kennedy]]</code> was true.  So we'd think that <code>[NotAny [President ?x]]</code> would also be true, but it isn't because it's asking whether there are no presidents rather than whether there are any non-presidents. </p>
+<p>Worse yet, there's no real way to write a version of <code>Not</code> that works the way we'd expect it to.  The best you can do is the <a href="#best-practice-use-domain-predicates-to-fill-in-variables-before-calling-not">domain predicate work-around</a> that we discussed above.</p>
+<h3 id="bug-negation-gives-you-different-answers-at-different-times">Bug: negation gives you different answers at different times</h3>
+<p>This one is awful.  As we said above, if you use a <a href="#best-practice-use-domain-predicates-to-fill-in-variables-before-calling-not">domain predicate</a> to prevent unbound variables in a negation:</p>
+<pre><code class="language-step">Unmarried ?x: [Character ?x] [Not [Married ?x]]
+</code></pre>
+<p>It only works if the domain predicate comes <em>before</em>.  If we put it after, it breaks:</p>
+<pre><code class="language-step">Unmarried ?x: [Not [Married ?x]] [Character ?x] 
+</code></pre>
+<p>This means &ldquo;and&rdquo; in logic programming <strong>isn't commutative!</strong></p>
+<p>This is a disaster.  It's why there were 30 years of people doing Ph.D. theses trying to clean up negation-as-failure.</p>
+<h2 id="notes">Notes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>This example is lovingly stolen from <a href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ConfusingMultipleNegatives">TVTropes</a>.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Much like a datatype in a normal programming language.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Higher-order tasks
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Calling_a_variable.html" id="section_page_1"> Running code in a variable
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_2"> Ands and Ors
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Negation.html" id="section_page_3"> <b> Negation is (necessary) evil
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Looping.html" id="section_page_4"> Looping operations
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="All-solutions_predicates.html" id="section_page_5"> All-solutions predicates
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_7"> Parsing
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Looping.html">Looping operations
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Logical_connectives.html">Ands and Ors
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Higher-order_tasks.html">Higher-order tasks
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html">Primitive tasks (technical)
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Negation.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

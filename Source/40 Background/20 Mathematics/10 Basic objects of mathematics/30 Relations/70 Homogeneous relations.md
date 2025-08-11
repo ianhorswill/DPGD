@@ -63,6 +63,6 @@ An **order** is any relation $$R\subseteq A \times A$$ with the same properties:
 **FINISHME**
 
 
-## Endnotes
+## Notes
 
 [^1]: It's also antisymmetric.  But $$=$$ is the only relation that is all those things plus antisymmetric, so it's not useful

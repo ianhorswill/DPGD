@@ -18,7 +18,7 @@ Parent stan randy.
 Parent randy grandpa.
 Parent jimbo grandpa.
 ```
-Which says that `?g` is a grandparent of grandchild `?c` if `?p` is a parent of `?c`, *and* `?g` is a parent of `?p`.  Note that we’ve adopted the convention that the grandparent is the second parameter.  But we could have chosen it to be the other way around; the computer doesn’t care.  The code for `Grandparent` looks almost the same as the code for `Sibling` -- it's just a change in how the parameters match up between the calls -- but it gives us a different choice tree and solutions:
+Which says that `?g` is a grandparent of grandchild `?c` if `?p` is a parent of `?c`, *and* `?g` is a parent of `?p`.  Note that we’ve adopted the convention that the grandparent is the second parameter.  But we could have chosen it to be the other way around; the computer doesn’t care.  The code for `Grandparent` looks almost the same as the code for `Sibling` --- it's just a change in how the parameters match up between the calls --- but it gives us a different choice tree and solutions:
 
 ```mermaid
 graph TB
@@ -29,3 +29,7 @@ graph TB
     style s fill:green
 ```
 The left branch fails because we haven't told the system anything about Sharon's parents.[^1]  But the right branch succeeds, because the database includes a parent for randy.
+
+## Notes
+
+[^1]: For those who aren't familiar, these examples are taken from the TV shows [*The Simpsons*](https://en.wikipedia.org/wiki/The_Simpsons) and [*South Park*](https://en.wikipedia.org/wiki/South_Park).  Sharon is a character from *South Park* and so far as I know, her parents haven't appeared in any episodes.  Or at least, Wikipedia doesn't list any names for them.

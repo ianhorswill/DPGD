@@ -60,8 +60,8 @@
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Higher-order tasks
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
-					   early draft
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -100,7 +100,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>We've seen, some tasks calls to run as parameters.  These are known as <a href="https://en.wikipedia.org/wiki/Higher-order_function">high-order tasks</a>.  Higher-order tasks are used to do most of the complicated algorithmic work in logic programming, but they also have other uses.</p>
+<p>We've seen, some tasks take code-to-be-run as parameters.  These are known as <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher-order tasks</a>.  Higher-order tasks are used to do most of the complicated algorithmic work in logic programming, but they also have other uses.</p>
 <p>There are a number of higher-order primitives, such as <code>Not</code>, but it's also common to write your own higher-order tasks.</p>
 <h2 id="higher-order-primitives">Higher-order primitives</h2>
 <p>Most higher-order primitive tasks either:</p>
@@ -113,7 +113,7 @@
 <p>Suppose we run:</p>
 <pre><code class="language-Step">[Member ?who [tanya jayden kimiko]]
 </code></pre>
-<p>This asks for a <code>?who</code> that is a member of the tuple <code>[tanya jayden kimiko]</code>.  It has one choice path for each element of the tuple, and all the choice paths are solutions:</p>
+<p>This asks for a <code>?who</code> that is a element of the tuple <code>[tanya jayden kimiko]</code>.  It has one choice path for each element of the tuple, and all the choice paths are solutions:</p>
 <pre class="mermaid">graph TB
     start("[Member ?who [tanya jayden kimiko]]") -- "?who=tanya" --> ea[Succeed]
     style ea fill:green;
@@ -125,7 +125,8 @@
 <p>If instead we run:</p>
 <pre><code class="language-Step">[Member ?who [tanya jayden kimiko]] [Like ?who mexican]
 </code></pre>
-<p>we're asking &ldquo;is there someone in the list who likes mexican food?&rdquo;  If our database says:</p>
+<p>then we're asking &ldquo;is there someone in the list who likes mexican food?&rdquo;</p>
+<p>If our database says:</p>
 <pre><code class="language-step">[predicate]
 Likes tanya sushi.
 Likes tanya burgers.
@@ -151,12 +152,12 @@ Likes ? pizza.
 <p>Now suppose we run:</p>
 <pre><code class="language-Step">[Implies [Member ?who [tanya jayden kimiko]] [Like ?who mexican]]
 </code></pre>
-<p>This asks <strong>does everyone in the list like Mexican food?</strong></p>
+<p>This asks <strong>does everyone in the list like Mexican food?</strong>.  It checks all the branches of the tree above and only succeed if all the branches succeed.</p>
 <h2 id="code-as-tuples">Code as tuples</h2>
 <p>As we've mentioned before, when you say:</p>
 <pre><code class="language-step">[Not [Number ?who]]
 </code></pre>
-<p>you are technically calling a predicate, <code>Not</code>, whose parameter is the <strong>tuple</strong> <code>[Number ?x]</code>.  The fact that tuples and calls are spelled the same way allows us to pass code as parameters to predicates and other tasks.</p>
+<p>you are technically calling a predicate, <code>Not</code>, whose parameter is the tuple <code>[Number ?x]</code>.  The fact that tuples and calls are written the same way allows us to pass code as parameters to predicates and other tasks.</p>
 <p>For the most part, you don't have to think about this.  It matters if you're writing your own higher-order primitives, or in a few cases where you write a higher-order task that modifies the code before running it.  Otherwise, you can safely ignore it.  We mention it primarily to reassure anyone who feels confused about whether these parameters are calls or tuples: they are both in some sense.</p>
 
 
@@ -172,15 +173,19 @@ Likes ? pizza.
 			<h5>Higher-order tasks
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="All_paths_predicates.html" id="section_page_1"> All-paths predicates
+					<li class="sidebar"><a class="backgroundlink" href="Calling_a_variable.html" id="section_page_1"> Running code in a variable
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_2"> Ands and Ors
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="primitive.html" id="section_page_3"> Parsing text
+					<li class="sidebar"><a class="backgroundlink" href="Negation.html" id="section_page_3"> Negation is (necessary) evil
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_4"> Parsing
+					<li class="sidebar"><a class="backgroundlink" href="Looping.html" id="section_page_4"> Looping operations
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Call_primitive.html" id="section_page_5"> The Call primitive
+					<li class="sidebar"><a class="backgroundlink" href="All-solutions_predicates.html" id="section_page_5"> All-solutions predicates
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_7"> Parsing
  </a> <br></li>
 			</ol>
 	<script>
@@ -196,7 +201,7 @@ Likes ? pizza.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="All_paths_predicates.html">All-paths predicates
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Calling_a_variable.html">Running code in a variable
 </a><br>
 				</td>
 			</tr>

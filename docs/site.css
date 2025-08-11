@@ -115,3 +115,16 @@ table {
 .hljs-title {
 	font-weight: bold;
 }
+
+.centered {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.centered td {
+	text-align: center;
+}
+
+pre {
+	    scrollbar-color: #333 #222;
+}

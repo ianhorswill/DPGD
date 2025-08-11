@@ -1,9 +1,3 @@
-{const KEYWORD = {
-  scope: 'keyword',
-  beginKeywords: 'set initially now'
-  
-};
-
 const BLOCKEND = { 
   scope: 'title',
   begin: '^\\[end\\]',
@@ -45,6 +39,23 @@ const OPERATOR = {
 };
 
 const GLOBAL_VARIABLE = {
+    keywords: {
+        built_in: ['Call', "Succeeds", "CallDiscardingStateChanges", "IgnoreOutput", "Begin", "And", "Or",
+            "Not", "Fails", "NotAny", "FindAll", "FindUnique", "FindFirstNUnique", "FindAtMostNUnique",
+            "DoAll", "AccumulateOutput", "AccumulateOutputWithSeparators", "ForEach", "Implies", "Once",
+            "ExactlyOnce", "Max", "Min", "SaveText", "PreviousCall", "UniqueCall", "Parse", "TreeSearch",
+            "=", "Different", ">", "<", ">=", "<=", "Paragraph", "NewLine", "FreshLine", "ForceSpace",
+            "Fail", "Break", "InterpreterBreak", "Log", "LogBack", "Listing", "Throw", "BailOut", "StringForm",
+            "WriteVerbatim", "Write", "WriteCapitalized", "WriteConcatenated", "Member", "Length", "Nth",
+            "Cons", "Var", "NonVar", "Ground", "Nonground", "CopyTerm", "String", "Tuple", "FeatureStructure",
+            "BinaryTask", "Empty", "EmptyMaxQueue", "EmptyMinQueue", "CountAttempts", "RandomIntegerInclusive",
+            "RandomIntegerExclusive", "RandomFloat", "RandomElement", "Gaussian", "SampleFeatures",
+            "Format", "Downcase", "Downcased", "Upcased", "Capitalized", "StartsWithVowel",
+            "NounSingularPlural", "EnvironmentOption", "Hashtable", "Contains", "LinearInterpolate",
+            "CompoundTask", "TaskMethod", "LastMethodCallFrame", "CallerChainAncestor", "GoalChainAncestor",
+            "TaskCalls", "TaskSubtask", "Help", "Apropos", "ElStore", "ElDelete", "ElDump", "Mention"
+        ]
+    },
   scope: 'variable',
   begin: '[A-Z]\\w*'
 };
@@ -94,12 +105,11 @@ const FEATURE_STRUCTURE = {
 GENERAL_VALUE.push(FEATURE_STRUCTURE)
 
 const CALL = {
-  begin: ' \\[ *',
+  begin: ' \\[ *(?!randomly|or|end|firstOf|case|cool|once)',
   scope: 'variable',
   end: '\\]',
   endsWithParent: true,
   contains: [
-    KEYWORD,
     TUPLE,
     QUOTED_STRING,
     SMARTY_PANTS_QUOTED_STRING,
@@ -116,7 +126,6 @@ const TOPLEVELCALL = {
   scope: 'variable',
   end: '$',
   contains: [
-    KEYWORD,
     TUPLE,
     FEATURE_STRUCTURE,
     QUOTED_STRING,
@@ -135,12 +144,16 @@ const VARIABLE_INTERPOLATION = {
   scope: "variable"
 };
 
+const INLINE_KEYWORD = {
+  scope: 'keyword',
+  begin: '\\[(randomly|or|end|firstOf|case|cool|once)\\]'
+}
 const SINGLE_LINE_BODY = {
   scope: 'string',
   begin: ':',
   beginScope: 'string',
   end: '$',
-  contains: [ CALL, VARIABLE_INTERPOLATION ]
+  contains: [ INLINE_KEYWORD, CALL, VARIABLE_INTERPOLATION  ]
 }
 
 const METHOD_NAME = {
@@ -191,7 +204,6 @@ hljs.registerLanguage('step', function() {
       },
       scope: 'meta',
       contains: [
-        KEYWORD,
         {
           scope: 'title.function',
           begin: '^[A-Z][a-zA-Z0-9_]*',
@@ -216,4 +228,3 @@ hljs.registerLanguage('step', function() {
       ]
     }
   })
-}

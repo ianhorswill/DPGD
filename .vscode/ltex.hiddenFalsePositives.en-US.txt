@@ -26,3 +26,5 @@
 {"rule":"IT_IS","sentence":"^\\QBy contrast, the content is whatever that expression is trying to convey, that is, its meaning.\\E$"}
 {"rule":"THEMSELF","sentence":"^\\QWe can fix it by having another method that is only used when someone gives something to themself:\\E$"}
 {"rule":"THEMSELF","sentence":"^\\QMr. Boss gave themself a nice raise\\E$"}
+{"rule":"CONSECUTIVE_SPACES","sentence":"^\\QImportant: This section is intended for those familiar with traditional languages like JavaScript or C.  If you're not already a programmer, skip to the next section, which is written for all audiences.\\E$"}
+{"rule":"EN_A_VS_AN","sentence":"^\\QWhen a computer \"makes a decision,\" it generally takes the form of something like an \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q statement.\\E$"}

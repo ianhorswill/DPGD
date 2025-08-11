@@ -44,6 +44,6 @@ where we can refer to the vertices as and edges of a given graph `g` with `g.Ver
 
 Math textbooks generally define graphs as pairs: $$(\text{Vertices}, \text{Edges})$$. However, the mathematical tradition is to use single letters rather than complex names, so the standard definition of a graph is that it is a pair $$(V,E)$$ where $$V$$ is a set of vertices and $$E$$ is a set of edges.
 
-## Endnotes
+## Notes
 
 [^1]: *Esoterica*: A pair $$(a,b)$$ is usually defined to be the set $$\{a,\{a,b\}\}$$.  This lets us know that it has both $$a$$ and $$b$$ but that the $$a$$ comes first because the pair $$(b,a)$$ is the set $$\{b, \{a,b\}\}$$.  Longer tuples are then pairs of pairs: $$(a,b,c)=(a,(b,c))=\{a, \{a, \{b, \{b, c\}\}\}\}$$, as they might be defined in languages like Lisp and Scheme that build everything linked lists of pairs.  Note that this technically means that you can't decide without context whether $$\{a, \{a, b\}\}$$ is meant to be a "real" set or a pair.  There's no type checking.  It also means that 1-tuples aren't really a thing; when you want to say $$(a)$$ you just say $$a$$.  And 0-tuples ("empty tuples") aren't a think either.  In practice, everyone ignores these issues because it's generally clear from context what someone means.

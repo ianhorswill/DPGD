@@ -39,7 +39,7 @@ Notice we named this task `MissionBriefing` and not “`Mission briefing`”.  T
 
 ## Technical: Assignment statements
 
-Skip this is you aren't a programmer who's confused by the weird way variables work in Step.
+Experienced programmers will be confused by the weird way variables work in Step.  Skip this section if you aren't an experienced programmer.
 
 Step's local variables are unusual: they only get their values through the matching process.  That also means they're *write-once*: you can only give them a value once; then they have that value for all time.
 
@@ -50,7 +50,7 @@ There are arguments to be made both for and against assignment statements.  It i
 * Local variables, whose names begin with a `?`, get their values from matching and are write-once.[^2]
 * Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be [updated using assignment statements](global_variables).  We'll talk about this more when we talk about [state](state).
 
-## Endnotes
+## Notes
 [^1]: Apologies to programmers who feel talked down to because they know what a variable is.  This is for those who don't know what a variable is.  But also, be warned that local variables in languages like Step behave wildly differently from variables in regular languages.  You'll see one example on [the next page](pattern_matching), and a much longer discussion in [the next chapter](logic_programming). The next page introduces a technique you probably haven't encountered before.
 
 [^2]: These are often referred to as *logic variables* in the research literature because they were popularized in logic-programming languages.

@@ -113,7 +113,7 @@
 <li><strong>Soft failure</strong>: calls in a method can fail.  This isn't an error, it just means Step tries another choice path.</li>
 <li><strong>Relaxed variables</strong>: variables begin life without specific values and acquire values as your use them.</li>
 </ul>
-<p>Together, they give us our first real example of clairvoyant (nondeterministic) programming: each call to each task involves choosing a method.  Some, or even most, of those methods might fail.  But the system behaves <em>as if</em> it always chooses correctly.</p>
+<p>Together, they give us our first real example of clairvoyant (nondeterministic) programming in Step: each call to each task involves choosing a method.  Some, or even most, of those methods might fail.  But the system behaves <em>as if</em> it always guesses correctly.</p>
 <p>We'll see that this allows a programming style in which methods can be thought of as statements of fact. And the execution of certain tasks can naturally be thought of as answering questions about those facts.</p>
 <h2 id="preview">Preview</h2>
 <p>We'll go through these ideas more slowly in the rest of the chapter, but here's a quick example to give you a sense of where we're headed.  We're going to start by writing some methods for some Step tasks that don't print anything.  Don't worry about the <code>[predicate]</code> annotation<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> or the fact that the methods end with periods rather than colons:</p>
@@ -166,11 +166,11 @@ Dog lassie.
 Cat morris.
 Cat garfield.
 </code></pre>
-<p>Remember that Step lets you specify variables as parameters in the command line.  When you do that, it reports back the value it ended up with for that variable.  So what does running <code>[Dog ?x]</code> do?  Here's the choice diagram:</p>
+<p>Remember that Step lets you specify variables as parameters in the command line.  When you do that, it reports back the value it ended up with for that variable.  So what does running <code>[Dog ?x]</code> do?  Here's the choice diagram:</p>
 <pre class="mermaid">graph TB
   start("[Dog ?x]") -- "&lt;b>Dog benji.&lt;/b>&lt;br> ?x = benji" --> s1[Succeed]
   style s1 fill:green
-  start -- "&lt;b>Dog lassie.&lt;/b>&lt;br> ?x = benji" --> s2(Succeed)
+  start -- "&lt;b>Dog lassie.&lt;/b>&lt;br> ?x = lassie" --> s2(Succeed)
   style s2 fill:green
 </pre>
 <p>Either path is acceptable, but since <code>Dog</code> isn't tagged <code>[randomly]</code>, it prefers the first method over the second.  So the command line prints &ldquo;yes&rdquo; and tells you that <code>?x</code> = <code>benji</code>.</p>
@@ -313,7 +313,7 @@ Cat garfield.
 <p>All cats are animals.</p>
 </blockquote>
 <p>This is why researchers in the 1970s jumped on this idea of choice + pattern-matching as being a kind of logical reasoning and called it <strong>logic programming</strong>.</p>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
@@ -376,7 +376,7 @@ Cat garfield.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="examples.html">Matching examples
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Matching_examples.html">Matching examples
 </a><br>
 				</td>
 			</tr>
@@ -403,7 +403,7 @@ Cat garfield.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="State.html">State
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>

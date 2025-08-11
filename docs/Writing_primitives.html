@@ -126,7 +126,7 @@ True when <em>x</em> is an <code>Enemy</code> component.</li>
 <pre><code class="language-csharp">x =&gt; x is Enemy
 </code></pre>
 <h3 id="enumerating-objects">Enumerating objects</h3>
-<p>When we call it in output, the primitive needs to iterate through all the existing <code>Enemy</code> objects in the game.  The API for that is to have the output implementation just return an <code>IEnumerable&lt;Enemy&gt;</code> and then the Step interpreter manages the rest.  In Unity, you ask for all the instances of a component type using <code>Unity.Object.FindObjectsOfType&lt;Type&gt;()</code>.  So our <code>outMode</code> implementation is just:</p>
+<p>When we call it in output mode, the primitive needs to iterate through all the existing <code>Enemy</code> objects in the game.  The API for that is to have the output implementation just return an <code>IEnumerable&lt;Enemy&gt;</code> and then the Step interpreter manages the rest.  In Unity, you ask for all the instances of a component type using <code>Unity.Object.FindObjectsOfType&lt;Type&gt;()</code>.  So our <code>outMode</code> implementation is just:</p>
 <pre><code class="language-csharp">() =&gt; Unity.Object.FindObjectsOfType&lt;Type&gt;()
 </code></pre>
 <p>And so our full implementation is:</p>
@@ -143,6 +143,7 @@ True when <em>enemy</em> has the name <em>name</em>.</li>
 <p>This is basically a function from the first parameter to the second parameter, and that's a very common pattern in primitives, so there's a wrapper for it:</p>
 <pre><code class="language-csharp">Step.Module.Global[&quot;EnemyName&quot;] = new SimpleFunction&lt;Enemy,string&gt;(&quot;EnemyName&quot;,  enemy =&gt; enemy.name);
 </code></pre>
+<p>This will work in input-output and input-input mode.  That is, it will require the enemy to be specified but not the name.  If you want to support output-input mode (given a name, return the enemy) or output-output (get all pairs of enemy/name), that's possible too but requires more work.</p>
 <h2 id="calling-a-c-method-on-an-object">Calling a C# method on an object</h2>
 <p>Finally, let's say we want to run some engine method on the component, such as Unity's <code>Destroy</code> method, which removes a <code>GameObject</code> or <code>Component</code> from the game.  Again, that's a common pattern and there's a wrapper for it:</p>
 <pre><code class="language-csharp">Step.Module.Global[&quot;Destroy&quot;] = new SimplePredicate&lt;Component&gt;(&quot;Destroy&quot;, component =&gt; {
@@ -151,7 +152,7 @@ True when <em>enemy</em> has the name <em>name</em>.</li>
 }
 </code></pre>
 <p>We <code>return true</code> at the end to tell Step that the predicate succeeded.  If we want it to fail, for example, because we did something that returned an error code, we would return <code>false</code>.  To throw an exception, just use C#'s <code>throw</code> normally.</p>
-<p><strong>Important</strong>: Step is carefully designed so that if it tries an execution path this prints something or updates a variable, but then fails, that output or variable update are <strong>undone</strong> before trying another execution path.  That is not true for primitives like these; Step has no way to reach in and &ldquo;undestroy&rdquo; an object.  There are more complicated wrappers for primitives that allow you to be informed when a failure has happened so that you can undo things, but we won't cover them here.  And in any case, it's entirely up to the author of the primitives to implement any undoing.</p>
+<p><strong>VERY IMPORTANT</strong>: Step is carefully designed so that if it tries an execution path that fails after printing something or updating a variable, that output or variable update are <strong>undone</strong> before trying another execution path.  That is not true for primitives like these; Step has no way to reach in and &ldquo;undestroy&rdquo; a Unity object.  There are more complicated wrappers for primitives that allow you to be informed when a failure has happened so that you can undo things, but we won't cover them here.  And in any case, it's entirely up to the author of the primitives to implement any undoing.</p>
 
 
 

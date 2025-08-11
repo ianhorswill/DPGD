@@ -38,6 +38,6 @@ Moreover, the relationship between spec and code is **unstable**: small changes 
 
 This has real-world implications.  It means that recognizing bugs is hard.  It also means that communication between programmers is hard.  When you read my code, or I read my own code 2 months after writing it, it can be hard to know why it works or even what it was trying to do to begin with.  Programming is at least as much a social-psychological discipline as it is a mathematical one.  Most programming language design aims make programs easier for humans to understand, not to make the programs faster.
 
-## Endnotes
+## Notes
 
 [^1]: Not strictly true but making Quicksort stable does indeed require major changes.

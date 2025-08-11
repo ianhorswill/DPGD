@@ -66,13 +66,17 @@ graph TB
     style f4 fill:red
 ```
 
-In mathematics, logic, and computer science, self-referential definitions like this are said to be **recursive**, and when the `Ancestor` rule turns around and calls `Ancestor` again, that’s called **recursion**.  
+In mathematics, logic, and computer science, self-referential definitions like this are said to be **recursive**[^inductive], and when the `Ancestor` rule turns around and calls `Ancestor` again, that’s called **recursion**.  
 
-## How to write a recursive definition
+## How to write a recursive predicate
 
-Recursive definitions have a fairly standard format:
+Recursive predicates have a fairly standard format:
 
 * They start with a rule that doesn’t recurse (doesn't call the predicate we're defining).  This is called a **base case**.  It notices when it can decide immediately without having to recurse. 
 * Then there’s another rule called, unsurprisingly, the **recursive case**, that ends with a recursive call (a call to the predicate being defined).
 
 Note that you can run into problems if you put the rules in the opposite order, or tag them `[randomly]`.  In this case, it would work.  But there are cases where it doesn't.  We'll talk more about this later.  
+
+## Notes
+
+[^inductive]: *Esoteric*: Sometimes self-referential rules are called *inductive* rather than *recursive*.  The distinction is that recursions start with the complex case and move to the base case and inductions move from the base case to the complex case.  Self-referential functions are usually described as recursive, whereas self-referential data structures are usually described as inductive.

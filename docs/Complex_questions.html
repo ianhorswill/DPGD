@@ -123,7 +123,7 @@ Likes kimiko ?.
 Likes ? pizza.
 </code></pre>
 <p>Here, we've added <code>[randomly]</code> to the definitions so it can generate different foods if you run it repeatedly.  But notice that it only generates foods that all three like &mdash; in this case, burgers and pizza.</p>
-<p>What's going on when we run that?  It runs the first call, then the second, then the third.  Each call involves a choice from a set of methods.  So we have a choice tree like this.  To save screen space, I won't include all the methods that don't match, just the methods that do.  When a call has no matching methods, I put a little red &ldquo;Fail&rdquo; beneath it:</p>
+<p>What's going on when we run that?  It runs the first call, then the second, then the third.  Each call involves a choice from a set of methods.  So we have a choice tree like this.  To save screen space, I won't include all the methods that don't match, just the methods that do.  When a call has no matching methods, I put a little red &ldquo;Fail&rdquo; beneath it:</p>
 <pre class="mermaid">graph TB
 c1("[Likes tanya ?what]") -- "Likes tanya sushi.&lt;br>?what = sushi" --> c2sushi("[Likes jayden sushi]") --> f1[Fail]
 style f1 fill:red
@@ -138,7 +138,7 @@ style s2 fill:green
 <p>This demonstrates a general principle: if some call effectively asks if one thing is true, and another call asks if some other thing is true, then running them both in one command asks if they're both true.</p>
 <p>And if they're questions that involve filling in variables, then we're effective asking for a set of variable values that work for both calls.  So when we're thinking of calls as asking questions, we think of <em>sequences</em> of calls as asking what values of their variables make them all true simultaneously.</p>
 <h2 id="advanced-what-about-ornot">Advanced: what about &ldquo;or&rdquo;/&ldquo;not&rdquo;?</h2>
-<p>At this point, you might be saying &ldquo;that's great, but what if I want to ask an &lsquo;or&rsquo; question rather than an &lsquo;and&rsquo; question?&rdquo;  The short answer is that you can do it, but it uses a <a href="Higher-order_tasks.html">special kind of predicate</a> we haven't talked about yet, one whose parameters are themselves questions (calls).  So don't worry about that yet.  We'll get to it soon enough.</p>
+<p>At this point, you might be saying &quot;that's great, but what if I want to ask an &lsquo;or&rsquo; question rather than an &lsquo;and&rsquo; question?&quot;  The short answer is that you can do it, but it uses a <a href="Higher-order_tasks.html">special kind of predicate</a> we haven't talked about yet, one whose parameters are themselves questions (calls).  So don't worry about that yet.  We'll get to it soon enough.</p>
 <p>That said, if you're curious, you can form &ldquo;or&rdquo; questions using the <code>Or</code> predicate:</p>
 <pre><code class="language-step">[Or [Likes tanya ?what] [Likes jayden ?what]]
 </code></pre>
@@ -224,7 +224,7 @@ style s2 fill:green
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="State.html">State
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>

@@ -45,7 +45,7 @@ Here's the full version with the fine print:
 if you run `[A ?x] [B ?x] [C ?x]`, etc. and it reports `?x=7`, then `[A 7]`, `[B 7]`, and `[C 7]` are all true.
 * **Completeness**: for simple programs[^2], if there's a set of values you that will make the query work, it will find one.
 
-## Endnotes
+## Notes
 
 
 [^1]: [Acoustic Kitty](https://en.wikipedia.org/wiki/Acoustic_Kitty) was a 1960s CIA program to use cats to spy on the soviets.  It worked as well as you would imagine.

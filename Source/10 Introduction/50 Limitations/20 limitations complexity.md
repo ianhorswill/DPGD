@@ -10,6 +10,6 @@ Nearly everything in declarative programming is NP-complete or worse.  This mean
 
 The good news is that this is works better in practice than anyone would have expected 40 years ago.  For example, chipmakers use programs called SAT solvers to verify designs.  SAT is the canonical NP-complete problem.  When I was in graduate school, we would have expected the kinds of large SAT problems used by chip-makers to take longer to solve than the heat death of the universe.  But they turn out to be realistically solvable in practice.  Nonetheless, declarative systems will never be faster than a well-crafted bespoke algorithm.  We use declarative systems to save developer resources, not compute resources.
 
-## Endnotes
+## Notes
 
 [^1]: There are sort algorithms that don’t, such as [radix sort](https://en.wikipedia.org/wiki/Radix_sort), but these can't be used for all applications.

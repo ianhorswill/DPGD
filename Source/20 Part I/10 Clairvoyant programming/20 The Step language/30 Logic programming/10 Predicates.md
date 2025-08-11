@@ -33,6 +33,6 @@ To make a task be a predicate, you only have to include the `[predicate]` declar
 
 The primary use of predicates is to answer questions.  So they generally aren't written to generate output.  There's nothing preventing you from writing tasks that print but are labeled `[predicate]`, but you usually wouldn't want your question-answering tasks to print things.
 
-## Endnotes
+## Notes
 
 [^1]: *Esoteric:* This term comes from the Latin *praedicatum*, meaning "that which is said of the subject [of a sentence]." The sentence "Bill loves fruitcake", has a subject, Bill, and a predicate, "loves fruitcake."  [Logic](logic) adopts this terminology to refer to properties, such as "loving fruitcake", that can be true of things or not.  Bill loves fruitcake, my television does not.  Logic also extends the term predicate to include relationships, such as "loving", that can hold between things, such as Bill and fruitcake.  Bill loves fruitcake.  Fruitcake does not love Bill.

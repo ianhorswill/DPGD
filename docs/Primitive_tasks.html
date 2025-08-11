@@ -100,8 +100,8 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Up to now, we've looked almost exclusively at tasks that are defined by methods.  However, we've seen a couple of exceptions, such as the <code>Write</code> and <code>Not</code> predicates, which aren't defined by methods.  They're callable by Step, but they're not they're not written in Step.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>   Rather, they are a core part of the Step system itself.  Most programming languages have something like these, and they get referred to as <strong>primitives</strong> or &ldquo;<strong>built-ins</strong>.&rdquo;  The term &ldquo;primitive&rdquo; here doesn't mean the task is rudimentary or limited, but rather that it is <em>indivisible</em> into smaller tasks.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> </p>
-<p>Primitive tasks bring up issues that we haven't had to grapple with before.  If you're just starting to learn about declarative programming, the primary thing you should be aware of is that primitive tasks often have restrictions on what parameters are allowed to be variables, or conversely, on what parameters are allowed <em>not</em> to be variables.</p>
+<p>Up to now, we've looked almost exclusively at tasks that are defined by methods.  However, we've seen a couple of exceptions, such as the <a href="Mention.html#customizing-mention"><code>Write</code></a> and <a href="Complex_questions.html#advanced-what-about-ornot"><code>Not</code></a> predicates, which aren't defined by methods.  They're callable by Step, but they're not they're not written in Step.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>   Rather, they are a core part of the Step system itself.  Most programming languages have something like these, and they get referred to as <strong>primitives</strong> or &quot;<strong>built-ins</strong>.&quot;  The term &ldquo;primitive&rdquo; here doesn't mean the task is rudimentary or limited, but rather that it is <em>indivisible</em> into smaller tasks.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> </p>
+<p>Primitive tasks bring up issues we haven't had to grapple with before.  If you're just starting to learn about declarative programming, the primary thing you should be aware of is that primitive tasks often have restrictions on what parameters are allowed to be variables, or conversely, on what parameters are allowed <em>not</em> to be variables.</p>
 <p>That's all you really need to know.  If you want to learn more, read on.  Otherwise, you can skip to the <a href="Higher-order_tasks.html">next section</a>.</p>
 <h2 id="inputoutput-modes">Input/output modes</h2>
 <p>When we wrote our <code>Likes</code> predicate:</p>
@@ -123,7 +123,7 @@ Likes ? pizza.
 <li><code>[Likes ? pizza]</code> asks who likes pizza</li>
 <li><code>[Likes tanya ethiopean]</code> asks if Tanya likes Ethiopean food</li>
 </ul>
-<p>When a given parameter of the predicate is an unbound variable &mdash; a variable that hasn't yet been given a value &mdash; and is filled in by that predicate, that parameter acts as an <strong>output</strong> of the predicate.  When the parameter is a specific value like <code>tanya</code> or <code>pizza</code>, or is a variable that's already been given a value, then that parameter acts as in <strong>input</strong> to the task.  The way that parameters can switch freely between acting as inputs and outputs is a unique and distinguishing feature of logic programming languages.</p>
+<p>When a given parameter of the predicate is an unbound variable &mdash; a variable that hasn't yet been given a value &mdash; and is filled in by that predicate, that parameter acts as an <strong>output</strong> of the predicate.  When the parameter is a specific value like <code>tanya</code> or <code>pizza</code>, or is a variable that's already been given a value, then that parameter acts as in <strong>input</strong> to the task.  The way that parameters can switch freely between acting as inputs and outputs is a unique and distinguishing feature of logic-programming languages.</p>
 <p>The input/output pattern of a call is sometimes called its <strong>mode</strong>:</p>
 <ul>
 <li><code>[Likes tanya ?]</code> calls <code>Likes</code> in <strong>input-output</strong> mode</li>
@@ -135,10 +135,10 @@ Likes ? pizza.
 <pre><code class="language-step">[RandomFloat min max number]
 </code></pre>
 <p>with specific values for <em>min</em> and <em>max</em>, it chooses a random number between them and binds its third parameter, <em>number</em>, to that value.</p>
-<p>This only makes sense when <em>min</em> and <em>max</em> are inputs and <em>number</em> is an output.  If you call it with <em>number</em> with a specific value, you would be asking if <em>number</em> was the number it rolled.  Except it can roll four billion different numbers, so that's wildly improbable.  So it's hard to imagine that ever being useful; if the program calls <code>RandomFloat</code> with <em>number</em> as an input, it's very likely due to a bug.  Better to throw an exception.</p>
+<p>This only makes sense when <em>min</em> and <em>max</em> are inputs and <em>number</em> is an output.  If you call it with <em>number</em> with a specific value, you would be asking if <em>number</em> was the number it rolled.  Except it can roll four billion different numbers, so rolling any specific one is wildly improbable.  There are basically no use cases for <em>number</em> being an input and so if it ever <em>is</em> called with that parameter as an input, it's likely a mistake on the programmer's part.  So <code>RandomFloat</code> is designed to throw an exception when that happens.</p>
 <p>Similarly, it's hard to think of sensible use cases for <em>min</em> or <em>max</em> being outputs.  We say that <code>RandomFloat</code> only works in the <strong>input-input-output</strong> mode.</p>
 <h2 id="determinism">Determinism</h2>
-<p>Many primitives, like <code>Write</code> do their work without making choices; they're called <strong>deterministic</strong> because their behavior is completely <em>determined</em> by their inputs.  Primitives that make choices are called <strong>nondeterministic</strong> because their behavior is partly  determined by their inputs, but not entirely.</p>
+<p>Many primitives, such as <code>Write</code>, do their work without making choices; they're called <strong>deterministic</strong> because their behavior is completely <em>determined</em> by their inputs.  Primitives that make choices are called <strong>nondeterministic</strong> because their behavior is only partly determined by their inputs.</p>
 <h2 id="wildly-impractical-search-spaces">Wildly impractical search spaces</h2>
 <p>Thus far, we've studiously avoided making you learn the specific algorithm Step uses to find solutions to your queries.  But we've hinted that it involves a great deal of trial and error, which it does.  It's a little smarter than this, but if you think of it as trying every path in the choice tree, from left-to-right, you aren't too far off.  That means you can't have choices points with millions of options.  It's just not practical. </p>
 <p>This fact of life drives the design of a number of primitive tasks.  Some tasks are more limited than you might expect because the alternative is impractical.  For example:</p>
@@ -147,7 +147,7 @@ Likes ? pizza.
 <li>The <strong><code>&lt;</code></strong> predicate, which checks whether one number is less than another, only works in <strong>input-input</strong> mode.  The alternative would involve it trying <em>every possible pair of numbers</em>.  Again, that's wildly impractical.</li>
 </ul>
 <p>We'll now talk about a number of built-in tasks you might find useful.  However, if you aren't specifically interesting in learning more about Step, you mighter prefer to skip it and move on to the <a href="Higher-order_tasks.html">next section</a>.</p>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Customizing output using &lt;code&gt;Mention&lt;/code&gt;&#xA;</title>
+	<title>Printing variables&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Customizing output using &lt;code&gt;Mention&lt;/code&gt;&#xA;">
-	<meta name="twitter:title" content="Customizing output using &lt;code&gt;Mention&lt;/code&gt;&#xA;">
-	<meta property="og:title" content="Customizing output using &lt;code&gt;Mention&lt;/code&gt;&#xA;" />
+	<meta itemprop="name" content="Printing variables&#xA;">
+	<meta name="twitter:title" content="Printing variables&#xA;">
+	<meta property="og:title" content="Printing variables&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -55,9 +55,11 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Adaptive_generation.html"> Adaptive generation
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Customizing output using <code>Mention</code>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Parameterized_grammars.html"> Parameterized grammars
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Printing variables
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -110,28 +112,32 @@
 <p>That’s actually a shorthand for a call to a task called <code>Mention</code>.  What Step actually executes is:</p>
 <pre><code class="language-step">Greet ?who: Hello, [Mention ?who].
 </code></pre>
-<p>If you don’t give the system a definition for <code>Mention</code>, it just treats it as a synonym for <code>Write</code>, a task that just prints its parameter verbatim.  But you can provide your own definition of <code>Mention</code> to customize its behavior.  For example, we can say:</p>
+<h2 id="customizing-mention">Customizing <code>Mention</code></h2>
+<p>If you don’t give the system a definition for <code>Mention</code>, it just treats it as a synonym for <code>Write</code>, a task that prints its parameter more or less verbatim.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  But you can provide your own definition of <code>Mention</code> to customize its behavior.  For example, we can say:</p>
 <pre><code class="language-step">Mention bill: Bill
 Mention ?anythingElse: [Write ?anythingElse]
 </code></pre>
-<p>This says that when we <code>Mention</code> something, we should just <code>Write</code> it,<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> unless it happens to be <code>bill</code>, in which case it should capitalize it.  We can customize this however we like.  For example,</p>
+<p>This says that when we <code>Mention</code> something, we should just <code>Write</code> it,<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a> unless it happens to be <code>bill</code>, in which case it should capitalize it.  We can customize this however we like.  For example,</p>
 <pre><code class="language-step">Mention bill: Bill
 Mention diana: Diana Ratcliffe, titan of industry
 Mention ?anythingElse: [Write ?anythingElse]
 </code></pre>
 <p>Now, if we run <code>[Greet diana]</code>, it will say “Hello, Diana Ratcliffe, titan of industry.”  In fact, any time we print <code>diana</code>, it will print “Diana Ratcliffe, titan of industry.”  Of course, that might get annoying after a while.</p>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
+<p>There are a few things that it doesn't print verbatim.  If you say <code>[Write this_is_a_test]</code>, it prints &ldquo;this is a test&rdquo; rather than &ldquo;this_is_a_test&rdquo;.  You can override that by using <code>WriteVerbatim</code> instead.  Also, Step performs post-processing to capitalize the first word of each sentence.  So if you call <code>[Write hello]</code> and it's at the start of a sentence, write will print &ldquo;hello&rdquo;, but the final output will say &ldquo;Hello&rdquo;.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
 <p>You might think we would just write this as:</p>
 <pre><code class="language-step">Mention ?anythingElse: ?anythingElse
 </code></pre>
 <p>rather than bothering with <code>Write</code>.  However, remember that this is just shorthand for:</p>
 <pre><code class="language-step">Mention ?anythingElse: [Mention ?anythingElse]
 </code></pre>
-<p>which would mean mention called itself endlessly.  So when we want mention to print a variable, we have to use <code>Write</code> to do it.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p>which would mean mention called itself endlessly.  So when we want <code>Mention</code> to print a variable, we have to use <code>Write</code> to do it.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -146,20 +152,18 @@ Mention ?anythingElse: [Write ?anythingElse]
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Adaptive generation
+			<h5>Parameterized grammars
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="simplelink" href="Mention.html" id="section_page_1"> <b> Customizing output using <code>Mention</code>
+					<li class="sidebar"><a class="backgroundlink" href="Variables.html" id="section_page_1"> Variables
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Mention.html" id="section_page_2"> <b> Printing variables
  </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Fancier_mentioning.html" id="section_page_2"> Fancier <code>Mention</code>ing
+					<li class="sidebar"><a class="backgroundlink" href="Pattern_matching.html" id="section_page_3"> Patterns of parameters
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Pronouns.html" id="section_page_3"> Tracking pronouns
+					<li class="sidebar"><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_4"> Methods for specific parameter values
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Subject-verb_agreement.html" id="section_page_4"> Subject-verb agreement
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Case.html" id="section_page_5"> Subject and object case
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Real_language.html" id="section_page_6"> Real language is hard
+					<li class="sidebar"><a class="backgroundlink" href="How_matching_works.html" id="section_page_5"> How matching works
  </a> <br></li>
 			</ol>
 	<script>
@@ -175,7 +179,7 @@ Mention ?anythingElse: [Write ?anythingElse]
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Fancier_mentioning.html">Fancier <code>Mention</code>ing
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Pattern_matching.html">Patterns of parameters
 </a><br>
 				</td>
 			</tr>
@@ -189,7 +193,7 @@ Mention ?anythingElse: [Write ?anythingElse]
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Adaptive_generation.html">Adaptive generation
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Variables.html">Variables
 </a><br>
 				</td>
 			</tr>
@@ -203,7 +207,7 @@ Mention ?anythingElse: [Write ?anythingElse]
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Adaptive_generation.html">Adaptive generation
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
 				</td>
 			</tr>
@@ -216,7 +220,7 @@ Mention ?anythingElse: [Write ?anythingElse]
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Natural_language_parsing.html">parsing
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Logic_programming.html">Simple logic programs
 </a><br>
 				</td>
 			</tr>
@@ -229,7 +233,7 @@ Mention ?anythingElse: [Write ?anythingElse]
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Planning.html">Planning
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Grammars.html">Simple grammars
 </a><br>
 				</td>
 			</tr>

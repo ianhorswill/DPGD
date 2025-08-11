@@ -1,0 +1,366 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Solution choice&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Solution choice&#xA;">
+	<meta name="twitter:title" content="Solution choice&#xA;">
+	<meta property="og:title" content="Solution choice&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="NDScript.html"> Clairvoyant algorithms
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="NDScript_execution.html"> Execution
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Solution choice
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>As we said, most systems use some variant of depth-first search.  There are a lot of variants, including versions that <a href="https://en.wikipedia.org/wiki/backjumping">track dependencies between choices</a> in an effort to intelligently skip over parts of the tree that don't need to be searched.  Most of these are beyond the scope of Part I.  But there are a few variants that should be mentioned here because they impact the programmer.</p>
+<p>Remember that depth-first search means something like this:</p>
+<pre><code>DFS(node) {
+    if (IsGoal(node))
+        // we're done - do whatever we want to do now
+    else 
+        foreach (option of node.Options)
+             DFS(option);
+}
+</code></pre>
+<p>I'm being deliberately vague about what if anything DFS returns or what the &ldquo;do whatever we want to do now&rdquo; part is.  It can get very technical very fast, but it's irrelevant for now.  See <a href="Part_II.html">Part II</a> for more discussion.</p>
+<p>Since the tree we're searching is a tree of choices:</p>
+<pre class="mermaid">graph TB
+   s["choose"] -- right -->  r["choose"] -- right --> rr["fail"]
+   style rr fill:red
+   r -- down --> rd["choose"] -- right --> rdr["choose"] -- right --> rdrr["choose"] -- right --> rdrrr["fail"]
+   style rdrrr fill:red
+   rdrr -- down --> rdrrd["choose"]
+   style rdrrd fill:green
+   rdr -- down --> rdrd["fail"]
+   style rdrd fill:red
+   rd -- down --> rdd["choose"] -- right --> rddr["fail"]
+   style rddr fill:red
+   rdd -- down --> rddd["fail"]
+   style rddd fill:red
+   s -- down --> d["choose"] -- right --> dr["choose"]
+   dr["choose"] -- right --> drr["choose"] -- right --> drrr["choose"] -- right --> drrrr["fail"]
+   style drrrr fill:red
+   drrr -- down --> drrrd["choose"]
+   style drrrd fill:green
+   drr -- down --> drrd["fail"]
+   style drrd fill:red
+   dr -- down --> drd["choose"] -- right --> drdr["fail"]
+   style drdr fill:red
+   drd -- down --> drdd["fail"]
+   style drdd fill:red
+   d -- down --> dd["choose"] -- right --> ddr["choose"] -- right --> ddrr["fail"]
+   style ddrr fill:red
+   dd -- down --> ddd["fail"]
+   style ddd fill:red
+   ddr -- down --> ddrd["fail"]
+   style ddrd fill:red
+</pre>
+<p>the <code>node</code> is a particular execution of <code>choose</code>, <code>chooseElement</code>, or other choice point.  And its <code>Options</code> are the different options provided by the programmer.</p>
+<p>Let's talk about some common variations of this.</p>
+<h2 id="choice-order">Choice order</h2>
+<p>The algorithm doesn't specify what order we try the options in.  That is to say, it doesn't specify the order in which it tries thechildren of a given node.  But obviously, the order we try the children in impacts which solution we get if there are multiple solutions.</p>
+<h3 id="fixed-order">Fixed order</h3>
+<p>The simplest design is to always try the options in the order they appear in the source code.  This is the order you get in a language like <a href="https://en.wikipedia.org/wiki/prolog">Prolog</a> and in NDScript when you say <code>choose first</code> instead of just <code>choose</code>.</p>
+<p>If we try the options for <em>all</em> choices this way, then we will always get the same solution.  That's bad if you're doing procedural content generation, where you want to generate random artifacts.  But it's useful when you want to express a strict preference for one option over another.  With fixed order, it will always try to choose the first option.  It will only choose the second option if there are not solutions involving the first.  It will only choose the third if there are no solutions involving the first or second.  And so on.</p>
+<p>Logic programming languages generally use fixed order and programmers know and depend on that.  For recursive code, they always put the base case choices first and the recursive choices later, so the system only recurses when it has to.</p>
+<h3 id="uniform-random-order">Uniform random order</h3>
+<p>If we try the children in random order, we get random solutions in the sense that we don't generally get the same solution each time we run it, and any solution can potentially be chosen.  This is very useful for games and is the behavior you get in NDScript if you say <code>choose</code> rather than <code>choose first</code>.</p>
+<p>The code for uniform random search just involves adding a <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">shuffle</a> of the options:</p>
+<pre><code>DFS(node) {
+    if (IsGoal(node))
+        // we're done
+    else 
+        foreach (option of Shuffle(node.Options))
+             DFS(option);
+}
+</code></pre>
+<p>Here, Shuffle takes the options and returns a copy of the list with the order of the elements randomized.  For a discussion of how to do fast randomization see <a href="Randomization.html">the appendix</a>.</p>
+<p>Shuffling the children means each option has an equal chance of being tried first.  However, that doesn't mean that every solution will be equally probable.  Suppose we just have a couple of 2-way choices and no failure:</p>
+<pre class="mermaid">graph TB
+   s["choose"] -- A --> t["choose"] -- A --> s1["success"]
+   style s1 fill:green
+   t -- B --> s2["success"]
+   style s2 fill:green
+   s -- B --> s3["success"]
+   style s3 fill:green
+</pre>
+<p>There are three solution paths and we choose randomly between them.  However, suppose each choice is 50% A 50% B.  Then the probability of going through each node is:</p>
+<pre class="mermaid">graph TB
+   s["100%"] -- A --> t["50%"] -- A --> s1["25%"]
+   style s1 fill:green
+   t -- B --> s2["25%"]
+   style s2 fill:green
+   s -- B --> s3["50%"]
+   style s3 fill:green
+</pre>
+<p>All things being equal, the probability of choosing a solution decreases with the number of choices required to choose it.</p>
+<h3 id="weighted-random-order">Weighted random order</h3>
+<p>If you want more control over the distribution of solutions, the easiest thing is to let the programmer specify weights (relative probabilities) for each of the options.  Then instead of doing a normal shuffle (every option is equally likely to be first), you do a weighted shuffle (the probability of a given option being tried first is proportional to its weight):</p>
+<pre><code>DFS(node) {
+    if (IsGoal(node))
+        // we're done
+    else 
+        foreach (option of WeightedShuffle(node.Options, node.OptionWeights))
+             DFS(option);
+}
+</code></pre>
+<p>You do a weighted shuffle in <span class="math">\(O(n \log n)\)</span> time and <span class="math">\(O(n)\)</span> space.  See <a href="Randomization.html">the appendix</a>.</p>
+<h2 id="iterative-deepening-technical">Iterative deepening (technical)</h2>
+<p>As we mentioned, the standard depth-first search can go into infinite recursion if it encounters an endless series of choices along some path.  The standard solution is to use fixed-order search and have the choices that involve deep paths come later in the search.  However, an alternative is to put a limit on the depth the search can go:</p>
+<pre><code>DFS(node, maxDepth) {
+    if (IsGoal(node))
+        // we're done - do whatever we want to do now
+    else if (maxDepth &gt; 0)
+        foreach (option of node.Options)
+             DFS(option, maxDepth-1);
+}
+</code></pre>
+<p>This works if you know the depth of the solution in advance, but that's rare.  Instead, we can try it with increasing depths:</p>
+<pre><code>DFS(node) {
+   maxDepth = 0;
+   while (not done)
+      DFSToDepth(node, maxDepth++);
+}
+
+DFSToDepth(node, maxDepth) {
+    if (IsGoal(node))
+        // we're done - do whatever we want to do now
+    else if (maxDepth &gt; 0)
+        foreach (option of node.Options)
+             DFSToDepth(option, maxDepth-1);
+}
+</code></pre>
+<p>This strategy is called <a href="https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search"><strong>iterative deepening</strong></a>.  It seems insane because we keep searching the same nodes repeatedly.  And indeed, it's a bad choice for many problems.</p>
+<p>The reason it's not <em>always</em> a bad choice is that, as we said, trees tend to get exponentially bigger as we go deeper.  For a many trees that come up in AI, each level might have 100 times more nodes.  In that case, re-searching the 1% of nodes that you already searched the previous iteration doesn't matter much. </p>
+<p>Still, you might wonder why you wouldn't just use breadth-first search.  If there are <span class="math">\(n\)</span> nodes in the tree then both DFS and BFS are <span class="math">\(O(n)\)</span>.  Why mess with iterative deepening?</p>
+<p>The answer is memory use.  Depth-first search uses memory proportional to the depth of the tree.  BFS uses memory proportional to the <em>size</em> of the tree.  As we said, in the general case, the size is exponential in the depth.  For large problems, it's easy for BFS to run out of physical memory and start paging.  In scenarios like that, DFS with iterative deepening is much more attractive.</p>
+<p>Although I would not advocate it as a replacement for <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">A*</a> in <a href="https://en.wikipedia.org/wiki/navigation_mesh">navmesh</a> path planning in games, iterative deepening is also used to find least-cost, or at least low-cost solutions.  And in fact, the implementation of the <code>minimize</code> primitive we will discuss shortly uses iterative deepening.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Execution
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="simplelink" href="Choice_of_solutions.html" id="section_page_1"> <b> Solution choice
+ </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Comparing_solutions.html">Least-cost paths
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="NDScript_execution.html">Execution
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="NDScript_execution.html">Execution
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Comparing_solutions.html">Least-cost paths
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Pathfinding.html">Finding paths
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Choice_of_solutions.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

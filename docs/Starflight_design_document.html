@@ -57,9 +57,7 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars
- </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Starflight_grammars.html"> <em>omake</em>: Grammars in <em>Starflight</em>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Starflight_PCG.html"> PCG in Starflight
  </a>
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Original design document from <em>Starflight</em>
 </a></h1>
@@ -1434,7 +1432,7 @@ APPENDIX U - SPECIAL EFFECT
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5><em>omake</em>: Grammars in <em>Starflight</em>
+			<h5>PCG in Starflight
 </h5>
 			<ol start="1">
 					<li class="sidebar"><a class="simplelink" href="Starflight_design_document.html" id="section_page_1"> <b> Original design document from <em>Starflight</em>
@@ -1453,7 +1451,7 @@ APPENDIX U - SPECIAL EFFECT
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Parameterized_grammars.html">Parameterized grammars
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="State.html">State
 </a><br>
 				</td>
 			</tr>
@@ -1467,7 +1465,7 @@ APPENDIX U - SPECIAL EFFECT
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Starflight_grammars.html"><em>omake</em>: Grammars in <em>Starflight</em>
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>
@@ -1481,7 +1479,7 @@ APPENDIX U - SPECIAL EFFECT
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Starflight_grammars.html"><em>omake</em>: Grammars in <em>Starflight</em>
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>
@@ -1492,9 +1490,22 @@ APPENDIX U - SPECIAL EFFECT
 				}, false);
 			</script>
 			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="State.html">State
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Adapting_text.html"><em>omake</em>: A silly grammar
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Logic_programming.html">Simple logic programs
 </a><br>
 				</td>
 			</tr>

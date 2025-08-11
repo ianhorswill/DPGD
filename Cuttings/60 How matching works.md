@@ -37,6 +37,6 @@ Then, when it matches the parameters:
 
 It first matches the first parameter, gluing `?giver` to ``"Mary"`.  But then when it tries to match the second parameter, tries to match `?giver` to `"Jill"`, but can't because `?giver`  is now permanently glued to `"Mary"`.
 
-## Endnotes
+## Notes
 
 [^1]: Assuming we haven't already assigned some variable to a different value.

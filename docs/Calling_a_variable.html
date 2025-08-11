@@ -1,0 +1,449 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Running code in a variable&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Running code in a variable&#xA;">
+	<meta name="twitter:title" content="Running code in a variable&#xA;">
+	<meta property="og:title" content="Running code in a variable&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Higher-order_tasks.html"> Higher-order tasks
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Running code in a variable
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>The simplest possible higher-order procedures are <code>Succeeds</code> and <code>Fails</code>:</p>
+<ul>
+<li><code>[Succeeds ?x]</code> runs the code in <code>?x</code> and succeeds if it succeeds, fails if it fails.  Afterward, any bindings or state changes caused by that code will still be in effect.  So running <code>[Succeeds [Task abc]]</code>  behaves as if you had just run <code>[Task abc]</code>directly.</li>
+<li><code>[Fails ?x]</code> also runs the code in <code>?x</code>; but if that code succeeds, then <code>Fails</code> undoes any changes it made and fails.  If <code>?x</code>fails, then <code>Fails</code> itself succeeds.  So calling <code>Fails</code> will never bind any variables.</li>
+</ul>
+<p>These primitives usually go by different names, which we'll get to shortly, but these names work too.  If you write a task that stores code in a variable, be it a parameter or some other variable, you can use <code>Succeeds</code> and <code>Fails</code> to run it.</p>
+<h2 id="example-automated-testing">Example: automated testing</h2>
+<p>It's common in software development to do automate the testing of a program.  That usually consists of writing a series of <strong>test cases</strong>: a bit of code to run, along with its expected behavior.  A <strong>testing rig</strong> runs all the bits of code and compares their actual behavior to their intended behavior.  If something doesn't behave as expected, the testing rig reports it.</p>
+<p>We can easily write a test system in Step.  To start with, we write the test cases as methods for two predicates; let's call them <code>Test</code> and  <code>TestFailure</code>:</p>
+<ul>
+<li><code>Test ?code.</code> means <code>?code</code> should always succeed when we test it.</li>
+<li><code>TestFailure ?code.</code> means <code>?code</code> should never succeed when we test it.</li>
+</ul>
+<p>So, for example, our <a href="Matching_tuples.html"><code>Append</code> predicate</a>:</p>
+<pre><code class="language-step"># [Append ?before ?after ?combined] is true when ?combined is a list consisting
+# of the elements of ?before, followed by those of ?after
+[predicate]
+Append [] ?list ?list.
+Append [?first | ?rest]  ?list  [?first | ?restAndList]: [Append ?rest ?list ?restAndList]
+</code></pre>
+<p>We might have test cases like:</p>
+<pre><code class="language-step">Test [Append [] [] []].  # appending the empty list to the empty list gives you the empty list
+Test [Append [] [a b c] [a b c]].
+Test [Append [a b c] [] [a b c]].
+Test [Append [a b] [c d] [a b c d]].
+TestFailure [Append [a b] [c d] [x y z]].
+</code></pre>
+<p>Now we can write a test rig using <code>Succeeds</code> and <code>Fails</code>:</p>
+<pre><code class="language-step">Problem: [Test ?shouldSucceed] [Fails ?shouldSucceed] ?shouldSucceed failed!
+Problem: [TestFailure ?shouldFail] [Succeeds ?shouldFail] ?shouldFail succeeed, but should not have!
+Problem: No problems found.
+</code></pre>
+<p>The first line says there's a problem if <code>[Test ?shouldSucceed]</code> is one of the test cases, but <code>?shouldSucceed</code> fails when you call it.  The second says there's a problem if <code>[TestFailure ?shouldFail]</code>is a test case, but <code>?shouldFail</code> succeeds.  The list line only runs if the first two lines don't detect any problems, so it prints that there are no problems.</p>
+<p>This isn't a great test rig.  For example, it stops after finding one problem rather than testing all the test cases.  But it's a good example of higher-order programming.</p>
+<p>You can try it here.  It's a little boring since it just says there aren't any problems.  But if you delete one of the lines of Append and rerun it, you'll see that it will detect a problem:</p>
+<pre><code class="language-Step"># Try: [Problem]
+
+# [Append ?before ?after ?combined] is true when ?combined is a list consisting
+# of the elements of ?before, followed by those of ?after
+[predicate]
+Append [] ?list ?list.
+Append [?first | ?rest]  ?list  [?first | ?restAndList]: [Append ?rest ?list ?restAndList]
+
+# Test cases
+Test [Append [] [] []].  # appending the empty list to the empty list gives you the empty list
+Test [Append [] [a b c] [a b c]].
+Test [Append [a b c] [] [a b c]].
+Test [Append [a b] [c d] [a b c d]].
+TestFailure [Append [a b] [c d] [x y z]].
+
+# Simple test rig
+Problem: [Test ?shouldSucceed] [Fails ?shouldSucceed] ?shouldSucceed failed!
+Problem: [TestFailure ?shouldFail] [Succeeds ?shouldFail] ?shouldFail succeeed, but should not have!
+Problem: No problems found.
+</code></pre>
+<h2 id="using-succeeds-and-fails-to-answer-questions">Using <code>Succeeds</code> and <code>Fails</code> to answer questions</h2>
+<p>Recall our <a href="Answering_questions.html">previous example</a>:</p>
+<pre><code class="language-step">[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+</code></pre>
+<p>As we said, calls to a predicate such as <code>Likes</code> can be thought of as asking questions and the execution of the predicate answers them:</p>
+<table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Meaning</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Likes tanya sushi]</code></td>
+<td>Does Tanya like sushi? </td>
+<td>Yes (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes jayden sushi]</code></td>
+<td>Does Jayden like sushi? </td>
+<td>No (call fails)</td>
+</tr>
+<tr>
+<td><code>[Likes tanya ?]</code></td>
+<td>Is there <strong>something</strong> Tanya likes? </td>
+<td><code>?=sushi</code> (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes ? sushi]</code></td>
+<td>Is there <strong>someone</strong> who likes sushi? </td>
+<td><code>?=tanya</code> (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Likes ?a ?b]</code></td>
+<td>Is there <strong>someone</strong> who likes <strong>something</strong>? </td>
+<td><code>?a=tanya</code>,<code>?b=sushi</code> (call succeeds)</td>
+</tr>
+</tbody>
+</table>
+<p>In each case, it tells us &ldquo;yes&rdquo; or &ldquo;no&rdquo; (by succeeding or failing) and if yes, it gives values for the variables that make it true.</p>
+<p>This is about to become important: queries with variables are treated as <strong>existence</strong> (is there) queries: they're asking if there is a value for the variable that makes it true.</p>
+<h3 id="succeeds-is-simple"><code>Succeeds</code> is simple</h3>
+<p>If we wrap the calls to <code>Likes</code> in calls to <code>Succeeds</code>, we don't change the behavior of anything.  In each case, the call succeeds if some method of <code>Likes</code> matches the parameters of the <code>Likes</code> call:</p>
+<table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Meaning</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Succeeds [Likes tanya sushi]]</code></td>
+<td>Does Tanya like sushi? </td>
+<td>Yes (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Succeeds [Likes jayden sushi]]</code></td>
+<td>Does Jayden like sushi? </td>
+<td>No (call fails)</td>
+</tr>
+<tr>
+<td><code>[Succeeds [Likes tanya ?]]</code></td>
+<td>Is there <strong>something</strong> Tanya likes? </td>
+<td><code>?=sushi</code> (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Succeeds [Likes ? sushi]]</code></td>
+<td>Is there <strong>someone</strong> who likes sushi? </td>
+<td><code>?=tanya</code> (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Succeeds [Likes ?a ?b]]</code></td>
+<td>Is there <strong>someone</strong> who likes sushi? </td>
+<td><code>?a=tanya</code>,<code>?b=sushi</code> (call succeeds)</td>
+</tr>
+</tbody>
+</table>
+<p>Saying <code>[Succeeds [Likes tanya sushi]]</code> just calls <code>[Likes tanya sushi]</code>.  As we said, all it does is call its parameter.  So it's common name is <code>Call</code>.  You can use either name in your code: <code>Call</code> or <code>Succeeds</code>, whichever seems to better communicate your intent.</p>
+<p>Once again, queries with variables are treated as <strong>existence</strong> (is there) queries: they're asking if there is a value for the variable that makes it true.</p>
+<h3 id="fails-is-complicated"><code>Fails</code> is complicated</h3>
+<p><code>Fails</code> is different.  Wrapping the <code>Likes</code> calls in calls to <code>Fails</code> does change the behavior of things:</p>
+<table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Meaning</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[Fails [Likes tanya sushi]]</code></td>
+<td>Does Tanya <strong>not</strong> like sushi? </td>
+<td>No (call fails)</td>
+</tr>
+<tr>
+<td><code>[Fails [Likes jayden sushi]]</code></td>
+<td>Does Jayden <strong>not</strong> like sushi? </td>
+<td>Yes (call succeeds)</td>
+</tr>
+<tr>
+<td><code>[Fails [Likes tanya ?]]</code></td>
+<td>Is there <strong>nothing</strong> Tanya likes? </td>
+<td>No (call fails because Tanya likes something)</td>
+</tr>
+<tr>
+<td><code>[Fails [Likes ? sushi]]</code></td>
+<td>Is there <strong>no one</strong> who likes sushi? </td>
+<td>No (call fails because someone likes sushi)</td>
+</tr>
+<tr>
+<td><code>[Fails [Likes ?a ?b]]</code></td>
+<td>Is there  <strong>no one</strong> who likes <strong>anything</strong>? </td>
+<td>No (call fails because someone likes something)</td>
+</tr>
+</tbody>
+</table>
+<p>Here, the query succeeds if the original version failed, and vice-versa.  So you might think the common name for <code>Fails</code> would be <code>Not</code>, but it isn't.  Why is that?</p>
+<p>Well, again, remember that</p>
+<pre><code class="language-step">[Likes ? sushi]
+</code></pre>
+<p>succeeds if there is some value for <code>?</code> that makes it true.  So it functions as an existence query: it's asking if there is a <code>?</code> that likes sushi.  The failure of that means there <strong>isn't</strong> a <code>?</code> that likes sushi.  So</p>
+<pre><code class="language-step">[Fails [Likes ? sushi]]
+</code></pre>
+<p>is a <strong>nonexistence</strong> query: is there nobody who likes sushi?</p>
+<p><code>[Likes ? sushi]</code> is true if <strong>someone</strong> likes sushi.  <code>[Fails [Likes ? sushi]]</code> is true if <strong>no one</strong> likes sushi, not if there's someone who doesn't like sushi.</p>
+<p>For that reason, the common name of <code>Fails</code> is <code>NotAny</code> rather than <code>Not</code>.  Since</p>
+<pre><code class="language-step">[Likes ? sushi]
+</code></pre>
+<p>means &quot;find me someone who likes sushi.&quot;  You'd expect:</p>
+<pre><code class="language-step">[Not [Likes ? sushi]]
+</code></pre>
+<p>to mean &ldquo;find me someone who doesn't like sushi&rdquo;.   But:</p>
+<pre><code class="language-step">[Fails [Likes ? sushi]]
+</code></pre>
+<p>doesn't do that; it tells you whether nobody likes sushi.  The name <code>NotAny</code> conveys that better:</p>
+<pre><code class="language-step">[NotAny [Likes ? sushi]]
+</code></pre>
+<p>So the common name of <code>Fails</code> is <code>NotAny</code>.</p>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Higher-order tasks
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="simplelink" href="Calling_a_variable.html" id="section_page_1"> <b> Running code in a variable
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_2"> Ands and Ors
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Negation.html" id="section_page_3"> Negation is (necessary) evil
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Looping.html" id="section_page_4"> Looping operations
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="All-solutions_predicates.html" id="section_page_5"> All-solutions predicates
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_7"> Parsing
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Logical_connectives.html">Ands and Ors
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Higher-order_tasks.html">Higher-order tasks
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Higher-order_tasks.html">Higher-order tasks
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html">Primitive tasks (technical)
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Calling_a_variable.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

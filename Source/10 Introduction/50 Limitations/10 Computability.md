@@ -23,6 +23,6 @@ This procedure calls `Halts` to ask it to predict the future: "will I halt?".  T
 
 So this tells us that there's at least one declarative program we can't write: `Halts`.  But in fact, there are a lot of things we'd like to write, such as "decide if this statement in logic is true" that are also undecidable.[^1] It's easy for declarative languages to shade into undecidable territory.
 
-## Endnotes
+## Notes
 
 [^1]: In particular, deciding the truth of statements in [first order logic](https://en.wikipedia.org/wiki/First-order_logic), the most commonly used logic, is undecidable.  Simpler logics, such as [propositional logic](https://en.wikipedia.org/wiki/Propositional_calculus), are decidable.

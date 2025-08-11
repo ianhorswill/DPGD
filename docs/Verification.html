@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Generation vs. verification&#xA;</title>
+	<title>Verification&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
@@ -55,7 +55,9 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="A_clairvoyant_scripting_language.html"> NDScript
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="NDScript.html"> Clairvoyant algorithms
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Pathfinding.html"> Finding paths
  </a>
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Generation vs. verification
 </a></h1>
@@ -101,15 +103,11 @@
 			<div class="container shadow blog-contents">
 
 <p>Let's look at the key parts of our pathfinder again:</p>
-<pre><code class="language-ndscript">function solve()
-{
-   while (!done())
-      choose right(); or down();
-}
+<pre><code class="language-ndscript">function solve() { while (!done()) choose right(); or down(); }
 
-function right() { x = x+1; if (x == size || map[x,y] != s) fail; }
+function right() { x = x+1; if (x == size || map[x,y] != &quot;white&quot;) fail; }
 
-function down() { y = y+1; if (y == size || map[x,y] != s) fail; }
+function down() { y = y+1; if (y == size || map[x,y] != &quot;white&quot;) fail; }
 
 function done() { return x == size-1 &amp;&amp; y == size-1; }
 </code></pre>
@@ -122,7 +120,8 @@ function done() { return x == size-1 &amp;&amp; y == size-1; }
 <p>A path goes right or down repeatedly and ends at (4,4).  It does not move off the map or into an occupied square.</p>
 </blockquote>
 <p>That is, we can also read it as a <strong>spec</strong>.  Programs that use clairvoyant choice don't specify how to <em>generate</em> a solution, so much as they specify how to <strong>recognize</strong> or <strong>verify</strong> a solution.</p>
-<p>So clairvoyant/nondeterministic languages are declarative in spite of looking like normal code.  It's just that we generally use them to write programs that verify solutions without having to generate them.  And verification is usually much easier.</p>
+<p>So clairvoyant/nondeterministic languages are declarative in spite of looking like normal code.  It's just that we generally use them to write programs that verify solutions rather than generate them directly.</p>
+<p>Importantly, <strong>verification is usually easier</strong> to write than generation.</p>
 
 
 
@@ -134,18 +133,14 @@ function done() { return x == size-1 &amp;&amp; y == size-1; }
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>NDScript
+			<h5>Finding paths
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Clairvoyant_path_finding.html" id="section_page_1"> Clairvoyant pathfinding
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Verification.html" id="section_page_2"> <b> Generation vs. verification
+					<li class="sidebar"><a class="simplelink" href="Verification.html" id="section_page_1"> <b> Generation vs. verification
  </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="NDScript_choice_paths.html" id="section_page_3"> Choice paths
+					<li class="sidebar"><a class="backgroundlink" href="NDScript_choice_paths.html" id="section_page_2"> Choice paths
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Better_planner.html" id="section_page_4"> A more realistic pathfinding problem
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Minimization.html" id="section_page_5"> Finding minimum-cost solutions
+					<li class="sidebar"><a class="backgroundlink" href="Execution_time.html" id="section_page_3"> Execution time
  </a> <br></li>
 			</ol>
 	<script>
@@ -175,7 +170,7 @@ function done() { return x == size-1 &amp;&amp; y == size-1; }
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Clairvoyant_path_finding.html">Clairvoyant pathfinding
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Pathfinding.html">Finding paths
 </a><br>
 				</td>
 			</tr>
@@ -189,7 +184,7 @@ function done() { return x == size-1 &amp;&amp; y == size-1; }
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="A_clairvoyant_scripting_language.html">NDScript
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Pathfinding.html">Finding paths
 </a><br>
 				</td>
 			</tr>
@@ -202,7 +197,7 @@ function done() { return x == size-1 &amp;&amp; y == size-1; }
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="The_Step_language.html">Step
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="NDScript_execution.html">Execution
 </a><br>
 				</td>
 			</tr>

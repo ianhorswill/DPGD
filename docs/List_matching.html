@@ -152,12 +152,12 @@ Append [?first | ?rest]  ?list  [?first | ?restAndList]: [Append ?rest ?list ?re
 <pre><code class="language-step">? = [a b c]
 </code></pre>
 <p><code>Append</code> is the goto example people use for logic programming because it has this nice property that you can choose any of its parameters to be the output.</p>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
-<p><em>Esoteric</em>: this is suggestive that tuples/lists are represented as linked lists internally.  And in conventional logic programming languages, this is true.  However, Step is made to interface with game engines and this kind of processing isn't very common in Step code anyway.  So Step uses arrays to represent tuples (in particular the C# <code>object?[]</code> type) by default and converts between that and linked lists as<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+<p><em>Esoteric</em>: this is suggestive that tuples/lists are represented as linked lists internally.  And in conventional logic programming languages, this is true.  However, Step is made to interface with game engines and this kind of processing isn't very common in Step code anyway.  So Step uses arrays to represent tuples (in particular the C# <code>object?[]</code> type) by default and converts between that and linked lists as needed.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>

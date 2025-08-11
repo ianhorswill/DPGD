@@ -109,7 +109,7 @@ Succeeds when its argument is a <em>not</em> an uninstantiated variable.</li>
 <li><code>[Var </code><em>x</em><code>]</code><br />
 Succeeds when its argument is an uninstantiated variable (a variable without a value)</li>
 </ul>
-<p>These do not change <em>x</em> in any way; they just succeed or fail depending on whether it's a value, or an unbound variable, respectively.  These are useful as guards on methods.  For example, if you want to use different methods for when called in input and output mode, you can say:</p>
+<p>These do not change <em>x</em> in any way; they just succeed or fail depending on whether it's a value, or an unbound variable, respectively.  These are useful as guards on methods.  For example, if you want to use different methods when called in input and output mode, you can say:</p>
 <pre><code class="language-step">Task (NonVar ?x): ... method for input mode ...
 Tast (Var ?x): ... method for output mode ...
 </code></pre>

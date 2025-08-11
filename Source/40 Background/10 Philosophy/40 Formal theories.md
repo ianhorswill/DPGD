@@ -28,7 +28,7 @@ In academic usage, a **formal theory** is one that can be expressed purely in te
 
 Historically, the theory of formal theories come out of late 19th century and early 20th century mathematics and philosophy (specifically analytic philosophy), who were engaged in the project of trying to come up with a formal basis for all of mathematics that could be used 
 
-## Endnotes
+## Notes
 [^1]: *Esoteric*: Formalisms are sufficiently important that there are also people who study formalism for its own sake without thinking about how the formalism represents something else.  However, that isn’t relevant to us here.
 
 [^2]: *Esoteric*: In formal logic, a model is something that is accurately described by a theory.  So one talks about something “being a model of a theory” (or not).

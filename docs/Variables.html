@@ -108,7 +108,7 @@ Greet ?who: Hello, ?who.
 Greet ?who: Hey, ?who.
 Greet ?who: Good evening, ?who.
 </code></pre>
-<p>So what does <strong><code>?who</code></strong> mean in the methods above?  It’s a placeholder that can be filled in when <code>Greet</code> is called, and then used in the text template to fill in blanks.  These placeholders are called <strong>variables</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> In particular, they’re called “local variables” because if two different methods each have a variable named <code>?who</code>, they’re treated as different variables: they don’t interfere with one another.</p>
+<p>So what does <strong><code>?who</code></strong> mean in the methods above?  It’s a placeholder that can be filled in when <code>Greet</code> is called, and then used in the text template to fill in blanks.  These placeholders are called <strong>variables</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> In particular, they’re called “local variables” because if two different methods each have a variable named <code>?who</code>, they’re treated as different variables: they don’t interfere with one another.</p>
 <p>To print the text in a variable, just list it on the right-hand side of the colon in a method:</p>
 <pre><code class="language-step">Greet ?who: Good evening, ?who.
 </code></pre>
@@ -132,7 +132,7 @@ Greet ?who: Good evening, ?who.
 </blockquote>
 <p>Notice we named this task <code>MissionBriefing</code> and not “<code>Mission briefing</code>”.  The reason for that is that if we put a space in the middle of the task name, Step would think it was named <code>Mission</code> and <code>briefing</code> was a parameter to it.  So variables and task names can’t have spaces in them.  Parameters can, but only if you use quotation marks to make clear that you mean the words in quotation marks as a single parameter.</p>
 <h2 id="technical-assignment-statements">Technical: Assignment statements</h2>
-<p>Skip this is you aren't a programmer who's confused by the weird way variables work in Step.</p>
+<p>Experienced programmers will be confused by the weird way variables work in Step.  Skip this section if you aren't an experienced programmer.</p>
 <p>Step's local variables are unusual: they only get their values through the matching process.  That also means they're <em>write-once</em>: you can only give them a value once; then they have that value for all time.</p>
 <p>If you're an experienced programmer, you're used to variables you can update endlessly using <strong>assignment statements</strong> <code>variable = newValue</code>.  Many languages that support matching, particularly <a href="Logic_programming.html">logic programming languages</a> like <a href="https://en.wikipedia.org/wiki/Prolog">Prolog</a> specifically prohibit assignment statements.  <a href="https://en.wikipedia.org/wiki/Functional_programming">Functional languages</a> are the same way.</p>
 <p>There are arguments to be made both for and against assignment statements.  It is true, however, that they don't play well with pattern matching, and pattern is very useful.  So Step has two kinds of variables:</p>
@@ -140,7 +140,7 @@ Greet ?who: Good evening, ?who.
 <li>Local variables, whose names begin with a <code>?</code>, get their values from matching and are write-once.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></li>
 <li>Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be <a href="Global_variables.html">updated using assignment statements</a>.  We'll talk about this more when we talk about <a href="State.html">state</a>.</li>
 </ul>
-<h2 id="endnotes">Endnotes</h2>
+<h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
@@ -168,11 +168,13 @@ Greet ?who: Good evening, ?who.
 			<ol start="1">
 					<li class="sidebar"><a class="simplelink" href="Variables.html" id="section_page_1"> <b> Variables
  </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Pattern_matching.html" id="section_page_2"> Patterns of parameters
+					<li class="sidebar"><a class="backgroundlink" href="Mention.html" id="section_page_2"> Printing variables
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_3"> Methods for specific parameter values
+					<li class="sidebar"><a class="backgroundlink" href="Pattern_matching.html" id="section_page_3"> Patterns of parameters
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="How_matching_works.html" id="section_page_4"> How matching works
+					<li class="sidebar"><a class="backgroundlink" href="Reflexive_pronouns.html" id="section_page_4"> Methods for specific parameter values
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="How_matching_works.html" id="section_page_5"> How matching works
  </a> <br></li>
 			</ol>
 	<script>
@@ -188,7 +190,7 @@ Greet ?who: Good evening, ?who.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Pattern_matching.html">Patterns of parameters
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Mention.html">Printing variables
 </a><br>
 				</td>
 			</tr>
