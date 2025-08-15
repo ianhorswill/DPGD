@@ -2,7 +2,7 @@
 pagetitle: Self-referential rules
 status: alpha
 ---
-So far, so good.  We can define the `Parent` relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc. We could write:
+So far, so good.  We can define the `Parent` relationship and then define most everything else in terms of that: grandparents and grandchildren, great-grandparents, siblings, etc. But what about ancestors?  An ancestor is your parent or grandparent or great-grandparent or great, great-grandparent, etc.  We could write:
 ```step
 [predicate]
 Ancestor ?c ?a: [Parent ?c ?a]
@@ -65,10 +65,65 @@ graph TB
     a3 -- "<b>Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]</b> <br> ?c = grandpa ?a = ?who" --> p8("[Parent grandpa ?p]") --> f4(Fail)
     style f4 fill:red
 ```
+We can also visualize it and it's correct:
+```mermaid
+graph TD
+n0("bart") --> n1("marge")
+n0 --> n2("homer")
+n3("lisa") --> n2
+n3 --> n1
+n4("stan") --> n5("sharon")
+n4 --> n6("randy")
+n6 --> n7("grandpa")
+n8("jimbo") --> n7
+n4 --> n7
+```
+You can check this yourself by running `[VisualizeGraph Ancestor]` in the code above.  Because of our little database, this is almost the same as the visualization of `Parent`, but it adds the arrow from `stan` to `grandpa`.  If we add Homer Simpson's parents[^marge]: 
+```Step
+# Try: [VisualizeGraph Ancestor]
+[predicate]
+Ancestor ?c ?p: [Parent ?c ?p]
+Ancestor ?c ?a: [Parent ?c ?p] [Ancestor ?p ?a]
+
+[predicate]
+Parent bart marge.
+Parent bart homer.
+Parent lisa homer.
+Parent lisa marge.
+Parent homer grampa_simpson.   # new
+Parent homer mona_simpson.     # new
+Parent stan sharon.
+Parent stan randy.
+Parent randy grandpa.
+Parent jimbo grandpa.
+```
+then we get a slightly bigger graph:
+```mermaid
+graph TD
+n0("bart") --> n1("marge")
+n0 --> n2("homer")
+n3("lisa") --> n2
+n3 --> n1
+n2 --> n4("grampa_simpson")
+n2 --> n5("mona_simpson")
+n6("stan") --> n7("sharon")
+n6 --> n8("randy")
+n8 --> n9("grandpa")
+n10("jimbo") --> n9
+n0 --> n4
+n0 --> n5
+n3 --> n4
+n3 --> n5
+n6 --> n9
+```
+Note that while the [mermaid.js graph renderer](https://mermaid.js.org/) used here places Jimbo so as to look like he's part of the Simpson family, he isn't, and the arrows from Lisa and Bart to Homer and Marge just happen to cross over his node.  They aren't actually connected to him.
+
+
+## Recursion
 
 In mathematics, logic, and computer science, self-referential definitions like this are said to be **recursive**[^inductive], and when the `Ancestor` rule turns around and calls `Ancestor` again, that’s called **recursion**.  
 
-## How to write a recursive predicate
+### How to write a recursive predicate
 
 Recursive predicates have a fairly standard format:
 
@@ -80,3 +135,5 @@ Note that you can run into problems if you put the rules in the opposite order, 
 ## Notes
 
 [^inductive]: *Esoteric*: Sometimes self-referential rules are called *inductive* rather than *recursive*.  The distinction is that recursions start with the complex case and move to the base case and inductions move from the base case to the complex case.  Self-referential functions are usually described as recursive, whereas self-referential data structures are usually described as inductive.
+
+[^marge]: Again, I'd add Marge's parents too, but I can't find any record of them.

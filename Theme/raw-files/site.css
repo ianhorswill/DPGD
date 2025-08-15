@@ -127,4 +127,6 @@ table {
 
 pre {
 	    scrollbar-color: #333 #222;
+		overflow: scroll;
+		max-height: 50rem;
 }

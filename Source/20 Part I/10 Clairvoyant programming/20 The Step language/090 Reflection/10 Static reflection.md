@@ -1,0 +1,17 @@
+---
+pagetitle: Static reflection
+status: alpha
+---
+Static reflection is used to ask questions about the tasks in the program.  The most useful static reflection predicates are:
+
+* `[CompoundTask ?task]`  
+is true if `?task` is defined in terms of other tasks through methods.  That is, if it isn't a [primitive task](primitive_tasks).  For example, in our [family example](siblings), `[CompoundTask Parent]` and `[CompoundTask Siblings]` are true because `Parent` is defined by methods, but `[CompoundTask Different]` is false because it's a built-in [primitive](comparisons).  For most purposes, compound task is a synonym for a user-defined task.
+* `[TaskCalls ?caller ?callee]`  
+is true if the task `?caller` contains a call to the task `?callee`.  Again, in our [family example](siblings), `[TaskCalls Sibling Parent]` and `[TaskCalls Sibling Different]` are both true because the method for `Siblings` calls both those tasks.  But `[TaskCalls Parent Sibling]` is false because `Parent` doesn't have a method that calls `Sibling`.
+* `[TaskSubtask ?task ?call]`  
+is true if `?task` has a method that matches the call `?call`.  This sounds like `TaskCalls`, but it's different.  For example, in our [Starflight example](starflight_pcg), the query `[TaskCalls ? Hue]` will tell you what tasks call `Hue`.  But `[TaskCalls ? [Hue pure]]` will tell you what tasks specifically call `Hue` with `pure` as its argument.
+
+These predicates [work in all modes](primitive_tasks#input-output-modes).  So you can use `CompoundTask` both to check whether something is a compound task, and also to enumerate all the compound tasks in your program.
+
+Static reflection is useful in many ways.  It's particularly useful for debugging and design-rule checking.  Let's look at some examples now.
+

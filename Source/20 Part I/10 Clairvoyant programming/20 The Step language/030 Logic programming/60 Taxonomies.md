@@ -2,7 +2,15 @@
 pagetitle: Taxonomies
 Status: alpha
 ---
-Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs.  We can express those relationships using rules:
+Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs:
+```mermaid
+graph TD
+n0("Animal") --> n1("Dog")
+n0 --> n2("Cat")
+n1 --> n3("Labrador")
+n1 --> n4("Collie")
+```
+We can express those relationships using rules:
 ```Step
 # Try: [Animal lassie]
 [predicate]

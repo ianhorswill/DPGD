@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Taxonomies&#xA;</title>
+	<title>Design-rule checking&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Taxonomies&#xA;">
-	<meta name="twitter:title" content="Taxonomies&#xA;">
-	<meta property="og:title" content="Taxonomies&#xA;" />
+	<meta itemprop="name" content="Design-rule checking&#xA;">
+	<meta name="twitter:title" content="Design-rule checking&#xA;">
+	<meta property="og:title" content="Design-rule checking&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -57,13 +57,13 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Reflection.html"> Reflection
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Taxonomies
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Design-rule checking
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
-					   alpha test
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   incomplete draft
 					</span>
 					</p>
 		</div>
@@ -102,35 +102,17 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs:</p>
-<pre class="mermaid">graph TD
-n0("Animal") --> n1("Dog")
-n0 --> n2("Cat")
-n1 --> n3("Labrador")
-n1 --> n4("Collie")
-</pre>
-<p>We can express those relationships using rules:</p>
-<pre><code class="language-Step"># Try: [Animal lassie]
-[predicate]
-Animal ?a: [Dog ?a]
-Animal ?a: [Cat ?a]
-
-[predicate]
-Dog ?d: [Labrador ?d]
-Dog ?d: [Collie ?d]
-
-[predicate]
-Collie lassie.
-[predicate]
-Labrador bruce.
+<p>Reflection can be used to write custom static-analysis routines to verify things about your program.  Here are some examples.</p>
+<h2 id="dead-code-detection">Dead code detection</h2>
+<p>You can check whether there are any unused tasks in your program.  For example, the predicate:</p>
+<pre><code class="language-step">DeadCode ?task: [CompoundTask ?t] [Not [TaskCalls ? ?t]]
 </code></pre>
-<p>Now suppose we run <code>[Animal lassie]</code>, i.e. we ask “is Lassie an animal?”  The system has to choose an <code>Animal</code> method, then based on that method, either a <code>Dog</code> method of a <code>Cat</code> method.  If a <code>Dog</code> method, then it has to choose either a <code>Collie</code> method or a <code>Labrador</code> method.  We assume it always makes good choices, and the of the first <code>Animal</code> method (dog) followed by the second <code>Dog</code> method (collie) works.  In so doing it's basically concluded that Lassie is an Animal because:</p>
-<ul>
-<li>Lassie is a collie</li>
-<li>Collies are dogs</li>
-<li>Dogs are animals</li>
-</ul>
-<p>We could instead have run <code>[Animal ?x]</code>, meaning “who’s an animal?”  Then it would find an animal.  Since the predicates aren't tagged with <code>[randomly]</code>, it would always choose the first methods, and so say <code>bruce</code>.</p>
+<p>is true if <code>?task</code> is a task with methods that nothing calls.  Given that, you can add:</p>
+<pre><code class="language-step">[Not [DeadCode ?]]
+</code></pre>
+<p>to your unit tests to alert you if you have dead code in your program.</p>
+<h2 id="custom-checkers">Custom checkers</h2>
+<p>This more often gets used to check for relationships between specific types of tasks.  For example, suppose you are implementing a <a href="https://emshort.blog/2019/11/29/storylets-you-want-them/">storylet</a> system, that breaks stories or quests up into little fragments (the storylets) with preconditions for when they can be used.</p>
 
 
 
@@ -142,23 +124,15 @@ Labrador bruce.
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Simple logic programs
+			<h5>Reflection
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates
+					<li class="sidebar"><a class="backgroundlink" href="Static_reflection.html" id="section_page_1"> Static reflection
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions
+					<li class="sidebar"><a class="backgroundlink" href="Program_visualization.html" id="section_page_2"> Program visualization
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Visualizing_predicates.html" id="section_page_5"> Visualizing binary predicates
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Taxonomies.html" id="section_page_6"> <b> Taxonomies
+					<li class="sidebar"><a class="simplelink" href="Design_rule_checking.html" id="section_page_3"> <b> Design-rule checking
  </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_7"> Self-referential rules
- </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -173,7 +147,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Self-referential_rules.html">Self-referential rules
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Planning.html">Planning
 </a><br>
 				</td>
 			</tr>
@@ -187,7 +161,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Visualizing_predicates.html">Visualizing predicates
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Program_visualization.html">Program visualization
 </a><br>
 				</td>
 			</tr>
@@ -201,7 +175,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Logic_programming.html">Simple logic programs
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Reflection.html">Reflection
 </a><br>
 				</td>
 			</tr>
@@ -212,22 +186,9 @@ Labrador bruce.
 				}, false);
 			</script>
 			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Starflight_PCG.html">PCG in Starflight
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html">Parameterized grammars
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Higher-order_tasks.html">Higher-order tasks
 </a><br>
 				</td>
 			</tr>
@@ -240,7 +201,7 @@ Labrador bruce.
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Taxonomies.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Design_rule_checking.html">Send feedback on this page</a>
 	</div>
 </div>
 

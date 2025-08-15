@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Taxonomies&#xA;</title>
+	<title>Reflection&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Taxonomies&#xA;">
-	<meta name="twitter:title" content="Taxonomies&#xA;">
-	<meta property="og:title" content="Taxonomies&#xA;" />
+	<meta itemprop="name" content="Reflection&#xA;">
+	<meta name="twitter:title" content="Reflection&#xA;">
+	<meta property="og:title" content="Reflection&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -57,13 +57,11 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs
- </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Taxonomies
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Reflection
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
-					   alpha test
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   early draft
 					</span>
 					</p>
 		</div>
@@ -102,35 +100,16 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs:</p>
-<pre class="mermaid">graph TD
-n0("Animal") --> n1("Dog")
-n0 --> n2("Cat")
-n1 --> n3("Labrador")
-n1 --> n4("Collie")
-</pre>
-<p>We can express those relationships using rules:</p>
-<pre><code class="language-Step"># Try: [Animal lassie]
-[predicate]
-Animal ?a: [Dog ?a]
-Animal ?a: [Cat ?a]
-
-[predicate]
-Dog ?d: [Labrador ?d]
-Dog ?d: [Collie ?d]
-
-[predicate]
-Collie lassie.
-[predicate]
-Labrador bruce.
-</code></pre>
-<p>Now suppose we run <code>[Animal lassie]</code>, i.e. we ask “is Lassie an animal?”  The system has to choose an <code>Animal</code> method, then based on that method, either a <code>Dog</code> method of a <code>Cat</code> method.  If a <code>Dog</code> method, then it has to choose either a <code>Collie</code> method or a <code>Labrador</code> method.  We assume it always makes good choices, and the of the first <code>Animal</code> method (dog) followed by the second <code>Dog</code> method (collie) works.  In so doing it's basically concluded that Lassie is an Animal because:</p>
+<p>Reflection is the ability for programs to examine themselves.  In Step, this takes the form of predicates to answer questions like:</p>
 <ul>
-<li>Lassie is a collie</li>
-<li>Collies are dogs</li>
-<li>Dogs are animals</li>
+<li>Is my argument a task?</li>
+<li>What are the tasks in the program?</li>
+<li>What are the methods of this task?</li>
+<li>Have I called this task so far?</li>
 </ul>
-<p>We could instead have run <code>[Animal ?x]</code>, meaning “who’s an animal?”  Then it would find an animal.  Since the predicates aren't tagged with <code>[randomly]</code>, it would always choose the first methods, and so say <code>bruce</code>.</p>
+<p>In programming languages, we often distinguish between <strong>static</strong> properties of the program, which examines the text of the program, and what can be determined from it without running it, and <strong>dynamic</strong> analysis, which analyzes the behavior of the program as it runs.</p>
+<p>This is mirrored naturally in reflection capabilities.  Static reflection tells you things about the text of the program: what tasks and methods does it have, what calls what, etc.  Dynamic reflection tells you things about the program as it's running: what's running now?  What was run previously?</p>
+<p>We'll talk about each of these now, in turn.</p>
 
 
 
@@ -142,22 +121,14 @@ Labrador bruce.
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Simple logic programs
+			<h5>Reflection
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Predicates.html" id="section_page_1"> Predicates
+					<li class="sidebar"><a class="backgroundlink" href="Static_reflection.html" id="section_page_1"> Static reflection
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Answering_questions.html" id="section_page_2"> Predicates answer questions
+					<li class="sidebar"><a class="backgroundlink" href="Program_visualization.html" id="section_page_2"> Program visualization
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Complex_questions.html" id="section_page_3"> Building complex questions
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Visualizing_predicates.html" id="section_page_5"> Visualizing binary predicates
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Taxonomies.html" id="section_page_6"> <b> Taxonomies
- </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_7"> Self-referential rules
+					<li class="sidebar"><a class="backgroundlink" href="Design_rule_checking.html" id="section_page_3"> Design-rule checking
  </a> <br></li>
 			</ol>
 	<script>
@@ -173,7 +144,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Self-referential_rules.html">Self-referential rules
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Static_reflection.html">Static reflection
 </a><br>
 				</td>
 			</tr>
@@ -187,7 +158,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Visualizing_predicates.html">Visualizing predicates
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Parsing.html">Parsing
 </a><br>
 				</td>
 			</tr>
@@ -201,7 +172,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Logic_programming.html">Simple logic programs
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="The_Step_language.html">Step
 </a><br>
 				</td>
 			</tr>
@@ -212,22 +183,9 @@ Labrador bruce.
 				}, false);
 			</script>
 			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Starflight_PCG.html">PCG in Starflight
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Parameterized_grammars.html">Parameterized grammars
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Higher-order_tasks.html">Higher-order tasks
 </a><br>
 				</td>
 			</tr>
@@ -240,7 +198,7 @@ Labrador bruce.
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Taxonomies.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Reflection.html">Send feedback on this page</a>
 	</div>
 </div>
 

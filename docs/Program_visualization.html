@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>PCG in Starflight&#xA;</title>
+	<title>Program visualization&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Example: Procedural generation in &lt;em&gt;Starflight&lt;/em&gt;&#xA;">
-	<meta name="twitter:title" content="Example: Procedural generation in &lt;em&gt;Starflight&lt;/em&gt;&#xA;">
-	<meta property="og:title" content="Example: Procedural generation in &lt;em&gt;Starflight&lt;/em&gt;&#xA;" />
+	<meta itemprop="name" content="Program visualization&#xA;">
+	<meta name="twitter:title" content="Program visualization&#xA;">
+	<meta property="og:title" content="Program visualization&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -57,7 +57,9 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Example: Procedural generation in <em>Starflight</em>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Reflection.html"> Reflection
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Program visualization
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -100,113 +102,83 @@
 
 			<div class="container shadow blog-contents">
 
-<p><img src="Starflight_cover.jpg" alt="Startflight" title="Original game cover (source: wikipedia)" /></p>
-<p><em>Starflight</em>  (Binary Systems, 1986) is an early example of procedural generation in games and the first use of context-free grammars I know of in commercial games.  It was an inspiration for both <em>Dwarf Fortress</em> and the <em>Mass Effect</em> series.  A number of its <a href="https://github.com/tangentforks/starflight">design documents</a> are available on GitHub, so we have a fairly detailed record of how they used PCG.  I've included a copy of the grammar design docs in the <a href="Starflight_design_document.html">side trail for this page</a>.</p>
-<p>I've translated part of their PCG system into Step code.  I've only implemented generators for three commands, but it gives a good sense of how the system works. </p>
-<h2 id="main-generators">Main generators</h2>
-<p>The three top-level commands are:</p>
-<ul>
-<li><code>ExamineEquipment</code>, which runs their grammar for generating equipment names</li>
-<li><code>EquipmentUsageDescription</code>, which runs their grammar for the text printed by the USE command when you use equipment other than the function analyser</li>
-<li><code>FunctionalDescrption</code>, which runs their grammar for the text printed by the USE command when you use it with the analyzer.</li>
-</ul>
-<p>The code for those three is here:</p>
-<pre><code class="language-step">ExamineEquipment: [RelativeSize] [Color] [EquipmentTexture] [StructuralEntity] [OptionalEquipmentFeatures]
-EquipmentUsageDescription: using [EquipmentName]. [OptSoundAndVision] [IndirectObjectEffect] [DirectObjectEffect]
-FunctionalDescription: [randomly] [EquipmentPhylum] [or] [EquipmentClass ?] [end]
+<p>Arguably, the single most useful static reflection call is <code>[VisualizeGraph TaskCalls]</code>, which shows you a map of your program and what calls what.  For our treasure grammar, that gives us the diagram:</p>
+<pre class="mermaid">graph TD
+n0("Treasure") --> n1("Weapon")
+n1 --> n2("PreBuff")
+n1 --> n3("WeaponType")
+n1 --> n4("PostBuff")
+n4 --> n5("Element")
+n4 --> n6("Effect")
+</pre>
+<p>Give it a try:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph TaskCalls]
+Treasure: [Weapon]
+
+Weapon: [PreBuff] [WeaponType] [PostBuff]
+
+[randomly]
+WeaponType: sword
+WeaponType: mace
+
+[randomly]
+PreBuff: +1
+PreBuff: +2
+PreBuff: cursed
+
+[randomly]
+PostBuff: of [Element]
+PostBuff: of [Effect]
+
+[randomly]
+Element: earth
+Element: air
+Element: fire
+Element: water
+Element: soul
+
+[randomly]
+Effect: insanity
+Effect: sleep
+Effect: poison
+Effect: social anxiety
 </code></pre>
-<p>These call generators for other phrase types. </p>
-<h2 id="supporting-generators">Supporting generators</h2>
-<p>Many of them, like <code>RelativeSize</code> are simple lists of possible words.  This would normally be written as:</p>
-<pre><code class="language-step">[randomly]
-RelativeSize: wee
-RelativeSize: tiny
-RelativeSize: very small
-...
-RelativeSize: gargantuan
-</code></pre>
-<p>However, that takes a lot of space on the screen, so instead, we write it as a single rule with an embedded <code>[randomly] [or] [end]</code> block.  We haven't talked about that feature before, but it lets you specify alternatives to choose between randomly within the same rule:</p>
-<pre><code class="language-step">RelativeSize: [randomly] wee  [or] tiny  [or] very small  [or] small  [or] big  [or] large  [or] very large [or] huge [or] massive [or] humongous [or] gargantuan [end]
-</code></pre>
-<h3 id="generating-color-descriptions">Generating color descriptions</h3>
-<p>Colors are described in English using terms to describe their luminosity (brightness), hue (basic color), and tint (modification of the hue).  To keep the text from being monotonous, it has different templates that it switches between:</p>
-<pre><code class="language-step">[randomly]
-Color: [Luminosity]
-Color: [Luminosity] [Hue pure]
-Color: [Tint] [Hue pure]
-Color: [Hue mixed]
-</code></pre>
-<p><code>Luminosity</code> and <code>Tint</code> are just lists of adjectives that it randomly chooses between.  However, it divides <code>Hue</code> words into &ldquo;pure&rdquo; hues and &ldquo;mixed&rdquo; hues.  We implemented that by providing an argument to the <code>Hue</code> generator to switch which one you want.  If you pass a variable, it will randomly switch between the two.</p>
-<h3 id="tagged-adjectives">Tagged adjectives</h3>
-<p>Just as <code>Hue</code>s have attributes of being pure or mixed, a number of the other adjectives are also tagged with information about how they can be used.  The design document defines these in terms of <a href="https://en.wikipedia.org/wiki/Bit_field">bit fields</a>, where each possible use is encoded by having a 1 in a specific bit position.  For example, the [design document]](Starflight_design_document) specified bit positions for different kinds of &ldquo;sound qualities&rdquo; and their associated adjectives:</p>
-<pre><code class="language-text">             _LIFEFORM            
-            /_HIGH PITCHED        
-           //_LOW PITCHED         
-          ///_LOAD                
-         ////_THUNDEROUS/DEAFENING
-        /////_BLAST/ROAR          
-       //////_EQUIPMENT           
-      ///////_(NOT USED)          
-     ////////                     
- 1  00011110 EXPLOSIVE  
- 2  00111010 BOOMING    
- 3  00111010 FUNKY      
- 4  00111010 POUNDING   
- 5  00111010 RUMBLING   
- 6  00111011 RESONATING 
- 7  01010010 RINGING    
- 8  01110110 SIZZELING  
- 9  01111010 MECHANICAL 
-10  10000000 FLAPPING   
-11  10000000 WHISPERING 
-...
-42  11110110 HISSING  
-</code></pre>
-<p>which we translate into Step by saying that <code>SoundQuality</code> is a task that prints an adjective but also matches its argument to a bit pattern that depends on the adjective.  This lets us print something while also knowing what kind of thing we printed.</p>
-<pre><code class="language-step">[randomly]
-SoundQuality 0b00011110: explosive  
-SoundQuality 0b00111010: booming    
-SoundQuality 0b00111010: funky      
-SoundQuality 0b00111010: pounding   
-SoundQuality 0b00111010: rumbling   
-SoundQuality 0b00111011: resonating 
-SoundQuality 0b01010010: ringing    
-SoundQuality 0b01110110: sizzeling  
-SoundQuality 0b01111010: mechanical 
-SoundQuality 0b10000000: flapping   
-SoundQuality 0b10000000: whispering 
-...
-SoundQuality 0b11110110: hissing
-</code></pre>
-<p><code>SoundFrequency</code> (high-pitched or low-pitched) works the same way:</p>
-<pre><code class="language-step">[randomly]
-SoundFrequency 0b01000000: high pitched
-SoundFrequency 0b00100000: low pitched
-SoundFrequency 0b01100000.
-</code></pre>
-<p>The first rule matches to the bitset <code>0b01000000</code>, which has a 1 in the position the design document reserves for high-pithed sounds and prints the text <code>high pitched</code>.  The second has a 1 in the position for low-pitched sounds and prints the text <code>low pitched</code>.  The third prints nothing but has 1s in both positions, to indicate it can be used with descriptors for high- or low-pitched sounds.  When printing both a <code>SoundFrequency</code> and a <code>SoundQuality</code> we make sure their features are compatible using the <code>BitsetsIntersect</code> predicate, which fails if its arguments don't share 1's in any positions.</p>
-<p><code>WildcardAdjective</code> &mdash; adjectives like &ldquo;beautiful&rdquo; that can be applied to many different kinds of nouns &mdash; are also tagged this way, however with a different set of possible features.  See the <a href="Starflight_design_document.html">design document</a> for more details.</p>
-<h3 id="generating-sound-descriptions">Generating sound descriptions</h3>
-<p>Sounds are similar: they consist of randomly chosen phrases for the amplitude (loudness), frequency (pitch), and further description.  However, many of the descriptions are only compatible with some of the frequencies.  So <code>SoundFrequency</code> not only prints the relevant description, but also binds its argument <code>?freq</code> to the attributes of the sound it chose.  That is then passed on to <code>SoundDescriptor</code>, which can then choose its description based on the selected pitch:</p>
-<pre><code class="language-step">Sound: [SoundAmplitude] [SoundFrequency ?freq] [SoundDescriptor ?freq]
-</code></pre>
-<p><code>SoundDescriptor</code> then either:</p>
-<ul>
-<li>Prints a <code>SoundQuality</code> that's compatible with <code>?freq</code> followed by &ldquo;sound&rdquo; (first rule)</li>
-<li>Prints one of the <code>WildcardAdjectives</code> with a 1 in the &ldquo;I'm a sound sound&rdquo; position followed by &ldquo;sound&rdquo; (second rule)</li>
-<li>Just prints &ldquo;sound&rdquo; (third rule)</li>
-<li>Prints a random sound word (last rule)</li>
-</ul>
-<p>Here's the code, broken out into 4 rules to make it clearer, although the final version combines the first three rules into one rule:</p>
-<pre><code class="language-step">[randomly]
-SoundDescriptor ?freq: [SoundQuality ?bits] [BitSetsIntersect ?freq ?bits] sound
-SoundDescriptor ?freq: [WildcardAdjective ?bits] [BitSetsIntersect ?bits 0b01000000] sound
-SoundDescriptor ?freq: sound
-SoundDescriptor ?: [randomly] noise [or] blast [or] roar [end]
-</code></pre>
-<h2 id="full-code">Full code</h2>
-<p>Here's the full system so you can try it if you like:</p>
-<pre><code class="language-Step"># Try: [EquipmentUsageDescription]
+<p>The <em>Starflight</em> grammar is considerable more complicated:</p>
+<pre class="mermaid">graph LR
+n0("ExamineEquipment") --> n1("RelativeSize")
+n0 --> n2("Color")
+n0 --> n3("EquipmentTexture")
+n0 --> n4("StructuralEntity")
+n0 --> n5("OptionalEquipmentFeatures")
+n6("EquipmentUsageDescription") --> n7("EquipmentName")
+n6 --> n8("OptSoundAndVision")
+n6 --> n9("IndirectObjectEffect")
+n6 --> n10("DirectObjectEffect")
+n11("FunctionalDescription") --> n12("EquipmentPhylum")
+n11 --> n13("EquipmentClass")
+n7 --> n14("EthnicOrigin")
+n7 --> n13
+n7 --> n2
+n7 --> n4
+n5 --> n15("EquipmentFeature")
+n15 --> n4
+n8 --> n16("Sound")
+n8 --> n17("VisualEffect")
+n17 --> n18("Luminosity")
+n17 --> n19("Hue")
+n17 --> n20("RadiantEnergy")
+n16 --> n21("SoundAmplitude")
+n16 --> n22("SoundFrequency")
+n16 --> n23("SoundDescriptor")
+n23 --> n24("SoundQuality")
+n23 --> n25("BitSetsIntersect")
+n23 --> n26("WildcardAdjective")
+n2 --> n18
+n2 --> n19
+n2 --> n27("Tint")
+</pre>
+<p>Again, give it a try:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph TaskCalls style &quot;graph LR&quot;]
 ###
 ### TOP-LEVEL COMMANDS
 ### Try one of these three
@@ -410,30 +382,14 @@ WildcardAdjective 0b10110000:  incredible
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Step
+			<h5>Reflection
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Grammars.html" id="section_page_1"> Simple grammars
+					<li class="sidebar"><a class="backgroundlink" href="Static_reflection.html" id="section_page_1"> Static reflection
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parameterized_grammars.html" id="section_page_2"> Parameterized grammars
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Logic_programming.html" id="section_page_3"> Simple logic programs
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Starflight_PCG.html" id="section_page_4"> <b> Example: Procedural generation in <em>Starflight</em>
+					<li class="sidebar"><a class="simplelink" href="Program_visualization.html" id="section_page_2"> <b> Program visualization
  </b> </a> <br></li>
-						<ul>
-							<li class="sidebar"><a class="simplelink" href="Starflight_design_document.html"><i>Original design document from <em>Starflight</em>
-</i></a></li>
-						</ul>
-					<li class="sidebar"><a class="backgroundlink" href="State.html" id="section_page_5"> State and time in clairvoyant programming
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Structured_data.html" id="section_page_6"> Structured data
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Primitive_tasks.html" id="section_page_7"> Primitive tasks (technical)
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Higher-order_tasks.html" id="section_page_8"> Higher-order tasks
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Reflection.html" id="section_page_9"> Reflection
+					<li class="sidebar"><a class="backgroundlink" href="Design_rule_checking.html" id="section_page_3"> Design-rule checking
  </a> <br></li>
 			</ol>
 	<script>
@@ -449,7 +405,7 @@ WildcardAdjective 0b10110000:  incredible
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="State.html">State
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Design_rule_checking.html">Design-rule checking
 </a><br>
 				</td>
 			</tr>
@@ -463,7 +419,7 @@ WildcardAdjective 0b10110000:  incredible
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Self-referential_rules.html">Self-referential rules
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Static_reflection.html">Static reflection
 </a><br>
 				</td>
 			</tr>
@@ -477,7 +433,7 @@ WildcardAdjective 0b10110000:  incredible
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="The_Step_language.html">Step
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Reflection.html">Reflection
 </a><br>
 				</td>
 			</tr>
@@ -488,22 +444,9 @@ WildcardAdjective 0b10110000:  incredible
 				}, false);
 			</script>
 			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Planning.html">Planning
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="NDScript.html">Clairvoyant algorithms
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Higher-order_tasks.html">Higher-order tasks
 </a><br>
 				</td>
 			</tr>
@@ -516,7 +459,7 @@ WildcardAdjective 0b10110000:  incredible
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Starflight_PCG.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Program_visualization.html">Send feedback on this page</a>
 	</div>
 </div>
 

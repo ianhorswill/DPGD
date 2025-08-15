@@ -120,6 +120,131 @@ Starts a new line unless we're already at the start of a line.</li>
 Starts a new paragraph.</li>
 </ul>
 <p>These primitives are all deterministic.  And for most purposes they operate only in <strong>input mode</strong> in the sense that if you call them with a variable, it prints the variable rather than giving a value to it.  However, when <a href="Parsing.html">parsing text</a>, they flip from being input mode and printing, to being output mode and reading from the input string.  See <a href="Parsing.html">parsing text</a>.</p>
+<h2 id="graph-output-not-supported-in-all-environments">Graph output (not supported in all environments)</h2>
+<p>Graph visualization isn't part of the core Step interpreter, but it's supported both on the web interface and the Step IDE (StepRepl), since it's very useful for debugging.  As we <a href="Visualizing_predicates.html">discussed earlier</a>, you can print a graph using the <code>VisualizeGraph</code> task:</p>
+<pre><code class="language-step">[VisualizeGraph ?predicate]
+</code></pre>
+<p>which finds all solutions to <code>[?predicate ?start ?end]</code> and makes a graph with an edge (arrow) for each solution, adding nodes as needed. </p>
+<h3 id="labeling-the-edges-arrows">Labeling the edges (arrows)</h3>
+<p>This assumes <code>?predicate</code> takes two parameters.  It it takes three parameters, it label the edge with the value of the third argument.  For example:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph Relationship]
+[predicate]
+Relationship bart homer parent.
+Reltionship lisa home parent.
+Relationship bart marge parent.
+Relationship lisa marge parent.
+Relationship homer marge wife.
+Relationship marge homer husband.
+Relationship bart lisa sister.
+Relationship lisa bart brother.
+# If ?parent is ?child's parent, then ?child is ?parent's child
+Relationship ?parent ?child child: [Relationship ?child ?parent parent]
+</code></pre>
+<p>which yields the graph:</p>
+<pre class="mermaid">graph TD
+n0("bart") -- parent --> n1("homer")
+n0 -- parent --> n2("marge")
+n3("lisa") -- parent --> n2
+n1 -- wife --> n2
+n2 -- husband --> n1
+n0 -- sister --> n3
+n3 -- brother --> n0
+n1 -- child --> n0
+n2 -- child --> n0
+n2 -- child --> n3
+</pre>
+<h3 id="coloring-the-nodes">Coloring the nodes</h3>
+<p>You can specify optional extra keyword parameters for other options.  To change the colors of the nodes, say:</p>
+<pre><code class="language-step">[VisualizeGraph ?predicate node_color ?colorTask]
+</code></pre>
+<p>where <code>?colorPredicate</code> is a predicate that specifies what colors nodes should have.  Here keyword <code>node_color</code> tells it that the next value is the task to use to get colors of nodes.</p>
+<p>This may be best explained with an example:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph Relationship node_color CharacterColor]
+[predicate]
+Relationship bart homer parent.
+Reltionship lisa home parent.
+Relationship bart marge parent.
+Relationship lisa marge parent.
+Relationship homer marge wife.
+Relationship marge homer husband.
+Relationship bart lisa sister.
+Relationship lisa bart brother.
+# If ?parent is ?child's parent, then ?child is ?parent's child
+Relationship ?parent ?child child: [Relationship ?child ?parent parent]
+
+CharacterColor homer red.
+CharacterColor marge green.
+CharacterColor ? blue.  # everybody else is blue.
+</code></pre>
+<p>Then we get:</p>
+<pre class="mermaid">graph TD
+n0("bart") -- parent --> n1("homer")
+n0 -- parent --> n2("marge")
+n3("lisa") -- parent --> n2
+n1 -- wife --> n2
+n2 -- husband --> n1
+n0 -- sister --> n3
+n3 -- brother --> n0
+n1 -- child --> n0
+n2 -- child --> n0
+n2 -- child --> n3
+style n0 fill: blue;
+style n1 fill: red;
+style n2 fill: green;
+style n3 fill: blue;
+</pre>
+<p>Basically, when it wants to render a node, it calls <code>?colorTask</code>, passing it the node as its first parameter, and then reads back the color as the value of the second parameter.  The colors should be color strings that the web understands like &ldquo;red&rdquo;, &ldquo;blue&rdquo;, etc.</p>
+<h3 id="other-options">Other options</h3>
+<p><code>VisualizeGraph</code> accepts other keyword arguments:</p>
+<ul>
+<li><code>roots ?nodePredicate</code><br />
+Includes as nodes all the solutions to <code>[?nodePredicate ?node]</code> and any nodes reachable from them via arrows.</li>
+<li><code>node_label ?labelTask</code><br />
+Like <code>node_color</code> but instead of using the task to get the color of the node, it uses it to get the text to display in the node.</li>
+<li><code>directed ?boolean</code>
+If true, edges are drawn as arrows.  If not, they're drawn as lines.  Default is true.</li>
+<li><code>style ?string</code>
+Passes <code>?string</code> as the style to the Mermaid graph renderer.  The default is <code>&quot;graph TD&quot;</code>, which means to draw it as a normal graph, running top-to-bottom.  For some graphs, you may prefer <code>&quot;graph LR</code>&quot;, which runs left-to-right.</li>
+<li><code>color_components ?boolean</code><br />
+If <code>?boolean</code> is true, override the coloring of nodes so that all nodes within a given connected component have the same color.  So if we add Stan Marsh and Randy Marsh to the list of characters:</li>
+</ul>
+<pre><code class="language-Step"># Try: [VisualizeGraph Relationship color_components true]
+[predicate]
+Relationship bart homer parent.
+Reltionship lisa home parent.
+Relationship bart marge parent.
+Relationship lisa marge parent.
+Relationship homer marge wife.
+Relationship marge homer husband.
+Relationship bart lisa sister.
+Relationship lisa bart brother.
+
+Relationship stan randy parent.
+
+# If ?parent is ?child's parent, then ?child is ?parent's child
+Relationship ?parent ?child child: [Relationship ?child ?parent parent]
+</code></pre>
+<p>Then the Marsh family will appear in one color and the Simpsons in another:</p>
+<pre class="mermaid">graph TD
+n0("bart") -- parent --> n1("homer")
+n0 -- parent --> n2("marge")
+n3("lisa") -- parent --> n2
+n1 -- wife --> n2
+n2 -- husband --> n1
+n0 -- sister --> n3
+n3 -- brother --> n0
+n4("stan") -- parent --> n5("randy")
+n1 -- child --> n0
+n2 -- child --> n0
+n2 -- child --> n3
+n5 -- child --> n4
+style n0 fill:#0000FF;
+style n1 fill:#0000FF;
+style n2 fill:#0000FF;
+style n3 fill:#0000FF;
+style n4 fill:#FF0000;
+style n5 fill:#FF0000;
+</pre>
 
 
 

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Taxonomies&#xA;</title>
+	<title>Visualizing predicates&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Taxonomies&#xA;">
-	<meta name="twitter:title" content="Taxonomies&#xA;">
-	<meta property="og:title" content="Taxonomies&#xA;" />
+	<meta itemprop="name" content="Visualizing binary predicates&#xA;">
+	<meta name="twitter:title" content="Visualizing binary predicates&#xA;">
+	<meta property="og:title" content="Visualizing binary predicates&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -59,7 +59,7 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Taxonomies
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Visualizing binary predicates
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -102,35 +102,129 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Taxonomic relationships come up a lot in games.  Dogs and cats are kinds of animals, Collie and Labrador are kinds of dogs:</p>
-<pre class="mermaid">graph TD
-n0("Animal") --> n1("Dog")
-n0 --> n2("Cat")
-n1 --> n3("Labrador")
-n1 --> n4("Collie")
-</pre>
-<p>We can express those relationships using rules:</p>
-<pre><code class="language-Step"># Try: [Animal lassie]
-[predicate]
-Animal ?a: [Dog ?a]
-Animal ?a: [Cat ?a]
+<p>Predicates that take two parameters are sometimes called <em>binary predicates</em>.  A useful debugging tool for binary predicates is that we visualize them as <a href="Graphs.html">graphs</a>, i.e. networks of nodes with lines or arrows between them.  If <code>[Predicate a b]</code> is true, then we include <code>a</code> and <code>b</code> with an arrow from <code>a</code> to <code>b</code>.  For example, for our family example:</p>
+<pre><code class="language-step">[predicate]
+Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent] [Different ?a ?b]
 
 [predicate]
-Dog ?d: [Labrador ?d]
-Dog ?d: [Collie ?d]
-
-[predicate]
-Collie lassie.
-[predicate]
-Labrador bruce.
+Parent bart marge.
+Parent bart homer.
+Parent lisa homer.
+Parent lisa marge.
+Parent stan sharon.
+Parent stan randy.
+Parent randy grandpa.
+Parent jimbo grandpa.
 </code></pre>
-<p>Now suppose we run <code>[Animal lassie]</code>, i.e. we ask “is Lassie an animal?”  The system has to choose an <code>Animal</code> method, then based on that method, either a <code>Dog</code> method of a <code>Cat</code> method.  If a <code>Dog</code> method, then it has to choose either a <code>Collie</code> method or a <code>Labrador</code> method.  We assume it always makes good choices, and the of the first <code>Animal</code> method (dog) followed by the second <code>Dog</code> method (collie) works.  In so doing it's basically concluded that Lassie is an Animal because:</p>
-<ul>
-<li>Lassie is a collie</li>
-<li>Collies are dogs</li>
-<li>Dogs are animals</li>
-</ul>
-<p>We could instead have run <code>[Animal ?x]</code>, meaning “who’s an animal?”  Then it would find an animal.  Since the predicates aren't tagged with <code>[randomly]</code>, it would always choose the first methods, and so say <code>bruce</code>.</p>
+<p>The <code>Parent</code> predicate looks like this:</p>
+<pre class="mermaid">graph TD
+n0("bart") --> n1("marge")
+n0 --> n2("homer")
+n3("lisa") --> n2
+n3 --> n1
+n4("stan") --> n5("sharon")
+n4 --> n6("randy")
+n6 --> n7("grandpa")
+n8("jimbo") --> n7
+</pre>
+<p>and the <code>Siblings</code> predicate looks like this:</p>
+<pre class="mermaid">graph TD
+n0("bart") --> n1("lisa")
+n1 --> n0
+n2("randy") --> n3("jimbo")
+n3 --> n2
+</pre>
+<p>You can generate these visualizations yourself using the <code>VisualizeGraph</code> task.  Simply say <code>[VisualizeGraph ?predicate]</code>, where <code>?predicate</code> is some predicate that takes 2 arguments and it will draw the graph in your browser.  Try it out:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph Parent]
+[predicate]
+Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent] [Different ?a ?b]
+
+[predicate]
+Parent bart marge.
+Parent bart homer.
+Parent lisa homer.
+Parent lisa marge.
+Parent stan sharon.
+Parent stan randy.
+Parent randy grandpa.
+Parent jimbo grandpa.
+</code></pre>
+<h2 id="unbound-variables-in-visualizations">Unbound variables in visualizations</h2>
+<p>Returning to our food preferences example:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph Likes]
+[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+</code></pre>
+<p>When we visualize it, we get the somewhat odd visualization:</p>
+<pre class="mermaid">graph TD
+n0("tanya") --> n1("sushi")
+n0 --> n2("burgers")
+n0 --> n3("mexican")
+n4("jayden") --> n2
+n4 --> n5("ethiopean")
+n6("kimiko") --> n7("?endNode9")
+n8("?startNode8") --> n9("pizza")
+</pre>
+<p>Where we have graph nodes like <code>?startNode8</code> and <code>?endNode9</code> that are variables rather than real values.  That's because of rules like:</p>
+<pre><code class="language-step"># Kimiko likes everything
+Likes kimiko ?.
+</code></pre>
+<p>which mean that when you ask for all solutions to <code>[Likes ?startNode ?endNode]</code>, which is what the graph visualizer does, one of the solutions you get is <code>?startNode = kimiko, ?endNode=?</code>, i.e. <code>?endNode</code> can be anything, i.e. &ldquo;Kimiko likes everything&rdquo;.  But of course, the intention isn't that Kimiko doesn't like <em>everything</em>.  Kimiko may not like nuclear war, for example.  The intention of the rule above means &ldquo;Kimiko likes all <em>foods</em>&rdquo; and so the variable there is intended only to be used with foods.  But the system doesn't have a list of all foods, so it doesn't know what to do with the variable and it just renders it as <code>?endNode9</code>.</p>
+<p>We can fix this buy giving it explicit generators for the set of characters and the set of foods.  We can say that someone is a character if they like something and food if it's liked by someone:</p>
+<pre><code class="language-step">[predicate]
+Character ?who: [Likes ?who ?] [NonVar ?who]
+[predicate]
+Food ?what: [Likes ? ?what] [NonVar ?what]
+</code></pre>
+<p>The <a href="Testing_binding_status.html"><code>NonVar</code></a> predicate, which we'll talk about later, says only to accept the result if <code>?who</code> has a value.  That filters out the results from the <code>Likes</code> rules that have <code>?</code>s in them.</p>
+<p>Then we can have a version of <code>Likes</code> that never returns variables in its queries:</p>
+<pre><code class="language-step">[predicate]
+LikesExhaustive ?who ?what: [Likes ?who ?what] [Character ?who] [Food ?what]
+</code></pre>
+<p>And then we get the full visualization:</p>
+<pre class="mermaid">graph TD
+n0("tanya") --> n1("sushi")
+n0 --> n2("burgers")
+n0 --> n3("mexican")
+n4("jayden") --> n2
+n4 --> n5("ethiopean")
+n6("kimiko") --> n1
+n6 --> n2
+n6 --> n3
+n6 --> n5
+n6 --> n7("pizza")
+n0 --> n7
+n4 --> n7
+</pre>
+<p>This is &ldquo;better&rdquo; in the sense that it explicitly shows all combinations of who liking what.  But it's also a mess, so you might prefer the version with variables.</p>
+<p>You can try it out:</p>
+<pre><code class="language-Step"># Try: [VisualizeGraph LikesExhaustive]
+[predicate]
+Likes tanya sushi.
+Likes tanya burgers.
+Likes tanya mexican.
+Likes jayden burgers.
+Likes jayden ethiopean.
+# Kimiko likes everything
+Likes kimiko ?.
+# Everyone likes pizza.
+Likes ? pizza.
+
+[predicate]
+Character ?who: [Likes ?who ?] [NonVar ?who]
+[predicate]
+Food ?what: [Likes ? ?what] [NonVar ?what]
+[predicate]
+LikesExhaustive ?who ?what: [Likes ?who ?what] [Character ?who] [Food ?what]
+</code></pre>
 
 
 
@@ -153,10 +247,10 @@ Labrador bruce.
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Inference.html" id="section_page_4"> Inference
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Visualizing_predicates.html" id="section_page_5"> Visualizing binary predicates
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Taxonomies.html" id="section_page_6"> <b> Taxonomies
+					<li class="sidebar"><a class="simplelink" href="Visualizing_predicates.html" id="section_page_5"> <b> Visualizing binary predicates
  </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Taxonomies.html" id="section_page_6"> Taxonomies
+ </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Self-referential_rules.html" id="section_page_7"> Self-referential rules
  </a> <br></li>
 			</ol>
@@ -173,7 +267,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Self-referential_rules.html">Self-referential rules
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Taxonomies.html">Taxonomies
 </a><br>
 				</td>
 			</tr>
@@ -187,7 +281,7 @@ Labrador bruce.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Visualizing_predicates.html">Visualizing predicates
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Piblings.html">Piblings: aunts and uncles
 </a><br>
 				</td>
 			</tr>
@@ -240,7 +334,7 @@ Labrador bruce.
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Taxonomies.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Visualizing_predicates.html">Send feedback on this page</a>
 	</div>
 </div>
 

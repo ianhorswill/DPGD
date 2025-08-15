@@ -53,7 +53,8 @@ const GLOBAL_VARIABLE = {
             "Format", "Downcase", "Downcased", "Upcased", "Capitalized", "StartsWithVowel",
             "NounSingularPlural", "EnvironmentOption", "Hashtable", "Contains", "LinearInterpolate",
             "CompoundTask", "TaskMethod", "LastMethodCallFrame", "CallerChainAncestor", "GoalChainAncestor",
-            "TaskCalls", "TaskSubtask", "Help", "Apropos", "ElStore", "ElDelete", "ElDump", "Mention"
+            "TaskCalls", "TaskSubtask", "Help", "Apropos", "ElStore", "ElDelete", "ElDump", "Mention",
+            "VisualizeGraph", "VisualizeGraphNoRender"
         ]
     },
   scope: 'variable',
@@ -109,7 +110,7 @@ const CALL = {
   scope: 'variable',
   end: '\\]',
   endsWithParent: true,
-  contains: [
+    contains: [
     TUPLE,
     QUOTED_STRING,
     SMARTY_PANTS_QUOTED_STRING,
@@ -117,7 +118,7 @@ const CALL = {
     SYMBOL_STRING,
     OPERATOR,
     GLOBAL_VARIABLE,
-    LOCAL_VARIABLE
+      LOCAL_VARIABLE
   ]
 };
 
@@ -158,14 +159,14 @@ const SINGLE_LINE_BODY = {
 
 const METHOD_NAME = {
   scope: 'title.function',
-  begin: '[A-Z][a-zA-Z0-9_]*',
+  match: '[A-Z][a-zA-Z0-9_]*'
 }
 
 const TASK_DECLARATION = {
   beginKeywords: 'fluent task predicate',
   beginScope: 'keyword',
   end: '$',
-  contains: [ METHOD_NAME, LOCAL_VARIABLE ]
+  contains: [ METHOD_NAME, LOCAL_VARIABLE  ]
 }
 
 const MULTILINE_BODY = {
@@ -180,7 +181,7 @@ const MULTILINE_BODY = {
 const METHOD_DECLARATION = {
   scope: 'title.function',
   begin: '[A-Z][a-zA-Z0-9_]*',
-  contains: [
+    contains: [
     SINGLE_LINE_BODY,
     MULTILINE_BODY
   ]

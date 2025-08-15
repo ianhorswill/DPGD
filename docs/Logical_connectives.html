@@ -197,6 +197,19 @@
 				}, false);
 			</script>
 			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Reflection.html">Reflection
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
 					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html">Primitive tasks (technical)
