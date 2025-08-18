@@ -99,13 +99,26 @@
 			<div class="container shadow blog-contents">
 
 <p><a href="https://github.com/ianhorswill/Step">Step</a> is a declarative programming language that's relatively easy to learn.  If you're familiar with <a href="https://en.wikipedia.org/wiki/prolog">Prolog</a>, it's basically a generalization of Prolog<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> with a gentler learning curve.  It was developed for interactive narrative but is general-purpose in the sense that you can write any algorithm in it you can write in other languages.  If Prolog is a language for the Chess Club, Step is a language for theater kids.</p>
-<p>While teaching the language, we'll focus on <a href="Grammars.html">grammars</a>, its use as a <a href="Answering_questions.html">query language</a>, and <a href="Logic_programming.html">logic programming</a>.  Then in later sections, we'll look at other specialized systems such as planners, but will implement those systems in Step.  In <a href="Part_II.html">Part II</a>, we'll talk about how to implement Step and the other systems in more traditional languages.</p>
+<p>We'll begin with how to write Step programs that print things.  Programs that only print things are basically <a href="Grammars.html">grammars</a>.  Grammars are frequently used in games to make names of things (characters, items, planets, etc.) and quests.  Later, we'll show an <a href="Starflight_PCG.html">example text generator</a> from the influential 80's game <em>Starflight</em>  (Binary Systems, 1986), which was cited as an influence on both <em>Mass Effect</em> and <em>Dwarf Fortress</em>.</p>
+<p>After showing you how to write simple grammars, we'll show you how to write <a href="Parameterized_grammars.html">parameterized grammars</a> that can intelligently print descriptions of things based on their characteristics.</p>
+<p>Next, we'll show you how the same techniques used to write parameterized grammars can be used to write simple databases, and more importantly, query languages for those databases.  This is known as <a href="Logic_programming.html">logic programming</a> because those same techniques can be used (again) to let the computer perform an approximation to logical reasoning.</p>
+<p>Standard logic programming makes it cumbersome to represent things that change over time.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>
+Having looked at the basics of logic programming, we'll then look at how Step works with variables and other things whose <a href="State_in_Step.html">state</a> can change over time during the program.  This lets you more naturally write programs like planners or games that have world state.</p>
+<p>Next, we'll discuss how to <a href="Structured_data.html">structure information</a> using lists, tuples, and &ldquo;feature structures&rdquo;<a id="fnref:3" href="#fn:3" class="footnote-ref"><sup>3</sup></a>.  If you've seen <a href="https://en.wikipedia.org/wiki/JSON">JSON</a>, Step data structures are a lot like JSON objects that support a special kind of pattern matching.</p>
+<p>The rest of the Step discussion is more technical.  <a href="Primitive_tasks.html">Primitive tasks</a> provides more information on the built-in operations in the language.  <a href="Higher-order_tasks.html">Higher-order tasks</a> discusses how Step code can be parameterized by other bits of Step code.  If you've programmed before, then you've seen things like this in the forms of statements like <code>while</code> and <code>if</code>: they take code (the stuff in <code>{ ... }</code>) as their arguments and they decide which of those things to run when.  Step has a much more general version of this that lets you write your own higher-order operations.</p>
+<p>Finally, we'll talk about <a href="Reflection.html">reflection</a>, which is the ability to write programs with a limited ability to reason about themselves.  This is useful for writing debugging tools, planners, and other kinds of programs.</p>
 <h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn:1">
 <p>Step is a generalization of <a href="https://en.wikipedia.org/wiki/Prolog">Prolog</a>-style logic programming, <a href="https://www.cs.umd.edu/%7Enau/projects/shop/">SHOP</a>-style HTN planners, and <a href="https://en.wikipedia.org/wiki/Definite_clause_grammar">definite-clause grammars</a>.  All use the same basic control structure, so they're easy to unify.  And all have been used in commercial games.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Esoteric: historically, logic programming has tried to model the semantics of <a href="Logic.html">formal logic</a>, whose variables behave like variables in math: they only have one value, and you can't update it by saying <code>x = x+1</code>.  Step includes both logic-like variables and variables like those of traditional programming languages.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>For programmers: feature structures are basically a kind of dictionary structure: mappings from string keys to arbitrary values.<a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -129,9 +142,9 @@
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Logic_programming.html" id="section_page_3"> Simple logic programs
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Starflight_PCG.html" id="section_page_4"> Example: Procedural generation in <em>Starflight</em>
+					<li class="sidebar"><a class="backgroundlink" href="Starflight_PCG.html" id="section_page_4"> Example: PCG in <em>Starflight</em>
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="State.html" id="section_page_5"> State and time in clairvoyant programming
+					<li class="sidebar"><a class="backgroundlink" href="State_in_Step.html" id="section_page_5"> State and time in clairvoyant programming
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Structured_data.html" id="section_page_6"> Structured data
  </a> <br></li>

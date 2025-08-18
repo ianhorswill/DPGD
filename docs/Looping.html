@@ -103,13 +103,14 @@
 			<div class="container shadow blog-contents">
 
 <p>Again, the basic execution strategy of languages like Step makes it easy to ask questions about whether some execution path exists.  We can ask questions about all possible paths too, but we have to use higher-order tasks to do that.</p>
-<h2 id="implies"><code>Implies</code></h2>
-<p>We talked about <code>Implies</code> <a href="Higher-order_tasks.html">earlier</a>.  The predicate:</p>
-<pre><code class="language-step">[Implies ?p ?q]
+<h2 id="everyimplies"><code>Every</code>/<code>Implies</code></h2>
+<p>We talked about <code>Every</code> <a href="Higher-order_tasks.html">earlier</a>.  The predicate:</p>
+<pre><code class="language-step">[Every ?p ?q]
 </code></pre>
-<p>is so named because, if it's true, then it means <code>?q</code> is true in all situations where <code>?p</code> is true.  Or to put it another way, there are no situations where <code>?p</code> is true (i.e. no solutions to <code>?p</code>) where <code>?q</code> is false (where <code>?q</code> fails).  In fact, if it weren't built in, we could define <code>Implies</code> ourselves:</p>
-<pre><code class="language-step">Implies ?p ?q: [Not [And ?p [Not ?q]]]
+<p>is so named because, if it's true, then it means <code>?q</code> is true in all situations where <code>?p</code> is true.  Or to put it another way, there are no situations where <code>?p</code> is true (i.e. no solutions to <code>?p</code>) where <code>?q</code> is false (where <code>?q</code> fails).  In fact, if it weren't built in, we could define <code>Every</code> ourselves:</p>
+<pre><code class="language-step">Every ?p ?q: [Not [And ?p [Not ?q]]]
 </code></pre>
+<p><code>Every</code> is also called <code>Implies</code>, because there are some situations where that's a more natural reading of it's meaning.  Both variables are set to the same predicate; you can use whichever name best captures the intent of your code.</p>
 <p>Under the hood, this is going to work by finding all solutions to <code>?p</code> and then for each one, testing if <code>?q</code> is true.  For example, if we use our food preferences example:</p>
 <pre><code class="language-step">[predicate]
 Likes tanya sushi.
@@ -123,10 +124,10 @@ Likes kimiko ?.
 Likes ? pizza.
 </code></pre>
 <p>we might ask &quot;does everyone who likes burgers like pizza?&quot;  That would be:</p>
-<pre><code class="language-step">[Implies [Likes ?who burgers] [Likes ?who pizza]]
+<pre><code class="language-step">[Every [Likes ?who burgers] [Likes ?who pizza]]
 </code></pre>
 <p>You can try it out:</p>
-<pre><code class="language-Step"># Try: [Implies [Likes ?who burgers] [Likes ?who pizza]]
+<pre><code class="language-Step"># Try: [Every [Likes ?who burgers] [Likes ?who pizza]]
 [predicate]
 Likes tanya sushi.
 Likes tanya burgers.
@@ -139,8 +140,13 @@ Likes kimiko ?.
 Likes ? pizza.
 </code></pre>
 <p>You get the answer &ldquo;yes&rdquo;, but it doesn't have a binding for the variable <code>?who</code>.  That makes sense because we weren't asking for a specific person who liked burgers and pizza, we were asking if <em>everyone</em> who liked burgers liked pizza.  So there's no one <code>?who</code> to report back.</p>
+<h2 id="why-is-there-no-any-task">Why is there no <code>Any</code> task?</h2>
+<p>Since we can say <code>[Every [Likes ?who burgers] [Likes ?who pizza]]</code> to ask if everyone who likes burgers also likes pizza, we might think there would we could write <code>[Any [Likes ?who burgers] [Likes ?who pizza]]</code> to ask if anyone who likes burgers also likes pizza.  But we don't need a separate <code>Any</code> task; if we just run them in sequence:</p>
+<pre><code class="language-step">[Likes ?who burgers] [Likes ?who pizza]
+</code></pre>
+<p>that has the same effect: it will find a <code>?who</code> who likes both burgers and pizza.</p>
 <h2 id="foreach"><code>ForEach</code></h2>
-<p><code>Implies</code> is useful when calling predicates.  But what if we wanted to ask it to print everyone who liked burgers?  You could write it this way:</p>
+<p><code>Every</code>/<code>Implies</code> is useful when calling predicates.  But what if we wanted to ask it to print everyone who liked burgers?  You could write it this way:</p>
 <pre><code class="language-Step"># Try: [WhoEats burgers]
 WhoEats ?x: [Implies [Likes ?who ?x] [Write ?who]]
 [predicate]
@@ -168,12 +174,12 @@ Likes kimiko ?.
 # Everyone likes pizza.
 Likes ? pizza.
 </code></pre>
-<p>For these purposes, <code>ForEach</code> is identical to <code>Implies</code>, it just has a more useful title.  However, there is one difference, which is that <code>[Implies ?p ?q]</code> will fail if <code>?q</code> ever fails when <code>Implies</code> calls it.  <code>ForEach</code> actually ignores whether <code>q</code> fails or not.</p>
+<p>For these purposes, <code>ForEach</code> is identical to <code>Every</code>/<code>Implies</code>, it just has a more useful title.  However, there is one difference, which is that <code>[Implies ?p ?q]</code> will fail if <code>?q</code> ever fails when <code>Implies</code> calls it.  <code>ForEach</code> actually ignores whether <code>q</code> fails or not.</p>
 <h2 id="state-updates-in-loops">State updates in loops</h2>
-<p><code>[ForEach ?p ?q]</code> and <code>[Implies ?p ?q]</code> will collect all the output generated by the different calls to <code>?q</code>.  It will also accumulate any changes to global variables or fluents that <code>?q</code> makes.  However, it will ignore any output or changes made by <code>?p</code>.</p>
+<p><code>[ForEach ?p ?q]</code> and <code>[Every ?p ?q]</code> will collect all the output generated by the different calls to <code>?q</code>.  It will also accumulate any changes to global variables or fluents that <code>?q</code> makes.  However, it will ignore any output or changes made by <code>?p</code>.</p>
 <h2 id="niche-loops-ignore-this-if-you-arent-a-power-user">Niche loops (ignore this if you aren't a power-user)</h2>
 <h3 id="doall">DoAll</h3>
-<p><code>[Implies ?p ?q]</code> and <code>[ForEach ?p ?q]</code> consider all the possible execution paths of <code>?p</code> but for each of those paths, only finds one solution of <code>?q</code>.  <code>DoAll</code> takes a series of calls, and finds <em>all</em> the solutions to the sequence and gives you all their outputs:</p>
+<p><code>[Every ?p ?q]</code> and <code>[ForEach ?p ?q]</code> consider all the possible execution paths of <code>?p</code> but for each of those paths, only finds one solution of <code>?q</code>.  <code>DoAll</code> takes a series of calls, and finds <em>all</em> the solutions to the sequence and gives you all their outputs:</p>
 <pre><code class="language-step">[DoAll ?call1 ?call2 ...]
 </code></pre>
 <p>Note that this only accumulates output; it ignores all state changes.</p>
@@ -222,7 +228,7 @@ Likes ? pizza.
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_7"> Parsing
+					<li class="sidebar"><a class="backgroundlink" href="Parse_predicate.html" id="section_page_7"> Parsing
  </a> <br></li>
 			</ol>
 	<script>

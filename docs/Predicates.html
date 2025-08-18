@@ -102,7 +102,7 @@
 
 			<div class="container shadow blog-contents">
 
-<p>As we just discussed, it's possible for all the methods of a task to fail, in which case the call itself fails.  In many cases, that's a bug, so Step normally treats that as an error.  If we try running <code>[Dog morris]</code> below, we get an error:</p>
+<p>As we just discussed, it's possible for all the methods of a task to fail, in which case <strong>the call itself fails</strong>.  In many cases, that's a bug, so Step normally treats that as an error.  If we try running <code>[Dog morris]</code> below, we get an error:</p>
 <pre><code class="language-Step"># Try: [Dog morris]
 Dog benji.
 Dog lassie.
@@ -124,8 +124,8 @@ Cat garfield.
 </code></pre>
 <p>Calling <code>[Dog morris]</code> will fail, but it won't be treated as an error that stops the program, because <code>Dog</code> is declared <code>[predicate]</code>.  Instead, the system just responds &ldquo;no&rdquo;: Morris is not a dog, given what the system knows.</p>
 <p>To make a task be a predicate, you only have to include the <code>[predicate]</code> declaration before one of its methods. That will apply it to the task more generally.</p>
-<h2 id="predicates-dont-print">Predicates don't print</h2>
-<p>The primary use of predicates is to answer questions.  So they generally aren't written to generate output.  There's nothing preventing you from writing tasks that print but are labeled <code>[predicate]</code>, but you usually wouldn't want your question-answering tasks to print things.</p>
+<h2 id="its-okay-that-predicates-dont-print">It's okay that predicates don't print</h2>
+<p>The primary use of predicates is to answer questions.  So they generally aren't written to print text.  There's nothing preventing you from writing tasks labeled <code>[predicate]</code> that print.  But you usually wouldn't want your question-answering tasks to print things.</p>
 <h2 id="notes">Notes</h2>
 <div class="footnotes">
 <hr />

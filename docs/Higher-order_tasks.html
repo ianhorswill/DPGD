@@ -106,7 +106,7 @@
 <p>Most higher-order primitive tasks either:</p>
 <ul>
 <li>Ask whether has a successful path <strong>exists</strong> for a given call, as with <code>Not</code>, or</li>
-<li>Ask something about <strong>all</strong> successful paths for the call.  These are the looping constructs of logic programs.  For example, <code>ForEach</code> and <code>Implies</code> ask whether something is true for all possible execution paths.  And <code>FindAll</code> and <code>AccumulateOutput</code>, which aggregate information about all successful paths of a call.</li>
+<li>Ask something about <strong>all</strong> successful paths for the call.  These are the looping constructs of logic programs.  For example, <code>ForEach</code> and <code>Every</code> ask whether something is true for all possible execution paths.  And <code>FindAll</code> and <code>AccumulateOutput</code>, which aggregate information about all successful paths of a call.</li>
 </ul>
 <p>There are a few special-purpose higher-order primitives used for things like catching exceptions or controlling Step's search mechanisms, but those are relatively advanced features.</p>
 <h2 id="examples">Examples</h2>
@@ -150,7 +150,7 @@ Likes ? pizza.
 <p>And, as we said, we're basically asking if there is <strong>some</strong> success path in the diagram.</p>
 <h3 id="checking-all-paths">Checking all paths</h3>
 <p>Now suppose we run:</p>
-<pre><code class="language-Step">[Implies [Member ?who [tanya jayden kimiko]] [Like ?who mexican]]
+<pre><code class="language-Step">[Every [Member ?who [tanya jayden kimiko]] [Like ?who mexican]]
 </code></pre>
 <p>This asks <strong>does everyone in the list like Mexican food?</strong>.  It checks all the branches of the tree above and only succeed if all the branches succeed.</p>
 <h2 id="code-as-tuples">Code as tuples</h2>
@@ -185,7 +185,7 @@ Likes ? pizza.
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parsing.html" id="section_page_7"> Parsing
+					<li class="sidebar"><a class="backgroundlink" href="Parse_predicate.html" id="section_page_7"> Parsing
  </a> <br></li>
 			</ol>
 	<script>

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Ands and Ors&#xA;</title>
+	<title>Debugging tools&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Ands and Ors&#xA;">
-	<meta name="twitter:title" content="Ands and Ors&#xA;">
-	<meta property="og:title" content="Ands and Ors&#xA;" />
+	<meta itemprop="name" content="Debugging tools&#xA;">
+	<meta name="twitter:title" content="Debugging tools&#xA;">
+	<meta property="og:title" content="Debugging tools&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -57,9 +57,11 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Higher-order_tasks.html"> Higher-order tasks
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Reflection.html"> Reflection
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Ands and Ors
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Static_reflection.html"> Static reflection
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Debugging tools
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -102,20 +104,61 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Once again, calling <a href="Predicates.html">predicates</a> <a href="Answering_questions.html">asks questions</a>, which the predicates then answer.  You can ask if multiple things are true using a series of calls; the system will find values for the variables to make all the calls be true simultaneously.  So <a href="Complex_questions.html">a series of calls means &ldquo;and&rdquo;</a>.  How do we do &ldquo;or&rdquo; queries?</p>
-<h2 id="the-or-predicate">The <code>Or</code> predicate</h2>
-<p>The <code>Or</code> predicate takes a series of calls as parameters, chooses one of them, and runs it:</p>
-<pre><code class="language-step">[Or call1 call2 ...]
+<p>We can use reflection to write programs to help us debug our other code.  My favorite such program is <code>Why</code>, which tells you which rule is used when you run a particular call:</p>
+<pre><code class="language-Step"># Try: [Why [Animal bruce] ?]
+Why ?call ?code: [Method ?call ?code] [Succeeds [And | ?code]]
+
+[predicate]
+Animal ?a: [Dog ?a]
+Animal ?a: [Cat ?a]
+
+[predicate]
+Dog ?d: [Labrador ?d]
+Dog ?d: [Collie ?d]
+
+[predicate]
+Collie lassie.
+[predicate]
+Labrador bruce.
 </code></pre>
-<p>It only chooses <em>call</em>s that will succeed (are &ldquo;true&rdquo;).  If no <em>call</em> can succeed, then <code>Or</code> fails (is &ldquo;false&rdquo;).  And if multiple <em>call</em>s can succeed, it prefers the leftmost one.</p>
-<h2 id="the-and-predicate">The <code>And</code> predicate</h2>
-<p>The <code>And</code> predicate is the &ldquo;and&rdquo; version of the same thing: it takes a series of calls as parameters and runs all of them from left to right:</p>
-<pre><code class="language-step">[Or call1 call2 ...]
+<p>If we run</p>
+<pre><code class="language-step">[Why [Animal bruce] ?]
 </code></pre>
-<p>If all the calls succeed (are &ldquo;true&rdquo;), it succeeds (it's &ldquo;true&rdquo;).  If any of them fail, it fails (it's &ldquo;false&rdquo;).  Why would you want this if you can do &ldquo;and&rdquo; by just making multiple calls?  Because you might want to put an &ldquo;and&rdquo; inside an &ldquo;or&rdquo;.  This gives you a way of doing that:</p>
-<pre><code class="language-step">[Or [A] [And [B] [C]]]
+<p>We get back <code>?=[[Dog bruce]]</code>, i.e. &quot;Bruce is an animal because Bruce is a dog.&quot;  The extra set of brackets around <code>[[Dog bruce]]</code> is there because it's a list of all the things that have to be true simultaneously to make Bruce be an animal.  In there case, it's a one-element list.  Now if we run</p>
+<pre><code class="language-step">[Why [Dog bruce] ?]
 </code></pre>
-<p>Will be true (succeed) if either <code>[A]</code> is true <em>or</em> both <code>[B]</code> and <code>[C]</code> are true.</p>
+<p>We get back <code>?=[[Labrador bruce]]</code>, i.e. &quot;Bruce is a dog because Bruce is a Labrador.&quot; </p>
+<p>Here's a somewhat fancier version that reconstructs the rule used and prints it:</p>
+<pre><code class="language-Step"># Try: [Why [Animal bruce]]
+Why ?call: [Method ?call ?subgoals] [Succeeds [And | ?subgoals]] Because of the rule:[NewLine] [WriteRule ?call ?subgoals]
+Why ?call: Actually, ?call/WriteVerbatim fails when I run it.
+
+[predicate]
+Animal ?a: [Dog ?a]
+Animal ?a: [Cat ?a]
+
+[predicate]
+Dog ?d: [Labrador ?d]
+Dog ?d: [Collie ?d]
+
+[predicate]
+Collie lassie.
+[predicate]
+Labrador bruce.
+
+WriteRule ?call []: ?call/WriteItems.
+WriteRule ?call ?body: ?call/WriteItems : ?body/WriteItems
+# Prints items of a list without the surrounding set of brackets
+WriteItems ?list: [AccumulateOutput [Member ?item ?list] [Write ?item]]
+</code></pre>
+<p>Note that when this prints the rule explaining why <code>[Animal bruce]</code>, it doesn't print the original rule:</p>
+<pre><code class="language-step">Animal ?a: [Dog ?a]
+</code></pre>
+<p>But rather the rule with its variables as they were after execution:</p>
+<pre><code class="language-step">Animal bruce: [Dog bruce]
+</code></pre>
+<p>There are ways to override that, but this is generally more useful anyway.</p>
+<p>This is a simple case of a <a href="https://en.wikipedia.org/wiki/Meta-circular_evaluator">meta-circular evaluator</a>: an interpreter for a language that's written in the language itself.</p>
 
 
 
@@ -127,22 +170,16 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Higher-order tasks
+			<h5>Static reflection
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Calling_a_variable.html" id="section_page_1"> Running code in a variable
+					<li class="sidebar"><a class="backgroundlink" href="Program_visualization.html" id="section_page_1"> Program visualization
  </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Logical_connectives.html" id="section_page_2"> <b> Ands and Ors
+					<li class="sidebar"><a class="simplelink" href="Meta_interpretation.html" id="section_page_2"> <b> Debugging tools
  </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Negation.html" id="section_page_3"> Negation is (necessary) evil
+					<li class="sidebar"><a class="backgroundlink" href="Planning_using_reflection.html" id="section_page_3"> Planning using reflection
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Looping.html" id="section_page_4"> Looping operations
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="All-solutions_predicates.html" id="section_page_5"> All-solutions predicates
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Parse_predicate.html" id="section_page_7"> Parsing
+					<li class="sidebar"><a class="backgroundlink" href="Design_rule_checking.html" id="section_page_4"> Design-rule checking
  </a> <br></li>
 			</ol>
 	<script>
@@ -158,7 +195,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Negation.html">Negation is (necessary) evil
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Planning_using_reflection.html">Planning using reflection
 </a><br>
 				</td>
 			</tr>
@@ -172,7 +209,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Calling_a_variable.html">Running code in a variable
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Program_visualization.html">Program visualization
 </a><br>
 				</td>
 			</tr>
@@ -186,7 +223,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Higher-order_tasks.html">Higher-order tasks
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Static_reflection.html">Static reflection
 </a><br>
 				</td>
 			</tr>
@@ -199,7 +236,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Reflection.html">Reflection
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Dynamic_reflection.html">Dynamic reflection
 </a><br>
 				</td>
 			</tr>
@@ -209,23 +246,10 @@
 					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html">Primitive tasks (technical)
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
-				}, false);
-			</script>
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Logical_connectives.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Meta_interpretation.html">Send feedback on this page</a>
 	</div>
 </div>
 

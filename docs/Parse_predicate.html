@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>State&#xA;</title>
+	<title>Parsing&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="State and time in clairvoyant programming&#xA;">
-	<meta name="twitter:title" content="State and time in clairvoyant programming&#xA;">
-	<meta property="og:title" content="State and time in clairvoyant programming&#xA;" />
+	<meta itemprop="name" content="Parsing&#xA;">
+	<meta name="twitter:title" content="Parsing&#xA;">
+	<meta property="og:title" content="Parsing&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -57,7 +57,9 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">State and time in clairvoyant programming
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Higher-order_tasks.html"> Higher-order tasks
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Parsing
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -100,27 +102,65 @@
 
 			<div class="container shadow blog-contents">
 
-<p>Programs perform a series of operations, some of which involve choices.  They act as if they can always predict the right choice so that at the end of execution, it's made a set of choices that result in success.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  That path involves running calls, which run methods, which may run more calls, which select more methods, and so on.  Thus far, we've avoided talking about how these different operations happen through time.  That's because much of the time we can ignore it; it's an unnecessary detail to keep track of.</p>
-<p>Nevertheless, operations are performed in a specific order.  In particular,</p>
-<blockquote>
-<p>If a method contains <strong>multiple operations</strong> &mdash; multiple calls, multiple pieces of output, or mixtures of calls and output &mdash; those operations are performed <strong>left-to-right</strong>.  Thus, the leftmost operation is done first and the rightmost is done last.</p>
-</blockquote>
-<p>That order can matter because each operation can <strong>change the state</strong> of the computer.  In particular, it can change:</p>
-<ul>
-<li>The <strong>output</strong> by printing</li>
-<li>The values of <strong>variables</strong> by matching or using the <code>set</code> operation</li>
-<li>The status of special predicates called <strong>fluents</strong>, whose definition can be changed during execution using the <code>now</code> operation.</li>
-</ul>
-<p>You already know about output.  Now we'll talk about each of the others, in turn.</p>
-<h2 id="notes">Notes</h2>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn:1">
-<p>Or, if there are no successful paths to choose from, it fails the original call.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<p>We've used <a href="Grammars.html">grammars</a> for a number of our examples.  That's partly because they're a particularly simple example of a declarative formalism, partly because logic programming was originally invented by computational linguists, and partly because textual examples work well for a simple web-interface for programming.</p>
+<p>Formal grammars are usually described as systems that generate text.  But they're most commonly used in software for <em>parsing</em> text.  Parsing is the process of reversing the generation process: breaking the text into its parts and relating them back to the grammar rules that combined them.</p>
+<p>Logic programming has been popular with computational linguists in part because of the special property that logic programs have of often being runnable in reverse, as we saw with the <a href="List_matching.html">append</a> example. </p>
+<h2 id="the-parse-predicate">The <code>Parse</code> predicate</h2>
+<p>In fact, we can do that with grammars too.  The higher-order task <code>Parse</code> tells you whether a given call to a grammar can generate a given string, and if so, what its arguments should be.  The call:</p>
+<pre><code class="language-step">[Parse ?generator ?string]
+</code></pre>
+<p>runs <code>?generator</code>, but redefines output primitives like <code>Write</code> to be <em>matching</em> primitives.  Any time <code>?generator</code> tries to write something different than the next token from <code>?string</code>, it fails, causing Step to search for a different choice path that can generate the selected <code>?string</code>.</p>
+<h2 id="recognizing-strings-generated-by-a-grammar">Recognizing strings generated by a grammar</h2>
+<p>For a very example, we can ask our old treasure generator whether it can generate the text &ldquo;cursed mace of social anxiety&rdquo;(try it):</p>
+<pre><code class="language-Step"># Try: [Parse [Treasure] &quot;cursed mace of social anxiety&quot;]
+[predicate]
+Treasure: [Weapon]
+
+[predicate]
+Weapon: [PreBuff] [WeaponType] [PostBuff]
+
+[predicate] [randomly]
+WeaponType: sword
+WeaponType: mace
+
+[predicate] [randomly]
+PreBuff: +1
+PreBuff: +2
+PreBuff: cursed
+
+[predicate] [randomly]
+PostBuff: of [Element]
+PostBuff: of [Effect]
+
+[predicate] [randomly]
+Element: earth
+Element: air
+Element: fire
+Element: water
+Element: soul
+
+[predicate] [randomly]
+Effect: insanity
+Effect: sleep
+Effect: poison
+Effect: social anxiety
+</code></pre>
+<p>It searches for a choice path that generates that text, finds one, and prints &ldquo;yes&rdquo;.  But if we change it to &ldquo;cursed mace of fear&rdquo;, it says no, because there is no way to generate that given this grammar.</p>
+<h2 id="recovering-arguments-to-the-generator">Recovering arguments to the generator</h2>
+<p>Just as we can pass arguments to the generator to control the text that is generated, we can extract that information from the text as part of the parsing process.  For example, our <code>Greet</code> task took the name of the person we were greeting as an argument:</p>
+<pre><code class="language-Step"># Try: [Greet mom]
+[predicate] [randomly]
+Greet ?who: Hello, ?who.
+Greet ?who: Hey, ?who.
+Greet ?who: Good evening, ?who.
+</code></pre>
+<p>We can recover that from the parsing process by leaving the argument as a variable:</p>
+<pre><code class="language-Step"># Try: [Parse [Greet ?who] &quot;Hey, mom.&quot;]
+[predicate] [randomly]
+Greet ?who: Hello, ?who.
+Greet ?who: Hey, ?who.
+Greet ?who: Good evening, ?who.
+</code></pre>
 
 
 
@@ -132,15 +172,23 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>State
+			<h5>Higher-order tasks
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Matching_over_time.html" id="section_page_1"> Matching over time
+					<li class="sidebar"><a class="backgroundlink" href="Calling_a_variable.html" id="section_page_1"> Running code in a variable
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Global_variables.html" id="section_page_2"> Global variables and the <code>set</code> command
+					<li class="sidebar"><a class="backgroundlink" href="Logical_connectives.html" id="section_page_2"> Ands and Ors
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Fluents.html" id="section_page_3"> Fluents: predicates with state
+					<li class="sidebar"><a class="backgroundlink" href="Negation.html" id="section_page_3"> Negation is (necessary) evil
  </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Looping.html" id="section_page_4"> Looping operations
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="All-solutions_predicates.html" id="section_page_5"> All-solutions predicates
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Flow_control.html" id="section_page_6"> Other flow-control operations
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Parse_predicate.html" id="section_page_7"> <b> Parsing
+ </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -155,7 +203,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Matching_over_time.html">Matching over time
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Reflection.html">Reflection
 </a><br>
 				</td>
 			</tr>
@@ -169,7 +217,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Starflight_PCG.html">PCG in Starflight
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Flow_control.html">Flow-control
 </a><br>
 				</td>
 			</tr>
@@ -183,7 +231,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="The_Step_language.html">Step
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Higher-order_tasks.html">Higher-order tasks
 </a><br>
 				</td>
 			</tr>
@@ -196,7 +244,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Structured_data.html">Structured data
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Reflection.html">Reflection
 </a><br>
 				</td>
 			</tr>
@@ -209,7 +257,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Starflight_PCG.html">PCG in Starflight
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Primitive_tasks.html">Primitive tasks (technical)
 </a><br>
 				</td>
 			</tr>
@@ -222,7 +270,7 @@
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/State.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Parse_predicate.html">Send feedback on this page</a>
 	</div>
 </div>
 

@@ -275,3 +275,4 @@ WildcardAdjective 0b10000000:  seductive
 WildcardAdjective 0b11110000:  beautiful
 WildcardAdjective 0b10110000:  incredible
 ```
+You can use this to get an overview of any program.

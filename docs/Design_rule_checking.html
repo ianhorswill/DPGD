@@ -59,11 +59,13 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Reflection.html"> Reflection
  </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Static_reflection.html"> Static reflection
+ </a>
 			<h1><a id="linkToIndex" class="simplelink" href="index.html">Design-rule checking
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
-					   incomplete draft
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -112,7 +114,18 @@
 </code></pre>
 <p>to your unit tests to alert you if you have dead code in your program.</p>
 <h2 id="custom-checkers">Custom checkers</h2>
-<p>This more often gets used to check for relationships between specific types of tasks.  For example, suppose you are implementing a <a href="https://emshort.blog/2019/11/29/storylets-you-want-them/">storylet</a> system, that breaks stories or quests up into little fragments (the storylets) with preconditions for when they can be used.</p>
+<p>This more often gets used to check for relationships between specific types of tasks.  For example, in our <a href="Planning_using_reflection.html">planner example</a>, we can check that for every precondition of every action, there is some action that has that precondition as an effect.</p>
+<p>First, remember the <code>Achieves</code> predicate that tells us when an <code>?action</code> has an <code>?effect</code>:</p>
+<pre><code class="language-step">Achieves ?action ?effect: [Action ?action] [Method ?action ?subgoals] [Member [Effect ?effect] ?subgoals]
+</code></pre>
+<p>We can write an equivalent that tells us when an <code>?action</code> has a <code>?precondition</code>, just by changing <code>Effect</code> to <code>Require</code>:</p>
+<pre><code class="language-step">Precondition ?action ?precondition: [Action ?action] [Method ?action ?subgoals] [Member [Require ?precondition] ?subgoals]
+</code></pre>
+<p>Now we can check for problems, just by making sure every <code>Require</code>d precondition has some task that <code>Achieves</code> it:</p>
+<pre><code class="language-step">CheckActionDefinitions: [Precondition ?a ?p] [Not [Achieves ? ?p]] The action ?a has a precondition ?p that no action can achieve.
+CheckActionDefinitions: No problems detected.
+</code></pre>
+<p>Now if you run <code>[CheckActionDefinitions]</code>, it will look for unachievable preconditions and alert you if it finds one.  Otherwise, it will print &ldquo;No problems detected.&rdquo;</p>
 
 
 
@@ -124,14 +137,16 @@
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
-			<h5>Reflection
+			<h5>Static reflection
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Static_reflection.html" id="section_page_1"> Static reflection
+					<li class="sidebar"><a class="backgroundlink" href="Program_visualization.html" id="section_page_1"> Program visualization
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Program_visualization.html" id="section_page_2"> Program visualization
+					<li class="sidebar"><a class="backgroundlink" href="Meta_interpretation.html" id="section_page_2"> Debugging tools
  </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Design_rule_checking.html" id="section_page_3"> <b> Design-rule checking
+					<li class="sidebar"><a class="backgroundlink" href="Planning_using_reflection.html" id="section_page_3"> Planning using reflection
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Design_rule_checking.html" id="section_page_4"> <b> Design-rule checking
  </b> </a> <br></li>
 			</ol>
 	<script>
@@ -147,7 +162,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Planning.html">Planning
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Dynamic_reflection.html">Dynamic reflection
 </a><br>
 				</td>
 			</tr>
@@ -161,7 +176,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Program_visualization.html">Program visualization
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Planning_using_reflection.html">Planning using reflection
 </a><br>
 				</td>
 			</tr>
@@ -175,7 +190,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Reflection.html">Reflection
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Static_reflection.html">Static reflection
 </a><br>
 				</td>
 			</tr>
@@ -186,16 +201,16 @@
 				}, false);
 			</script>
 			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Higher-order_tasks.html">Higher-order tasks
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Dynamic_reflection.html">Dynamic reflection
 </a><br>
 				</td>
 			</tr>
 			<script>
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
 	</table>

@@ -19,7 +19,7 @@ Starts a new line unless we're already at the start of a line.
 * `[Paragraph]`  
 Starts a new paragraph.
 
-These primitives are all deterministic.  And for most purposes they operate only in **input mode** in the sense that if you call them with a variable, it prints the variable rather than giving a value to it.  However, when [parsing text](parsing), they flip from being input mode and printing, to being output mode and reading from the input string.  See [parsing text](parsing).
+These primitives are all deterministic.  And for most purposes they operate only in **input mode** in the sense that if you call them with a variable, it prints the variable rather than giving a value to it.  However, when [parsing text](parse_predicate), they flip from being input mode and printing, to being output mode and reading from the input string.  See [parsing text](parse_predicate).
 
 ## Graph output (not supported in all environments)
 

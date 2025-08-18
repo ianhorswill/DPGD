@@ -43,12 +43,12 @@ Experienced programmers will be confused by the weird way variables work in Step
 
 Step's local variables are unusual: they only get their values through the matching process.  That also means they're *write-once*: you can only give them a value once; then they have that value for all time.
 
-If you're an experienced programmer, you're used to variables you can update endlessly using **assignment statements** `variable = newValue`.  Many languages that support matching, particularly [logic programming languages](logic_programming) like [Prolog](https://en.wikipedia.org/wiki/Prolog) specifically prohibit assignment statements.  [Functional languages](https://en.wikipedia.org/wiki/Functional_programming) are the same way.
+If you're an experienced programmer, you're used to variables you can update endlessly using **assignment statements** (e.g. `variable = newValue` in C-like languages).  Many languages that support matching, particularly [logic programming languages](logic_programming) like [Prolog](https://en.wikipedia.org/wiki/Prolog) specifically prohibit assignment statements.  [Functional languages](https://en.wikipedia.org/wiki/Functional_programming) are the same way.
 
-There are arguments to be made both for and against assignment statements.  It is true, however, that they don't play well with pattern matching, and pattern is very useful.  So Step has two kinds of variables:
+There are arguments to be made both for and against assignment statements.  It is true, however, that they don't play well with pattern matching, and pattern matching is very useful.  So Step has two kinds of variables:
 
 * Local variables, whose names begin with a `?`, get their values from matching and are write-once.[^2]
-* Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be [updated using assignment statements](global_variables).  We'll talk about this more when we talk about [state](state).
+* Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be [updated using assignment statements](global_variables).  We'll talk about this more when we talk about [state](state_in_step).
 
 ## Notes
 [^1]: Apologies to programmers who feel talked down to because they know what a variable is.  This is for those who don't know what a variable is.  But also, be warned that local variables in languages like Step behave wildly differently from variables in regular languages.  You'll see one example on [the next page](pattern_matching), and a much longer discussion in [the next chapter](logic_programming). The next page introduces a technique you probably haven't encountered before.

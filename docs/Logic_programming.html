@@ -111,7 +111,7 @@
 <ul>
 <li><strong>Predicates</strong>: tasks that answer questions rather than printing things</li>
 <li><strong>Soft failure</strong>: calls in a method can fail.  This isn't an error, it just means Step tries another choice path.</li>
-<li><strong>Relaxed variables</strong>: variables begin life without specific values and acquire values as your use them.</li>
+<li><strong>Relaxed variables</strong>: variables begin life without specific values and acquire values through the matching process.</li>
 </ul>
 <p>Together, they give us our first real example of clairvoyant (nondeterministic) programming in Step: each call to each task involves choosing a method.  Some, or even most, of those methods might fail.  But the system behaves <em>as if</em> it always guesses correctly.</p>
 <p>We'll see that this allows a programming style in which methods can be thought of as statements of fact. And the execution of certain tasks can naturally be thought of as answering questions about those facts.</p>

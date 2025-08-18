@@ -1,0 +1,367 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Planning using reflection&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Planning using reflection&#xA;">
+	<meta name="twitter:title" content="Planning using reflection&#xA;">
+	<meta property="og:title" content="Planning using reflection&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
+
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Reflection.html"> Reflection
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Static_reflection.html"> Static reflection
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Planning using reflection
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+
+			<div class="container shadow blog-contents">
+
+<p>Planners are declarative systems that allow you to, in some sense, tell the system about actions they can take and their effects on the world, then ask to have some specific effect (a <strong>goal</strong>) and the system will figure out how to achieve that.  Most planners come in one of two flavors.  Hierarchical task network planners let you describe activity in terms of tasks and methods and then the goal you specify is to carry out some task.  Step is based in part on HTN planners, which is why it uses the terminology of tasks and methods.</p>
+<p>The other primary kind of planner, which goes by the name <strong>GOAP</strong> (Goal-Oriented Action Planning) in the game industry, and sometimes known as <strong>STRIPS planning</strong> or just &ldquo;planning&rdquo; in the research literature, lets you describe a set of actions, together with their <strong>preconditions</strong> (things that must be true to successfully execute them), and their <strong>effects</strong> (changes they make to the state of the world).  We could write actions as Step tasks:</p>
+<pre><code class="language-step">Shoot ?who: [Gun ?gun] [Require [Location ?gun me]] [Require [Loaded ?gun]] You shoot ?who with the ?gun.  [Effect [Dead ?who]]
+</code></pre>
+<p>We'll write <code>Require</code> and <code>Effect</code> in a moment, but you should read this as saying that to shoot someone, you must have a loaded gun.  After shooting them, they're dead.</p>
+<p>How do you get the gun?  You pick it up:</p>
+<pre><code class="language-step">Pickup ?what: [Require [Location ?what floor]] You pick up the ?what.  [Effect [Location ?what me]]
+</code></pre>
+<p>That says that to pick something up, it has to be on the floor, and after you do, it's in your inventory.</p>
+<p>Finally, to load the gun, you need the gun and ammo:</p>
+<pre><code class="language-step">Load ?gun ?ammo: [Gun ?gun] [Require [Location ?gun me]] [Ammo ?ammo] [Require [Location ?ammo me]] You load the ?gun.  [Effect [Loaded ?gun]]
+</code></pre>
+<p>That says &ldquo;to load <code>?gun</code> with <code>?ammo</code>, they need to be a gun and ammo, respectively, and you need to have both of them.  Afterward, <code>?gun</code> is loaded.&rdquo;</p>
+<h2 id="the-worlds-shortest-dumbest-goap-planner">The world's shortest, dumbest GOAP planner</h2>
+<p>Our reflection primitives are enough to write a very short and simple planner.  It's not fancy; there are solvable planning problems it can't solve, and even for the ones it can solve, it doesn't guarantee it will find the best solution.  But it's crazy simple:</p>
+<pre><code class="language-step">[predicate]
+Require ?condition: [Succeeds ?condition]
+Require ?condition: [Fails ?condition] [Achieves ?action ?condition] [Succeeds ?action]
+
+[predicate]
+Achieves ?action ?effect: [Action ?action] [Method ?action ?subgoals] [Member [Effect ?effect] ?subgoals]
+
+[predicate]
+Action [?task | ?args]: [TaskCalls ?task Effect]
+</code></pre>
+<p>Let's walk through how it works.</p>
+<h3 id="effect"><code>Effect</code></h3>
+<p>The <code>Effect</code> task just makes something true.  So it's basically a synonym for <code>now</code>:</p>
+<pre><code class="language-step">Effect ?condition: [now ?condition]
+</code></pre>
+<h3 id="require"><code>Require</code></h3>
+<p>The <code>Require</code> task says that an action needs something to be true.  So we should write it so that when we run it, it makes it true if it's not already true.  We'll assume we have a predicate <code>[Achieves ?action ?condition]</code> that's true when running <code>?aciton</code> would make <code>?condition</code> true:</p>
+<pre><code class="language-step">[predicate]
+Require ?condition: [Succeeds ?condition]
+Require ?condition: [Fails ?condition] [Achieves ?action ?condition] [Succeeds ?condition]
+</code></pre>
+<p>The first rule says &quot;if it's already true, you're done.&quot;  The second says that if it isn't true, then find an action that makes it true and run it.</p>
+<p>The goal is then an effect you want it to have.  The planner figures out how to make that happen.</p>
+<h3 id="achieves"><code>Achieves</code></h3>
+<p>Now all we have to do is write <code>Achieves</code> that tells you what goal will achieve a given effect, that is to make a given thing true.  We can do that by looking for an action (a call to something like <code>Shoot</code> or <code>Pickup</code>) that, if called, will call <code>Effect</code> with the effect we want:</p>
+<pre><code class="language-step">Achieves ?action ?effect: [Action ?action] [Method ?action ?subgoals] [Member [Effect ?effect] ?subgoals]
+</code></pre>
+<p>This says &quot;<code>?action</code> achieves <code>?effect</code> if it's an action, it has a matching rule that runs the calls in <code>?subgoals</code> and one of those calls is <code>[Effect ?effect]</code>, i.e. the effect we're looking for.</p>
+<h3 id="finding-actions">Finding actions</h3>
+<p>Our planner needs to know what candidate actions are.  We can do that by saying an action is a call to a task that has an effect.  It has an effect if it called the <code>Effect</code> task:</p>
+<pre><code class="language-step">Action [?task | ?args]: [TaskCalls ?task Effect]
+</code></pre>
+<p>This says &quot;a call is an action if the <code>?task</code> is something that called <code>Effect</code>.&quot;  The <code>| ?args</code> is just a way of leaving the arguments of the call unspecified, since <code>TaskCalls</code> doesn't tell us anything about what the arguments are to the task or how many arguments it takes.</p>
+<h3 id="putting-it-all-together">Putting it all together</h3>
+<p>Let's say we want to murder Fred:</p>
+<pre><code class="language-step">[Require [Dead fred]]
+</code></pre>
+<p>Nothing against Fred in particular, although he does snore and he did forget your birthday five years ago. calling:</p>
+<p><code>Require</code> will check if Fred's already dead:</p>
+<pre><code class="language-step">Require ?condition: [Succeeds ?condition]
+</code></pre>
+<p>If so, it doesn't do anything.  Otherwise, the next line calls:</p>
+<pre><code class="language-step">[Achieves ?action [Dead fred]]
+</code></pre>
+<p>which has the rule:</p>
+<pre><code class="language-step">Achieves ?action [Dead fred]: [Action ?action] [Method ?action ?subgoals] [Member [Effect [Dead fred]] ?subgoals]
+</code></pre>
+<p>which starts by looking up an <code>?action</code>, then trying to call <code>Method</code> on it.  The first action is <code>Shoots</code>.  When we ask <code>Method</code>, &quot;what is a method for &ldquo;shoots&rdquo; (remember the <code>| ?args</code> is just a say of saying &quot;I'll take any tuple of any length that starts with <code>Shoots</code>&quot;):</p>
+<pre><code class="language-step">[Method [Shoots | ?args] ?subgoals]
+</code></pre>
+<p>There's only one method for <code>Shoots</code>:</p>
+<pre><code class="language-step">Shoot ?who: [Gun ?gun] [Require [Location ?gun me]] [Require [Loaded ?gun]] You shoot ?who with the ?gun.  [Effect [Dead ?who]]
+</code></pre>
+<p>So the call to <code>Method</code> binds <code>?args</code> and <code>?subgoals</code> so that we have:</p>
+<pre><code class="language-step">[Method [Shoot ?who] [[Gun ?gun] [Require [Location ?gun me]] [Require [Loaded ?gun]] [Write &quot;You shoot&quot;] [Mention ?who] [Write &quot;with the&quot;] [Write &quot;?gun&quot;] [Write &quot;.&quot;] [Effect [Dead ?who]]]
+</code></pre>
+<p>This tells us that:</p>
+<ul>
+<li>The action we're considering is <code>?action=[Shoot ?who]</code>, although we haven't verified yet that it has the effect we want.
+<ul>
+<li>(Incidentally, this tells us that <code>?args = [?who]</code>, but don't stress if that confuses you)</li>
+</ul>
+</li>
+<li>If we were to call <code>[Shoot ?who]</code>, it would run all the stuff in the second list:<br />
+<code>?subgoals=[[Gun ?gun] [Require [Location ?gun me]] [Require [Loaded ?gun]] [Write &quot;You shoot&quot;] [Mention ?who] [Write &quot;with the&quot;] [Write &quot;?gun&quot;] [Write &quot;.&quot;] [Effect [Dead ?who]]]</code></li>
+</ul>
+<p>Now, <code>Achivies</code> needs to verify that the effect we want is in <code>?subgoals</code>, so it runs:</p>
+<pre><code class="language-step">[Member [Effect [Dead fred]] ?subgoals]
+</code></pre>
+<p>where <code>?subgoals</code> is that long list above.  <code>Member</code> searches for an element of <code>?subgoals</code> that matches <code>[Effect [Dead fred]]</code>.  In this case, it matches:</p>
+<pre><code class="language-step">[Effect [Dead ?who]]
+</code></pre>
+<p>giving us <code>?who=fred</code>, which means our action, <code>[Shoot ?who]</code> is really <code>[Shoot fred]</code>.  So <code>Achieves</code> succeeds and tells us:</p>
+<pre><code class="language-step">[Achieves [Shoot fred] [Dead fred]]
+</code></pre>
+<p>Now we return to <code>Require</code>, which runs <code>[Shoot fred]</code>.  It:</p>
+<ul>
+<li>Looks for a gun, and finds <code>[Gun bfg]</code></li>
+<li>Calls <code>[Require [Location bfg me]]</code>, which ultimately runs <code>[Pickup bfg]</code></li>
+<li>Calls <code>[Require [Loaded bfg]]</code>, which will recursively find the ammo and pick it up, then load the gun.</li>
+<li>Print that it's shot Fred</li>
+<li>Call <code>[Effect [Dead fred]]</code> to mark him as dead.</li>
+</ul>
+<p>You can try it for yourself:</p>
+<pre><code class="language-Step"># Try: [Require [Dead fred]]
+Shoot ?who: [Gun ?gun] [Require [Location ?gun me]] [Require [Loaded ?gun]] You shoot ?who with the ?gun.  [Effect [Dead ?who]]
+Pickup ?what: [Require [Location ?what floor]] You pick up the ?what.  [Effect [Location ?what me]]
+Load ?gun ?ammo: [Gun ?gun] [Require [Location ?gun me]]  [Ammo ?ammo] [Require [Location ?ammo me]] You load the ?gun.  [Effect [Loaded ?gun]]
+
+Effect ?condition: [now ?condition]
+
+[predicate]
+Require ?condition: [Succeeds ?condition]
+Require ?condition: [Fails ?condition] [Achieves ?action ?condition] [Succeeds ?action]
+
+[predicate]
+Achieves ?action ?effect: [Action ?action] [Method ?action ?subgoals] [Member [Effect ?effect] ?subgoals]
+
+[predicate]
+Action [?task | ?args]: [TaskCalls ?task Effect]
+
+[predicate]
+Gun bfg.
+
+[predicate]
+Ammo ammo.
+
+[function] [fluent]
+Location bfg floor.
+Location ammo floor.
+
+fluent Dead ?who.
+fluent Loaded ?gun.
+</code></pre>
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+			<h5>Static reflection
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Program_visualization.html" id="section_page_1"> Program visualization
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Meta_interpretation.html" id="section_page_2"> Debugging tools
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Planning_using_reflection.html" id="section_page_3"> <b> Planning using reflection
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Design_rule_checking.html" id="section_page_4"> Design-rule checking
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Design_rule_checking.html">Design-rule checking
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Meta_interpretation.html">Debugging tools
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Static_reflection.html">Static reflection
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Dynamic_reflection.html">Dynamic reflection
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Planning_using_reflection.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2025 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

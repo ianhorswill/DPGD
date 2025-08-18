@@ -30,3 +30,14 @@ Hello: Hi there!
 Hello: Bon jour!
 ```
 Again, try clicking the code above and pressing Run.  But press it several times.  You should get different results.
+
+You can also change the likelihood it will choose a given rule by annotating it with a *weight*, which is a number in brackets: 
+```Step
+# Try: [Hello]
+[randomly]
+[2] Hello: Hello world!
+Hello: Hola!
+Hello: Hi there!
+Hello: Bon jour!
+```
+Here the `[2]` before the first rule says it should be choosen roughly twice as often as the other rules.  If we'd annotated it with `[0.1]`, it would only be chosen a tenth as frequently.

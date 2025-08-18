@@ -126,6 +126,15 @@ Hello: Hi there!
 Hello: Bon jour!
 </code></pre>
 <p>Again, try clicking the code above and pressing Run.  But press it several times.  You should get different results.</p>
+<p>You can also change the likelihood it will choose a given rule by annotating it with a <em>weight</em>, which is a number in brackets:</p>
+<pre><code class="language-Step"># Try: [Hello]
+[randomly]
+[2] Hello: Hello world!
+Hello: Hola!
+Hello: Hi there!
+Hello: Bon jour!
+</code></pre>
+<p>Here the <code>[2]</code> before the first rule says it should be choosen roughly twice as often as the other rules.  If we'd annotated it with <code>[0.1]</code>, it would only be chosen a tenth as frequently.</p>
 
 
 

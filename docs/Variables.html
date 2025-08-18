@@ -134,11 +134,11 @@ Greet ?who: Good evening, ?who.
 <h2 id="technical-assignment-statements">Technical: Assignment statements</h2>
 <p>Experienced programmers will be confused by the weird way variables work in Step.  Skip this section if you aren't an experienced programmer.</p>
 <p>Step's local variables are unusual: they only get their values through the matching process.  That also means they're <em>write-once</em>: you can only give them a value once; then they have that value for all time.</p>
-<p>If you're an experienced programmer, you're used to variables you can update endlessly using <strong>assignment statements</strong> <code>variable = newValue</code>.  Many languages that support matching, particularly <a href="Logic_programming.html">logic programming languages</a> like <a href="https://en.wikipedia.org/wiki/Prolog">Prolog</a> specifically prohibit assignment statements.  <a href="https://en.wikipedia.org/wiki/Functional_programming">Functional languages</a> are the same way.</p>
-<p>There are arguments to be made both for and against assignment statements.  It is true, however, that they don't play well with pattern matching, and pattern is very useful.  So Step has two kinds of variables:</p>
+<p>If you're an experienced programmer, you're used to variables you can update endlessly using <strong>assignment statements</strong> (e.g. <code>variable = newValue</code> in C-like languages).  Many languages that support matching, particularly <a href="Logic_programming.html">logic programming languages</a> like <a href="https://en.wikipedia.org/wiki/Prolog">Prolog</a> specifically prohibit assignment statements.  <a href="https://en.wikipedia.org/wiki/Functional_programming">Functional languages</a> are the same way.</p>
+<p>There are arguments to be made both for and against assignment statements.  It is true, however, that they don't play well with pattern matching, and pattern matching is very useful.  So Step has two kinds of variables:</p>
 <ul>
 <li>Local variables, whose names begin with a <code>?</code>, get their values from matching and are write-once.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></li>
-<li>Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be <a href="Global_variables.html">updated using assignment statements</a>.  We'll talk about this more when we talk about <a href="State.html">state</a>.</li>
+<li>Global variables, who names begin with capital letters, behave like variables in traditional languages.  Matching does not change their values, but they can be <a href="Global_variables.html">updated using assignment statements</a>.  We'll talk about this more when we talk about <a href="State_in_Step.html">state</a>.</li>
 </ul>
 <h2 id="notes">Notes</h2>
 <div class="footnotes">

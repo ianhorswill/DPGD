@@ -2,7 +2,7 @@
 pagetitle: Predicates
 status: alpha
 ---
-As we just discussed, it's possible for all the methods of a task to fail, in which case the call itself fails.  In many cases, that's a bug, so Step normally treats that as an error.  If we try running `[Dog morris]` below, we get an error:
+As we just discussed, it's possible for all the methods of a task to fail, in which case **the call itself fails**.  In many cases, that's a bug, so Step normally treats that as an error.  If we try running `[Dog morris]` below, we get an error:
 ```Step
 # Try: [Dog morris]
 Dog benji.
@@ -29,9 +29,9 @@ Calling `[Dog morris]` will fail, but it won't be treated as an error that stops
 
 To make a task be a predicate, you only have to include the `[predicate]` declaration before one of its methods. That will apply it to the task more generally.
 
-## Predicates don't print
+## It's okay that predicates don't print
 
-The primary use of predicates is to answer questions.  So they generally aren't written to generate output.  There's nothing preventing you from writing tasks that print but are labeled `[predicate]`, but you usually wouldn't want your question-answering tasks to print things.
+The primary use of predicates is to answer questions.  So they generally aren't written to print text.  There's nothing preventing you from writing tasks labeled `[predicate]` that print.  But you usually wouldn't want your question-answering tasks to print things.
 
 ## Notes
 
