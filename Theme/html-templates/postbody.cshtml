@@ -2,5 +2,26 @@
 
 @Raw(Model.Contents)
 
-
-
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+@{
+    	if (Model.EffectivePrevious != null)
+		{
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="@Model.EffectivePrevious.PageLink">@Raw(Model.EffectivePrevious.EffectiveShortTitle)</a><br>
+				</td>
+		}
+		if (Model.EffectiveNext != null)
+		{
+			
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="@Model.EffectiveNext.PageLink">@Raw(Model.EffectiveNext.EffectiveShortTitle)</a><br>
+				</td>			
+		}
+}
+</tr>
+</tbody>
+</table>

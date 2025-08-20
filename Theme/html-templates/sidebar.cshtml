@@ -1,6 +1,7 @@
 @model Booker.PageModel
 
 <div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
 	@{
 		var pages = Model.Children??Model.Up.Children??Model.Up.SideTrails;
 		var sec = Model.Children != null?Model:Model.Up??Model;

@@ -47,8 +47,6 @@
 
 <body>
 <div class="container-fluid shadow header">
-	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
-
 	<div class="container">
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Introduction.html"> Technical introduction
@@ -95,7 +93,6 @@
 <div class="container-fluid">
 	<div class="row justify-content-center">
 		<div class="col-md-7 index-contents">
-
 			<div class="container shadow blog-contents">
 
 <p>When you choose data structures for your programs, you make assumptions about how the data will be access and whether and how it will be updated.  If you assume you will always start with an <code>Employee</code> object and then look up their <code>JobTitle</code>, then you can simply put a <code>JobTitle</code> field inside the <code>Employee</code> class and be done with it.  If, on the other hand, you need to start with a <code>JobTitle</code> and enumerate all <code>Employees</code> who have that title, then perhaps you need a <code>JobTitle</code> object with a field that points to a list of pointers to <code>Employees</code>.  If you want to go in both directions you need both.  But then you have to remember that you can’t update one without updating the other.  If you modify the program to support new use cases, you may need to modify many bits of code.  If you miss one, then you have a subtle, difficult to locate bug.</p>
@@ -168,15 +165,29 @@ Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 </code></pre>
 
 
-
-
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="examples_grammar.html">Grammars
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="example_constraint_satisfaction.html">Constraint satisfaction
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
 			</div>
-
 		</div>
 
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
 			<h5>Examples
 </h5>
 			<ol start="1">
@@ -308,6 +319,3 @@ Connected ?x ?z: [Edge ?x ?y] [Connected ?y ?z]
 
 </body>
 </html>
-
-
-

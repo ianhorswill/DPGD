@@ -47,8 +47,6 @@
 
 <body>
 <div class="container-fluid shadow header">
-	<h1 style="text-align: right;">Incomplete draft: do not cite!</h1>
-
 	<div class="container">
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
@@ -99,7 +97,6 @@
 <div class="container-fluid">
 	<div class="row justify-content-center">
 		<div class="col-md-7 index-contents">
-
 			<div class="container shadow blog-contents">
 
 <p>If you're writing interactive fiction in Step, you probably don't need any new primitives.  But if you're using it inside of a game engine such as <a href="https://unity.com/">Unity</a> or <a href="https://godotengine.org/">Godot</a>, you'll need some mechanism for letting Step code read and write the game state.  This is more of a <a href="Part_II.html">Part II</a> topic, and it does vary from language to language.  However, for those who are game programmers who want some sense of what's involved, here's a simple example of how you would write a simple primitive for Step.  If you're not that person, I recommend you <a href="Higher-order_tasks.html">skip to the next page</a>.</p>
@@ -155,15 +152,29 @@ True when <em>enemy</em> has the name <em>name</em>.</li>
 <p><strong>VERY IMPORTANT</strong>: Step is carefully designed so that if it tries an execution path that fails after printing something or updating a variable, that output or variable update are <strong>undone</strong> before trying another execution path.  That is not true for primitives like these; Step has no way to reach in and &ldquo;undestroy&rdquo; a Unity object.  There are more complicated wrappers for primitives that allow you to be informed when a failure has happened so that you can undo things, but we won't cover them here.  And in any case, it's entirely up to the author of the primitives to implement any undoing.</p>
 
 
-
-
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Randomization_primitives.html">Randomization primitives
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Higher-order_tasks.html">Higher-order tasks
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
 			</div>
-
 		</div>
 
 		<div class="col-md-3">
 
 <div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
 			<h5>Primitive tasks (technical)
 </h5>
 			<ol start="1">
@@ -301,6 +312,3 @@ True when <em>enemy</em> has the name <em>name</em>.</li>
 
 </body>
 </html>
-
-
-
