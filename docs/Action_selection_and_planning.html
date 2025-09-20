@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Planning&#xA;</title>
+	<title>Action selection and planning&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Planning&#xA;">
-	<meta name="twitter:title" content="Planning&#xA;">
-	<meta property="og:title" content="Planning&#xA;" />
+	<meta itemprop="name" content="Action selection and planning&#xA;">
+	<meta name="twitter:title" content="Action selection and planning&#xA;">
+	<meta property="og:title" content="Action selection and planning&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,7 +53,7 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Planning
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Action selection and planning
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
@@ -95,6 +95,27 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
+<p>Under construction.</p>
+<pre><code class="language-Step">[predicate]
+InitialCharacter [bunny steampunk_m10 500 500 false false false].
+InitialCharacter [bugsy steampunk_m10 200 200 false false false].
+
+[predicate]
+InitialObject [refrigerator refrigerator 100 100 false false true].
+InitialObject [oven oven 150 100 false false true].
+InitialObject [sink sink 200 100 false false true].
+
+T:
+   [FindAll ?c [InitialCharacter ?c] ?cs]
+   [FindAll ?o [InitialObject ?o] ?os]
+   [StartGame ?cs ?os]
+[end]
+
+GameEvent [spawn bugsy]: [GotoGameObject bugsy bunny 5]
+GameEvent [spawn bunny]: [SetText bunny null]
+GameEvent [arrived bugsy bunny]: [SetText bugsy hello]
+GameEvent ?.
+</code></pre>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -127,7 +148,7 @@
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="The_Step_language.html" id="section_page_2"> Step: a maximalist clairvoyant language
  </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Planning.html" id="section_page_3"> <b> Planning
+					<li class="sidebar"><a class="simplelink" href="Action_selection_and_planning.html" id="section_page_3"> <b> Action selection and planning
  </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Adaptive_text_generation.html" id="section_page_4"> Adapting text to context
  </a> <br></li>
@@ -201,7 +222,7 @@
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Planning.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Action_selection_and_planning.html">Send feedback on this page</a>
 	</div>
 </div>
 
