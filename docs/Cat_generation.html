@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Clairvoyant algorithms&#xA;</title>
+	<title>Exercise: building a cat generator&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="A minimalist clairvoyant language (technical)&#xA;">
-	<meta name="twitter:title" content="A minimalist clairvoyant language (technical)&#xA;">
-	<meta property="og:title" content="A minimalist clairvoyant language (technical)&#xA;" />
+	<meta itemprop="name" content="Exercise: building a cat generator&#xA;">
+	<meta name="twitter:title" content="Exercise: building a cat generator&#xA;">
+	<meta property="og:title" content="Exercise: building a cat generator&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -53,7 +53,9 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">A minimalist clairvoyant language (technical)
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="NDScript.html"> Clairvoyant algorithms
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Exercise: building a cat generator
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -95,66 +97,41 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<blockquote>
-<p><strong>Important:</strong> This section is intended for those familiar with traditional languages like JavaScript or C.  If you're not already a programmer, <a href="The_Step_language.html">skip to the next section</a>, which is written for all audiences.</p>
-</blockquote>
-<p>Let's start with an otherwise &ldquo;normal&rdquo; programming language, <em>NDScript</em><a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>, that just happens to be clairvoyant.  It's a tiny subset of JavaScript with two new statements: <code>choose</code> and <code>fail</code>.  This will let us look at the value of non-determinism by itself, before we bring in the other kinds of features that are typically packaged alongside it in languages like Prolog.</p>
-<h2 id="decision-making-in-computers">Decision-making in computers</h2>
-<p>When a computer &ldquo;makes a decision,&rdquo; it generally takes the form of something like an <code>if</code> statement.  There are elaborations on these: <code>switch</code> statements, <code>while</code> and <code>for</code> loops, etc.  But the basic pattern is:</p>
-<pre><code class="language-C">if (condition) {
-    // Option 1
-} else {
-    // Option 2
-}
+<p>Suppose we want to write a system to generate random cats.  A cat has:</p>
+<ul>
+<li>A <strong>breed</strong>: for example, tabby, Siamese, Persian, or Maine coon</li>
+<li>A type of <strong>coat</strong>: long- or short-hair</li>
+<li>A coat <strong>color</strong>: ginger, black, white, or grey</li>
+<li>A coat <strong>pattern</strong>: solid, striped, or tortoiseshell
+Feel free to add other breeds, colors, etc., or other attributes, but we've writing them up as arrays below:</li>
+</ul>
+<pre><code class="language-Step">var breeds = [&quot;tabby&quot;, &quot;Siamese&quot;, &quot;Persian&quot;,  &quot;Maine coon&quot;];
+var coats = [&quot;long-haired&quot;, &quot;short-haired&quot;];
+var colors = [&quot;ginger&quot;, &quot;black&quot;, &quot;white&quot;, &quot;grey&quot;];
+var patterns = [&quot;solid&quot;, &quot;striped&quot;, &quot;tortoiseshell&quot;];
 </code></pre>
-<p>The computer tests whether <code>condition</code> is true.  If so, it chooses option 1, otherwise option 2.  Nearly all programs have these.  But the computer must be able to compute the <code>condition</code> before it can run the <code>if</code>.  So the computer gathers information, then makes a decision:</p>
-<blockquote>
-<p>information → decision</p>
-</blockquote>
-<p>But as we said, many problems only give you the information after you make the decision:</p>
-<blockquote>
-<p>decision → information</p>
-</blockquote>
-<h2 id="choice-and-failure">Choice and failure</h2>
-<p>The <code>if</code> statement packages the condition with the choices: you have to put them together.  But what if we could break them apart?  What if we could put the choices first, and then put the condition <em>later in the program</em>, once we've learned the information we need?  That's the basic idea of clairvoyance (aka nondeterminism).  Rather than a single <code>if</code> statement, we have separate <code>choose</code> and <code>fail</code> statements.  The <code>choose</code> statement looks like an if with no condition:<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></p>
-<pre><code class="language-ndscript">choose {
-    // Option 1
-} or {
-    // Option 2
-}
+<h2 id="problem-1">Problem 1</h2>
+<p>Click on the code above and add <code>chooseElement</code> and <code>printLine</code> statements to generate an example cat and print its attributes.</p>
+<h2 id="problem-2">Problem 2</h2>
+<p>Now modify your solution so it never generates cats that violate the constraints:</p>
+<ul>
+<li>Tabbies are always striped</li>
+<li>Persians always have long hair</li>
+<li>Siamese are always short-haired, solid grey colors</li>
+</ul>
+<h2 id="problem-3">Problem 3</h2>
+<p>Let's say a cat is magical if it is at least one of:</p>
+<ul>
+<li>Long-haired</li>
+<li>Grey</li>
+<li>Striped</li>
+</ul>
+<p>Modify it so that it only generates magical cats; that is, only generates cats that are at least one of the above.</p>
+<h2 id="problem-4">Problem 4</h2>
+<p>Add a personality attribute from the set:</p>
+<pre><code class="language-step">var personalities = [&quot;friendly&quot;, &quot;fearful&quot;, &quot;haughty&quot;, &quot;easy-going&quot;];
 </code></pre>
-<p>It tells the computer to <strong>guess</strong> one of the options and run it.  The <code>fail</code> statement:</p>
-<pre><code class="language-ndscript">fail;
-</code></pre>
-<p>tells the computer that some earlier guess was wrong (not necessarily the last one).  So the basic pattern is:</p>
-<pre><code class="language-ndscript">choose {
-    // Option 1
-} or {
-    // Option 2
-}
-...
-do more stuff, gather more information...
-...
-if (something_is_wrong) fail;
-</code></pre>
-<h2 id="the-clairvoyant-contract">The clairvoyant contract</h2>
-<p>NDScript and systems like it promise that when they execute <code>choose</code> they will always guess right.  Or to be more precise, they will never make choices that lead to failure (executing the <code>fail</code> statement).<a id="fnref:3" href="#fn:3" class="footnote-ref"><sup>3</sup></a>  So if you write your program to always <code>fail</code> sooner or later for bad choices, then the system will only make good choices.  This is the sense in which it is &quot;clairvoyant.&quot; </p>
-<p>Of course, behind the scenes, it does make bad choices and it does fail.  It just hides those mistakes from you: it undoes mistakes and systematically tries choices until it finds a sequence of choices that succeeds (i.e. doesn't <code>fail</code>).  This can mean the program runs very slowly if it's making a lot of bad choices internally.  But the final output of the system looks as if it had always guessed correctly.</p>
-<h2 id="notes">Notes</h2>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn:1">
-<p>NDScript stands for &quot;non-determinimistic scripting language.&quot;  It's <a href="https://github.com/ianhorswill/NDScript">open source</a>.  In principle, you could drop it into any game running on Unity, Godot, or MonoGame.  However, it's not intended to be industrial strength; it's pretty much purpose-built for the examples given here.  It's missing nicities like <code>switch</code> statements, <code>for</code> loops, autoincrement/decremeent, or (as of this writing) even simple things like objects.  So contact me before you try to use it in a real game and we can talk about what would be involved in making it better or converting it to C++.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>As you might expect, the <code>{ }</code>braces are optional, and you can include as many <code>or</code> clauses as you like.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
-</li>
-<li id="fn:3">
-<p>If <em>every</em> choice leads to failure, then the program itself fails: NDScript says it can't solve the problem.<a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<p>And the constraint that Persians are always haughty.</p>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -162,12 +139,12 @@ if (something_is_wrong) fail;
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Clairvoyant_programming.html">Clairvoyant programming
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="NDScript.html">Clairvoyant algorithms
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Pathfinding.html">Finding paths
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="The_Step_language.html">Step
 </a><br>
 				</td>			
 </tr>
@@ -194,10 +171,6 @@ if (something_is_wrong) fail;
 					<li class="sidebar"><a class="backgroundlink" href="Clairvoyant_languages_in_real_life.html" id="section_page_5"> Clairvoyant languages in real life
  </a> <br></li>
 			</ol>
-				<ul>
-						<li class="sidebar"><a class="simplelink" href="Cat_generation.html"><i>Exercise: building a cat generator
-</i></a></li>
-				</ul>
 	<script>
 		document.addEventListener('keyup', function(e) {
 			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
@@ -211,7 +184,7 @@ if (something_is_wrong) fail;
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Pathfinding.html">Finding paths
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="The_Step_language.html">Step
 </a><br>
 				</td>
 			</tr>
@@ -225,7 +198,7 @@ if (something_is_wrong) fail;
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Clairvoyant_programming.html">Clairvoyant programming
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="NDScript.html">Clairvoyant algorithms
 </a><br>
 				</td>
 			</tr>
@@ -239,7 +212,7 @@ if (something_is_wrong) fail;
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html">Clairvoyant programming
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="NDScript.html">Clairvoyant algorithms
 </a><br>
 				</td>
 			</tr>
@@ -265,7 +238,7 @@ if (something_is_wrong) fail;
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/NDScript.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Cat_generation.html">Send feedback on this page</a>
 	</div>
 </div>
 

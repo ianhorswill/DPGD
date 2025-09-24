@@ -13,7 +13,7 @@
 				if (page == Model)
 				{
 					<li class="sidebar"><a class="simplelink" href="@page.PageLink" id="section_page_@counter"> <b> @Raw(page.PageTitle) </b> </a> <br></li>
-					if (Model.SideTrails != null && Model.SideTrails.Length > 0)
+					if ((Model.Children == null || Model.Children.Length == 0) && Model.SideTrails != null && Model.SideTrails.Length > 0)
 					{
 						<ul>
 						@foreach (var side in Model.SideTrails) {
@@ -29,6 +29,14 @@
 				counter++;
 			}
 			</ol>
+			if (Model.Children != null && Model.Children.Length > 0 && Model.SideTrails != null && Model.SideTrails.Length > 0)
+			{
+				<ul>
+					@foreach (var side in Model.SideTrails) {
+						<li class="sidebar"><a class="simplelink" href="@side.PageLink"><i>@Raw(side.PageTitle)</i></a></li>
+					}
+				</ul>
+			}
 	}
 	<script>
 		document.addEventListener('keyup', function(e) {
