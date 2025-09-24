@@ -8,7 +8,7 @@ Suppose we want to write a system to generate random cats.  A cat has:
 * A coat **color**: ginger, black, white, or grey
 * A coat **pattern**: solid, striped, or tortoiseshell
 Feel free to add other breeds, colors, etc., or other attributes, but we've writing them up as arrays below:
-```Step
+```NDScript
 var breeds = ["tabby", "Siamese", "Persian",  "Maine coon"];
 var coats = ["long-haired", "short-haired"];
 var colors = ["ginger", "black", "white", "grey"];
@@ -38,7 +38,7 @@ Modify it so that it only generates magical cats; that is, only generates cats t
 ## Problem 4
 
 Add a personality attribute from the set:
-```step
+```NDScript
 var personalities = ["friendly", "fearful", "haughty", "easy-going"];
 ```
 And the constraint that Persians are always haughty.
