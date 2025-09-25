@@ -38,7 +38,7 @@ Modify it so that it only generates magical cats; that is, only generates cats t
 ## Problem 4
 
 Add a personality attribute from the set:
-```NDScript
+```ndscript
 var personalities = ["friendly", "fearful", "haughty", "easy-going"];
 ```
 And the constraint that Persians are always haughty.
