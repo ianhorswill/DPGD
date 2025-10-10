@@ -46,7 +46,8 @@ hljs.registerLanguage('ndscript', function () {
                 'isSingleton', 'isEmpty', 'sizeOf', 'contains', 'chooseElement',
                 'setOf', 'union', 'intersection', 'singletonValue', 'nonsingletonPositions',
                 'relation', 'leftImage', 'rightImage',
-                'queue', 'enqueue', 'dequeue'
+                'queue', 'enqueue', 'dequeue',
+                'nonsingletonFieldsOf'
             ],
             keyword: ['if', 'while', 'else', 'or',
                 'choose', 'choose\\s+first',
