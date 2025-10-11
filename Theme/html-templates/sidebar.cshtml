@@ -7,6 +7,10 @@
 		var sec = Model.Children != null?Model:Model.Up??Model;
 		var counter = sec.NumberChildrenFrom;
 
+			@if (Model.SequenceNumber != "")
+			{
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section @Model.SequenceNumber</p>
+			}
 			<h5>@Raw(sec.EffectiveShortTitle)</h5>
 			<ol start="@counter">
 			@foreach (var page in pages) {

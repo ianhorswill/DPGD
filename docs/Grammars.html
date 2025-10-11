@@ -55,7 +55,7 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html">Simple grammars
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Simple grammars
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -135,16 +135,27 @@ Effect: social anxiety
 ...
 </code></pre>
 <h2 id="generating-treasure">Generating treasure</h2>
-<p>To generate a treasure using this grammar, we start with <code>[Treasure]</code> and randomly choose one of its rules, e.g.:</p>
+<p>To generate a treasure using this grammar, we start with :</p>
+<pre><code class="language-ndscript">[Treasure]
+</code></pre>
+<p>which specifies to generate a <code>Treasure</code>.  We randomly choose one of its rules, e.g.:</p>
 <pre><code class="language-step">Treasure: [Weapon]
 </code></pre>
-<p>to change <code>[Treasure]</code> into <code>[Weapon]</code>.  Then, we use the rule for <code>Weapon</code> to turn it into <code>[PreBuff] [WeaponType] [PostBuff]</code>.  Then, we pick a rule to replace <code>[PreBuff]</code>, e.g.:</p>
+<p>This says we can substitute <code>[Weapon]</code> for <code>[Treasure]</code>, so now we're trying to generate:</p>
+<pre><code class="language-ndscript">[Weapon]
+</code></pre>
+<p>Then, we use the rule for <code>Weapon</code>, which says we can replace <code>[Weapon]</code> with:</p>
+<pre><code class="language-ndscript">[PreBuff] [WeaponType] [PostBuff]
+</code></pre>
+<p>Then, we pick a rule to replace <code>[PreBuff]</code>, e.g.:</p>
 <pre><code class="language-step">PreBuff: cursed
 </code></pre>
-<p>and change our text to <code>cursed [WeaponType] [PostBuff]</code>.  Then, we pick rules for <code>[WeaponType]</code> and <code>[PostBuff]</code> and we get something like:</p>
-<blockquote>
-<p>cursed mace of social anxiety</p>
-</blockquote>
+<p>which says we can replace <code>[PreBuff]</code> with <code>cursed</code>, giving us:</p>
+<pre><code class="language-ndscript">cursed [WeaponType] [PostBuff]
+</code></pre>
+<p>Then, we pick rules for <code>[WeaponType]</code> and <code>[PostBuff]</code> and we get something like:</p>
+<pre><code class="language-ndscript">cursed mace of social anxiety
+</code></pre>
 <p>Producing text using a grammar is called <strong>generation</strong>.  Conversely, using a grammar to break existing text up into its constituent phrases and sub-phrases, is called <strong>parsing</strong>.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Nearly all programming languages are defined in terms of CFGs.  Compilers or interpreters nearly always start by using the grammar to parse the program into its pieces.</p>
 <p>The following is the grammar above written as a Step program.  To try it, click the code box below to open a Step window.  Then type <code>[Treasure]</code> in the command box and press Run:</p>
 <pre><code class="language-Step"># Try: [Treasure]
@@ -227,6 +238,7 @@ Effect: social anxiety
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.2.1</p>
 			<h5>Simple grammars
 </h5>
 			<ol start="1">
