@@ -34,7 +34,7 @@ Now, if we run `[Greet diana]`, it will say “Hello, Diana Ratcliffe, titan of 
 
 ## Notes
 
-[^Write]: There are a few things that it doesn't print verbatim.  If you say `[Write this_is_a_test]`, it prints "this is a test" rather than "this_is_a_test".  You can override that by using `WriteVerbatim` instead.  Also, Step performs post-processing to capitalize the first word of each sentence.  So if you call `[Write hello]` and it's at the start of a sentence, write will print "hello", but the final output will say "Hello".
+[^Write]: There are a few things that it doesn't print verbatim.  If you say `[Write this_is_a_test]`, it prints "this is a test" rather than "this_is_a_test".  You can override that by using `WriteVerbatim` instead.  Also, Step performs post-processing to capitalize the first word of each sentence.  So if you call `[Write hello]` and it's at the start of a sentence, it will appear as "Hello".
 
 [^1]: You might think we would just write this as:
 ```step

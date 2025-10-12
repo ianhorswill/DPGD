@@ -35,6 +35,6 @@ Hello:
 
 ## Esoterica
 
-"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called [**hierarchical task network planners**](https://en.wikipedia.org/wiki/Hierarchical_task_network), aka HTN planners.  HTNs, for their own reasons, used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.
+"Task" means basically the same thing as "procedure" or "subroutine" in other languages.  The term "task" is used because Step descends from a line of languages called [**hierarchical task network planners**](https://en.wikipedia.org/wiki/Hierarchical_task_network), aka HTN planners.  HTNs, for their own reasons, used the term "task" rather than subroutine.  If you already know what an HTN planner is, then Step is a Turing-complete HTN planner.  If you don't, don't worry about it.
 
 "Method" means close to the same thing as "method" or "overload" in languages like C++ and C#.  However, unlike those languages, Step allows redundant methods that it will try to choose between intelligently at run-time.
