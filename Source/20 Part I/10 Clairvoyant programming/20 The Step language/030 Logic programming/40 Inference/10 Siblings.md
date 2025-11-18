@@ -23,17 +23,17 @@ Parent jimbo grandpa.
 If we use the call `[Siblings bart ?who]` to ask who Bart's siblings are, we get the following choice tree.  Again, I'll only include the methods that match, so as to keep the diagram manageable:
 ```mermaid
 graph TB
-    start("[Siblings bart ?who]") -- "<b>Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent]</b> <br> ?a = bart <br> ?b = ?who" --> p1("[Parent bart ?parent]")
-    p1 -- "<b>Parent bart marge.</b> <br> ?parent = marge" --> p2marge("[Parent ?b marge]")
-    p2marge -- "<b>Parent bart marge.</b> <br> ?b = bart" --> s1[Succeed]
+    start("[Siblings bart ?who]") -- "<b>Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent]</b> <br> ?a = bart <br> ?b = ?who" --> body[["method body: run [Parent bart ?parent], then [Parent ?who ?parent]"]] --> p1("[Parent bart ?parent]")
+    p1 -- "<b>Parent bart marge.</b> <br> ?parent = marge" --> p2marge("[Parent ?who marge]")
+    p2marge -- "<b>Parent bart marge.</b> <br> ?who = bart" --> s1[Succeed]
     style s1 fill:green
-    p2marge -- "<b>Parent lisa marge.</b> <br> ?b = lisa" --> s2[Succeed]
+    p2marge -- "<b>Parent lisa marge.</b> <br> ?who = lisa" --> s2[Succeed]
     style s2 fill:green
 
-    p1 -- "<b>Parent bart homer.</b> <br> ?parent = homer" --> p2homer("[Parent ?b homer]")
-    p2homer -- "<b>Parent bart homer.</b> <br> ?b = bart" --> s3[Succeed]
+    p1 -- "<b>Parent bart homer.</b> <br> ?parent = homer" --> p2homer("[Parent ?who homer]")
+    p2homer -- "<b>Parent bart homer.</b> <br> ?who = bart" --> s3[Succeed]
     style s3 fill:green
-    p2homer -- "<b>Parent lisa homer.</b> <br> ?b = lisa" --> s4[Succeed]
+    p2homer -- "<b>Parent lisa homer.</b> <br> ?who = lisa" --> s4[Succeed]
     style s4 fill:green
 ```
 There are a couple of things worth noticing here.  First, under this definition, **people are their own siblings**.  Moreover, since we didn't mark anything `[randomly]`, it always chooses the leftmost solution, which is that Bart is his own sibling.  If we don't want that, we can fix it by modifying the definition:
@@ -55,17 +55,17 @@ Parent jimbo grandpa.
 `Different` is a [built-in predicate](primitive_tasks): it's not defined in terms of methods; rather, is a part of Step itself.  It succeeds if its two parameters are different, and fails if they're the same.  This gives us a slightly more elaborate choice tree, but one that filters out the result that Bart is his own sibling:
 ```mermaid
 graph TB
-    start("[Siblings bart ?who]") -- "<b>Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent]</b> <br> ?a = bart <br> ?b = ?who" --> p1("[Parent bart ?parent]")
-    p1 -- "<b>Parent bart marge.</b> <br> ?parent = marge" --> p2marge("[Parent ?b marge]")
-    p2marge -- "<b>Parent bart marge.</b> <br> ?b = bart" --> d1("[Different bart bart]") --> f1[Fail]
+    start("[Siblings bart ?who]") -- "<b>Siblings ?a ?b: [Parent ?a ?parent] [Parent ?b ?parent]</b> <br> ?a = bart <br> ?b = ?who" --> body[["method body: run [Parent bart ?parent] then [Parent ?who ?parent]"]] --> p1("[Parent bart ?parent]")
+    p1 -- "<b>Parent bart marge.</b> <br> ?parent = marge" --> p2marge("[Parent ?who marge]")
+    p2marge -- "<b>Parent bart marge.</b> <br> ?who = bart" --> d1("[Different bart bart]") --> f1[Fail]
     style f1 fill:red
-    p2marge -- "<b>Parent lisa marge.</b> <br> ?b = lisa" --> d2("[Different bart lisa]") --> s2[Succeed]
+    p2marge -- "<b>Parent lisa marge.</b> <br> ?who = lisa" --> d2("[Different bart lisa]") --> s2[Succeed]
     style s2 fill:green
 
-    p1 -- "<b>Parent bart homer.</b> <br> ?parent = homer" --> p2homer("[Parent ?b homer]")
-    p2homer -- "<b>Parent bart homer.</b> <br> ?b = bart" --> d3("[Different bart bart]") --> f3[Fail]
+    p1 -- "<b>Parent bart homer.</b> <br> ?parent = homer" --> p2homer("[Parent ?who homer]")
+    p2homer -- "<b>Parent bart homer.</b> <br> ?who = bart" --> d3("[Different bart bart]") --> f3[Fail]
     style f3 fill:red
-    p2homer -- "<b>Parent lisa homer.</b> <br> ?b = lisa" --> d4("[Different bart lisa]") --> s4[Succeed]
+    p2homer -- "<b>Parent lisa homer.</b> <br> ?who = lisa" --> d4("[Different bart lisa]") --> s4[Succeed]
     style s4 fill:green
 ```
 
