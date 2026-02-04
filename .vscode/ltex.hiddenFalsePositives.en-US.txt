@@ -28,3 +28,12 @@
 {"rule":"THEMSELF","sentence":"^\\QMr. Boss gave themself a nice raise\\E$"}
 {"rule":"CONSECUTIVE_SPACES","sentence":"^\\QImportant: This section is intended for those familiar with traditional languages like JavaScript or C.  If you're not already a programmer, skip to the next section, which is written for all audiences.\\E$"}
 {"rule":"EN_A_VS_AN","sentence":"^\\QWhen a computer \"makes a decision,\" it generally takes the form of something like an \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q statement.\\E$"}
+{"rule":"SO_AS_TO","sentence":"^\\QLife is, in some sense, the process of continually deciding what to do next^Phil so as to survive, and ideally thrive.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qyou can click it to experiment with it in a sandbox.\\E$"}
+{"rule":"OVER_COMPOUNDS","sentence":"^\\QFor example, if our actions are probabilistic, then we can model them as functions from states to probability distributions over states.\\E$"}
+{"rule":"OVER_COMPOUNDS","sentence":"^\\QIf we want to treat actions as being probabilistic, then they're mappings from states to probability distributions over states.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhen we want to specify part of a state without specifying it completely.\\E$"}
+{"rule":"OVER_COMPOUNDS","sentence":"^\\QWe might, for example, model them as mappings from states to probability distributions over states.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QGoto\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qetc., for each possible room.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_RULE","sentence":"^\\QUtilities Utilities are a kind of implicit specification of an objective.\\E$"}

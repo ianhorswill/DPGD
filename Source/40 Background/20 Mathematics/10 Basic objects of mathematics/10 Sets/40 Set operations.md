@@ -48,7 +48,7 @@ To understand why we notate it $$2^A$$, consider the following.  The empty set $
 
 ## Cartesian product: $$\times$$
 
-We haven't talked about [pairs and tuples](Tuples) yet, so don't worry if you don't understand this yet. But tuples are simple: they're just lists.  We're including it here so it's together with the other operations. The Cartesian[^1] product makes sets of from other sets.  $$A\times B$$ is the set of all pairs of elements drawn from $$A$$ and $$B$, respectively:
+We haven't talked about [pairs and tuples](Tuples) yet, so don't worry if you don't understand this yet. But tuples are simple: they're just lists.  We're including it here so it's together with the other operations. The Cartesian[^1] product makes sets of from other sets.  $$A\times B$$ is the set of all pairs of elements drawn from $$A$$ and $$B$$, respectively:
 $$
 A \times B = \{ (a,b) \; | \; a\in A, b\in B \}
 $$

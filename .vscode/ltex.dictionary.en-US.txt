@@ -32,3 +32,10 @@ powerset
 Powerset
 surjective
 NDScript
+lookahead
+Versu
+pengi
+Agre
+Pengi
+gamestate
+gamestates

@@ -1,10 +1,3 @@
----
-pagetitle: Action selection and planning
-status: stub
----
-Under construction.
-
-```Step
 [predicate]
 InitialCharacter [bunny steampunk_m10 500 500 false false false].
 InitialCharacter [bugsy steampunk_m10 200 200 false false false].
@@ -24,4 +17,3 @@ GameEvent [spawn bugsy]: [GotoGameObject bugsy bunny 5]
 GameEvent [spawn bunny]: [SetText bunny null]
 GameEvent [arrived bugsy bunny]: [SetText bugsy hello]
 GameEvent ?.
-```

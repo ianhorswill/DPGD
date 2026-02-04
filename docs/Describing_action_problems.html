@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Action selection and planning&#xA;</title>
+	<title>Describing action problems&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Action selection and planning&#xA;">
-	<meta name="twitter:title" content="Action selection and planning&#xA;">
-	<meta property="og:title" content="Action selection and planning&#xA;" />
+	<meta itemprop="name" content="Describing action problems&#xA;">
+	<meta name="twitter:title" content="Describing action problems&#xA;">
+	<meta property="og:title" content="Describing action problems&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -51,13 +51,13 @@
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Action_and_planning.html"> Action and planning
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Action selection and planning
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Describing action problems
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -95,27 +95,14 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<p>Under construction.</p>
-<pre><code class="language-Step">[predicate]
-InitialCharacter [bunny steampunk_m10 500 500 false false false].
-InitialCharacter [bugsy steampunk_m10 200 200 false false false].
-
-[predicate]
-InitialObject [refrigerator refrigerator 100 100 false false true].
-InitialObject [oven oven 150 100 false false true].
-InitialObject [sink sink 200 100 false false true].
-
-T:
-   [FindAll ?c [InitialCharacter ?c] ?cs]
-   [FindAll ?o [InitialObject ?o] ?os]
-   [StartGame ?cs ?os]
-[end]
-
-GameEvent [spawn bugsy]: [GotoGameObject bugsy bunny 5]
-GameEvent [spawn bunny]: [SetText bunny null]
-GameEvent [arrived bugsy bunny]: [SetText bugsy hello]
-GameEvent ?.
-</code></pre>
+<p>Once again, declarative programming is where you describe a problem to the system, without giving it explicit directions for how to solve it, and the system uses a general solver to find the solution.  For action selection, the solvers are typically called action selection systems or planners, but they all take metadata representing the available actions and select an appropriate next action or sequence of actions.</p>
+<p>So we should take a moment to discuss what that metadata typically looks like, and the assumptions underlying it.  In particular, we'll assume:</p>
+<ul>
+<li>The world has a set of possible <strong>states</strong></li>
+<li>Actions have <strong>effects</strong>: they change the world from one state to another</li>
+<li>Actions may have <strong>preconditions</strong> which must be true of the current state to run them</li>
+</ul>
+<p>Before talking about different kinds of action selection systems, we'll talk in a little more detail about how we describe action selection problems and why we do it the way we do.</p>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -123,12 +110,12 @@ GameEvent ?.
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Tagged_grammars.html">Tagged grammars
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Action_and_planning.html">Action and planning
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Adaptive_text_generation.html">Adaptive generation
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Describing_time.html">Describing time and change
 </a><br>
 				</td>			
 </tr>
@@ -141,19 +128,17 @@ GameEvent ?.
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.3</p>
-			<h5>Clairvoyant programming
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.2.1</p>
+			<h5>Describing action problems
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="NDScript.html" id="section_page_1"> A minimalist clairvoyant language (technical)
+					<li class="sidebar"><a class="backgroundlink" href="Describing_time.html" id="section_page_1"> Describing time and change
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="The_Step_language.html" id="section_page_2"> Step: a maximalist clairvoyant language
+					<li class="sidebar"><a class="backgroundlink" href="Describing_states.html" id="section_page_2"> Describing states
  </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Action_selection_and_planning.html" id="section_page_3"> <b> Action selection and planning
- </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Adaptive_text_generation.html" id="section_page_4"> Adapting text to context
+					<li class="sidebar"><a class="backgroundlink" href="Describing_actions.html" id="section_page_3"> Describing actions
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Natural_language_parsing.html" id="section_page_5"> Natural language parsing
+					<li class="sidebar"><a class="backgroundlink" href="Describing_objectives.html" id="section_page_4"> Describing objectives
  </a> <br></li>
 			</ol>
 	<script>
@@ -169,7 +154,7 @@ GameEvent ?.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Adaptive_text_generation.html">Adaptive generation
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Describing_time.html">Describing time and change
 </a><br>
 				</td>
 			</tr>
@@ -183,7 +168,7 @@ GameEvent ?.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Tagged_grammars.html">Tagged grammars
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Action_and_planning.html">Action and planning
 </a><br>
 				</td>
 			</tr>
@@ -197,7 +182,7 @@ GameEvent ?.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Clairvoyant_programming.html">Clairvoyant programming
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Action_and_planning.html">Action and planning
 </a><br>
 				</td>
 			</tr>
@@ -207,23 +192,10 @@ GameEvent ?.
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Constraint_programming.html">Constraint programming
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Action_selection_and_planning.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Describing_action_problems.html">Send feedback on this page</a>
 	</div>
 </div>
 
@@ -240,7 +212,7 @@ GameEvent ?.
 				<div class="text-muted">
 					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
 
-					Copyright &copy; 2025 Ian Horswill
+					Copyright &copy; 2026 Ian Horswill
 				</div>
 				<div class="text-muted">
 					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>

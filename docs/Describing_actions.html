@@ -1,0 +1,319 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Describing actions&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Describing actions&#xA;">
+	<meta name="twitter:title" content="Describing actions&#xA;">
+	<meta property="og:title" content="Describing actions&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Action_and_planning.html"> Action and planning
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Describing_action_problems.html"> Describing action problems
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Describing actions
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<p>In game design, the things a player can do to the world are often called <strong>verbs</strong>.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  Similarly, the game objects on which you can perform the verbs are often referred to as <strong>nouns</strong>.</p>
+<p>We'll adopt that terminology here.  We'll use the word <strong>action</strong> to mean something like walking to the kitchen: a verb applied to nouns.  When we want to talk about walking <em>in general</em>, we'll refer to that as the walk <em>verb</em>.</p>
+<p>Action-selection systems reason about which actions to choose based on verb metadata provided by the designers.  Different systems involve different kinds of metadata, but here we'll talk about the most common ones.</p>
+<h2 id="parameters">Parameters</h2>
+<p>The nouns required by a verb are called its <strong>parameters</strong> or <strong>arguments</strong>.<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a>  Some verbs, like walking, require a destination.  Others, like stopping, don't.</p>
+<p>Keeping track of parameter values complicates the design of a solver.  So many action-selection systems don't allow parameters.  Rather that one verb, <code>goto</code>, and multiple nouns, such as <code>kitchen</code>, <code>bedroom</code>, <em>etc</em>., they have multiple <strong>parameterless</strong> verbs, <code>gotoKitchen</code>, <code>gotoBedroom</code>, <em>etc</em>., for which the destination is baked into the verb itself, in much the way the window is baked into the verb &ldquo;defenestrate.&rdquo;</p>
+<p>It's often easier to use a solver that allows parameters.  But it's often easier to build a solver that doesn't.  As a result, <strong>parameterless</strong> systems, also known as &ldquo;propositional&rdquo;<a id="fnref:3" href="#fn:3" class="footnote-ref"><sup>3</sup></a> systems, are very common both in the game industry and in the research literature.</p>
+<h3 id="implicit-parameters">Implicit parameters</h3>
+<p>A common approach used in the game industry, is to use what we might call &ldquo;implicit&rdquo; parameters.  For example, the <code>shoot</code> verb might always shoot whoever the gun is already pointed at.  Then a separate <code>aim</code> verb would point the gun.  The <code>aim</code> verb might take the target as a parameter.  Alternatively, we might have a parameterless <code>aimAtClosestEnemy</code> verb that chooses the target itself at run-time.  Designing all actions this way allows us to build a parameterless solver, which is generally easier.  This is the approach used in <a href="https://en.wikipedia.org/wiki/Behavior_tree">behavior trees</a>, which don't allow parameters.  It's also used in most action planners found in games, such as the one used in <a href="https://en.wikipedia.org/wiki/F.E.A.R._(video_game)"><em>F.E.A.R.</em></a></p>
+<p>This is closely related to an approach from the research literature known as indexical-functional representation<a id="fnref:4" href="#fn:4" class="footnote-ref"><sup>4</sup></a> (later <em>deictic</em> representation<a id="fnref:5" href="#fn:5" class="footnote-ref"><sup>5</sup></a>).</p>
+<h2 id="preconditions">Preconditions</h2>
+<p>Some actions can only be performed in certain states.  You can't swim in a desert.  You can't eat without food.  An action's requirements on the starting state are known as its <em>preconditions</em>.  Preconditions are described in terms of state variables and/or parameters.  For example, the action of buying something might have a precondition that the state variable <span class="math">\(\textbf{bankBalance}\)</span> be above a certain, for example,</p>
+<div class="math">
+\[
+\textbf{bankBalance} &gt; 5
+\]</div>
+<h2 id="effects">Effects</h2>
+<p>The effects of an action are the way it changes the gamestate.  This is almost always described in terms of changes to specific state variables.  For example, the effect of the <code>gotoKitchen</code> action would be to set the <code>location</code> state variable to have the value <code>kitchen</code>.  For the version that takes a parameter, we'd say the effect of <code>goto(destination)</code> would be that <code>location = destination</code>.</p>
+<h2 id="other">Other</h2>
+<p>There are other kinds of annotations that are common, for example restrictions on the kinds of nouns that can be used for the parameters (e.g. the destination of <code>goto</code> should be a place).  But the most relevant ones for us here are utility and cost.</p>
+<h3 id="utility">Utility</h3>
+<p><a href="https://en.wikipedia.org/wiki/Utility">Utility</a> is a blanket term for the value or goodness of something, expressed as a number.  Many systems tag actions with utilities, either fixed numbers or some expression for computing utility from the current state and the action's parameters.  For example, the utility of eating a meal might be higher than that of eating a snack.  Systems that use utilities generally choose the action with the highest utility, or at least break ties between actions by choosing the one with the higher utility.</p>
+<h3 id="cost">Cost</h3>
+<p>Cost is a measure of the badness or resource consumption of something.  Many planning systems allow you to annotate actions with costs then they choose the plan with the least total cost that achieves the specified goal.  For example, given two otherwise equally good destinations, they'll choose the closer one.</p>
+<h2 id="examples">Examples</h2>
+<p>Here are some examples of actions described in a kind of ersatz YAML.</p>
+<h3 id="goto">Goto</h3>
+<p>Here's a general, parameterized version of the verb <code>goto</code></p>
+<pre><code class="language-yaml">goto(destination):
+  effects:
+    location = destination
+</code></pre>
+<p>the parameterless versions would look like:</p>
+<pre><code class="language-yaml">gotoKitchen():
+  effects:
+    location = kitchen
+
+gotoBedroom():
+  effects:
+    location = bedroom
+</code></pre>
+<p>etc., for each possible room.</p>
+<p>If we wanted to specify costs, we would likely use the distance to the destination as the cost:</p>
+<pre><code class="language-yaml">goto(destination):
+  effects:
+    location = destination
+  cost: distance(here, destination)
+</code></pre>
+<h3 id="shooting">Shooting</h3>
+<p>Here's a version of <code>shoot</code> with parameters for the weapon to use and the target to shoot:</p>
+<pre><code class="language-yaml">shoot(weapon,target):
+   preconditions:
+      equipped(weapon)
+      loaded(weapon)
+      aimed(weapon, target)
+   effects:
+      dead(target)
+</code></pre>
+<p>This is an oversimplification; it ignores the effect that you might run out of ammo, it pretends that you'll always hit and kill with one shot.  But it's a common oversimplification.</p>
+<p>Now here's a version that would be more common in a G.O.A.P. planner for a game:</p>
+<pre><code class="language-yaml">shoot():
+    preconditions:
+       gunEquipped
+       gunLoaded
+       gunAimed
+    preconditions:
+       targetDead
+</code></pre>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Even though those verbs are more commonly expressed by pushing a controller button or clicking the mouse than by typing an English sentence.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Parameters don't have to be nouns (game objects); sometimes they are things like speeds, but we can generally ignore that issue.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>The term &ldquo;propositional&rdquo; comes from the research literature.  The reason for the non-obvious name is that it's inherited from formal logic.  In formal logic, a proposition is something that can be true or false.  A proposition that takes parameters is called a predicate.  The simple logics that don't allow predicates (only parameterless propositions) are called propositional logics.  Those that do allow parameters are called predicate logics.  This terminology was carried over into the literature on planning systems; planners that didn't allow actions to take parameters were called propositional planners.<a href="#fnref:3" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://aaai.org/papers/00268-AAAI87-048-pengi-an-implementation-of-a-theory-of-activity/">Philip Agre and David Chapman.  &ldquo;Pengi: An Implementation of a Theory of Activity&rdquo; in AAAI-87: Proceedings of the sixth National conference on Artificial intelligence, Vol 1 pp. 268-272, July 1987</a><a href="#fnref:4" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>Philip Agre.  <em>Computation and Human Experience</em>.  Cambridge University Press, 2008.<a href="#fnref:5" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Describing_states.html">Describing states
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Describing_objectives.html">Describing objectives
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.2.1.3</p>
+			<h5>Describing action problems
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Describing_time.html" id="section_page_1"> Describing time and change
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Describing_states.html" id="section_page_2"> Describing states
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Describing_actions.html" id="section_page_3"> <b> Describing actions
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Describing_objectives.html" id="section_page_4"> Describing objectives
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Describing_objectives.html">Describing objectives
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Describing_states.html">Describing states
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Describing_action_problems.html">Describing action problems
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Describing_actions.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
