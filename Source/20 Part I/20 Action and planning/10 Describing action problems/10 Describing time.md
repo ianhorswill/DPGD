@@ -2,9 +2,11 @@
 pagetitle: Describing time and change
 status: alpha
 ---
-> *You come home for the day.  You unlock the door, you open it, pass through, and close it.  Then you drop your keys in the little bowl you keep near the door, and hang up your coat.*
+> *You come home for the day.  You unlock the door, you open it, pass through, and close it.  Then you drop your keys in the little bowl you keep near the door.  You hang up your coat.*
 
-We've described this as a series of actions, with an identifiable *before* and *after*.  If were physicists, we might describe it in much more granular detail: when you drop your keys, gravity gradually moves the keys downward.  Each infinitesimal moment accelerates the keys infinitesimally.  Those moments accumulate until the keys finally land in the bowl and stop.  For our purposes the first way of describing things is generally more useful.  But which way we choose also affects how we describe time.
+We've described this as a series of distinct actions.  If were physicists, we might describe it in much more granular detail: when you drop your keys, gravity gradually moves the keys downward.  Each infinitesimal moment accelerates the keys infinitesimally.  Those moments accumulate until the keys finally land in the bowl and stop.
+
+For our purposes the first way of describing things is generally more useful.  But which way we choose also affects how we describe time.
 
 ## Discrete and continuous time
 
@@ -15,14 +17,14 @@ $$
 
 In a discrete-time model, each moment has a well-defined *next* moment.  Time proceeds from a moment directly to its next moment without any intervening moments.  And we can talk meaningfully about the change from one moment to the next.
 
-The physicist's description of the keys involves **continuous** time and action.  There are no "next" moments: between a moment and some other moment, there are always intervening moments, as well as moments between them.  This is a **continuous** model of time.[^density]  It's difficult to talk about the change at any given moment, since it's infinitesimal; we can only talk about the rate of change.  Calculus was invented for thinking about these kinds of situations.
+The physicist's description of the keys involves **continuous** time and action.  There are no "next" moments: between one moment and another, there are infinite intervening moments.[^density]  It's difficult to talk about the change at any given moment, since it's infinitesimal; we can only talk about the rate of change.  Calculus was invented for thinking about these kinds of situations.  But we won't need it, since we'll focus on discrete time.
 
 ## Events, change, and action
 
 We will focus on discrete models of time and change.  Our basic model is this:
 - At any given moment, the world is in some **state**.
 - Then some **event** occurs, after which we're in a different moment in some new state, which will be further changed by whatever the next event is, and so on.
-- When some agent (person, character, whomever) instigates an event, we call it an **action**.
+- When some agent (person, character, game subsystem) instigates an event, we call it an **action**.
 
 The continuous view of time does get used in games, particularly in physics engines.  However, even then, continuous time is approximated as a series of discrete ticks.  The code that implements a given high-level action may well be implemented in terms of this kind of pseudo-continuous time, but the action selection system is more likely to operate in terms of the discrete model.
 

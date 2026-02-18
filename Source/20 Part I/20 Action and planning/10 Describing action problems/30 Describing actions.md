@@ -4,27 +4,33 @@ status: alpha
 ---
 In game design, the things a player can do to the world are often called **verbs**.[^verbs]  Similarly, the game objects on which you can perform the verbs are often referred to as **nouns**.
 
-We'll adopt that terminology here.  We'll use the word **action** to mean something like walking to the kitchen: a verb applied to nouns.  When we want to talk about walking *in general*, we'll refer to that as the walk *verb*.
+We'll adopt that terminology here.  When we want to talk about walking *in general*, we'll refer to that as the walk *verb*.  When we apply the verb to nouns, e.g. walking *to the kitchen*, we'll refer to that as a walk **action**.
 
-Action-selection systems reason about which actions to choose based on verb metadata provided by the designers.  Different systems involve different kinds of metadata, but here we'll talk about the most common ones.
+Action-selection systems reason about which actions to choose based on knowledge of:
+
+ - The current state of the game
+ - The verbs and nouns available (the possible actions)
+ - The objective of the system
+
+The knowledge of verbs comes from metadata about the verbs provided by the system.  Different systems use different kinds of metadata, but we'll talk about the most common kinds below.
 
 ## Parameters
 
 The nouns required by a verb are called its **parameters** or **arguments**.[^parameters]  Some verbs, like walking, require a destination.  Others, like stopping, don't.
 
-Keeping track of parameter values complicates the design of a solver.  So many action-selection systems don't allow parameters.  Rather that one verb, `goto`, and multiple nouns, such as `kitchen`, `bedroom`, *etc*., they have multiple **parameterless** verbs, `gotoKitchen`, `gotoBedroom`, *etc*., for which the destination is baked into the verb itself, in much the way the window is baked into the verb "defenestrate."
+So many action-selection systems don't allow verb parameters.  Rather that one verb, `goto`, and multiple nouns, such as `kitchen`, `bedroom`, *etc*., they have multiple **parameterless** verbs, `gotoKitchen`, `gotoBedroom`, *etc*.  Each of these verbs has its destination is "baked in", much as the window is baked into the verb "defenestrate."
 
 It's often easier to use a solver that allows parameters.  But it's often easier to build a solver that doesn't.  As a result, **parameterless** systems, also known as "propositional"[^propositional] systems, are very common both in the game industry and in the research literature.
 
 ### Implicit parameters
 
-A common approach used in the game industry, is to use what we might call "implicit" parameters.  For example, the `shoot` verb might always shoot whoever the gun is already pointed at.  Then a separate `aim` verb would point the gun.  The `aim` verb might take the target as a parameter.  Alternatively, we might have a parameterless `aimAtClosestEnemy` verb that chooses the target itself at run-time.  Designing all actions this way allows us to build a parameterless solver, which is generally easier.  This is the approach used in [behavior trees](wiki:Behavior_tree), which don't allow parameters.  It's also used in most action planners found in games, such as the one used in [*F.E.A.R.*](wiki:F.E.A.R._(video_game))
+A common approach used in the game industry, is to use what we might call "implicit" parameters.  For example, the `shoot` verb might always shoot whoever the gun is already pointed at.  Then a separate `aim` verb would point the gun.  The `aim` verb might take the target as a parameter.  Alternatively, we might have a parameterless `aimAtClosestEnemy` verb that chooses the target at run-time.  If we design all actions this way, we can use a parameterless solver, which is, again, easier to build.  This is the approach used in [behavior trees](wiki:Behavior_tree), which don't allow parameters.  It's also used in most action planners found in games, such as the one used in [*F.E.A.R.*](wiki:F.E.A.R._(video_game))
 
 This is closely related to an approach from the research literature known as indexical-functional representation[^pengi] (later *deictic* representation[^deictic]).
 
 ## Preconditions
 
-Some actions can only be performed in certain states.  You can't swim in a desert.  You can't eat without food.  An action's requirements on the starting state are known as its *preconditions*.  Preconditions are described in terms of state variables and/or parameters.  For example, the action of buying something might have a precondition that the state variable $\textbf{bankBalance}$ be above a certain, for example,
+Some actions can only be performed in certain situations.  You can't swim in a desert.  You can't eat without food.  An action's requirements on the starting state are known as its *preconditions*.  Preconditions are described in terms of state variables and/or parameters.  For example, the action of buying something might have a precondition that the state variable $\textbf{bankBalance}$ be above a certain, for example,
 $$
 \textbf{bankBalance} > 5
 $$
@@ -39,11 +45,13 @@ There are other kinds of annotations that are common, for example restrictions o
 
 ### Utility
 
-[Utility](wiki:Utility) is a blanket term for the value or goodness of something, expressed as a number.  Many systems tag actions with utilities, either fixed numbers or some expression for computing utility from the current state and the action's parameters.  For example, the utility of eating a meal might be higher than that of eating a snack.  Systems that use utilities generally choose the action with the highest utility, or at least break ties between actions by choosing the one with the higher utility.
+[Utility](wiki:Utility) is a blanket term for the value or "goodness" of something, expressed as a number.  Many systems tag actions with utilities, either fixed numbers or some expression for computing utility from the current state and the action's parameters.  For example, the utility of eating a meal might be higher than that of eating a snack.  Systems that use utilities generally choose the action with the highest utility, or at least break ties between actions by choosing the one with the higher utility.
+
+Utilities can also be used to express preconditions, e.g. by assigning a very low utility (e.g. zero or $-\infty$) in situations where the preconditions don't apply.
 
 ### Cost
 
-Cost is a measure of the badness or resource consumption of something.  Many planning systems allow you to annotate actions with costs then they choose the plan with the least total cost that achieves the specified goal.  For example, given two otherwise equally good destinations, they'll choose the closer one.
+Cost is a measure of the "badness" or resource consumption of something.  Many planning systems allow you to annotate actions with costs. They then choose the plan with the least total cost that achieves the specified goal.  For example, given two otherwise equally good destinations, they'll choose the closer one.
 
 ## Examples
 

@@ -101,22 +101,22 @@
 <ul>
 <li><strong>Goals</strong><br />
 A goal is some <a href="Describing_states.html#partial-states">partial state</a> that the system should try to achieve.
-For example, being in a particular location, possessing a particular item, killing another character.
+For example, being in a particular location, possessing a particular item, or some other character being dead.
 The goal says &quot;put me in some state where this is true.&quot;  Goals are often divided into:
 <ul>
 <li><em>Achievement</em> goals are to get into some partial state.  Once you get into it, you're done.  All the examples above are achievement goals.</li>
-<li><em>Maintenance</em> goals are to stay in some state you're already in.  &ldquo;Stay alive&rdquo; is a maintenance goal.</li>
-<li><em>Avoidance</em> goals are to stay out of some partial state.  <a href="https://en.wikipedia.org/wiki/Don%27t_Starve">&ldquo;Don't starve&rdquo;</a> is an avoidance goal.
-Avoidance goals can also be seen as a particular kind of maintenance goal.</li>
+<li><em>Maintenance</em> goals are to stay in some partial state you're already in.  &ldquo;Stay alive&rdquo; is a maintenance goal.</li>
+<li><em>Avoidance</em> goals are to stay out of some partial state.  &ldquo;Don't starve&rdquo; is an avoidance goal.
+Avoidance goals a special case of maintenance goal: avoiding something is the goal of maintaining its opposite.</li>
 </ul>
 </li>
 <li><strong>Tasks</strong><br />
-A task is some activity to perform, for example, having dinner with someone.  Tasks are easy to confuse with goals.  <em>Getting married</em>, in the
-sense of going through the marriage ceremony, is a task in this sense; it's an activity to perform.  Whereas <em>being married</em> is a goal because
-it's a state the character should be in at the end.</li>
+A task is some activity to perform, such as having dinner with someone.  Tasks are easy to confuse with goals.  <em>Getting married</em>, in the
+sense of going through the marriage ceremony, is a task in this sense of an activity to perform.  <em>Being married</em>, on the other hand, is a goal because
+it's a partial state the character should be in at the end.</li>
 <li><strong>Utilities</strong><br />
-Utilities are a kind of implicit specification of an objective.  Many systems that use utilities just have one objective, which is to maximize utility.
-The designer specifies the object by adjusting how utilities are calculated.</li>
+Utilities are a kind of implicit specification of an objective.  Many systems that use utilities just have one objective: maximize utility.
+The designer specifies the object implicitly by adjusting how utilities are calculated.</li>
 </ul>
 
 
@@ -130,7 +130,7 @@ The designer specifies the object by adjusting how utilities are calculated.</li
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Constraint_programming.html">Constraint programming
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Action_selection_techniques.html">Action-selection techniques
 </a><br>
 				</td>			
 </tr>
@@ -169,7 +169,7 @@ The designer specifies the object by adjusting how utilities are calculated.</li
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Constraint_programming.html">Constraint programming
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Action_selection_techniques.html">Action-selection techniques
 </a><br>
 				</td>
 			</tr>
@@ -205,6 +205,19 @@ The designer specifies the object by adjusting how utilities are calculated.</li
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Action_selection_techniques.html">Action-selection techniques
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
 				}, false);
 			</script>
 	</table>

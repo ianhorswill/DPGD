@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Constraint programming&#xA;</title>
+	<title>Activation-based methods&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Constraint programming&#xA;">
-	<meta name="twitter:title" content="Constraint programming&#xA;">
-	<meta property="og:title" content="Constraint programming&#xA;" />
+	<meta itemprop="name" content="Activation-based methods&#xA;">
+	<meta name="twitter:title" content="Activation-based methods&#xA;">
+	<meta property="og:title" content="Activation-based methods&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -51,11 +51,15 @@
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Constraint programming
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Action_and_planning.html"> Action and planning
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Action_selection_techniques.html"> Action-selection techniques
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Activation-based methods
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
 					</span>
 					</p>
 		</div>
@@ -93,8 +97,15 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>PLACEHOLDER</p>
+<p>Activation-based methods involve asking the actions if they want to run and choosing ones that do.  The only requirement for this approach is that actions implement some method for telling you if they want to run.</p>
+<h2 id="binary-activation">Binary activation</h2>
+<p>In binary-activation systems, an action either wants to run or doesn't.  In principle, one could choose randomly among the actions that want to run, but in practice, systems generally assign fixed priorities to the actions and run the highest priority action that wants to run.</p>
+<p>The most widely used type of binary-activation system is the <a href="https://en.wikipedia.org/wiki/behavior_tree">behavior tree</a>.  In a behavior tree, allows actions to be selected based on their activation and relative priorities.  It also allows them to be grouped together as a sequence.</p>
+<p>We'll return to behavior trees when we talk about reactive planning.  Behavior trees can be thought of as a parameterless version of a reactive planner.</p>
+<h2 id="graded-activation">Graded activation</h2>
+<p>In graded-activation systems, the activation of an action is a number.  The higher the number, the more the action wants to run.  So these systems score actions and choose the highest-scoring action.</p>
+<h2 id="complex-activation">Complex activation</h2>
+<p>Some systems have the actions report multiple numbers to express their activations, most commonly a vector pointing in some direction the action wants to travel.  The magnitude (length) of the vector indicates how badly it wants to move in that direction.  So a zero vector means the action doesn't want to run.  These systems typically sum the vectors of all the actions and move in that direction.</p>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -102,12 +113,12 @@
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Utility_systems.html">Utility systems
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Action_selection_techniques.html">Action-selection techniques
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Utility_systems.html">Utility systems
 </a><br>
 				</td>			
 </tr>
@@ -120,16 +131,12 @@
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3</p>
-			<h5>Part I
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.2.2.1</p>
+			<h5>Activation-based methods
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Clairvoyant_programming.html" id="section_page_1"> Clairvoyant programming
+					<li class="sidebar"><a class="backgroundlink" href="Utility_systems.html" id="section_page_1"> Utility systems
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Action_and_planning.html" id="section_page_2"> Action and planning
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Constraint_programming.html" id="section_page_3"> <b> Constraint programming
- </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -144,7 +151,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Utility_systems.html">Utility systems
 </a><br>
 				</td>
 			</tr>
@@ -158,7 +165,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Utility_systems.html">Utility systems
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Action_selection_techniques.html">Action-selection techniques
 </a><br>
 				</td>
 			</tr>
@@ -172,7 +179,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Part_I.html">Part I
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Action_selection_techniques.html">Action-selection techniques
 </a><br>
 				</td>
 			</tr>
@@ -182,36 +189,10 @@
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Part_II.html">Part II
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Introduction.html">Technical introduction
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
-				}, false);
-			</script>
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Constraint_programming.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Activation-based_selection.html">Send feedback on this page</a>
 	</div>
 </div>
 

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Constraint programming&#xA;</title>
+	<title>Utility systems&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Constraint programming&#xA;">
-	<meta name="twitter:title" content="Constraint programming&#xA;">
-	<meta property="og:title" content="Constraint programming&#xA;" />
+	<meta itemprop="name" content="Utility systems&#xA;">
+	<meta name="twitter:title" content="Utility systems&#xA;">
+	<meta property="og:title" content="Utility systems&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -51,11 +51,17 @@
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Constraint programming
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Action_and_planning.html"> Action and planning
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Action_selection_techniques.html"> Action-selection techniques
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Activation-based_selection.html"> Activation-based methods
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Utility systems
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   The status of this page is &#x27;incomplete draft&#x27;.  It probably needs a lot of work.
 					</span>
 					</p>
 		</div>
@@ -93,8 +99,66 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>PLACEHOLDER</p>
+<p>If the designers have annotated actions <a href="Describing_actions.html#utility">utilities</a>, then we can use it to select actions.  When the system chooses an action, it:</p>
+<ul>
+<li>Computes the utilities of all candidate actions</li>
+<li>Chooses a high-utility candidate</li>
+<li>Executes it</li>
+</ul>
+<h2 id="trivial-example">Trivial example</h2>
+<p>For example, suppose we have a hungry character in a field of avocado toast (as one does).  We set the utility of eating a given piece of toast to be a decreasing function of its distance.  The most common choice is to use one divided by the distance <span class="math">\(d\)</span>:<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+<div class="math">
+\[
+1 / d
+\]</div>
+<p>Here's an implementation try.  We also include an <code>idle</code> action with a utility of 0 so it doesn't crash after it eats all the toast:</p>
+<pre><code class="language-Step"># Try: [Run]
+predicate Utility ?character ?action ?utility.
+
+# The utility of doing nothing is zero
+Utility ? idle 0.
+# The utility of eating some toast decreases with the toast's distance
+Utility ?c [eat ?t] ?u: [GameObject ?t avocado_toast] [InverseDistance ?c ?t ?u]
+
+# To do the next action, find the one with the highest utility and execute it
+NextAction ?c: [Max ?u [Utility ?c ?a ?u]] [SetText ?c ?a] [Execute ?c ?a]
+
+# Initial layout of the world
+[predicate]
+InitialCharacter bugsy steampunk_m10 500 300.
+[predicate]
+InitialObject toast1 avocado_toast 100 100.
+InitialObject toast2 avocado_toast 400 100.
+InitialObject toast3 avocado_toast 100 400.
+
+# Action implementations - ignore me
+Execute ?c idle: [SetText ?c &quot;Bored now.&quot;]
+Execute ?c [eat ?x]: [Distance ?c ?x ?d] [&lt; ?d 5] [EatGameObject ?c ?x]
+Execute ?c [eat ?x]: [GotoGameObject ?c ?x 2]
+
+# Driver code - ignore me
+Run:
+   [FindAll [?who ?type ?x ?y false false false] [InitialCharacter ?who ?type ?x ?y] ?cs]
+   [FindAll [?what ?type ?x ?y false false false] [InitialObject ?what ?type ?x ?y] ?os]
+   [StartGame ?cs ?os]
+[end]
+
+[predicate]
+GameObject ?object ?type: [AllGameObjects ?list] [Member [?object ?type] ?list]
+
+GameEvent [spawn ?c]: [NextAction ?c]
+GameEvent [arrived ?c ?]: [NextAction ?c]
+GameEvent ?.
+</code></pre>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>You need larger distances <span class="math">\(d\)</span> to give you smaller utilities.  So you could use <span class="math">\(-d\)</span> instead, although people generally prefer utilities that are in the range <span class="math">\([0,1]\)</span>.  So it's more common to use <span class="math">\(1/d\)</span> or <span class="math">\(1/d^2\)</span>.  It needs to be a <a href="https://en.wikipedia.org/wiki/Monotonic_function">decreasing function</a> of <span class="math">\(d\)</span>, but in this simple example, it doesn't matter which one we choose.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -102,12 +166,12 @@
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Utility_systems.html">Utility systems
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Activation-based_selection.html">Activation-based methods
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Constraint_programming.html">Constraint programming
 </a><br>
 				</td>			
 </tr>
@@ -120,15 +184,11 @@
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3</p>
-			<h5>Part I
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.2.2.1.1</p>
+			<h5>Activation-based methods
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Clairvoyant_programming.html" id="section_page_1"> Clairvoyant programming
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Action_and_planning.html" id="section_page_2"> Action and planning
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Constraint_programming.html" id="section_page_3"> <b> Constraint programming
+					<li class="sidebar"><a class="simplelink" href="Utility_systems.html" id="section_page_1"> <b> Utility systems
  </b> </a> <br></li>
 			</ol>
 	<script>
@@ -144,7 +204,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Constraint_programming.html">Constraint programming
 </a><br>
 				</td>
 			</tr>
@@ -158,7 +218,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Utility_systems.html">Utility systems
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Activation-based_selection.html">Activation-based methods
 </a><br>
 				</td>
 			</tr>
@@ -172,7 +232,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Part_I.html">Part I
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Activation-based_selection.html">Activation-based methods
 </a><br>
 				</td>
 			</tr>
@@ -182,36 +242,10 @@
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Part_II.html">Part II
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Introduction.html">Technical introduction
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
-				}, false);
-			</script>
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Constraint_programming.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Utility_systems.html">Send feedback on this page</a>
 	</div>
 </div>
 
