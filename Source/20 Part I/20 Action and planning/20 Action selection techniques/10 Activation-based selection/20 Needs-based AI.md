@@ -8,15 +8,23 @@ For example, hunger might be a need.  Hunger gradually increases over time.  Eat
 
 ## Demo
 
+Here's a trivial (and sped up) demo of the basic algorithm.  The character oscillates between the refrigerator to eat and the TV (for fun), periodically going to the couch for rest.  There aren't any interesting animations here, but it gives you the basic idea, and you can tweak it if you like:
 ```Step
 # Try: [Run]
-[predicate]
+# Using ?object will increment the satisfaction level of ?need by ?increment percent.
+predicate Advertisement ?object ?need ?increment.
 Advertisement refrigerator hunger 40.
 Advertisement tv fun 50.
 Advertisement couch sleep 100.
 
+###
+### Utilities and action selection
+###
+
+# Utility of idling is fixed
 [predicate]
 Utility ? idle 0.01.
+# Utility of using an object is the sum of utilities it gets from the different needs it satisfies
 Utility ?c [use ?o] ?u: [GameObject ?o ?] [Sum ?sat [AddedSatisfaction ?c ?o ?sat] ?u]
 [predicate]
 AddedSatisfaction ?c ?o ?sat:
@@ -25,15 +33,8 @@ AddedSatisfaction ?c ?o ?sat:
     [set ?sat = @(- (/ 100 ?current) (/ 100 (min 100 (+ ?current ?inc))))]
 [end]
 
+# For debugging
 ShowUtilities ?who: [ForEach [Utility ?who ?action ?u] [Write [?action ?u]]]
-
-###
-### Action selector
-###
-
-# ?a is an action that ?c can take
-[predicate]
-Action ?c ?a: [FindUnique ?a [Consideration ?c ? ?a ?] ?all] [Member ?a ?all]
 
 # To do the next action, find the one with the highest utility and execute it
 NextAction ?c: [Maximal ?u [Utility ?c ?a ?u]] [SetText ?c ?a] [Execute ?c ?a]
@@ -59,9 +60,9 @@ fluent Satisfaction ?who ?need ?satisfaction.
 Satisfaction ? ? 100.
 
 [predicate]
-DecayRate hunger 1.
-DecayRate fun 2.
-DecayRate sleep 0.1.
+DecayRate hunger 2.
+DecayRate fun 3.
+DecayRate sleep 1.
 
 # Bump up ?who's satisfaction of ?what by ?amount
 Satisfy ?who ?what ?amount: [Satisfaction ?who ?what ?sat] [now [Satisfaction ?who ?what @(min 100 (+ ?sat ?amount))]]
@@ -89,7 +90,7 @@ Run:
    [FindAll [?who ?type ?x ?y false false false] [InitialCharacter ?who ?type ?x ?y] ?cs]
    [FindAll [?what ?type ?x ?y false false false] [InitialObject ?what ?type ?x ?y] ?os]
    [StartGame ?cs ?os]
-   [SetTickRate 20]
+   [SetTickRate 40]
 [end]
 
 [predicate]
