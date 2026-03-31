@@ -1,0 +1,421 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>How &lt;em&gt;Imaginarium&lt;/em&gt; thinks about the world&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="How &lt;em&gt;Imaginarium&lt;/em&gt; thinks about the world&#xA;">
+	<meta name="twitter:title" content="How &lt;em&gt;Imaginarium&lt;/em&gt; thinks about the world&#xA;">
+	<meta property="og:title" content="How &lt;em&gt;Imaginarium&lt;/em&gt; thinks about the world&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Constraint_programming.html"> Constraint programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium.html"> Creating things with <em>Imaginarium</em>
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> How <em>Imaginarium</em> thinks about the world
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<p>Up to this point, I’ve used the deliberately vague language of “entities” and “attributes,” treating both the <em>kind</em> of thing an entity is (magic user, cat, tabby) and the adjectives (dark, light, short haired) that apply to it with the same nebulous term “attribute.”  However, the system is designed to interact in pseudo-English, and English makes distinctions between that concepts that are represented through nouns, verbs, and adjectives.  <em>Imaginarium</em> adopts this distinction, although its understanding of English is very limited.  Most of the concepts it understands fall into:</p>
+<ul>
+<li><strong>Proper nouns</strong> (Fred, The Umbrella Corporation) name specific entities.</li>
+<li><strong>Common nouns</strong> (cat, magic user, Siamese) name a kind of entity.</li>
+<li><strong>Adjectives</strong> (big, small, dark, light) express yes/no properties of entities.</li>
+<li><strong>Verbs</strong> (to love, to go to school at) express relationships between pairs of entities</li>
+</ul>
+<p>There are other kinds of concepts it understands, but we’ll get to those later.</p>
+<p>When you tell the system about a new concept, it remembers whether you used it as a noun, verb, or adjective, and will always use it as such in the future.  If you say <code>A glorp is a kind of monster</code>, it will know that <code>glorp</code> and <code>monster</code> are both nouns and that in future when telling you that an entity has the <code>glorp</code> attribute, it should tell you that by calling it, e.g. <code>a glorp</code>, rather than <code>a glorpish monster</code> or <code>an entity that’s glorp</code>.  It also knows that once it says the entity is a <code>glorp</code>, it doesn’t also need to tell you it’s a <code>monster</code>, because that’s implied by it being a <code>glorp</code>.</p>
+<p>If you want to understand how <em>Imaginarium</em> is thinking about the words you use, you can use the <strong>Show concepts</strong> button.  Try using it on our magic user cat code:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 magic user cats
+A cat is a kind of person.
+Persian, tabby, Siamese, manx, Chartreux, and Maine coon are kinds of cat.
+Cats have an age between 1 and 20.
+Cats are male or female.
+A male cat has a name from male cat names
+A female cat has a name from female cat names
+Cats are long-haired or short-haired.
+Cats can be big or small.
+Cats can be cuddly or haughty.
+A cat can be staid or crazy.
+The plural of Chartreux is Chartreux.
+The plural of Siamese is Siamese.
+Chartreux are grey.
+Siamese are grey.
+Persians are long-haired.
+Siamese are short-haired.
+Maine coons are large.
+Cats are black, white, grey, or ginger.
+
+A magic user is dark or light
+Thaumaturge, necromancer, neopagan, technopagan, and shaman are kinds of magic user.
+Necromancers are dark
+Thaumaturges are light
+</code></pre>
+<p>You should see something like:</p>
+<pre class="mermaid">---
+config:
+  layout: dagre
+---
+graph LR
+   n0[cat] -- kind of --> n1[person]
+   linkStyle 0 stroke-width:2px,fill:none,stroke:orange;
+   n2[Persian] -- kind of --> n0
+   linkStyle 1 stroke-width:2px,fill:none,stroke:orange;
+   n3[tabby] -- kind of --> n0
+   linkStyle 2 stroke-width:2px,fill:none,stroke:orange;
+   n4[Siamese] -- kind of --> n0
+   linkStyle 3 stroke-width:2px,fill:none,stroke:orange;
+   n5[manx] -- kind of --> n0
+   linkStyle 4 stroke-width:2px,fill:none,stroke:orange;
+   n6[Chartreux] -- kind of --> n0
+   linkStyle 5 stroke-width:2px,fill:none,stroke:orange;
+   n7[Maine coon] -- kind of --> n0
+   linkStyle 6 stroke-width:2px,fill:none,stroke:orange;
+   n0 -- can be --> n8[male]
+   linkStyle 7 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n9[female]
+   linkStyle 8 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n10[long-haired]
+   linkStyle 9 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n11[short-haired]
+   linkStyle 10 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n12[big]
+   linkStyle 11 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n13[small]
+   linkStyle 12 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n14[cuddly]
+   linkStyle 13 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n15[haughty]
+   linkStyle 14 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n16[staid]
+   linkStyle 15 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n17[crazy]
+   linkStyle 16 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n18[black]
+   linkStyle 17 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n19[white]
+   linkStyle 18 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n20[grey]
+   linkStyle 19 stroke-width:2px,fill:none,stroke:green;
+   n0 -- can be --> n21[ginger]
+   linkStyle 20 stroke-width:2px,fill:none,stroke:green;
+   n0 -- has property --> n22[age]
+   linkStyle 21 stroke-width:2px,fill:none,stroke:grey;
+   n0 -- has property --> n23[name]
+   linkStyle 22 stroke-width:2px,fill:none,stroke:grey;
+   n2 -- is always --> n10
+   linkStyle 23 stroke-width:2px,fill:none,stroke:green;
+   n4 -- is always --> n20
+   linkStyle 24 stroke-width:2px,fill:none,stroke:green;
+   n4 -- is always --> n11
+   linkStyle 25 stroke-width:2px,fill:none,stroke:green;
+   n24[Thaumaturge] -- kind of --> n25[magic user]
+   linkStyle 26 stroke-width:2px,fill:none,stroke:orange;
+   n26[necromancer] -- kind of --> n25
+   linkStyle 27 stroke-width:2px,fill:none,stroke:orange;
+   n27[neopagan] -- kind of --> n25
+   linkStyle 28 stroke-width:2px,fill:none,stroke:orange;
+   n28[technopagan] -- kind of --> n25
+   linkStyle 29 stroke-width:2px,fill:none,stroke:orange;
+   n29[shaman] -- kind of --> n25
+   linkStyle 30 stroke-width:2px,fill:none,stroke:orange;
+   n25 -- can be --> n30[dark]
+   linkStyle 31 stroke-width:2px,fill:none,stroke:green;
+   n25 -- can be --> n31[light]
+   linkStyle 32 stroke-width:2px,fill:none,stroke:green;
+   n6 -- is always --> n20
+   linkStyle 33 stroke-width:2px,fill:none,stroke:green;
+   n7 -- is always --> n32[large]
+   linkStyle 34 stroke-width:2px,fill:none,stroke:green;
+   n24 -- is always --> n31
+   linkStyle 35 stroke-width:2px,fill:none,stroke:green;
+   n26 -- is always --> n30
+   linkStyle 36 stroke-width:2px,fill:none,stroke:green;
+style n0 fill:orange,color:#000,stroke:#000
+click n0 callback "cat n. plural: cats"
+style n1 fill:orange,color:#000,stroke:#000
+click n1 callback "person n. plural: people"
+style n2 fill:orange,color:#000,stroke:#000
+click n2 callback "Persian n. plural: Persians"
+style n3 fill:orange,color:#000,stroke:#000
+click n3 callback "tabby n. plural: tabbies"
+style n4 fill:orange,color:#000,stroke:#000
+click n4 callback "Siamese n. plural: Siamese"
+style n5 fill:orange,color:#000,stroke:#000
+click n5 callback "manx n. plural: manxs"
+style n6 fill:orange,color:#000,stroke:#000
+click n6 callback "Chartreux n. plural: Chartreux"
+style n7 fill:orange,color:#000,stroke:#000
+click n7 callback "Maine coon n. plural: Maine coons"
+style n8 fill:green,color:#000,stroke:#000
+click n8 callback "male adj."
+style n9 fill:green,color:#000,stroke:#000
+click n9 callback "female adj."
+style n10 fill:green,color:#000,stroke:#000
+click n10 callback "long-haired adj."
+style n11 fill:green,color:#000,stroke:#000
+click n11 callback "short-haired adj."
+style n12 fill:green,color:#000,stroke:#000
+click n12 callback "big adj."
+style n13 fill:green,color:#000,stroke:#000
+click n13 callback "small adj."
+style n14 fill:green,color:#000,stroke:#000
+click n14 callback "cuddly adj."
+style n15 fill:green,color:#000,stroke:#000
+click n15 callback "haughty adj."
+style n16 fill:green,color:#000,stroke:#000
+click n16 callback "staid adj."
+style n17 fill:green,color:#000,stroke:#000
+click n17 callback "crazy adj."
+style n18 fill:green,color:#000,stroke:#000
+click n18 callback "black adj."
+style n19 fill:green,color:#000,stroke:#000
+click n19 callback "white adj."
+style n20 fill:green,color:#000,stroke:#000
+click n20 callback "grey adj."
+style n21 fill:green,color:#000,stroke:#000
+click n21 callback "ginger adj."
+style n22 fill:grey,color:#000,stroke:#000
+click n22 callback "age property between 1 and 20"
+style n23 fill:grey,color:#000,stroke:#000
+click n23 callback "name property chosen from male cat names or female cat names"
+style n24 fill:orange,color:#000,stroke:#000
+click n24 callback "Thaumaturge n. plural: Thaumaturges"
+style n25 fill:orange,color:#000,stroke:#000
+click n25 callback "magic user n. plural: magic users"
+style n26 fill:orange,color:#000,stroke:#000
+click n26 callback "necromancer n. plural: necromancers"
+style n27 fill:orange,color:#000,stroke:#000
+click n27 callback "neopagan n. plural: neopagans"
+style n28 fill:orange,color:#000,stroke:#000
+click n28 callback "technopagan n. plural: technopagans"
+style n29 fill:orange,color:#000,stroke:#000
+click n29 callback "shaman n. plural: shamen"
+style n30 fill:green,color:#000,stroke:#000
+click n30 callback "dark adj."
+style n31 fill:green,color:#000,stroke:#000
+click n31 callback "light adj."
+style n32 fill:green,color:#000,stroke:#000
+click n32 callback "large adj."
+</pre>
+<p>This shows you information about the different nouns and adjectives you've taught it, and how they relate to one another.  If you mouse over one of the concepts, it will give you more information about it, such as what the different forms (noun and plural) it thinks it has.</p>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Teaching_Imaginarium_new_things.html">Teaching it new things
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Using_Imaginarium.html">How to tell <em>Imaginarium</em> about your favorite stuff
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.2</p>
+			<h5>Creating things with <em>Imaginarium</em>
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Teaching_Imaginarium_new_things.html" id="section_page_1"> Teaching it new things
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="How_Imaginarium_thinks_about_the_world.html" id="section_page_2"> <b> How <em>Imaginarium</em> thinks about the world
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Using_Imaginarium.html" id="section_page_3"> How to tell <em>Imaginarium</em> about your favorite stuff
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Honey_Heist.html" id="section_page_4"> Example: a Honey-Heist character generator
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Using_Imaginarium.html">How to tell <em>Imaginarium</em> about your favorite stuff
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Teaching_Imaginarium_new_things.html">Teaching it new things
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Imaginarium.html">Creating things with <em>Imaginarium</em>
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/How_Imaginarium_thinks_about_the_world.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

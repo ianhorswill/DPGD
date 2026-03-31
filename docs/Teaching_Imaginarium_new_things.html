@@ -1,0 +1,410 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Teaching it new things&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Teaching it new things&#xA;">
+	<meta name="twitter:title" content="Teaching it new things&#xA;">
+	<meta property="og:title" content="Teaching it new things&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Constraint_programming.html"> Constraint programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium.html"> Creating things with <em>Imaginarium</em>
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Teaching it new things
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<p><em>Imaginarium</em> is programmable in the sense that you can tell it about new kinds of things and it will generate them for you.  You teach it new things using simple English declarative sentences like <code>Tabbies are a kind of cat.</code>
+Or, to be more honest, you program it using a programming language that is superficially similar to English, but is quite limited and lacking in nearly any of the subtleties of human language.</p>
+<p>A given kind of entity will be defined by some set of attributes that it can have.  The system has been told, for example, that cats have a name, an age, a breed, and can be female, male, long haired, short haired, big, small, haughty, staid, white, black, ginger, etc.  Inventing a cat involves choosing a name, age, and breed for the cat, and deciding which of the above adjectives apply to it.  However, some combinations of attributes don’t make sense.  <em>Imaginarium</em> knows that a cat can’t be simultaneously big and small, for example.  These restrictions on possible combinations of attributes are called constraints.  <em>Imaginarium</em> is a “constraint solver” or “constraint-based programming language”, meaning that you tell it about attributes and constraints and then it finds combinations of attributes that satisfy the constraints.</p>
+<p>Teaching <em>Imaginarium</em> about a new kind of entity involves telling it about its possible attributes and the constraints that apply to them.  Adding attributes expands the space of possible objects, while adding constraints restricts it.  For example, if we wanted to teach the system about magic users, we could say:</p>
+<pre><code class="language-Imaginarium"># Try: imagine a magic user
+A magic user is dark or light
+</code></pre>
+<p>That tells the system that:</p>
+<ul>
+<li>There’s a kind of entity called a magic user</li>
+<li>They have dark and light as possible attributes</li>
+<li>They have to be one or the other</li>
+<li>They can’t be both</li>
+</ul>
+<p>If we then say <code>imagine a magic user</code>, we’ll get a pretty boring output:</p>
+<ul>
+<li>The magic user is a dark magic user</li>
+<li>The magic user is a light magic user</li>
+</ul>
+<p>The system doesn’t actually understand English, or much of anything about the world you haven’t told it.  In this case, it understands that magic users are a kind of entity, but it doesn’t know that they’re a kind of creature, or character, much less that they would normally have names.  For all the system knows, a magic user is a kind of furniture.<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a>  So when it refers to the object, it doesn’t have any better way of doing it than saying <code>the magic user</code>.</p>
+<p>Moreover, the only thing we’ve told it about magic users besides that they exist is that they must be dark and light but not both.  So given what we’ve told it, there are only two possible magic users: a dark one and a light one.  There are no other possible magic users because there are no other possible combinations of attributes for them:</p>
+<table>
+<thead>
+<tr>
+<th>Dark</th>
+<th>Light</th>
+<th>Valid?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>✓</td>
+<td>X</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>X</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>✓</td>
+<td>✓</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s change that by giving it some more possible attributes.  We’ll tell it about different kinds of magic users:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 magic users
+A magic user is dark or light
+Thaumaturge, necromancer, neopagan, technopagan, and shaman are kinds of magic user.
+</code></pre>
+<p>When you tell the system that a kind of object (magic users) comes in a variety of subkinds (necromancer, etc.), it will ensure that any particular object it makes of that kind is always of one particular subkind.  Now we get slightly different results when we hit return:</p>
+<ul>
+<li>magic user 0 is a dark technopagan</li>
+<li>magic user 0 is a light shaman</li>
+<li>magic user 0 is a dark necromancer</li>
+<li>magic user 0 is a light necromancer</li>
+</ul>
+<p>The system can generate more varied results because we’ve given it more to work with.  Instead of magic users only involving a dark/light choice, there’s now also a choice of type: thaumaturge, necromancer, etc.  We’ve told it about 5 types as well as the two dark/light varieties, so there are 10 possible magic users:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Thaumaturge</th>
+<th>Necromancer</th>
+<th>Neopagan</th>
+<th>Technopagan</th>
+<th>Shaman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dark</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Light</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p>The problem is that in many story worlds, there’s no such thing as a light necromancer.  So we might want to outlaw that combination by adding the constraints:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 magic users
+A magic user is dark or light
+Thaumaturge, necromancer, neopagan, technopagan, and shaman are kinds of magic user.
+Necromancers are dark
+Thaumaturges are light
+</code></pre>
+<p>Now we’ve carved some bits out of the possibility space:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Thaumaturge</th>
+<th>Necromancer</th>
+<th>Neopagan</th>
+<th>Technopagan</th>
+<th>Shaman</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dark</td>
+<td>X</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Light</td>
+<td>✓</td>
+<td>X</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p>The system will guarantee not to generate combinations that violate the constraints you give it.</p>
+<p>Of course the fun thing is to combine cats and magic:<a id="fnref:2" href="#fn:2" class="footnote-ref"><sup>2</sup></a></p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 magic user cats
+A cat is a kind of person.
+Persian, tabby, Siamese, manx, Chartreux, and Maine coon are kinds of cat.
+Cats have an age between 1 and 20.
+Cats are male or female.
+A male cat has a name from male cat names
+A female cat has a name from female cat names
+Cats are long-haired or short-haired.
+Cats can be big or small.
+Cats can be cuddly or haughty.
+A cat can be staid or crazy.
+The plural of Chartreux is Chartreux.
+The plural of Siamese is Siamese.
+Chartreux are grey.
+Siamese are grey.
+Persians are long-haired.
+Siamese are short-haired.
+Maine coons are large.
+Cats are black, white, grey, or ginger.
+
+A magic user is dark or light
+Thaumaturge, necromancer, neopagan, technopagan, and shaman are kinds of magic user.
+Necromancers are dark
+Thaumaturges are light
+</code></pre>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>It should be pointed out that the system doesn’t know anything about furniture either, unless you tell it about it.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Some would argue this is redundant.<a href="#fnref:2" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Imaginarium.html">Creating things with <em>Imaginarium</em>
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="How_Imaginarium_thinks_about_the_world.html">How <em>Imaginarium</em> thinks about the world
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.1</p>
+			<h5>Creating things with <em>Imaginarium</em>
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="simplelink" href="Teaching_Imaginarium_new_things.html" id="section_page_1"> <b> Teaching it new things
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="How_Imaginarium_thinks_about_the_world.html" id="section_page_2"> How <em>Imaginarium</em> thinks about the world
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Using_Imaginarium.html" id="section_page_3"> How to tell <em>Imaginarium</em> about your favorite stuff
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Honey_Heist.html" id="section_page_4"> Example: a Honey-Heist character generator
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="How_Imaginarium_thinks_about_the_world.html">How <em>Imaginarium</em> thinks about the world
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Imaginarium.html">Creating things with <em>Imaginarium</em>
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Imaginarium.html">Creating things with <em>Imaginarium</em>
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Teaching_Imaginarium_new_things.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

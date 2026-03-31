@@ -33,6 +33,7 @@
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.js"></script>
 	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -85,6 +86,13 @@
 					window.removeEventListener('message', handler);
 				};
 				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
 			}
 		}
 	}, false);
@@ -121,7 +129,7 @@ These are treated as a unit for purposes of action selection.  But execution r
 <h2 id="lazy-chaining">Lazy chaining</h2>
 <p>An alternative to queueing two actions <span class="math">\(A\)</span> and <span class="math">\(B\)</span>, is to design the system so that after choosing and executing <span class="math">\(A\)</span>, it will automatically choose <span class="math">\(B\)</span>.  This was actually how eating the toast was implemented in our previous example.  Eating the toast consists of two low-level game engine operations: going to the toast and then eating it.  The implementation of <code>[eat toast1]</code> is designed to eat the toast if it's nearby, otherwise perform the <code>[goto toast1]</code> action.  When that completes, the system reselects <code>[eat toast1]</code>, and the system finally eats the toast.</p>
 <h2 id="actions-failure">Actions failure</h2>
-<p>In more complicated situations, the character will need to be able to handle actions failing and respond accordingly.  The simplest version of this is to empty the queue and reinitiate action selection.  However, more elaborate architectures are possible.  We'll discuss these when we discuss <a href="execution_monitoring">execution monitoring</a>.</p>
+<p>In more complicated situations, the character will need to be able to handle actions failing and respond accordingly.  The simplest version of this is to empty the queue and reinitiate action selection.  However, more elaborate architectures are possible.</p>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">

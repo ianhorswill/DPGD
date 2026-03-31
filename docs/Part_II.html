@@ -33,6 +33,7 @@
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.js"></script>
 	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -79,6 +80,13 @@
 					window.removeEventListener('message', handler);
 				};
 				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
 			}
 		}
 	}, false);
@@ -100,7 +108,7 @@
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Constraint_programming.html">Constraint programming
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Honey_Heist.html">Example: a Honey-Heist character generator
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
@@ -160,7 +168,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Constraint_programming.html">Constraint programming
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Honey_Heist.html">Example: a Honey-Heist character generator
 </a><br>
 				</td>
 			</tr>

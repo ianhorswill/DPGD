@@ -33,6 +33,7 @@
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.js"></script>
 	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -51,7 +52,7 @@
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Action and planning
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Chapter 1.2:<br> Action and planning
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -76,6 +77,13 @@
 				window.addEventListener('message', handler);
 			} else if (element.classList.contains('language-NDScript')) {
 				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
 				var handler = function(e) { 
 					interp.postMessage(element.textContent, "*");
 					window.removeEventListener('message', handler);

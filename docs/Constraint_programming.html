@@ -33,6 +33,7 @@
 	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
 	<script src="step.js"></script>
 	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
 	<script>hljs.highlightAll();</script>
 	
 	<!-- use MathJax for latex rendering -->
@@ -51,11 +52,11 @@
 		<div class="col-md-7 header-contents">
 				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Constraint programming
+			<h1><a id="linkToIndex" class="simplelink" href="index.html">Chapter 1.3:<br> Constraint programming
 </a></h1>
 					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:grey; color:black;">
-					   This page is a stub.  A real page will be added later.
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   incomplete draft
 					</span>
 					</p>
 		</div>
@@ -81,6 +82,13 @@
 					window.removeEventListener('message', handler);
 				};
 				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
 			}
 		}
 	}, false);
@@ -93,8 +101,40 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<h1 id="under-construction">Under construction</h1>
-<p>PLACEHOLDER</p>
+<img src="townscaper.png" alt="Source: https://wallpapercave.com/w/wp9779284" width="100%">
+<br>
+<br> 
+<p>In <a href="Map_generation.html">map generation</a>, we talked about the Wave Function Collapse algorithm for generating tile maps by specifying a set of possible tiles, together with restrictions on what combinations of tiles were could be next to one another.  It's used in a number of <a href="WFC.html">commercial games</a>, such as <a href="https://www.townscapergame.com/"><em>Townscaper</em></a> (see image above).</p>
+<p>WFC is a <strong>constraint satisfaction</strong> system: it specifies a problem in terms of a set of <strong>choices</strong> to make, together with <strong>restrictions</strong> on what combinations of choices are allowable.  In the case of Wave Function Collapse, the choices were what tile to put in each location and the constraint was that you could only have certain pairs of tiles adjacent to one another.</p>
+<p>The typical terminology used in constraint satisfaction refers to the choices to be made as <strong>variables</strong> and the restrictions on their combinations <strong>constraints</strong>.  The menu of options for a given variable is known as its <strong>domain</strong>.  A set of choices that satisfies all constraints is referred to as a <strong>solition</strong> or a <strong>model</strong>.</p>
+<p>For example, we could describe the problem of generating an NPC for an &ldquo;F20&rdquo; style game<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a> in terms of the following variables:</p>
+<ul>
+<li><code>Name</code>, whose domain would be some list of possible names in the story world</li>
+<li><code>Class</code>, whose domain would be something like: fighter, magic user, cleric, etc.</li>
+<li>Various <em>stats</em> (numbers), such as STR (strength), DEX (dexterity), CON (constitution), INT (intelligence), WIS (wisdom), and CHA (charisma).</li>
+</ul>
+<p>The constraints might be something like:</p>
+<ul>
+<li>The sum of all the stats must not be more than some number (e.g. 27)</li>
+<li>Stats should be sensible for the character's class:
+<ul>
+<li>A fighter should have a strength of at least 6</li>
+<li>A magic user should have an intelligence o f at least 6</li>
+<li>etc.</li>
+</ul>
+</li>
+</ul>
+<p>The set of solutions to this are valid characters who have all the necessary attributes and are sensible in the sense that they are neither over-powered nor under-powered for their class.</p>
+<p>These kinds of constraint satisfaction problems are generally described using the language of either <a href="Sets.html">set theory</a> or <a href="Logic.html">formal logic</a>.  However, we'll begin by showing you a language that  lets you describe constraint problems without needing to know logic or set theory.</p>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>&ldquo;F20&rdquo; is a blanket term for the different fantasy table-top roleplaying games that use 20-sided polyhedral dice.  Those most famous of these being <a href="https://en.wikipedia.org/wiki/Dungeons_&amp;_Dragons">Dungeons &amp; Dragons</a>.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -107,7 +147,7 @@
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Imaginarium.html">Creating things with <em>Imaginarium</em>
 </a><br>
 				</td>			
 </tr>
@@ -121,15 +161,11 @@
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
 				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3</p>
-			<h5>Part I
+			<h5>Constraint programming
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Clairvoyant_programming.html" id="section_page_1"> Clairvoyant programming
+					<li class="sidebar"><a class="backgroundlink" href="Imaginarium.html" id="section_page_1"> Creating things with <em>Imaginarium</em>
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Action_and_planning.html" id="section_page_2"> Action and planning
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Constraint_programming.html" id="section_page_3"> <b> Constraint programming
- </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -144,7 +180,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Imaginarium.html">Creating things with <em>Imaginarium</em>
 </a><br>
 				</td>
 			</tr>
@@ -183,22 +219,9 @@
 				}, false);
 			</script>
 			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Part_II.html">Part II
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
 				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Introduction.html">Technical introduction
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Action_and_planning.html">Action and planning
 </a><br>
 				</td>
 			</tr>

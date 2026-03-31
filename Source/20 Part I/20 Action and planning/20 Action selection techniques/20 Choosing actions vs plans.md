@@ -32,4 +32,4 @@ An alternative to queueing two actions $A$ and $B$, is to design the system so t
 
 ## Actions failure
 
-In more complicated situations, the character will need to be able to handle actions failing and respond accordingly.  The simplest version of this is to empty the queue and reinitiate action selection.  However, more elaborate architectures are possible.  We'll discuss these when we discuss [execution monitoring](execution_monitoring).
+In more complicated situations, the character will need to be able to handle actions failing and respond accordingly.  The simplest version of this is to empty the queue and reinitiate action selection.  However, more elaborate architectures are possible.

@@ -1,0 +1,271 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Kinds of relationships&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Kinds of relationships&#xA;">
+	<meta name="twitter:title" content="Kinds of relationships&#xA;">
+	<meta property="og:title" content="Kinds of relationships&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Constraint_programming.html"> Constraint programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium.html"> Creating things with <em>Imaginarium</em>
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Using_Imaginarium.html"> How to tell <em>Imaginarium</em> about your favorite stuff
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Verbs.html"> Relationships (verbs)
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Kinds of relationships
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<p>Just as you can say that one noun is a special case of another noun by using the <code>is a kind of</code> construction, you can tell the system that one verb is a special case of another using the <code>is a way of</code> construction:</p>
+<pre><code class="language-imaginarium">Being friends with is a way of knowing
+Being coworkers with is a way of knowing
+</code></pre>
+<p>This tells the system that if <span class="math">\(A\)</span> <code>is friends with</code> <span class="math">\(B\)</span> or <code>is coworkers with</code> <span class="math">\(B\)</span>, then <span class="math">\(A\)</span> also <code>knows</code> <span class="math">\(B\)</span>.  As with the <code>kind of</code> construction, if a verb has special cases like this, then the system will make sure that exactly one special case applies.  In this case, if two characters know each other, they must also be friends with or coworkers with one another, but they cannot be both.</p>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Relationships_within_a_kind.html">Relationships within a kind
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Visualizing_relationships.html">Visualizing relationships
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.3.3.2</p>
+			<h5>Relationships (verbs)
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Relationships_within_a_kind.html" id="section_page_1"> Relationships within a kind
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Kinds_of_relationships.html" id="section_page_2"> <b> Kinds of relationships
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Visualizing_relationships.html" id="section_page_3"> Visualizing relationships
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Visualizing_relationships.html">Visualizing relationships
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Relationships_within_a_kind.html">Relationships within a kind
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Verbs.html">Relationships (verbs)
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Implications_in_Imaginarium.html">Implications
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Adjectives.html">Adjectives
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Kinds_of_relationships.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
