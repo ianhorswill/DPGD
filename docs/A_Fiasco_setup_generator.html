@@ -1,0 +1,313 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>A &lt;em&gt;Fiasco&lt;/em&gt; setup generator&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="A &lt;em&gt;Fiasco&lt;/em&gt; setup generator&#xA;">
+	<meta name="twitter:title" content="A &lt;em&gt;Fiasco&lt;/em&gt; setup generator&#xA;">
+	<meta property="og:title" content="A &lt;em&gt;Fiasco&lt;/em&gt; setup generator&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Constraint_programming.html"> Constraint programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium.html"> Imaginarium
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> A <em>Fiasco</em> setup generator
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<pre><code class="language-Imaginarium"># Try: imagine 5 characters
+# Simple generator for Fiasco setups.
+# This isn't anywhere near enough content to be a true Fiasco playset, but it could be expanded into one.
+# It also doesn't have a specific theme; it's just trying to demonstrate how you can code relationships.
+
+#
+# Humans
+#
+Humans have an age between 1 and 70.
+A human is male, female or nonbinary.
+A human is masculine-named or feminine-named.
+A male human is masculine-named.
+A female human is feminine-named
+A human has a surname from English surnames.
+A masculine-named human has a given name from male names.
+A feminine-named human has a given name from female names.
+A human is identified as &quot;[given name] [surname]&quot;.
+Do not mention being masculine-named.
+Do not mention being feminine-named.
+
+#
+# Characters
+#
+A character is a kind of human.
+A character has a narrative resource called its detail.
+
+adult and child are kinds of character.
+the plural of child is children.
+
+Characters can relate to each other.
+Characters cannot relate to themselves
+A character must relate to two other characters.
+
+characters can be friends with each other.
+being friends with is a way of relating to.
+
+Characters can be enemies with each other.
+being enemies with is a way of relating to
+
+An adult can parent a child.
+parenting is a way of relating to.
+
+An adult can be teacher of a child.
+being teacher of is a way of relating to.
+
+an adult can be secretly in love with another adult.
+being secretly in love with is a way of relating to.
+
+an adult can be in an affair with another adult.
+being in an affair with is a way of relating to.
+
+an adult can be exes with another adult.
+being exes with is a way of relating to.
+
+adults can be colleagues with each other.
+being colleagues with is a way of relating to.
+
+object, location, and need are kinds of narrative resource.
+a narrative resource is identified as &quot;[Noun]&quot;.
+
+handgun, sack of cash, The Photographs, slightly used murder weapon, haunted teddybear, million dollar gift card for Taco Bell, Elvis' last Cadillac, small supply of Elon Musk's experimental cannabis strain, and egyptian scarab are kinds of object.
+Dollywood, Nightowl Curry Restaurant, a bank under Federal scrutiny, Thunderbird Lounge, Big Beard Coffeehouse, confederate statue with a short life expectency, Sybaris Pool Suites, Peter Thiel's secret bunker, and abandoned church are kinds of location
+stay one step ahead of the law, stick it to the man, get even, make amends, get married, find atlantis, get the band back together, and get out of dodge are kinds of need. 
+
+an object is described as &quot;They have a [Noun]&quot;
+a location is described as &quot;They can sometimes be found at [Noun]&quot;
+a need is described as &quot;They need to [Noun]&quot;
+</code></pre>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Honey_Heist.html">Example: a Honey-Heist character generator
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Imaginarium_exercises.html">Imaginarium exercises
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.5</p>
+			<h5>Imaginarium
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="Teaching_Imaginarium_new_things.html" id="section_page_1"> Teaching it new things
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="How_Imaginarium_thinks_about_the_world.html" id="section_page_2"> How <em>Imaginarium</em> thinks about the world
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Using_Imaginarium.html" id="section_page_3"> How to tell <em>Imaginarium</em> about your favorite stuff
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Honey_Heist.html" id="section_page_4"> Example: a Honey-Heist character generator
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="A_Fiasco_setup_generator.html" id="section_page_5"> <b> A <em>Fiasco</em> setup generator
+ </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Imaginarium_exercises.html" id="section_page_6"> Imaginarium exercises
+ </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Imaginarium_exercises.html">Imaginarium exercises
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Honey_Heist.html">Example: a Honey-Heist character generator
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Imaginarium.html">Imaginarium
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/A_Fiasco_setup_generator.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

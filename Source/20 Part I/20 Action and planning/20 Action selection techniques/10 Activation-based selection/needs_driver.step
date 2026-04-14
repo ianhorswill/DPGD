@@ -1,0 +1,27 @@
+###
+### Initial layout of the world.  Tune this as you like.
+###
+
+predicate InitialCharacter ?name ?sprite ?x ?y.
+InitialCharacter bugsy steampunk_m10 500 300.
+
+predicate InitialObject ?name ?sprite ?x ?y.
+InitialObject refrigerator refrigerator 100 100.
+InitialObject stove stove 300 100.
+InitialObject tv tv 300 300.
+InitialObject couch couch 100 300.
+
+Run:
+   [FindAll [?who ?type ?x ?y false false false] [InitialCharacter ?who ?type ?x ?y] ?cs]
+   [FindAll [?what ?type ?x ?y false false false] [InitialObject ?what ?type ?x ?y] ?os]
+   [StartGame ?cs ?os]
+   [SetTickRate 40]
+[end]
+
+[predicate]
+GameObject ?object ?type: [AllGameObjects ?list] [Member [?object ?type] ?list]
+
+GameEvent [spawn ?c]: [NextAction ?c]
+GameEvent [arrived ?c ?]: [NextAction ?c]
+GameEvent [tick]: [DecayAll bugsy] [NextAction bugsy]  [SaveText [NeedsReport bugsy] ?text] [SetText bugsy ?text]
+GameEvent ?.

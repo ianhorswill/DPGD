@@ -75,6 +75,9 @@
 			if (element.classList.contains('language-Step')) {
 				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
 				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
 					interp.postMessage(element.textContent, "*");
 					window.removeEventListener('message', handler);
 				};
@@ -142,7 +145,7 @@ A security feature is identified as &quot;[Noun]&quot;
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="A_Fiasco_setup_generator.html">A <em>Fiasco</em> setup generator
 </a><br>
 				</td>			
 </tr>
@@ -167,6 +170,10 @@ A security feature is identified as &quot;[Noun]&quot;
  </a> <br></li>
 					<li class="sidebar"><a class="simplelink" href="Honey_Heist.html" id="section_page_4"> <b> Example: a Honey-Heist character generator
  </b> </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="A_Fiasco_setup_generator.html" id="section_page_5"> A <em>Fiasco</em> setup generator
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Imaginarium_exercises.html" id="section_page_6"> Imaginarium exercises
+ </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -181,7 +188,7 @@ A security feature is identified as &quot;[Noun]&quot;
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="A_Fiasco_setup_generator.html">A <em>Fiasco</em> setup generator
 </a><br>
 				</td>
 			</tr>

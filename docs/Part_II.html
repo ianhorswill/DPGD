@@ -69,6 +69,9 @@
 			if (element.classList.contains('language-Step')) {
 				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
 				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
 					interp.postMessage(element.textContent, "*");
 					window.removeEventListener('message', handler);
 				};
@@ -108,7 +111,7 @@
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Honey_Heist.html">Example: a Honey-Heist character generator
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Shop_generator.html">A Medieval Fantast Shop Generator
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
@@ -168,7 +171,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Honey_Heist.html">Example: a Honey-Heist character generator
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Shop_generator.html">A Medieval Fantast Shop Generator
 </a><br>
 				</td>
 			</tr>

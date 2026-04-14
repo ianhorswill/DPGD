@@ -1,0 +1,342 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>A Medieval Fantast Shop Generator&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="A Medieval Fantast Shop Generator&#xA;">
+	<meta name="twitter:title" content="A Medieval Fantast Shop Generator&#xA;">
+	<meta property="og:title" content="A Medieval Fantast Shop Generator&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Constraint_programming.html"> Constraint programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium.html"> Imaginarium
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium_exercises.html"> Imaginarium exercises
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> A Medieval Fantast Shop Generator
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:red; color:black;">
+					   incomplete draft
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<h2 id="introduction">Introduction</h2>
+<p>In this assignment, you’ll work with a generator for shops (businesses) in a D&amp;D-like medieval fantasy setting.  It defines a number of different kinds of shops and shopkeepers.</p>
+<ul>
+<li>Shops: magical supply store, apothecary, materia shop, healer, ritual objects shop, magical herb shop, scary animal parts shop, bakery, armorer, jeweler, butcher, brewer and fishmonger.</li>
+<li>Shopkeepers: human, child, dog, cat, kitsune, bear, owl, and spider.
+Each of these has a set of properties that can apply to them.  Shops have alignments (shopkeepers are assumed to have the same alignment) and levels of expensiveness.  Shopkeepers have a attributes related to their appearance, intelligence, wisdom, greed, and so on.</li>
+</ul>
+<h2 id="getting-started">Getting started</h2>
+<p>Try the code below:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 5 shops
+magical shop and mundane shop are kinds of shop.
+a shop has a shopkeeper
+a shop can be expensive or cheap.
+a shop is lawful, chaotic, or Swiss.
+a shop is good, evil, or neutral.
+
+magical supply store, apothecary, materia shop, and healer are kinds of magical shop.
+ritual objects shop, magical herb shop, and scary animal parts shop are kinds of magical supply store.
+
+non-evil scary animal parts shops should not exist.
+chaotic healers should not exist.
+
+bakery, armorer, jeweler, butcher, brewer and fishmonger are kinds of mundane shop.
+non-expensive jewelers should not exist.
+non-chaotic brewers should not exist.
+
+human (10), child, dog, cat, kitsune, bear, owl, and spider are kinds of shopkeeper.
+
+a shopkeeper can be tall or short.
+a shopkeeper can be skinny or stout.
+a shopkeeper can be intelligent, cunning, or stupid.
+a shopkeeper can be wise or foolish.
+a shopkeeper can be greedy or benevolent.
+a shopkeeper can be dour, cheerful, reserved, suspicious, or bored.
+a shopkeeper can be trustworthy or sketchy.
+
+sketchy wise shopkeepers should not exist.
+dour wise shopkeepers should not exist.
+suspicious wise shopkeepers should not exist.
+
+suspicious benevolent shopkeepers should not exist.
+dour benevolent shopkeepers should not exist.
+trustworthy suspicious shopkeepers should not exist.
+cunning trustworthy shopkeepers should not exist.
+greedy cheerful shopkeepers should not exist.
+
+skinny bears should not exist.
+non-cheerful bears should not exist.
+
+a stout kitsune should not exist.
+non-wise kitsunes should not exist.
+non-intelligent owls should not exist.
+tall spiders should not exist.
+tall owls should not exist.
+tall kitsunes should not exist.
+tall dogs should not exist.
+tall cats should not exist.
+
+every kind of shop should exist.
+every kind of shopkeeper should exist.
+</code></pre>
+<p>Try the command <code>imagine 5 shops</code> a few times to see what kinds of things are getting generated.  Now look at the code to get a sense of how it is the system is generating those things.</p>
+<h2 id="part-one-adding-constraints">Part One: Adding constraints</h2>
+<p>You’ll probably notice that the system is generating some questionable combinations, like tall spiders.  We’ve peppered the code with should not exist statements.  These are tests that are automatically run when you press the Test button (or type the command test).  Your first job is to add statements to the file that will outlaw the problematic combinations that shouldn’t exist, so that when you press Test, it tells you that all the tests passed:</p>
+<ul>
+<li>Find the first test.  It says “non-evil scary animal parts shops should not exist”.  If you hit the Test button, you’ll see that that test fails and prints in red.</li>
+<li>What is a line that you can add that will ensure that when the system produces scary animal parts shows, they’re always evil?  Add that line to the file, save it.</li>
+<li>Go back to Imaginarium and press ESC twice.  The first ESC will move you to the Main menu, but the second ESC will bring you back, reloading the file in the process.  Now you’re ready to try your new version.
+<ul>
+<li>If Imaginarium displays some kind of an error message, that almost certainly means that the line you added has a problem.  Read the message and try to fix the line, the resave and reload (ESC ESC) again.</li>
+<li>If you can’t figure out how to fix it, come to office hours or write on #imaginarium-questions on Discord.</li>
+</ul>
+</li>
+<li>Press Test again.
+<ul>
+<li>If that first test is now passing, congratulations!  Just move on to the next test and repeat the process.</li>
+<li>If it’s not passing, it will display an example of a shop that contradicts the test.  Ask yourself why it is that the line you wrote doesn’t rule this example out, then try to formulate a new version that does rule it out.
+When you have all the tests passing, congratulations!</li>
+</ul>
+</li>
+</ul>
+<h2 id="part-two-fun-honor-system">Part Two: Fun (honor system)</h2>
+<p>Now extend the generator in some way that you find fun and/or interesting.  You can add whatever you like, but you should at a minimum add:</p>
+<ul>
+<li>4 new kinds of shops</li>
+<li>6 new adjectives for shops</li>
+<li>3 new kinds of shopkeepers</li>
+<li>6 new adjectives for shopkeepers</li>
+<li>5 new constraints limiting the application of adjectives (such as you did in part one).</li>
+</ul>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="First_class_exercises.html">Getting acquainted with imaginarium
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.6.2</p>
+			<h5>Imaginarium exercises
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="First_class_exercises.html" id="section_page_1"> Getting acquainted with imaginarium
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Shop_generator.html" id="section_page_2"> <b> A Medieval Fantast Shop Generator
+ </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="First_class_exercises.html">Getting acquainted with imaginarium
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Imaginarium_exercises.html">Imaginarium exercises
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="A_Fiasco_setup_generator.html">A <em>Fiasco</em> setup generator
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Shop_generator.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

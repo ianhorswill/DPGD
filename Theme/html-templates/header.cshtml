@@ -91,6 +91,9 @@
 			if (element.classList.contains('language-Step')) {
 				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
 				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
 					interp.postMessage(element.textContent, "*");
 					window.removeEventListener('message', handler);
 				};

@@ -73,6 +73,9 @@
 			if (element.classList.contains('language-Step')) {
 				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
 				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
 					interp.postMessage(element.textContent, "*");
 					window.removeEventListener('message', handler);
 				};
@@ -171,6 +174,10 @@ Cats are black, white, grey, or ginger.
 					<li class="sidebar"><a class="backgroundlink" href="Using_Imaginarium.html" id="section_page_3"> How to tell <em>Imaginarium</em> about your favorite stuff
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Honey_Heist.html" id="section_page_4"> Example: a Honey-Heist character generator
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="A_Fiasco_setup_generator.html" id="section_page_5"> A <em>Fiasco</em> setup generator
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Imaginarium_exercises.html" id="section_page_6"> Imaginarium exercises
  </a> <br></li>
 			</ol>
 	<script>

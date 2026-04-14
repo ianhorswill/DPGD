@@ -11,6 +11,8 @@ For example, hunger might be a need.  Hunger gradually increases over time.  Eat
 Here's a trivial (and sped up) demo of the basic algorithm.  The character oscillates between the refrigerator to eat and the TV (for fun), periodically going to the couch for rest.  There aren't any interesting animations here, but it gives you the basic idea, and you can tweak it if you like:
 ```Step
 # Try: [Run]
+require needs_driver.
+
 # Using ?object will increment the satisfaction level of ?need by ?increment percent.
 predicate Advertisement ?object ?need ?increment.
 Advertisement refrigerator hunger 40.
@@ -40,19 +42,6 @@ ShowUtilities ?who: [ForEach [Utility ?who ?action ?u] [Write [?action ?u]]]
 NextAction ?c: [Maximal ?u [Utility ?c ?a ?u]] [SetText ?c ?a] [Execute ?c ?a]
 
 ###
-### Initial layout of the world.  Tune this as you like.
-###
-
-predicate InitialCharacter ?name ?sprite ?x ?y.
-InitialCharacter bugsy steampunk_m10 500 300.
-
-predicate InitialObject ?name ?sprite ?x ?y.
-InitialObject refrigerator refrigerator 100 100.
-InitialObject stove stove 300 100.
-InitialObject tv tv 300 300.
-InitialObject couch couch 100 300.
-
-###
 ### Need states
 ###
 [function]
@@ -74,32 +63,11 @@ DecayAll ?who: [ForEach [DecayRate ?what ?rate] [DecaySatisfaction ?who ?what ?r
 NeedsReport ?who: [ForEach [DecayRate ?what ?] [PrintNeed ?who ?what]]
 PrintNeed ?who ?what: [Satisfaction ?who ?what ?sat] ?what: ?sat [NewLine]
 
-###
-### Driver code - ignore me
-### It needs to be here, but the details are irrelevant to our discusssion.
-###
-
 # Action implementations
 Execute ?c idle: [SetText ?c "Bored now."]
 Execute ?c [use ?o]: [Distance ?c ?o ?d] [< ?d 20] [ReallyUse ?c ?o]
 Execute ?c [use ?o]: [GotoGameObject ?c ?o 2]
 ReallyUse ?c ?o: [ForEach [Advertisement ?o ?need ?inc] [Satisfy ?c ?need ?inc]]
-
-# Driver code
-Run:
-   [FindAll [?who ?type ?x ?y false false false] [InitialCharacter ?who ?type ?x ?y] ?cs]
-   [FindAll [?what ?type ?x ?y false false false] [InitialObject ?what ?type ?x ?y] ?os]
-   [StartGame ?cs ?os]
-   [SetTickRate 40]
-[end]
-
-[predicate]
-GameObject ?object ?type: [AllGameObjects ?list] [Member [?object ?type] ?list]
-
-GameEvent [spawn ?c]: [NextAction ?c]
-GameEvent [arrived ?c ?]: [NextAction ?c]
-GameEvent [tick]: [DecayAll bugsy] [NextAction bugsy]  [SaveText [NeedsReport bugsy] ?text] [SetText bugsy ?text]
-GameEvent ?.
 ```
 
 
