@@ -1,18 +1,20 @@
 ---
-pagetitle: A Medieval Fantast Shop Generator
-status: incomplete-draft
+pagetitle: A Medieval Fantasy Shop Generator
+status: released
 ---
 ## Introduction
 
-In this assignment, you’ll work with a generator for shops (businesses) in a D&D-like medieval fantasy setting.  It defines a number of different kinds of shops and shopkeepers.
-- Shops: magical supply store, apothecary, materia shop, healer, ritual objects shop, magical herb shop, scary animal parts shop, bakery, armorer, jeweler, butcher, brewer and fishmonger.
-- Shopkeepers: human, child, dog, cat, kitsune, bear, owl, and spider.
-Each of these has a set of properties that can apply to them.  Shops have alignments (shopkeepers are assumed to have the same alignment) and levels of expensiveness.  Shopkeepers have a attributes related to their appearance, intelligence, wisdom, greed, and so on.
+In this assignment, you’ll work with a generator for shops (businesses) in a D&D-like medieval fantasy setting.  It defines a number of different kinds of shops and shopkeepers:
+- **Shops**: magical supply store, apothecary, materia shop, healer, ritual objects shop, magical herb shop, scary animal parts shop, bakery, armorer, jeweler, butcher, brewer and fishmonger.
+- **Shopkeepers**: human, child, dog, cat, kitsune, bear, owl, and spider.
+
+Each of these has a set of properties they can have.  Shops have alignments (shopkeepers are assumed to have the same alignment) and levels of expensiveness.  Shopkeepers have attributes related to their appearance, intelligence, wisdom, greed, and so on.
 
 ## Getting started
+
 Try the code below:
 ```Imaginarium
-# Try: imagine 5 shops
+# Try: test
 magical shop and mundane shop are kinds of shop.
 a shop has a shopkeeper
 a shop can be expensive or cheap.
@@ -66,19 +68,23 @@ every kind of shopkeeper should exist.
 ```
 Try the command `imagine 5 shops` a few times to see what kinds of things are getting generated.  Now look at the code to get a sense of how it is the system is generating those things.
 
+**Important**: This all runs in your browser.  So **don't reload your browser window or close the tab**, or you'll lose your work!  If you need to stop work, press the Download button to save the code to a file, or just do Select-All / Copy (Command-A Command-C for Mac or Control-A Control-C for Windows) and paste the code into a file.
+
 ## Part One: Adding constraints
 
-You’ll probably notice that the system is generating some questionable combinations, like tall spiders.  We’ve peppered the code with should not exist statements.  These are tests that are automatically run when you press the Test button (or type the command test).  Your first job is to add statements to the file that will outlaw the problematic combinations that shouldn’t exist, so that when you press Test, it tells you that all the tests passed:
-- Find the first test.  It says “non-evil scary animal parts shops should not exist”.  If you hit the Test button, you’ll see that that test fails and prints in red.
-- What is a line that you can add that will ensure that when the system produces scary animal parts shows, they’re always evil?  Add that line to the file, save it.
-- Go back to Imaginarium and press ESC twice.  The first ESC will move you to the Main menu, but the second ESC will bring you back, reloading the file in the process.  Now you’re ready to try your new version.
-  - If Imaginarium displays some kind of an error message, that almost certainly means that the line you added has a problem.  Read the message and try to fix the line, the resave and reload (ESC ESC) again.
-  - If you can’t figure out how to fix it, come to office hours or write on #imaginarium-questions on Discord.
-- Press Test again.
+You’ll probably notice that the system is generating some questionable combinations, like tall spiders.  We’ve peppered the code with `should not exist` statements.  These are tests that are automatically run when you run the command `test`.  Your first job is to add statements to the file that will outlaw the problematic combinations that shouldn’t exist, so that when you run `test`, it tells you that all the tests passed:
+- Find the first test.  It says `non-evil scary animal parts shops should not exist`.  If you run `test`, you’ll see that that test fails and prints in red.
+- What is a line that you can add that will ensure that when the system produces scary animal parts shops, they’re always evil?  Add that line and `test` again.
+  - If Imaginarium displays an error message, that almost certainly means that the line you added has a problem, since that's the only thing that's changed.  Read the message and try to fix the line, then `test` again.
+  - If you can’t figure out how to fix it, come to office hours or write on `#imaginarium-questions` on Discord.
+- Lather, rinse, repeat
   - If that first test is now passing, congratulations!  Just move on to the next test and repeat the process.
-  - If it’s not passing, it will display an example of a shop that contradicts the test.  Ask yourself why it is that the line you wrote doesn’t rule this example out, then try to formulate a new version that does rule it out.
+  - If it’s a `should not exist` that's not passing, it will display an example that contradicts the test.  Ask yourself why it is that the line you wrote doesn’t rule this example out, then try to formulate a new version that does rule it out.
+
 When you have all the tests passing, congratulations!
+
 ## Part Two: Fun (honor system)
+
 Now extend the generator in some way that you find fun and/or interesting.  You can add whatever you like, but you should at a minimum add:
 - 4 new kinds of shops
 - 6 new adjectives for shops
