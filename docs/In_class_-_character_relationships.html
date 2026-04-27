@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>A Medieval Fantasy Shop Generator&#xA;</title>
+	<title>In-class exercise: Character relationships&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="A Medieval Fantasy Shop Generator&#xA;">
-	<meta name="twitter:title" content="A Medieval Fantasy Shop Generator&#xA;">
-	<meta property="og:title" content="A Medieval Fantasy Shop Generator&#xA;" />
+	<meta itemprop="name" content="In-class exercise: Character relationships&#xA;">
+	<meta name="twitter:title" content="In-class exercise: Character relationships&#xA;">
+	<meta property="og:title" content="In-class exercise: Character relationships&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -58,7 +58,7 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium_exercises.html"> Imaginarium exercises
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> A Medieval Fantasy Shop Generator
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> In-class exercise: Character relationships
 </a></h1>
 		</div>
 	</div>
@@ -105,95 +105,121 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<h2 id="introduction">Introduction</h2>
-<p>In this assignment, you’ll work with a generator for shops (businesses) in a D&amp;D-like medieval fantasy setting.  It defines a number of different kinds of shops and shopkeepers:</p>
-<ul>
-<li><strong>Shops</strong>: magical supply store, apothecary, materia shop, healer, ritual objects shop, magical herb shop, scary animal parts shop, bakery, armorer, jeweler, butcher, brewer and fishmonger.</li>
-<li><strong>Shopkeepers</strong>: human, child, dog, cat, kitsune, bear, owl, and spider.</li>
-</ul>
-<p>Each of these has a set of properties they can have.  Shops have alignments (shopkeepers are assumed to have the same alignment) and levels of expensiveness.  Shopkeepers have attributes related to their appearance, intelligence, wisdom, greed, and so on.</p>
-<h2 id="getting-started">Getting started</h2>
-<p>Try the code below:</p>
-<pre><code class="language-Imaginarium"># Try: test
-magical shop and mundane shop are kinds of shop.
-a shop has a shopkeeper
-a shop can be expensive or cheap.
-a shop is lawful, chaotic, or Swiss.
-a shop is good, evil, or neutral.
-
-magical supply store, apothecary, materia shop, and healer are kinds of magical shop.
-ritual objects shop, magical herb shop, and scary animal parts shop are kinds of magical supply store.
-
-non-evil scary animal parts shops should not exist.
-chaotic healers should not exist.
-
-bakery, armorer, jeweler, butcher, brewer and fishmonger are kinds of mundane shop.
-non-expensive jewelers should not exist.
-non-chaotic brewers should not exist.
-
-human (10), child, dog, cat, kitsune, bear, owl, and spider are kinds of shopkeeper.
-
-a shopkeeper can be tall or short.
-a shopkeeper can be skinny or stout.
-a shopkeeper can be intelligent, cunning, or stupid.
-a shopkeeper can be wise or foolish.
-a shopkeeper can be greedy or benevolent.
-a shopkeeper can be dour, cheerful, reserved, suspicious, or bored.
-a shopkeeper can be trustworthy or sketchy.
-
-sketchy wise shopkeepers should not exist.
-dour wise shopkeepers should not exist.
-suspicious wise shopkeepers should not exist.
-
-suspicious benevolent shopkeepers should not exist.
-dour benevolent shopkeepers should not exist.
-trustworthy suspicious shopkeepers should not exist.
-cunning trustworthy shopkeepers should not exist.
-greedy cheerful shopkeepers should not exist.
-
-skinny bears should not exist.
-non-cheerful bears should not exist.
-
-a stout kitsune should not exist.
-non-wise kitsunes should not exist.
-non-intelligent owls should not exist.
-tall spiders should not exist.
-tall owls should not exist.
-tall kitsunes should not exist.
-tall dogs should not exist.
-tall cats should not exist.
-
-every kind of shop should exist.
-every kind of shopkeeper should exist.
+<p>Start by clicking on the following code to open it in Imaginarium:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 characters
+Characters have an age between 1 and 70.
+A character is male, female or nonbinary.
+A character is masculine-named or feminine-named.
+A male character is masculine-named.
+A female character is feminine-named
+A character has a surname from English surnames.
+A masculine-named character has a given name from male names.
+A feminine-named character has a given name from female names.
+A character is identified as &quot;[given name] [surname]&quot;.
+Do not mention being ma sculine-named.
+Do not mention being feminine-named.
 </code></pre>
-<p>Try the command <code>imagine 5 shops</code> a few times to see what kinds of things are getting generated.  Now look at the code to get a sense of how it is the system is generating those things.</p>
-<p><strong>Important</strong>: This all runs in your browser.  So <strong>don't reload your browser window or close the tab</strong>, or you'll lose your work!  If you need to stop work, press the Download button to save the code to a file, or just do Select-All / Copy (Command-A Command-C for Mac or Control-A Control-C for Windows) and paste the code into a file.</p>
-<h2 id="part-one-adding-constraints">Part One: Adding constraints</h2>
-<p>You’ll probably notice that the system is generating some questionable combinations, like tall spiders.  We’ve peppered the code with <code>should not exist</code> statements.  These are tests that are automatically run when you run the command <code>test</code>.  Your first job is to add statements to the file that will outlaw the problematic combinations that shouldn’t exist, so that when you run <code>test</code>, it tells you that all the tests passed:</p>
+<p>This version handles non-binary gender, but it does end up generating a disproportionately large number of non-binary characters.  If you prefer to use binary gender, use this:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 characters
+Characters have an age between 1 and 70.
+A character is male or female.
+A character has a surname from English surnames.
+A male character has a given name from male names.
+A female character has a given name from female names.
+A character is identified as &quot;[given name] [surname]&quot;.
+</code></pre>
+<h2 id="create-a-setting">Create a setting</h2>
 <ul>
-<li>Find the first test.  It says <code>non-evil scary animal parts shops should not exist</code>.  If you run <code>test</code>, you’ll see that that test fails and prints in red.</li>
-<li>What is a line that you can add that will ensure that when the system produces scary animal parts shops, they’re always evil?  Add that line and <code>test</code> again.
+<li>Think of a setting
 <ul>
-<li>If Imaginarium displays an error message, that almost certainly means that the line you added has a problem, since that's the only thing that's changed.  Read the message and try to fix the line, then <code>test</code> again.</li>
-<li>If you can’t figure out how to fix it, come to office hours or write on <code>#imaginarium-questions</code> on Discord.</li>
+<li>Not high school or college</li>
 </ul>
 </li>
-<li>Lather, rinse, repeat
+<li>Think of some kinds of characters</li>
+<li>Think of some other kinds of entities in the setting</li>
+<li>What are the <strong>story-relevant relationships</strong> that might hold between them?</li>
+<li>Take notes on them</li>
+</ul>
+<h2 id="formalize-the-relationships">Formalize the relationships</h2>
+<p>For each relationship ask:</p>
 <ul>
-<li>If that first test is now passing, congratulations!  Just move on to the next test and repeat the process.</li>
-<li>If it’s a <code>should not exist</code> that's not passing, it will display an example that contradicts the test.  Ask yourself why it is that the line you wrote doesn’t rule this example out, then try to formulate a new version that does rule it out.</li>
+<li>What <strong>kinds of things</strong> go on the left and right sides?
+<ul>
+<li>For example, owns is a relation between a person and a thing: in “<span class="math">\(X\)</span> owns <span class="math">\(Y\)</span>”, <span class="math">\(X\)</span> is a person and <span class="math">\(Y\)</span> is a thing</li>
+<li>Note that often the same kind of thing goes on both sides
+<ul>
+<li>For example, coworker of is a relation between people: “<span class="math">\(X\)</span> is a coworker of <span class="math">\(Y\)</span>”, has person for both <span class="math">\(X\)</span> and <span class="math">\(Y\)</span></li>
 </ul>
 </li>
 </ul>
-<p>When you have all the tests passing, congratulations!</p>
-<h2 id="part-two-fun-honor-system">Part Two: Fun (honor system)</h2>
-<p>Now extend the generator in some way that you find fun and/or interesting.  You can add whatever you like, but you should at a minimum add:</p>
+</li>
+<li>In English, <span class="math">\(X\)</span> is called the <strong>subject</strong> and <span class="math">\(Y\)</span> the <strong>object</strong></li>
+<li>In math, <span class="math">\(X\)</span> is called the <strong>domain</strong> of the relation and <span class="math">\(Y\)</span> its <strong>codomain</strong>
 <ul>
-<li>4 new kinds of shops</li>
-<li>6 new adjectives for shops</li>
-<li>3 new kinds of shopkeepers</li>
-<li>6 new adjectives for shopkeepers</li>
-<li>5 new constraints limiting the application of adjectives (such as you did in part one).</li>
+<li>An important special case is when the domain and codomain are the same; that’s called a <strong>homogeneous relation</strong></li>
+</ul>
+</li>
+<li>If you don’t have any homogeneous relations in your collection, add some</li>
+</ul>
+<h2 id="think-about-formal-properties">Think about formal properties</h2>
+<p>For each homogeneous relation, ask yourself whether there can be:</p>
+<ul>
+<li><strong>Self-relationships</strong>
+<ul>
+<li>Can an object (character or something else) be related to itself?
+<ul>
+<li>Example: you can't be your own parent, but you can be in the same family as yourself</li>
+</ul>
+</li>
+<li>If so, must the objects always relate to themselves?
+<ul>
+<li>Example: you're always in the same family as yourself</li>
+</ul>
+</li>
+<li>In math, this property is called <strong>reflexivity</strong>
+<ul>
+<li>Reflexive relations: objects always relate to themselves</li>
+<li>Anti-reflexive relations: objects never relate to themselves</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Symmetry</strong>
+<ul>
+<li>If <span class="math">\(X\)</span> is related to <span class="math">\(Y\)</span>, can/must <span class="math">\(Y\)</span> be related to <span class="math">\(X\)</span>?</li>
+<li>In math, this is called symmetry
+<ul>
+<li>Symmetric relations: if <span class="math">\(X\)</span> relates to <span class="math">\(Y\)</span>, then <span class="math">\(Y\)</span> always relates to <span class="math">\(X\)</span>, so the relationship is <strong>bidirectional</strong></li>
+<li>Antisymmetric relations: <span class="math">\(X\)</span> relating to <span class="math">\(Y\)</span> means <span class="math">\(Y\)</span> can't relate to <span class="math">\(X\)</span>, unless they're the same.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="coding-in-imaginarium">Coding in Imaginarium</h2>
+<ul>
+<li>Write your relations as verbs in Imaginarium
+<ul>
+<li>Write your one or more statements for each verb</li>
+</ul>
+</li>
+<li>Test it with something like <code>imagine 10 characters</code></li>
+</ul>
+<h2 id="relationship-taxonomies">Relationship taxonomies</h2>
+<ul>
+<li>Organize your homogenous relations in a hierarchy
+<ul>
+<li>What <code>is a way</code> of what?</li>
+<li>If you have homogeneous relations for a few different kinds of things, just chose the kind of thing with the most relations</li>
+</ul>
+</li>
+<li>Make sure there is a “top-level” relation
+<ul>
+<li>That all your other homogenous relations are ways of</li>
+<li>Add something like “be related to” if there isn’t one already</li>
+</ul>
+</li>
+<li>Put a constraint up “up to 2” on the top-level relation.  This lets you generate relations without having a trillion lines in the relations window</li>
 </ul>
 
 
@@ -202,12 +228,12 @@ every kind of shopkeeper should exist.
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Magical_pets_class_exercise.html">In-class exercise: magical pets
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Shop_generator.html">A Medieval Fantasy Shop Generator
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="In_class_-_character_relationships.html">In-class exercise: Character relationships
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Character_relationships.html">Character relationship maps
 </a><br>
 				</td>			
 </tr>
@@ -220,7 +246,7 @@ every kind of shopkeeper should exist.
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.6.3</p>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.6.4</p>
 			<h5>Imaginarium exercises
 </h5>
 			<ol start="1">
@@ -228,10 +254,10 @@ every kind of shopkeeper should exist.
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Magical_pets_class_exercise.html" id="section_page_2"> In-class exercise: magical pets
  </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Shop_generator.html" id="section_page_3"> <b> A Medieval Fantasy Shop Generator
- </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="In_class_-_character_relationships.html" id="section_page_4"> In-class exercise: Character relationships
+					<li class="sidebar"><a class="backgroundlink" href="Shop_generator.html" id="section_page_3"> A Medieval Fantasy Shop Generator
  </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="In_class_-_character_relationships.html" id="section_page_4"> <b> In-class exercise: Character relationships
+ </b> </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Character_relationships.html" id="section_page_5"> Character relationship maps
  </a> <br></li>
 			</ol>
@@ -248,7 +274,7 @@ every kind of shopkeeper should exist.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="In_class_-_character_relationships.html">In-class exercise: Character relationships
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Character_relationships.html">Character relationship maps
 </a><br>
 				</td>
 			</tr>
@@ -262,7 +288,7 @@ every kind of shopkeeper should exist.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Magical_pets_class_exercise.html">In-class exercise: magical pets
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Shop_generator.html">A Medieval Fantasy Shop Generator
 </a><br>
 				</td>
 			</tr>
@@ -302,7 +328,7 @@ every kind of shopkeeper should exist.
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Shop_generator.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/In_class_-_character_relationships.html">Send feedback on this page</a>
 	</div>
 </div>
 

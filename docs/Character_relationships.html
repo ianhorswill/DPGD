@@ -1,0 +1,393 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- generic metadata -->
+	<title>Character relationship maps&#xA;</title>
+	<meta name="author" content="Ian Horswill">
+	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
+	<meta name="generator" content="Booker">
+
+	<!-- seo helpers: generic, twitter, facebook/opengraph -->
+	<meta itemprop="name" content="Character relationship maps&#xA;">
+	<meta name="twitter:title" content="Character relationship maps&#xA;">
+	<meta property="og:title" content="Character relationship maps&#xA;" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
+	
+	<!-- stylesheets -->
+	<!-- bootstrap needs to come first -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- then our style sheet -->
+	<link rel="stylesheet" href="site.css"> 
+
+	<!-- sample fonts, please feel free to replace with your preferred ones -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Public+Sans:400,700&display=swap&subset=latin-ext"> 
+
+	<!-- highlightjs is used for source code formatting inside <code> tags. feel free to remove it. -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/atom-one-dark.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+	<script src="step.js"></script>
+	<script src="NDScript.js"></script>
+	<script src="Imaginarium.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	<!-- use MathJax for latex rendering -->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Use mermaid to render diagrams -->
+	<script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</head>
+
+<body>
+<div class="container-fluid shadow header">
+	<div class="container">
+		<div class="col-md-7 header-contents">
+				<a class="backgroundlink" href="Part_I.html"> Part I
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Constraint_programming.html"> Constraint programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium.html"> Imaginarium
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Imaginarium_exercises.html"> Imaginarium exercises
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Character relationship maps
+</a></h1>
+					<p>
+					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
+					   alpha test
+					</span>
+					</p>
+		</div>
+	</div>
+</div>
+
+	<!-- Make clicking On Step code pop up a step interpreter and copy the code into the clipboard -->
+	<script>
+	document.querySelector("body").addEventListener('click', function(e) {
+		var element = e.target.closest('code');
+		if(element !== null) {
+			if (element.classList.contains('language-Step')) {
+				var interp = window.open("https://ianhorswill.github.io/StepSandbox", "Step sandbox");
+				var handler = function(e) { 
+					var location = window.location.href;
+					var repo = location.substring(0, location.lastIndexOf("/")+1);
+					interp.postMessage({ packageRepository: repo }, "*");
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			} else if (element.classList.contains('language-NDScript')) {
+				var interp = window.open("https://ianhorswill.github.io/NDScriptSandbox", "NDScript sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}else if (element.classList.contains('language-Imaginarium')) {
+				var interp = window.open("https://ianhorswill.github.io/ImaginariumSandbox", "Imaginarium sandbox");
+				var handler = function(e) { 
+					interp.postMessage(element.textContent, "*");
+					window.removeEventListener('message', handler);
+				};
+				window.addEventListener('message', handler);
+			}
+		}
+	}, false);
+	</script>
+
+
+
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-7 index-contents">
+			<div class="container shadow blog-contents">
+
+<h2 id="overview">Overview</h2>
+<p>In this assignment, you will make a collection of characters connected by different sorts of relationships.  You could think of it as generating setups for <em>Fiasco</em> or making one of the relationship charts you sometimes see for manga and anime.  For example, this is a character relationship chart for the manga/anime <a href="https://en.wikipedia.org/wiki/Minami-ke"><em>Minami-ke</em></a>:<a id="fnref:1" href="#fn:1" class="footnote-ref"><sup>1</sup></a></p>
+<img alt="A character relationship chart for Minami-ke" width="60%" src="Relationship_Chart_2.webp">
+<p>Whether you think of yourself as generating setups for a narrative game like <em>Fiasco</em> or fandom artifacts for anime series from an alternate universe, you’re still fundamentally making a diagram of narratively interesting relationships between characters in a story.  So make some characters, character subkinds, and so on, and a bunch of relationships that seem like they might be interesting.  Then type</p>
+<pre><code class="language-imaginarium">imagine 10 characters
+</code></pre>
+<p>(or 5 or 50, whatever you want) and see what happens.</p>
+<p>That’s basically the requirement.  Don’t worry about passing unit tests.  Just have fun.  You’ve earned it.</p>
+<p>Feel free to start from this base, or to do something completely different:</p>
+<pre><code class="language-Imaginarium"># Try: imagine 10 characters
+Humans have an age between 1 and 70.
+A human is male, female or nonbinary.
+A human is masculine-named or feminine-named.
+A male human is masculine-named.
+A female human is feminine-named
+A human has a surname from English surnames.
+A masculine-named human has a given name from male names.
+A feminine-named human has a given name from female names.
+A human is identified as &quot;[given name] [surname]&quot;.
+Do not mention being masculine-named.
+Do not mention being feminine-named.
+</code></pre>
+<h2 id="relationship-hacking">Relationship hacking</h2>
+<p>As you’ll remember from the <a href="Imaginarium.html">the tutorial</a>, relationships are represented using verbs.  When you define a verb, Imaginarium basically needs to know the following:</p>
+<ul>
+<li>What’s it called?</li>
+<li>What kinds of things go on the left side (subjects of the verb)?</li>
+<li>What kinds of things go on the right side (objects of the verb)?</li>
+<li>Does it have any special properties?
+<ul>
+<li>Symmetric: if I’m friends with you, you’re friends with me.</li>
+<li>Anti-symmetric: if I work for you, you don’t work for me.</li>
+<li>Reflexive: we’re all friends with ourselves</li>
+<li>Anti-reflexive: we don’t work for ourselves</li>
+<li>Numerical limits: an employee works for one employer, a child is parented by at least one adult</li>
+<li>Is it a special kind of some other relationship?</li>
+</ul>
+</li>
+</ul>
+<p>For example, let’s say we’re making a Fiasco setup.  We could start by saying:</p>
+<pre><code class="language-imaginarium">Characters can relate each other
+</code></pre>
+<p>Which says that <code>relate</code> is a verb and both its subject and object are characters.  Apologies for saying <code>relate</code> rather than <code>relate to</code>, which would read better.  But I haven’t had time to modify the code that conjugates verbs to understand how to make certain conjugations when there’s a preposition at the end.  So <code>relate</code> it is.</p>
+<p>The <code>each other</code> part tells the system it’s symmetric: if I relate you, you relate me.  But this still leaves open the possibility that the system will generate characters, one of whose relationships is with themselves.  We want to outlaw that by saying that relating is anti-reflexive.  We can do that by saying:</p>
+<pre><code class="language-imaginarium">Characters cannot relate themselves.
+</code></pre>
+<p>And finally, we can say everybody should have two relationships.  You do that by saying:</p>
+<pre><code class="language-imaginarium">A character must relate two other characters.
+</code></pre>
+<p>You can do variations on this.  You can change the number:</p>
+<pre><code class="language-imaginarium">A character must relate three other characters.
+</code></pre>
+<p>You just put a lower bound on the number of relationships rather than requiring a specific number:</p>
+<pre><code class="language-imaginarium">A character must relate at least two other characters.
+</code></pre>
+<p>Or you can make it an upper bound.  Notice that in this form, you say <code>can</code> rather than <code>must</code> because if there’s only an upper bound, then zero is an allowable number:</p>
+<pre><code class="language-imaginarium">A character can relate up to two other characters.
+</code></pre>
+<p>Finally, you can specify kinds of relationships:</p>
+<pre><code class="language-imaginarium">Loving is a way of relating.
+Hating is a way of relating.
+</code></pre>
+<p>Each of these introduces a new verb (<code>love</code> and <code>hate</code>, respectively), which from context must also take <code>character</code>s as their subjects and objects, since that’s what <code>relate</code> does.  Moreover, if a character <code>loves</code> or <code>hates</code> another character, then it also automatically <code>relate</code>s it.  But more than that, the <code>is a way of</code> construction says that if two characters are to <code>relate</code>, then must either <code>love</code> or <code>hate</code> one another, or one of the other ways of <code>relat</code>ing, assuming you’ve specified more.</p>
+<p>So <code>is a way of</code> is the direct equivalent for verbs of <code>is a kind of</code> for nouns.  There can be many different ways of <code>relat</code>ing, and since we told every character has to <code>relate</code> two other characters, the system has to, for each character, pick two characters for them to <code>relate</code> and then pick a specific verb that is a way of relating for that pair of characters.</p>
+<h2 id="making-relationship-charts">Making relationship charts</h2>
+<p>That’s really all you have to do to make relationship charts:</p>
+<ul>
+<li>Introduce a noun for characters – you can use the one of the examples from class or this book if you like.</li>
+<li>Introduce the basic boilerplate for <code>relate</code> (or you can call it something else like connect if you prefer):
+<ul>
+<li><code>Characters can relate each other.</code></li>
+<li><code>Characters cannot relate themselves.</code></li>
+</ul>
+</li>
+<li>If you just say this, even on average every character will be connected to half the other characters, and that gets overwhelming.  So put some kind of limit on it, like:
+<ul>
+<li><code>Characters must relate two other characters</code></li>
+<li><code>Characters can relate to up to four other characters</code></li>
+</ul>
+</li>
+<li>Introduce a bunch of interesting verbs and make them all be <code>ways of relating</code> (or <code>connecting</code>, or whatever verb you choose)</li>
+<li>Type <code>imagine 10 characters</code> (or 5 or whatever)</li>
+</ul>
+<h2 id="specializing-verbs-to-kinds-of-characters">Specializing verbs to kinds of characters</h2>
+<p>Just because a verb is a way of relating doesn’t mean it has to apply to all characters.  For example, if we say:</p>
+<pre><code class="language-imaginarium">Adult and child are kinds of character.
+Children can be big or small.
+</code></pre>
+<p>Then we can make verbs that are specialized to kinds of characters:</p>
+<pre><code class="language-imaginarium">An adult can parent many children.
+Parenting is a way of relating.
+Children can be friends with each other.
+Being friends with is a way of relating.
+A big child can bully a small child.
+Bullying is a way of relating.
+An adult can be secretly in love with another adult.
+Being secretly in love with is a way of relating.
+</code></pre>
+<p>So even though relate is a general verb that can apply to any pair of characters, big or small, adult or child, there can be ways of relating that are specific to adults, to children, to one of each, or even to specific kinds of children.</p>
+<h2 id="what-to-do">What to do</h2>
+<p>The only requirements are that you include at least:</p>
+<ul>
+<li>10 verbs (more if you like)</li>
+<li>5 character types
+<ul>
+<li>Don’t feel obligated to use humans as your base for characters.  Cats, monsters, monster cats, bears, dogs, and semi-sapient kitchen appliances are all valid.</li>
+</ul>
+</li>
+<li>10 adjectives to describe the characters</li>
+<li>You specialize some of the verbs to particular character types.</li>
+</ul>
+<p>Important: while you may reuse code from our examples, you may not count that code toward the requirements of the assignment.  That is, you can copy in the cat stuff or the Fiasco stuff if you like, but you still have to add 10 more verbs, 5 more character types, and 10 more adjectives on top of whatever you copied over.  If you do use other code, be sure to acknowledge it in your code.  That is, add a comment before the copied code saying something like this (the # at the beginning marks it as a comment):</p>
+<pre><code class="language-imaginarium"># The following 10 lines were copied from cats.
+</code></pre>
+<p>Otherwise just have fun.  Make something that surprises you, or makes you imagine stories, or that just makes you laugh.</p>
+<h2 id="flash-fiction">Flash fiction</h2>
+<p>Now generate some relationship maps until you find something you find interesting.  Write a bit of flash fiction about some or all of the characters you generate.  In particular, write a story of at least 6 sentences and no more than one page.  As always, we will not be grading you on the quality of your fiction.  We just want you to try it and have fun.  Put your fiction in a txt or pdf file in the directory with your generator.</p>
+<h2 id="turning-it-in">Turning it in</h2>
+<p>Save your code to a file and place it and your flash fiction in a .zip file and upload it to canvas.</p>
+<h2 id="grading">Grading</h2>
+<p>This assignment will be peer graded.  That means that your assignment will be seen and graded by three other students and your grade will be the median (middle number) of the different grades they assign.  They will grade using the rubric for this assignment on canvas, which will basically come down to:</p>
+<ul>
+<li>Does your generator work?  That is, does it run?</li>
+<li>Does it have the requisite number of verbs, and such?</li>
+<li>Did you write your flash fiction, and did it involve characters whose relationships could have come from the generator?</li>
+</ul>
+<h2 id="endnotes">Endnotes</h2>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Source: <a href="https://minami-ke.fandom.com/wiki/Character_Pairings_(Minami-ke)">https://minami-ke.fandom.com/wiki/Character_Pairings_(Minami-ke)</a>, under creative commons non-commercial license.  Note that I haven't read <em>Miname-ke</em>, so this isn't an endorsement.<a href="#fnref:1" class="footnote-back-ref">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+<table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
+<tbody>
+<tr style="border: none;">
+				<td style="border: none; vertical-align: top; "> 
+                    <b>Previous:</b> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="In_class_-_character_relationships.html">In-class exercise: Character relationships
+</a><br>
+				</td>
+				<td style="border: none; vertical-align: top; text-align: right;"> 
+                    <b>Next:</b>  
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+</a><br>
+				</td>			
+</tr>
+</tbody>
+</table>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+
+<div class="container-fluid sidebar">
+		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.3.1.6.5</p>
+			<h5>Imaginarium exercises
+</h5>
+			<ol start="1">
+					<li class="sidebar"><a class="backgroundlink" href="First_class_exercises.html" id="section_page_1"> Getting acquainted with imaginarium
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Magical_pets_class_exercise.html" id="section_page_2"> In-class exercise: magical pets
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="Shop_generator.html" id="section_page_3"> A Medieval Fantasy Shop Generator
+ </a> <br></li>
+					<li class="sidebar"><a class="backgroundlink" href="In_class_-_character_relationships.html" id="section_page_4"> In-class exercise: Character relationships
+ </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Character_relationships.html" id="section_page_5"> <b> Character relationship maps
+ </b> </a> <br></li>
+			</ol>
+	<script>
+		document.addEventListener('keyup', function(e) {
+			if (e.key >= '1' && e.key <= '9') document.getElementById('section_page_'+e.key).click()
+		}, false);
+	</script>
+	</p>
+	<br>
+	<h5>Navigation</h5>
+	<p style="text-align: left;">
+	<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Part_II.html">Part II
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta") || e.getModifierState("Control")) return
+					if (e.key == 'ArrowRight' || e.key == "Return")
+					  document.getElementById('NextPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="In_class_-_character_relationships.html">In-class exercise: Character relationships
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft') 
+						document.getElementById('PreviousPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
+				<td style="border: none;"> 
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Imaginarium_exercises.html">Imaginarium exercises
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
+				}, false);
+			</script>
+			<tr style="border: none;">
+				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
+				<td style="border: none;"> 
+					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="A_Fiasco_setup_generator.html">A <em>Fiasco</em> setup generator
+</a><br>
+				</td>
+			</tr>
+			<script>
+				document.addEventListener('keyup', function(e) {
+					if (e.getModifierState("Meta")) return
+					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
+				}, false);
+			</script>
+	</table>
+	</p>
+	<div style="color: grey; padding-top: .5rem;">
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Character_relationships.html">Send feedback on this page</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-10 col-lg-8 footer-contents">
+				<div class="text-muted">
+					<h4><a class="simplelink" href="index.html">Declarative Programming for Game Designers</a></h4>
+
+					Copyright &copy; 2026 Ian Horswill
+				</div>
+				<div class="text-muted">
+					<a href="https://github.com/rzubek/mies">Made by Booker, based on Rob Zubek's Mies (Crown Theme)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.language-step').forEach(e => {e.title = 'Click here to try the code'; });
+</script>
+
+<!-- this is required for bootstrap -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
