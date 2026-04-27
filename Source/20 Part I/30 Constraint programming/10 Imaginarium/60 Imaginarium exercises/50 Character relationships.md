@@ -30,6 +30,16 @@ A human is identified as "[given name] [surname]".
 Do not mention being masculine-named.
 Do not mention being feminine-named.
 ```
+This version handles non-binary gender, but it does end up generating a disproportionately large number of non-binary characters.  If you prefer to use binary gender, use this:
+```Imaginarium
+# Try: imagine 10 characters
+Characters have an age between 1 and 70.
+A character is male or female.
+A character has a surname from English surnames.
+A male character has a given name from male names.
+A female character has a given name from female names.
+A character is identified as "[given name] [surname]".
+```
 
 ## Relationship hacking
 
