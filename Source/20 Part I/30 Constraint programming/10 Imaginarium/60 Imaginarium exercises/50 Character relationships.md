@@ -141,16 +141,6 @@ Otherwise just have fun.  Make something that surprises you, or makes you imagin
 ## Flash fiction
 Now generate some relationship maps until you find something you find interesting.  Write a bit of flash fiction about some or all of the characters you generate.  In particular, write a story of at least 6 sentences and no more than one page.  As always, we will not be grading you on the quality of your fiction.  We just want you to try it and have fun.  Put your fiction in a txt or pdf file in the directory with your generator.
 
-## Turning it in
-
-Save your code to a file and place it and your flash fiction in a .zip file and upload it to canvas.
-
-## Grading
-
-This assignment will be peer graded.  That means that your assignment will be seen and graded by three other students and your grade will be the median (middle number) of the different grades they assign.  They will grade using the rubric for this assignment on canvas, which will basically come down to:
-- Does your generator work?  That is, does it run?
-- Does it have the requisite number of verbs, and such?
-- Did you write your flash fiction, and did it involve characters whose relationships could have come from the generator?
 
 ## Endnotes
 
