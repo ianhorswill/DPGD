@@ -130,6 +130,42 @@ Cats can love one other cat.
 Cats can hate one other cat.
 Love and hate are mutually exclusive.
 </code></pre>
+<p>This shows you a bunch of randomly generated cats as well as the randomly generated relationships between them.</p>
+<h2 id="generating-things">Generating things</h2>
+<p>Try changing the command to each of these and then pressing Run again:</p>
+<ul>
+<li><code>imagine a cat</code></li>
+<li><code>imagine 10 cats</code></li>
+<li><code>imagine 10 haughty cats</code></li>
+<li><code>imagine 10 grey tabbies</code></li>
+</ul>
+<h2 id="the-concept-graph">The concept graph</h2>
+<p>Try pressing the <strong>Show Ontology</strong> button.  This will generate a graph (network) showing all the concepts from the code, together with (most of) their relationships.  The concept graph is a good way of debugging things if the system isn't generating what you expect.  For example, if you see a concept sitting by itself without any relationships to anything else, that's usually a bug, such as a typo.  If you mouse over a concept, it also lets you see its different forms (e.g. plural and singular), and other information that can help you understand where Imaginarium is getting confused.</p>
+<h2 id="making-dd-cats">Making D&amp;D cats</h2>
+<p>Now let's add some information.  Add this to the code:</p>
+<pre><code class="language-imaginarium">magic user, fighter, and cleric are kinds of player character
+Feel free to alter this as you like
+</code></pre>
+<p>And then try running:</p>
+<pre><code class="language-imaginarium">imagine a player character
+</code></pre>
+<h2 id="types-and-subtypes">Types and subtypes</h2>
+<p>Now add:</p>
+<pre><code class="language-imaginarium">magic users can be dark or light
+necromancer, wizard, and thaumaturge are kinds of magic user
+necromancers are always dark
+</code></pre>
+<p>Feel free to alter this as you like.  Then try:</p>
+<pre><code class="language-imaginarium">imagine 10 magic users
+</code></pre>
+<h2 id="mixing-and-matching">Mixing and matching</h2>
+<p>Now you can:</p>
+<pre><code class="language-imaginarium">imagine player character cats
+imagine fighter cats
+imagine magic user cats
+imagine cat magic users
+imagine a persian necromancer
+</code></pre>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
