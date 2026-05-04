@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Logic databases&#xA;</title>
+	<title>Very simple story grammars&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Logic databases&#xA;">
-	<meta name="twitter:title" content="Logic databases&#xA;">
-	<meta property="og:title" content="Logic databases&#xA;" />
+	<meta itemprop="name" content="Very simple story grammars&#xA;">
+	<meta name="twitter:title" content="Very simple story grammars&#xA;">
+	<meta property="og:title" content="Very simple story grammars&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,9 +50,17 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-md-7 header-contents">
-				<a class="backgroundlink" href="Exercises.html"> Exercises
+				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Logic databases
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammar_exercises.html"> Formal grammar exercises
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Very simple story grammars
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -104,7 +112,72 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<p>These are supplementary materials to the class activities on logic programming as a kind of database.</p>
+<p>Here's an incomplete grammar for a simple story.  Try running <code>[Story]</code> a few times, and then complete the story as you like.</p>
+<pre><code class="language-Step"># Try: [Story]
+Story:
+ Once upon a time, there was a [Protagonist] who lived in a [Home].
+ One day, a [Antagonist] [Stole] the [Protagonist]'s [Possession].
+ The [Protagonist] was [NegativeEmotion]. The [Protagonist] searched
+ for days for their beloved [Possession], but could not find it.
+ [Paragraph]
+ Then, one day, the [Protagonist] [Discovery].
+[end]
+
+Discovery: heard that [Antagonist] could be found at [AntagonistHome]
+
+# [remembered] means to always chose the same output within a given
+# run of the Story.
+[randomly] [remembered]
+AntagonistHome: the batcave
+AntagonistHome: the drunk tank
+
+[randomly] [remembered]
+Protagonist: old woman
+Protagonist: blacksmith
+Protagonist: Northwestern undergrad
+Protagonist: game designer
+Protagonist: musician
+Protagonist: stoner
+
+[randomly] [remembered]
+Home: dorm
+Home: shoe
+Home: cottage
+Home: thimble
+Home: luxury condo on Michigan Avenue
+Home: old VW microbus
+
+[randomly] [remembered]
+Antagonist: vampire
+Antagonist: thief
+Antagonist: high school student
+Antagonist: CEO
+Antagonist: rat
+Antagonist: faculty member
+
+[randomly]
+Stole: stole
+Stole: pilfered
+Stole: swiped
+
+[randomly] [remembered]
+Possession: Nintendo Switch
+Possession: copy of iHunt
+Possession: money
+Possession: cat
+Possession: laptop
+Possession: makeup kit
+
+[randomly]
+NegativeEmotion: sad
+NegativeEmotion: very sad
+NegativeEmotion: distraught
+NegativeEmotion: seriously bummed
+NegativeEmotion: having an anxiety attack
+NegativeEmotion: seriously pissed
+NegativeEmotion: incandescent with rage
+NegativeEmotion: in a homicidal rage
+</code></pre>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -112,12 +185,12 @@
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Stories.html">Very simple story grammars
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Gossip.html">Gossip generator
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Class_database.html">A simple database of classes
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
 				</td>			
 </tr>
@@ -130,14 +203,16 @@
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 4.2</p>
-			<h5>Logic databases
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.2.1.7.3</p>
+			<h5>Formal grammar exercises
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Class_database.html" id="section_page_1"> A simple database of classes
+					<li class="sidebar"><a class="backgroundlink" href="Sentences.html" id="section_page_1"> Sentences
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Monster_high.html" id="section_page_2"> Monster High
+					<li class="sidebar"><a class="backgroundlink" href="Gossip.html" id="section_page_2"> Gossip generator
  </a> <br></li>
+					<li class="sidebar"><a class="simplelink" href="Simple_story_grammars.html" id="section_page_3"> <b> Very simple story grammars
+ </b> </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -152,7 +227,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Class_database.html">A simple database of classes
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
 				</td>
 			</tr>
@@ -166,7 +241,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Stories.html">Very simple story grammars
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Gossip.html">Gossip generator
 </a><br>
 				</td>
 			</tr>
@@ -180,7 +255,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Exercises.html">Exercises
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Grammar_exercises.html">Formal grammar exercises
 </a><br>
 				</td>
 			</tr>
@@ -190,36 +265,10 @@
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Monster_Highlights.html">Assignment: Monster High fandom
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Making_grammars.html">Making grammars
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
-				}, false);
-			</script>
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Logic_databases.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Simple_story_grammars.html">Send feedback on this page</a>
 	</div>
 </div>
 

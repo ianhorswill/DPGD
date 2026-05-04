@@ -1,10 +1,10 @@
 ---
-pagetitle: "Assignment: Monster High fandom"
+pagetitle: "Monster High fandom"
 status: alpha
 ---
 ## Introduction
 
-In this assignment, you’ll work and extended version of the code we used in class to generate random fan tweets from the account *@MonsterHighlights* about the current episode of the soap opera, *Monster High*.
+In this assignment, you’ll work on an extended version of the [Monster High](monster_high) code to generate random fan tweets from the account **@MonsterHighlights** about the current episode of the soap opera, *Monster High*.
 
 This code works by first creating a **plausible plot** point that might occur in an episode, and then printing it in the form of a tweet.  Plot points will be represented as [tuples](step_tuples), so if you haven’t done [the reading on tuples](structured_data), do that now.
 
@@ -18,7 +18,164 @@ Note also that we’ve provided you with a version of [`Mention`](mention) that 
 
 ## Getting started
 
-The code for the assignment is below.  You can just click on it to bring it up in the Step interpreter.
+Start by clicking on the code to load it into the Step sandbox:
+```Step
+###
+### Students
+###
+
+[randomly] 
+predicate IsA ?who ?what.
+# ?who (a student) is a ?what (human, vampire, etc.)
+
+# Fill in as you like
+IsA aniyah human.
+IsA tiana vampire.
+IsA cameron werewolf.
+IsA david witch.
+IsA jayden werewolf.
+IsA hailey ghost.
+IsA jada werewolf.
+
+[predicate] [randomly]
+RivalMonsterTypes vampire werewolf.
+
+[randomly]
+predicate InClub ?who ?club.
+# ?who is in the club ?club
+
+# Fill in as you like
+InClub aniyah ttrpg_club.
+InClub jayden ttrpg_club.
+InClub hailey track_team.
+InClub tiana ttrpg_club.
+
+###
+### Romances
+###
+
+[randomly]
+predicate CrushOn ?crusher ?crushee.
+# Crusher has a crush on crushee, not not necessarily the other way around
+
+[randomly]
+predicate AssertDating ?a ?b.
+# A and B are dating.  Use this when you want to write a fact
+# stating that A and B are dating, but use CheckDating when
+# you want to ask if A and B are dating.
+
+[randomly]
+predicate Dating ?a ?b.
+# Check if A and B are dating
+Dating ?a ?b: [AssertDating ?a ?b]
+Dating ?a ?b: [AssertDating ?b ?a]
+
+# Write the romances for your school below
+
+CrushOn cameron jayden.
+CrushOn jayden cameron.
+AssertDating jayden cameron.
+
+CrushOn tiana jayden.
+CrushOn jayden tiana.
+CrushOn hailey jada.
+CrushOn hailey cameron.
+
+CrushOn jayden david.
+
+CrushOn aniyah jada.
+AssertDating aniyah jada.
+
+AssertDating hailey cameron.
+
+###
+### Queries
+###
+
+predicate UnrequitedLove ?crusher ?crushee.
+# Crusher has an unrequired crush on crushee.
+UnrequitedLove ?a ?b: [CrushOn ?a ?b] [Not [CrushOn ?b ?a]]
+
+# MutualAttraction ?a ?b
+# True if ?a and ?b have crushes on each other
+[predicate]
+MutualAttraction ?a ?b: [CrushOn ?a ?b] [CrushOn ?b ?a]
+
+predicate Student ?who.
+# True if ?who is a student.
+# Write a rule to define Student in terms of IsA
+Student ?who: [IsA ?who ?]
+
+predicate SameClub ?a ?b.
+# A and B are in the same club.
+# Write a rule for SameClub here
+SameClub ?a ?b: [InClub ?a ?c] [InClub ?b ?c] [Not [= ?a ?b]]
+
+predicate LoveTriangle ?a ?b ?c.
+# A and B both have crushes on C
+# Write a rule here
+LoveTriangle ?rival1 ?rival2 ?sharedLoveInterest: [CrushOn ?rival1 ?sharedLoveInterest] [CrushOn ?rival2 ?sharedLoveInterest] [Not [= ?rival1 ?rival2]]
+
+predicate LovelessRelationship ?a ?b.
+# A and B are dating but not actually into each other
+# Write a rule here
+LovelessRelationship ?a ?b: [Dating ?a ?b] [Not [CrushOn ?a ?b]] [Not [CrushOn ?b ?a]]
+
+predicate CheatingOn ?cheater ?cheatee.
+# Cheater and cheatee are dating, but cheater is also dating someone else
+# Write a rule here
+CheatingOn ?a ?b: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
+
+predicate CheatingOnWith ?cheater ?cheatee ?other.
+# Cheater and cheatee are dating, but cheater is also dating other
+# Write a rule here
+CheatingOnWith ?a ?b ?c: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
+
+predicate PossibleRomance ?a ?b.
+# A and B are into each other and in the same club, but not presently dating
+# Write a rule here
+PossibleRomance ?a ?b: [MutualAttraction ?a ?b] [Not [Dating ?a ?b]] [OpportunityToMeet ?a ?b]
+
+[predicate]
+OpportunityToMeet ?a ?b: [SameClub ?a ?b]
+
+###
+### Twitter
+###
+
+# Print 6 tweets
+Tweets: [Tweet] [Tweet] [Tweet] [Tweet] [Tweet] [Tweet]
+
+# Tweet
+# Print a tweet for a randomly selected plot point.
+Tweet: <b>Monster Highlights</b> [NewLine] @MonsterHighlights [NewLine] [ClearContext] [Event] [Paragraph]
+
+# Event
+# Generate a random plot point and print it.
+Event: [PlotPoint ?event] [PrintPlotPoint ?event]
+
+# This loads the print_all utility
+require printall.
+# This loads in the mention library that makes printing smarter.
+require mention.
+
+###
+### What you need to write
+###
+
+[randomly]
+predicate PlotPoint ?event.
+# ?event is a possible plot point in a Monster High episode given
+# the characters and their relationships.  Fill in methods for this,
+# below.
+
+[randomly]
+task PrintPlotPoint ?event.
+# Generate text to describe the specified plot point. Fill in methods
+# for this, below.
+
+
+```
 
 ## Part One (optional): Making a student body
 
@@ -26,7 +183,7 @@ We included a bare-bones student database.  There are only a few characters defi
 
 ### Specifying pronouns
 
-Note that the `Mention` code we gave you uses *they* as the default pronoun.  If you prefer, you may specify preferred pronouns for some or all of your characters.  To do that, just add statements of the form:
+The code in the `mention` tab changes printing so that it generates pronouns when possible.  However, it defaults to using *they*.  If you prefer, you may specify preferred pronouns for some or all of your characters.  To do that, just add statements of the form:
 ```step
 PreferredPronoun student pronoun.
 ```
@@ -200,263 +357,3 @@ Press **Download program** to save your code.  It will appear in your Download f
 This assignment will be machine graded by running `PlotPoint` to verify that particular plot points that should exist can be generated by your code and that others that shouldn’t aren’t generated by your code.  Since you’re able to change your story world by adding and removing characters and romances, we’ll remove your characters and romance information and replace it with our own, just for testing purposes.
 
 Since we didn’t specify specific text to generate, we will not check that your code generates specific text.  We will just test that for each of the plot points specified in part 2, it is able to generate some text without failing or producing an error.
-
-
-# Code
-
-Click below to run the code and start working with it.
-
-```Step
-###
-### Students
-###
-
-[randomly] 
-predicate IsA ?who ?what.
-# ?who (a student) is a ?what (human, vampire, etc.)
-
-# Fill in as you like
-IsA aniyah human.
-IsA tiana vampire.
-IsA cameron werewolf.
-IsA david witch.
-IsA jayden werewolf.
-IsA hailey ghost.
-IsA jada werewolf.
-
-[predicate] [randomly]
-RivalMonsterTypes vampire werewolf.
-
-[randomly]
-predicate InClub ?who ?club.
-# ?who is in the club ?club
-
-# Fill in as you like
-InClub aniyah ttrpg_club.
-InClub jayden ttrpg_club.
-InClub hailey track_team.
-InClub tiana ttrpg_club.
-
-###
-### Romances
-###
-
-[randomly]
-predicate CrushOn ?crusher ?crushee.
-# Crusher has a crush on crushee, not not necessarily the other way around
-
-[randomly]
-predicate AssertDating ?a ?b.
-# A and B are dating.  Use this when you want to write a fact
-# stating that A and B are dating, but use CheckDating when
-# you want to ask if A and B are dating.
-
-[randomly]
-predicate Dating ?a ?b.
-# Check if A and B are dating
-Dating ?a ?b: [AssertDating ?a ?b]
-Dating ?a ?b: [AssertDating ?b ?a]
-
-# Write the romances for your school below
-
-CrushOn cameron jayden.
-CrushOn jayden cameron.
-AssertDating jayden cameron.
-
-CrushOn tiana jayden.
-CrushOn jayden tiana.
-CrushOn hailey jada.
-CrushOn hailey cameron.
-
-CrushOn jayden david.
-
-CrushOn aniyah jada.
-AssertDating aniyah jada.
-
-AssertDating hailey cameron.
-
-###
-### Queries
-###
-
-predicate UnrequitedLove ?crusher ?crushee.
-# Crusher has an unrequired crush on crushee.
-UnrequitedLove ?a ?b: [CrushOn ?a ?b] [Not [CrushOn ?b ?a]]
-
-# MutualAttraction ?a ?b
-# True if ?a and ?b have crushes on each other
-[predicate]
-MutualAttraction ?a ?b: [CrushOn ?a ?b] [CrushOn ?b ?a]
-
-predicate Student ?who.
-# True if ?who is a student.
-# Write a rule to define Student in terms of IsA
-Student ?who: [IsA ?who ?]
-
-predicate SameClub ?a ?b.
-# A and B are in the same club.
-# Write a rule for SameClub here
-SameClub ?a ?b: [InClub ?a ?c] [InClub ?b ?c] [Not [= ?a ?b]]
-
-predicate LoveTriangle ?a ?b ?c.
-# A and B both have crushes on C
-# Write a rule here
-LoveTriangle ?rival1 ?rival2 ?sharedLoveInterest: [CrushOn ?rival1 ?sharedLoveInterest] [CrushOn ?rival2 ?sharedLoveInterest] [Not [= ?rival1 ?rival2]]
-
-predicate LovelessRelationship ?a ?b.
-# A and B are dating but not actually into each other
-# Write a rule here
-LovelessRelationship ?a ?b: [Dating ?a ?b] [Not [CrushOn ?a ?b]] [Not [CrushOn ?b ?a]]
-
-predicate CheatingOn ?cheater ?cheatee.
-# Cheater and cheatee are dating, but cheater is also dating someone else
-# Write a rule here
-CheatingOn ?a ?b: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
-
-predicate CheatingOnWith ?cheater ?cheatee ?other.
-# Cheater and cheatee are dating, but cheater is also dating other
-# Write a rule here
-CheatingOnWith ?a ?b ?c: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
-
-predicate PossibleRomance ?a ?b.
-# A and B are into each other and in the same club, but not presently dating
-# Write a rule here
-PossibleRomance ?a ?b: [MutualAttraction ?a ?b] [Not [Dating ?a ?b]] [OpportunityToMeet ?a ?b]
-
-[predicate]
-OpportunityToMeet ?a ?b: [SameClub ?a ?b]
-
-###
-### Twitter
-###
-
-# Print 6 tweets
-Tweets: [Tweet] [Tweet] [Tweet] [Tweet] [Tweet] [Tweet]
-
-# Tweet
-# Print a tweet for a randomly selected plot point.
-Tweet: <b>Monster Highlights</b> [NewLine] @MonsterHighlights [NewLine] [ClearContext] [Event] [Paragraph]
-
-# Event
-# Generate a random plot point and print it.
-Event: [PlotPoint ?event] [PrintPlotPoint ?event]
-
-###
-### What you need to write
-###
-
-[randomly]
-predicate PlotPoint ?event.
-# ?event is a possible plot point in a Monster High episode given
-# the characters and their relationships.  Fill in methods for this,
-# below.
-
-[randomly]
-task PrintPlotPoint ?event.
-# Generate text to describe the specified plot point. Fill in methods
-# for this, below.
-
-###
-### Utilities
-###
-
-# Find all the solutions to ?query and for each one, print ?var.
-# This only makes sense if ?var appears in ?query.
-PrintAll ?var ?query: [DoAll ?query [Write ?var] [NewLine]]
-
-# Find all solutions to ?query and for each one print ?a and ?b.
-# Again, only makes sense if ?a and ?b appear in ?query.
-PrintAllPairs ?a ?b ?query: [DoAll ?query [Write ?a] [Write ?b] [NewLine]]
-
-###
-### Mention
-###
-
-###
-### Stuff you can call from your code (you would use these in PrintPlotPoint):
-###
-### Mention ?x      (or just ?x)
-### Prints ?x.  If it uses a pronoun, it will be he/she/they rather than him/her/them
-###
-### Obj ?x          (or just ?x/Obj)
-### Prints ?x, but if it uses a pronoun, uses him/her/them rather than he/she/they
-###
-### Possessive ?x   (or just ?x/Possessive)
-### Prints ?x's or his/her/their, as appropriate
-###
-### Plural ?x       (or just ?x/Plural)
-### Tries to guess the plural of ?x and prints it.
-###
-
-### Using gendered pronouns (optional)
-###
-### By default the system will use they/their for all students.  If you want it to
-### use gendered pronouns, add facts saying:
-###
-###     PreferredPronoun <student> <pronoun>
-###
-### where <student> is the student student you're specifying the pronoun for and
-### <pronoun> is either he, she, or they.
-###
-### If you want to specify gendered pronouns, I would recommend you add these to
-### Student.step.
-
-ClearContext:
-  [set Him = nothing]
-  [set Her = nobody]
-  [set Them = nobody]
-  [set It = nothing]
-  [set ThirdPersonSingular = true]
-  [set MentionedPlural = false]
-[end]
-
-initially: [ClearContext]
-
-# Mention ?x
-# Print ?x however is appropriate, and keeping track of pronouns.
-Mention Him: he [set ThirdPersonSingular = true] [set MentionedPlural = false]
-Mention Her: she [set ThirdPersonSingular = true] [set MentionedPlural = false]
-Mention Them: they [set ThirdPersonSingular = false] [set MentionedPlural = true] 
-Mention It: it [set ThirdPersonSingular = true] [set MentionedPlural = false]
-Mention ?x: ?x/Print [NotePronouns ?x] [set ThirdPersonSingular = true] [set MentionedPlural = false]
-
-# Update Him/Her/Them/It based on the argument.
-NotePronouns ?who: [Student ?who] [NotePersonalPronouns ?who]
-NotePronouns ?what: [set It = ?what]
-
-# Update Him/Her/Them based on the preferred pronouns of the character.
-NotePersonalPronouns ?who: [PreferredPronoun ?who he] [set Him = ?who]
-NotePersonalPronouns ?who: [PreferredPronoun ?who she] [set Her = ?who]
-NotePersonalPronouns ?who: [set Them = ?who] 
-
-# Obj ?x
-# Like Mention, but prints in object case (substitutes him for he, etc.)
-Obj Him: him [set MentionedPlural = false] [set ThirdPersonSingular = truee]
-Obj Her: her [set MentionedPlural = false] [set ThirdPersonSingular = true]
-Obj Them: them [set MentionedPlural = true] [set ThirdPersonSingular = false]
-Obj It: it [set MentionedPlural = false] [set ThirdPersonSingular = true]
-Obj ?x: [Mention ?x]
-
-
-Print ?who: [Student ?who] ?who/WriteCapitalized
-Print ?x: ?x/Write
-
-# Possessive ?x
-# Generates the possessive case of x - either "x's" or a possessive pronoun.
-Possessive Him: his
-Possessive Her: her
-Possessive Them: their
-Possessive It: its
-Possessive ?x: ?x's
-
-Plural werewolf: werewolves
-Plural ?x: ?x/NounSingularPlural/Write
-
-Has: [MentionedPlural] have
-Has: has
-
-Is: [MentionedPlural] are
-Is: is
-
-predicate PreferredPronoun ?who ?heshethey.
-```

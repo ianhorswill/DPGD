@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Monster High&#xA;</title>
+	<title>Parameterized grammar exercises&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Monster High&#xA;">
-	<meta name="twitter:title" content="Monster High&#xA;">
-	<meta property="og:title" content="Monster High&#xA;" />
+	<meta itemprop="name" content="Parameterized grammar exercises&#xA;">
+	<meta name="twitter:title" content="Parameterized grammar exercises&#xA;">
+	<meta property="og:title" content="Parameterized grammar exercises&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -56,17 +56,10 @@
  </a>
 &nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Parameterized_grammars.html"> Parameterized grammars
  </a>
-&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming_exercises.html"> Logic programming exercises
- </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Monster High
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Parameterized grammar exercises
 </a></h1>
-					<p>
-					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
-					   alpha test
-					</span>
-					</p>
 		</div>
 	</div>
 </div>
@@ -112,88 +105,7 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<p>Below is the database of characters in a fictitious TV soap opera, <em>Monster High</em>.  Click on it to run it and edit it. </p>
-<pre><code class="language-Step">###
-### Students
-###
-
-# ?who (a student) is a ?what (human, vampire, etc.)
-predicate IsA ?who ?what.
-
-# Fill in as you like
-IsA aniyah human.
-IsA tiana vampire.
-IsA cameron werewolf.
-IsA david witch.
-IsA jayden ghost.
-IsA hailey human.
-IsA jada werewolf.
-
-# True when ?who is a person (human or monster)
-# This assumes we only have people in the IsA database.
-[predicate]
-Person ?who: [IsA ?who ?]
-
-# ?who is in the club ?club
-predicate InClub ?who ?club.
-
-# Fill in as you like
-InClub aniyah ttrpg_club.
-InClub jayden ttrpg_club.
-InClub hailey track_team.
-
-###
-### Romance
-###
-
-# Crusher has a crush on crushee, not not necessarily the other way around
-predicate CrushOn ?crusher ?crushee.
-
-# A and B are dating.  Use this when you want to write a fact
-# stating that A and B are dating, but use CheckDating when
-# you want to ask if A and B are dating.
-predicate AssertDating ?a ?b.
-
-# Check if A and B are dating
-Dating ?a ?b: [AssertDating ?a ?b]
-Dating ?a ?b: [AssertDating ?b ?a]
-
-# Write the romances for your school below
-
-CrushOn cameron jayden.
-CrushOn jayden cameron.
-AssertDating jayden cameron.
-
-CrushOn tiana jayden.
-CrushOn hailey jada.
-CrushOn hailey cameron.
-
-CrushOn jayden david.
-
-CrushOn aniyah jada.
-AssertDating aniyah jada.
-
-AssertDating hailey cameron.
-
-require printall.
-</code></pre>
-<p>Try the following:</p>
-<ul>
-<li>Add more students</li>
-<li>Add more clubs</li>
-<li>Write a query to ask what kind of monster a given student is</li>
-<li>Write a query to ask who is a given type of monster</li>
-<li>Add some clubs</li>
-<li>Add some crushes and some dating couples</li>
-<li>Write a predicate <code>Student</code> that's true when its parameter is a student; define it in terms of <code>IsA</code></li>
-<li>Write a predicate <code>SameClub</code> that's true when two students are in the same club</li>
-<li>Write a <code>LoveTriangle</code> predicate that's true when three students form a love triangle</li>
-<li>Write a <code>LovelessRelationship</code> predicate that's true when two students are dating but not in love.</li>
-<li>Write a <code>CheatingOn</code> predicate that's true when somebody is dating two different people</li>
-<li>Write a <code>PossibleRomance</code> predicate that's true when two students are in the same club, aren't dating, and have crushes on one another</li>
-<li>Add a <code>RivalMonsterType</code> predicate to keep track of what kinds of monsters have rivalries (e.g. vampires and werewolves)</li>
-<li>Write a predicate that's true when two students are crushing on one another but are of rival monster types.</li>
-</ul>
+<p>These exercises involve <a href="Parameterized_grammars.html">Parameterized Grammars</a>.</p>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -201,12 +113,12 @@ require printall.
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Class_database.html">A simple database of classes
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Monster_Highlights.html">Monster High fandom
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Greetings.html">Greetings
 </a><br>
 				</td>			
 </tr>
@@ -219,15 +131,11 @@ require printall.
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.2.3.8.2</p>
-			<h5>Logic programming exercises
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.2.2.6</p>
+			<h5>Parameterized grammar exercises
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Class_database.html" id="section_page_1"> A simple database of classes
- </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Monster_high.html" id="section_page_2"> <b> Monster High
- </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Monster_Highlights.html" id="section_page_3"> Monster High fandom
+					<li class="sidebar"><a class="backgroundlink" href="Greetings.html" id="section_page_1"> Greetings
  </a> <br></li>
 			</ol>
 	<script>
@@ -243,7 +151,7 @@ require printall.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Monster_Highlights.html">Monster High fandom
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Greetings.html">Greetings
 </a><br>
 				</td>
 			</tr>
@@ -257,7 +165,7 @@ require printall.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Class_database.html">A simple database of classes
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
 				</td>
 			</tr>
@@ -271,7 +179,7 @@ require printall.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Logic_programming_exercises.html">Logic programming exercises
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Parameterized_grammars.html">Parameterized grammars
 </a><br>
 				</td>
 			</tr>
@@ -284,7 +192,7 @@ require printall.
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Monster_high.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Parameterized_grammar_exercises.html">Send feedback on this page</a>
 	</div>
 </div>
 

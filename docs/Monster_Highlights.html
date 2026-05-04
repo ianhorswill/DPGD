@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Assignment: Monster High fandom&#xA;</title>
+	<title>Monster High fandom&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Assignment: Monster High fandom&#xA;">
-	<meta name="twitter:title" content="Assignment: Monster High fandom&#xA;">
-	<meta property="og:title" content="Assignment: Monster High fandom&#xA;" />
+	<meta itemprop="name" content="Monster High fandom&#xA;">
+	<meta name="twitter:title" content="Monster High fandom&#xA;">
+	<meta property="og:title" content="Monster High fandom&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,9 +50,17 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-md-7 header-contents">
-				<a class="backgroundlink" href="Exercises.html"> Exercises
+				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Assignment: Monster High fandom
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming.html"> Simple logic programs
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Logic_programming_exercises.html"> Logic programming exercises
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Monster High fandom
 </a></h1>
 					<p>
 					<span style="padding:.25rem; padding-left:.5rem; padding-right:.5rem; background-color:orange; color:black;">
@@ -105,7 +113,7 @@
 			<div class="container shadow blog-contents">
 
 <h2 id="introduction">Introduction</h2>
-<p>In this assignment, you’ll work and extended version of the code we used in class to generate random fan tweets from the account <em>@MonsterHighlights</em> about the current episode of the soap opera, <em>Monster High</em>.</p>
+<p>In this assignment, you’ll work on an extended version of the <a href="Monster_high.html">Monster High</a> code to generate random fan tweets from the account <strong>@MonsterHighlights</strong> about the current episode of the soap opera, <em>Monster High</em>.</p>
 <p>This code works by first creating a <strong>plausible plot</strong> point that might occur in an episode, and then printing it in the form of a tweet.  Plot points will be represented as <a href="Step_tuples.html">tuples</a>, so if you haven’t done <a href="Structured_data.html">the reading on tuples</a>, do that now.</p>
 <p>For example, we might represent the plot point that Jayden confesses their love to Tiana with the tuple: <code>[confess_love jayden tiana]</code>.  That might then be printed as:</p>
 <blockquote>
@@ -114,11 +122,167 @@
 <p>However, this only makes sense if we know that Jayden has a crush on Tiana.  Otherwise, why would they confess?  And it doesn’t make sense if the two are already dating.  So you need to make sure that your plot point generator only generates <code>confess_love</code> plot points when there’s an attraction that isn’t being acted on.</p>
 <p>Note also that we’ve provided you with a version of <a href="Mention.html"><code>Mention</code></a> that understands things like pronoun generation and capitalization of character names.  You don’t need to modify it, just realize that it’s there.  If you don’t know what <code>Mention</code> is, read <a href="Adaptive_text_generation.html">generating text in context</a>.</p>
 <h2 id="getting-started">Getting started</h2>
-<p>The code for the assignment is below.  You can just click on it to bring it up in the Step interpreter.</p>
+<p>Start by clicking on the code to load it into the Step sandbox:</p>
+<pre><code class="language-Step">###
+### Students
+###
+
+[randomly] 
+predicate IsA ?who ?what.
+# ?who (a student) is a ?what (human, vampire, etc.)
+
+# Fill in as you like
+IsA aniyah human.
+IsA tiana vampire.
+IsA cameron werewolf.
+IsA david witch.
+IsA jayden werewolf.
+IsA hailey ghost.
+IsA jada werewolf.
+
+[predicate] [randomly]
+RivalMonsterTypes vampire werewolf.
+
+[randomly]
+predicate InClub ?who ?club.
+# ?who is in the club ?club
+
+# Fill in as you like
+InClub aniyah ttrpg_club.
+InClub jayden ttrpg_club.
+InClub hailey track_team.
+InClub tiana ttrpg_club.
+
+###
+### Romances
+###
+
+[randomly]
+predicate CrushOn ?crusher ?crushee.
+# Crusher has a crush on crushee, not not necessarily the other way around
+
+[randomly]
+predicate AssertDating ?a ?b.
+# A and B are dating.  Use this when you want to write a fact
+# stating that A and B are dating, but use CheckDating when
+# you want to ask if A and B are dating.
+
+[randomly]
+predicate Dating ?a ?b.
+# Check if A and B are dating
+Dating ?a ?b: [AssertDating ?a ?b]
+Dating ?a ?b: [AssertDating ?b ?a]
+
+# Write the romances for your school below
+
+CrushOn cameron jayden.
+CrushOn jayden cameron.
+AssertDating jayden cameron.
+
+CrushOn tiana jayden.
+CrushOn jayden tiana.
+CrushOn hailey jada.
+CrushOn hailey cameron.
+
+CrushOn jayden david.
+
+CrushOn aniyah jada.
+AssertDating aniyah jada.
+
+AssertDating hailey cameron.
+
+###
+### Queries
+###
+
+predicate UnrequitedLove ?crusher ?crushee.
+# Crusher has an unrequired crush on crushee.
+UnrequitedLove ?a ?b: [CrushOn ?a ?b] [Not [CrushOn ?b ?a]]
+
+# MutualAttraction ?a ?b
+# True if ?a and ?b have crushes on each other
+[predicate]
+MutualAttraction ?a ?b: [CrushOn ?a ?b] [CrushOn ?b ?a]
+
+predicate Student ?who.
+# True if ?who is a student.
+# Write a rule to define Student in terms of IsA
+Student ?who: [IsA ?who ?]
+
+predicate SameClub ?a ?b.
+# A and B are in the same club.
+# Write a rule for SameClub here
+SameClub ?a ?b: [InClub ?a ?c] [InClub ?b ?c] [Not [= ?a ?b]]
+
+predicate LoveTriangle ?a ?b ?c.
+# A and B both have crushes on C
+# Write a rule here
+LoveTriangle ?rival1 ?rival2 ?sharedLoveInterest: [CrushOn ?rival1 ?sharedLoveInterest] [CrushOn ?rival2 ?sharedLoveInterest] [Not [= ?rival1 ?rival2]]
+
+predicate LovelessRelationship ?a ?b.
+# A and B are dating but not actually into each other
+# Write a rule here
+LovelessRelationship ?a ?b: [Dating ?a ?b] [Not [CrushOn ?a ?b]] [Not [CrushOn ?b ?a]]
+
+predicate CheatingOn ?cheater ?cheatee.
+# Cheater and cheatee are dating, but cheater is also dating someone else
+# Write a rule here
+CheatingOn ?a ?b: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
+
+predicate CheatingOnWith ?cheater ?cheatee ?other.
+# Cheater and cheatee are dating, but cheater is also dating other
+# Write a rule here
+CheatingOnWith ?a ?b ?c: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
+
+predicate PossibleRomance ?a ?b.
+# A and B are into each other and in the same club, but not presently dating
+# Write a rule here
+PossibleRomance ?a ?b: [MutualAttraction ?a ?b] [Not [Dating ?a ?b]] [OpportunityToMeet ?a ?b]
+
+[predicate]
+OpportunityToMeet ?a ?b: [SameClub ?a ?b]
+
+###
+### Twitter
+###
+
+# Print 6 tweets
+Tweets: [Tweet] [Tweet] [Tweet] [Tweet] [Tweet] [Tweet]
+
+# Tweet
+# Print a tweet for a randomly selected plot point.
+Tweet: &lt;b&gt;Monster Highlights&lt;/b&gt; [NewLine] @MonsterHighlights [NewLine] [ClearContext] [Event] [Paragraph]
+
+# Event
+# Generate a random plot point and print it.
+Event: [PlotPoint ?event] [PrintPlotPoint ?event]
+
+# This loads the print_all utility
+require printall.
+# This loads in the mention library that makes printing smarter.
+require mention.
+
+###
+### What you need to write
+###
+
+[randomly]
+predicate PlotPoint ?event.
+# ?event is a possible plot point in a Monster High episode given
+# the characters and their relationships.  Fill in methods for this,
+# below.
+
+[randomly]
+task PrintPlotPoint ?event.
+# Generate text to describe the specified plot point. Fill in methods
+# for this, below.
+
+
+</code></pre>
 <h2 id="part-one-optional-making-a-student-body">Part One (optional): Making a student body</h2>
 <p>We included a bare-bones student database.  There are only a few characters defined in them.  So feel free to add to it or to replace it with the code you and your troupe added to those files in class.  However, you don’t need to do this if you don’t want to.</p>
 <h3 id="specifying-pronouns">Specifying pronouns</h3>
-<p>Note that the <code>Mention</code> code we gave you uses <em>they</em> as the default pronoun.  If you prefer, you may specify preferred pronouns for some or all of your characters.  To do that, just add statements of the form:</p>
+<p>The code in the <code>mention</code> tab changes printing so that it generates pronouns when possible.  However, it defaults to using <em>they</em>.  If you prefer, you may specify preferred pronouns for some or all of your characters.  To do that, just add statements of the form:</p>
 <pre><code class="language-step">PreferredPronoun student pronoun.
 </code></pre>
 <p>Where <em>student</em> is the student you’re specifying a pronoun for, and <em>pronoun</em> is either <code>he</code> or <code>she</code>.  You can specify <code>they</code>, but since that’s the default anyway, there’s no particular point in doing so.  Anyone you don’t specify a pronoun for will be referred to using <code>they</code>.</p>
@@ -270,261 +434,6 @@ Prints their/her/his</li>
 <h2 id="grading">Grading</h2>
 <p>This assignment will be machine graded by running <code>PlotPoint</code> to verify that particular plot points that should exist can be generated by your code and that others that shouldn’t aren’t generated by your code.  Since you’re able to change your story world by adding and removing characters and romances, we’ll remove your characters and romance information and replace it with our own, just for testing purposes.</p>
 <p>Since we didn’t specify specific text to generate, we will not check that your code generates specific text.  We will just test that for each of the plot points specified in part 2, it is able to generate some text without failing or producing an error.</p>
-<h1 id="code">Code</h1>
-<p>Click below to run the code and start working with it.</p>
-<pre><code class="language-Step">###
-### Students
-###
-
-[randomly] 
-predicate IsA ?who ?what.
-# ?who (a student) is a ?what (human, vampire, etc.)
-
-# Fill in as you like
-IsA aniyah human.
-IsA tiana vampire.
-IsA cameron werewolf.
-IsA david witch.
-IsA jayden werewolf.
-IsA hailey ghost.
-IsA jada werewolf.
-
-[predicate] [randomly]
-RivalMonsterTypes vampire werewolf.
-
-[randomly]
-predicate InClub ?who ?club.
-# ?who is in the club ?club
-
-# Fill in as you like
-InClub aniyah ttrpg_club.
-InClub jayden ttrpg_club.
-InClub hailey track_team.
-InClub tiana ttrpg_club.
-
-###
-### Romances
-###
-
-[randomly]
-predicate CrushOn ?crusher ?crushee.
-# Crusher has a crush on crushee, not not necessarily the other way around
-
-[randomly]
-predicate AssertDating ?a ?b.
-# A and B are dating.  Use this when you want to write a fact
-# stating that A and B are dating, but use CheckDating when
-# you want to ask if A and B are dating.
-
-[randomly]
-predicate Dating ?a ?b.
-# Check if A and B are dating
-Dating ?a ?b: [AssertDating ?a ?b]
-Dating ?a ?b: [AssertDating ?b ?a]
-
-# Write the romances for your school below
-
-CrushOn cameron jayden.
-CrushOn jayden cameron.
-AssertDating jayden cameron.
-
-CrushOn tiana jayden.
-CrushOn jayden tiana.
-CrushOn hailey jada.
-CrushOn hailey cameron.
-
-CrushOn jayden david.
-
-CrushOn aniyah jada.
-AssertDating aniyah jada.
-
-AssertDating hailey cameron.
-
-###
-### Queries
-###
-
-predicate UnrequitedLove ?crusher ?crushee.
-# Crusher has an unrequired crush on crushee.
-UnrequitedLove ?a ?b: [CrushOn ?a ?b] [Not [CrushOn ?b ?a]]
-
-# MutualAttraction ?a ?b
-# True if ?a and ?b have crushes on each other
-[predicate]
-MutualAttraction ?a ?b: [CrushOn ?a ?b] [CrushOn ?b ?a]
-
-predicate Student ?who.
-# True if ?who is a student.
-# Write a rule to define Student in terms of IsA
-Student ?who: [IsA ?who ?]
-
-predicate SameClub ?a ?b.
-# A and B are in the same club.
-# Write a rule for SameClub here
-SameClub ?a ?b: [InClub ?a ?c] [InClub ?b ?c] [Not [= ?a ?b]]
-
-predicate LoveTriangle ?a ?b ?c.
-# A and B both have crushes on C
-# Write a rule here
-LoveTriangle ?rival1 ?rival2 ?sharedLoveInterest: [CrushOn ?rival1 ?sharedLoveInterest] [CrushOn ?rival2 ?sharedLoveInterest] [Not [= ?rival1 ?rival2]]
-
-predicate LovelessRelationship ?a ?b.
-# A and B are dating but not actually into each other
-# Write a rule here
-LovelessRelationship ?a ?b: [Dating ?a ?b] [Not [CrushOn ?a ?b]] [Not [CrushOn ?b ?a]]
-
-predicate CheatingOn ?cheater ?cheatee.
-# Cheater and cheatee are dating, but cheater is also dating someone else
-# Write a rule here
-CheatingOn ?a ?b: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
-
-predicate CheatingOnWith ?cheater ?cheatee ?other.
-# Cheater and cheatee are dating, but cheater is also dating other
-# Write a rule here
-CheatingOnWith ?a ?b ?c: [Dating ?a ?b] [Dating ?a ?c] [Not [= ?b ?c]]
-
-predicate PossibleRomance ?a ?b.
-# A and B are into each other and in the same club, but not presently dating
-# Write a rule here
-PossibleRomance ?a ?b: [MutualAttraction ?a ?b] [Not [Dating ?a ?b]] [OpportunityToMeet ?a ?b]
-
-[predicate]
-OpportunityToMeet ?a ?b: [SameClub ?a ?b]
-
-###
-### Twitter
-###
-
-# Print 6 tweets
-Tweets: [Tweet] [Tweet] [Tweet] [Tweet] [Tweet] [Tweet]
-
-# Tweet
-# Print a tweet for a randomly selected plot point.
-Tweet: &lt;b&gt;Monster Highlights&lt;/b&gt; [NewLine] @MonsterHighlights [NewLine] [ClearContext] [Event] [Paragraph]
-
-# Event
-# Generate a random plot point and print it.
-Event: [PlotPoint ?event] [PrintPlotPoint ?event]
-
-###
-### What you need to write
-###
-
-[randomly]
-predicate PlotPoint ?event.
-# ?event is a possible plot point in a Monster High episode given
-# the characters and their relationships.  Fill in methods for this,
-# below.
-
-[randomly]
-task PrintPlotPoint ?event.
-# Generate text to describe the specified plot point. Fill in methods
-# for this, below.
-
-###
-### Utilities
-###
-
-# Find all the solutions to ?query and for each one, print ?var.
-# This only makes sense if ?var appears in ?query.
-PrintAll ?var ?query: [DoAll ?query [Write ?var] [NewLine]]
-
-# Find all solutions to ?query and for each one print ?a and ?b.
-# Again, only makes sense if ?a and ?b appear in ?query.
-PrintAllPairs ?a ?b ?query: [DoAll ?query [Write ?a] [Write ?b] [NewLine]]
-
-###
-### Mention
-###
-
-###
-### Stuff you can call from your code (you would use these in PrintPlotPoint):
-###
-### Mention ?x      (or just ?x)
-### Prints ?x.  If it uses a pronoun, it will be he/she/they rather than him/her/them
-###
-### Obj ?x          (or just ?x/Obj)
-### Prints ?x, but if it uses a pronoun, uses him/her/them rather than he/she/they
-###
-### Possessive ?x   (or just ?x/Possessive)
-### Prints ?x's or his/her/their, as appropriate
-###
-### Plural ?x       (or just ?x/Plural)
-### Tries to guess the plural of ?x and prints it.
-###
-
-### Using gendered pronouns (optional)
-###
-### By default the system will use they/their for all students.  If you want it to
-### use gendered pronouns, add facts saying:
-###
-###     PreferredPronoun &lt;student&gt; &lt;pronoun&gt;
-###
-### where &lt;student&gt; is the student student you're specifying the pronoun for and
-### &lt;pronoun&gt; is either he, she, or they.
-###
-### If you want to specify gendered pronouns, I would recommend you add these to
-### Student.step.
-
-ClearContext:
-  [set Him = nothing]
-  [set Her = nobody]
-  [set Them = nobody]
-  [set It = nothing]
-  [set ThirdPersonSingular = true]
-  [set MentionedPlural = false]
-[end]
-
-initially: [ClearContext]
-
-# Mention ?x
-# Print ?x however is appropriate, and keeping track of pronouns.
-Mention Him: he [set ThirdPersonSingular = true] [set MentionedPlural = false]
-Mention Her: she [set ThirdPersonSingular = true] [set MentionedPlural = false]
-Mention Them: they [set ThirdPersonSingular = false] [set MentionedPlural = true] 
-Mention It: it [set ThirdPersonSingular = true] [set MentionedPlural = false]
-Mention ?x: ?x/Print [NotePronouns ?x] [set ThirdPersonSingular = true] [set MentionedPlural = false]
-
-# Update Him/Her/Them/It based on the argument.
-NotePronouns ?who: [Student ?who] [NotePersonalPronouns ?who]
-NotePronouns ?what: [set It = ?what]
-
-# Update Him/Her/Them based on the preferred pronouns of the character.
-NotePersonalPronouns ?who: [PreferredPronoun ?who he] [set Him = ?who]
-NotePersonalPronouns ?who: [PreferredPronoun ?who she] [set Her = ?who]
-NotePersonalPronouns ?who: [set Them = ?who] 
-
-# Obj ?x
-# Like Mention, but prints in object case (substitutes him for he, etc.)
-Obj Him: him [set MentionedPlural = false] [set ThirdPersonSingular = truee]
-Obj Her: her [set MentionedPlural = false] [set ThirdPersonSingular = true]
-Obj Them: them [set MentionedPlural = true] [set ThirdPersonSingular = false]
-Obj It: it [set MentionedPlural = false] [set ThirdPersonSingular = true]
-Obj ?x: [Mention ?x]
-
-
-Print ?who: [Student ?who] ?who/WriteCapitalized
-Print ?x: ?x/Write
-
-# Possessive ?x
-# Generates the possessive case of x - either &quot;x's&quot; or a possessive pronoun.
-Possessive Him: his
-Possessive Her: her
-Possessive Them: their
-Possessive It: its
-Possessive ?x: ?x's
-
-Plural werewolf: werewolves
-Plural ?x: ?x/NounSingularPlural/Write
-
-Has: [MentionedPlural] have
-Has: has
-
-Is: [MentionedPlural] are
-Is: is
-
-predicate PreferredPronoun ?who ?heshethey.
-</code></pre>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -537,7 +446,7 @@ predicate PreferredPronoun ?who ?heshethey.
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
                     <b>Next:</b>  
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="STRIPS_planning.html">STRIPS planning
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>			
 </tr>
@@ -550,20 +459,16 @@ predicate PreferredPronoun ?who ?heshethey.
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 4.3</p>
-			<h5>Exercises
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.2.3.8.3</p>
+			<h5>Logic programming exercises
 </h5>
 			<ol start="1">
-					<li class="sidebar"><a class="backgroundlink" href="Making_grammars.html" id="section_page_1"> Making grammars
+					<li class="sidebar"><a class="backgroundlink" href="Class_database.html" id="section_page_1"> A simple database of classes
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Logic_databases.html" id="section_page_2"> Logic databases
+					<li class="sidebar"><a class="backgroundlink" href="Monster_high.html" id="section_page_2"> Monster High
  </a> <br></li>
-					<li class="sidebar"><a class="simplelink" href="Monster_Highlights.html" id="section_page_3"> <b> Assignment: Monster High fandom
+					<li class="sidebar"><a class="simplelink" href="Monster_Highlights.html" id="section_page_3"> <b> Monster High fandom
  </b> </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="STRIPS_planning.html" id="section_page_4"> STRIPS planning
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Storry_generation.html" id="section_page_5"> Story generation
- </a> <br></li>
 			</ol>
 	<script>
 		document.addEventListener('keyup', function(e) {
@@ -578,7 +483,7 @@ predicate PreferredPronoun ?who ?heshethey.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Next:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="STRIPS_planning.html">STRIPS planning
+					<a title="Click or press &#8594;" class="simplelink" id="NextPage" href="Starflight_PCG.html">PCG in Starflight
 </a><br>
 				</td>
 			</tr>
@@ -606,7 +511,7 @@ predicate PreferredPronoun ?who ?heshethey.
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Exercises.html">Exercises
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Logic_programming_exercises.html">Logic programming exercises
 </a><br>
 				</td>
 			</tr>
@@ -614,19 +519,6 @@ predicate PreferredPronoun ?who ?heshethey.
 				document.addEventListener('keyup', function(e) {
 					if (e.getModifierState("Meta")) return
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
-				}, false);
-			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Prev &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8592;" class="simplelink" id="PreviousSectionPage" href="Background.html">Background appendices
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowLeft'  && e.getModifierState("Control")) document.getElementById('PreviousSectionPage').click()
 				}, false);
 			</script>
 	</table>

@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- generic metadata -->
-	<title>Making grammars&#xA;</title>
+	<title>Formal grammar exercises&#xA;</title>
 	<meta name="author" content="Ian Horswill">
 	<meta name="description" content="An introduction to declarative programming with applications to vidoegames">
 	<meta name="generator" content="Booker">
 
 	<!-- seo helpers: generic, twitter, facebook/opengraph -->
-	<meta itemprop="name" content="Making grammars&#xA;">
-	<meta name="twitter:title" content="Making grammars&#xA;">
-	<meta property="og:title" content="Making grammars&#xA;" />
+	<meta itemprop="name" content="Formal grammar exercises&#xA;">
+	<meta name="twitter:title" content="Formal grammar exercises&#xA;">
+	<meta property="og:title" content="Formal grammar exercises&#xA;" />
 	<meta property="og:type" content="article" />
 	<meta property="og:site_name" content="Declarative Programming for Game Designers" />
 	
@@ -50,9 +50,15 @@
 <div class="container-fluid shadow header">
 	<div class="container">
 		<div class="col-md-7 header-contents">
-				<a class="backgroundlink" href="Exercises.html"> Exercises
+				<a class="backgroundlink" href="Part_I.html"> Part I
  </a>
-			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Making grammars
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Clairvoyant_programming.html"> Clairvoyant programming
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="The_Step_language.html"> Step
+ </a>
+&nbsp;&#x25BB;&nbsp;				<a class="backgroundlink" href="Grammars.html"> Simple grammars
+ </a>
+			<h1><a id="linkToIndex" class="simplelink" href="index.html"> Formal grammar exercises
 </a></h1>
 		</div>
 	</div>
@@ -99,7 +105,7 @@
 		<div class="col-md-7 index-contents">
 			<div class="container shadow blog-contents">
 
-<p>These exercises are practice for the chapters <a href="Grammars.html">Simple Grammars</a> and <a href="Parameterized_grammars.html">Parameterized Grammars</a>.</p>
+<p>These exercises are practice for <a href="Grammars.html">Simple Grammars</a>.</p>
 
 
 <table style="border: none; width: 100%; table-layout: fixed; margin-top: 2rem;">
@@ -107,7 +113,7 @@
 <tr style="border: none;">
 				<td style="border: none; vertical-align: top; "> 
                     <b>Previous:</b> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Exercises.html">Exercises
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Grammars.html">Simple grammars
 </a><br>
 				</td>
 				<td style="border: none; vertical-align: top; text-align: right;"> 
@@ -125,17 +131,15 @@
 
 <div class="container-fluid sidebar">
 		<h3 style="text-align: right;">Incomplete draft:<br>do not cite!</h3>
-				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 4.1</p>
-			<h5>Making grammars
+				<p style="color: grey; padding-bottom: 0rem; margin-bottom: 0rem;">Section 1.1.2.1.7</p>
+			<h5>Formal grammar exercises
 </h5>
 			<ol start="1">
 					<li class="sidebar"><a class="backgroundlink" href="Sentences.html" id="section_page_1"> Sentences
  </a> <br></li>
 					<li class="sidebar"><a class="backgroundlink" href="Gossip.html" id="section_page_2"> Gossip generator
  </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Greetings.html" id="section_page_3"> Greetings
- </a> <br></li>
-					<li class="sidebar"><a class="backgroundlink" href="Stories.html" id="section_page_4"> Very simple story grammars
+					<li class="sidebar"><a class="backgroundlink" href="Simple_story_grammars.html" id="section_page_3"> Very simple story grammars
  </a> <br></li>
 			</ol>
 	<script>
@@ -165,7 +169,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Previous:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Exercises.html">Exercises
+					<a title="Click or press &#8592;" class="simplelink" id="PreviousPage" href="Grammars.html">Simple grammars
 </a><br>
 				</td>
 			</tr>
@@ -179,7 +183,7 @@
 			<tr style="border: none;">
 				<td style="border: none; vertical-align: top;"> <b>Up:</b> </td>
 				<td style="border: none;"> 
-					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Exercises.html">Exercises
+					<a title="Click or press &#8593;" class="simplelink" id="UpPage" href="Grammars.html">Simple grammars
 </a><br>
 				</td>
 			</tr>
@@ -189,23 +193,10 @@
 					if (e.key == 'ArrowUp') document.getElementById(e.getModifierState("Control")?'linkToIndex':'UpPage').click()
 				}, false);
 			</script>
-			<tr style="border: none;">
-				<td style="border: none; vertical-align: top;"><b>Next &sect;:</b></td>
-				<td style="border: none;"> 
-					<a title="Click or press Control-&#8594;" class="simplelink" id="NextSectionPage" href="Logic_databases.html">Logic databases
-</a><br>
-				</td>
-			</tr>
-			<script>
-				document.addEventListener('keyup', function(e) {
-					if (e.getModifierState("Meta")) return
-					if (e.key == 'ArrowRight'  && e.getModifierState("Control")) document.getElementById('NextSectionPage').click()
-				}, false);
-			</script>
 	</table>
 	</p>
 	<div style="color: grey; padding-top: .5rem;">
-		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Making_grammars.html">Send feedback on this page</a>
+		<a style="color: grey;" href="mailto:ian@northwestern.edu?subject=Comment on DPGD/Grammar_exercises.html">Send feedback on this page</a>
 	</div>
 </div>
 

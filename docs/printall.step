@@ -1,0 +1,7 @@
+# Find all the solutions to ?query and for each one, print ?var.
+# This only makes sense if ?var appears in ?query.
+PrintAll ?var ?query: [DoAll ?query [Write ?var] [NewLine]]
+
+# Find all solutions to ?query and for each one print ?a and ?b.
+# Again, only makes sense if ?a and ?b appear in ?query.
+PrintAllPairs ?a ?b ?query: [DoAll ?query [Write ?a] [Write ?b] [NewLine]]

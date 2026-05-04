@@ -1,5 +1,5 @@
 ---
-pagetitle: Story generation
+pagetitle: "Exercise: Story generation"
 status: alpha
 ---
 ```Step
